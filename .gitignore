@@ -13,6 +13,14 @@
 /out/
 /build
 
+# PWA service workers
+public/sw.js
+public/sw.js.map
+public/workbox-*.js
+public/workbox-*.js.map
+public/swe-worker-*.js
+public/swe-worker-*.js.map
+
 # Python virtual environment
 .venv/
 venv/

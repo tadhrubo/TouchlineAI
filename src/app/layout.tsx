@@ -5,6 +5,11 @@ export const metadata: Metadata = {
   title: "Touchline AI | FPL Assistant & Captaincy Advisor",
   description:
     "Next-generation Fantasy Premier League AI companion with live pitch tracker, deep RAG statistical models, and captaincy simulations.",
+  appleWebApp: {
+    capable: true,
+    title: "Touchline AI",
+    statusBarStyle: "black-translucent",
+  },
   icons: {
     icon: [
       { url: "/asset/image/favicon-16x16.png", sizes: "16x16", type: "image/png" },
@@ -15,11 +20,10 @@ export const metadata: Metadata = {
       { url: "/asset/image/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
     ],
     other: [
-      { rel: "android-chrome-192x192", url: "/asset/image/android-chrome-192x192.png" },
-      { rel: "android-chrome-512x512", url: "/asset/image/android-chrome-512x512.png" },
+      { rel: "android-chrome-192x192", url: "/icon-192x192.png" },
+      { rel: "android-chrome-512x512", url: "/icon-512x512.png" },
     ],
   },
-  manifest: "/asset/image/site.webmanifest",
 };
 
 export const viewport: Viewport = {
@@ -27,7 +31,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  themeColor: "#000000",
+  themeColor: "#0B0E14",
 };
 
 export default function RootLayout({
