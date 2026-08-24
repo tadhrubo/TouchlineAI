@@ -27,6 +27,7 @@ export interface Player {
   xG: number;
   xA: number;
   xGI: number;
+  xGC?: number;
   minutesExpected: number;
   startProbability: number; // 0-100
   isCaptain?: boolean;

@@ -108,34 +108,71 @@ export const PlayerModal: React.FC<PlayerModalProps> = ({
   if (!isOpen || !player) return null;
 
   const gwEvents = getGameweekBreakdown(player);
-  const xGIVal = player.xGI !== undefined ? player.xGI.toFixed(2) : ((player.xG || 0) + (player.xA || 0)).toFixed(2);
+  const isDefOrGk = player.position === "GKP" || player.position === "DEF";
 
-  const tacticalMetrics = [
-    {
-      label: "Expected Goals (xG)",
-      value: player.xG !== undefined ? player.xG.toFixed(2) : "0.00",
-    },
-    {
-      label: "Expected Assists (xA)",
-      value: player.xA !== undefined ? player.xA.toFixed(2) : "0.00",
-    },
-    {
-      label: "Expected Goal Involvement (xGI)",
-      value: xGIVal,
-    },
-    {
-      label: "Next Match",
-      value: `${player.currentFixture.opponent} (${player.currentFixture.isHome ? "H" : "A"}) · FDR ${player.currentFixture.difficulty}`,
-    },
-    {
-      label: "Touchline ML Projection",
-      value: `${player.projectedPoints} xP · ${player.startProbability}% Start`,
-    },
-    {
-      label: "Ownership & Value",
-      value: `£${player.price.toFixed(1)}m · ${player.selectedByPercent}% TSB`,
-    },
-  ];
+  const nextFixtureOpp = player.currentFixture?.opponent || "PL";
+  const nextFixtureLoc = player.currentFixture?.isHome ? "H" : "A";
+  const nextFixtureFdr = player.currentFixture?.difficulty || 3;
+
+  const xGVal = player.xG !== undefined ? player.xG.toFixed(2) : "0.05";
+  const xAVal = player.xA !== undefined ? player.xA.toFixed(2) : "0.05";
+  const xGIVal = player.xGI !== undefined ? player.xGI.toFixed(2) : ((player.xG || 0) + (player.xA || 0)).toFixed(2);
+  const xGCVal = player.xGC !== undefined ? player.xGC.toFixed(2) : "1.15";
+
+  // Build position-specific tactical metric rows
+  const tacticalMetrics = isDefOrGk
+    ? [
+        {
+          label: "Expected Goals Conceded (xGC)",
+          value: xGCVal,
+        },
+        {
+          label: "Expected Goal Involvement (xGI)",
+          value: xGIVal,
+        },
+        {
+          label: "Goal Threat & Creation",
+          value: `xG: ${xGVal} · xA: ${xAVal}`,
+        },
+        {
+          label: "Next Match",
+          value: `${nextFixtureOpp} (${nextFixtureLoc}) · FDR ${nextFixtureFdr}`,
+        },
+        {
+          label: "Touchline ML Projection",
+          value: `${player.projectedPoints} xP · ${player.startProbability}% Start`,
+        },
+        {
+          label: "Ownership & Value",
+          value: `£${player.price.toFixed(1)}m · ${player.selectedByPercent}% TSB`,
+        },
+      ]
+    : [
+        {
+          label: "Expected Goals (xG)",
+          value: xGVal,
+        },
+        {
+          label: "Expected Assists (xA)",
+          value: xAVal,
+        },
+        {
+          label: "Expected Goal Involvement (xGI)",
+          value: xGIVal,
+        },
+        {
+          label: "Next Match",
+          value: `${nextFixtureOpp} (${nextFixtureLoc}) · FDR ${nextFixtureFdr}`,
+        },
+        {
+          label: "Touchline ML Projection",
+          value: `${player.projectedPoints} xP · ${player.startProbability}% Start`,
+        },
+        {
+          label: "Ownership & Value",
+          value: `£${player.price.toFixed(1)}m · ${player.selectedByPercent}% TSB`,
+        },
+      ];
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in select-none">
