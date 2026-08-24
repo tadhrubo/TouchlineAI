@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { Player } from "@/types/fpl";
 import { PlayerCard } from "./PlayerCard";
+import { SampleTier } from "@/utils/eo";
 
 interface PitchProps {
   players: Player[];
@@ -11,6 +12,8 @@ interface PitchProps {
   captainId?: string;
   viceCaptainId?: string;
   formation?: string;
+  sampleTier?: SampleTier;
+  userRank?: number;
 }
 
 export const Pitch: React.FC<PitchProps> = ({
@@ -19,6 +22,8 @@ export const Pitch: React.FC<PitchProps> = ({
   captainId,
   viceCaptainId,
   formation,
+  sampleTier,
+  userRank,
 }) => {
   // Filter starting XI by position
   const starters = players.filter((p) => !p.isBench);
@@ -172,6 +177,8 @@ export const Pitch: React.FC<PitchProps> = ({
               isCaptain={captainId === player.id || player.isCaptain}
               isViceCaptain={viceCaptainId === player.id || player.isViceCaptain}
               onClick={onPlayerClick}
+              sampleTier={sampleTier}
+              userRank={userRank}
             />
           ))}
         </div>
@@ -191,6 +198,8 @@ export const Pitch: React.FC<PitchProps> = ({
               isCaptain={captainId === player.id || player.isCaptain}
               isViceCaptain={viceCaptainId === player.id || player.isViceCaptain}
               onClick={onPlayerClick}
+              sampleTier={sampleTier}
+              userRank={userRank}
             />
           ))}
         </div>
@@ -210,6 +219,8 @@ export const Pitch: React.FC<PitchProps> = ({
               isCaptain={captainId === player.id || player.isCaptain}
               isViceCaptain={viceCaptainId === player.id || player.isViceCaptain}
               onClick={onPlayerClick}
+              sampleTier={sampleTier}
+              userRank={userRank}
             />
           ))}
         </div>
@@ -223,6 +234,8 @@ export const Pitch: React.FC<PitchProps> = ({
               isCaptain={captainId === player.id || player.isCaptain}
               isViceCaptain={viceCaptainId === player.id || player.isViceCaptain}
               onClick={onPlayerClick}
+              sampleTier={sampleTier}
+              userRank={userRank}
             />
           ))}
         </div>

@@ -3,13 +3,21 @@
 import React from "react";
 import { Player } from "@/types/fpl";
 import { PlayerCard } from "./PlayerCard";
+import { SampleTier } from "@/utils/eo";
 
 interface BenchProps {
   benchPlayers: Player[];
   onPlayerClick?: (player: Player) => void;
+  sampleTier?: SampleTier;
+  userRank?: number;
 }
 
-export const Bench: React.FC<BenchProps> = ({ benchPlayers, onPlayerClick }) => {
+export const Bench: React.FC<BenchProps> = ({
+  benchPlayers,
+  onPlayerClick,
+  sampleTier,
+  userRank,
+}) => {
   // Sort: GK first (benchOrder 0), then outfield subs 1, 2, 3
   const sortedSubs = [...benchPlayers].sort(
     (a, b) => (a.benchOrder ?? 99) - (b.benchOrder ?? 99)
@@ -42,6 +50,8 @@ export const Bench: React.FC<BenchProps> = ({ benchPlayers, onPlayerClick }) => 
               benchLabel={getBenchTag(player, idx)}
               onClick={onPlayerClick}
               showProjected={true}
+              sampleTier={sampleTier}
+              userRank={userRank}
             />
           </div>
         ))}

@@ -12,9 +12,12 @@ import { ChipTimeline } from "../chips/ChipTimeline";
 import { PlayerModal } from "../fpl/PlayerModal";
 import { PlannerTab } from "../planner/PlannerTab";
 import { FixturesTab } from "../fixtures/FixturesTab";
+import { SampleTier, SAMPLE_TIER_OPTIONS } from "@/utils/eo";
 import {
   ArrowRight,
   RefreshCw,
+  HelpCircle,
+  X,
 } from "lucide-react";
 
 interface HomeTabProps {
@@ -46,6 +49,8 @@ export const HomeTab: React.FC<HomeTabProps> = ({
 }) => {
   const [secondaryTab, setSecondaryTab] = useState<"team" | "planner" | "strategy" | "points" | "fixtures">("team");
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
+  const [sampleTier, setSampleTier] = useState<SampleTier>("TOP_10K_NEAR_U");
+  const [showEOInfoModal, setShowEOInfoModal] = useState<boolean>(false);
 
   const handlePlayerSelect = (player: Player) => {
     setSelectedPlayer(player);
@@ -171,6 +176,8 @@ export const HomeTab: React.FC<HomeTabProps> = ({
               initialPlayers={players}
               captainId={captainId}
               viceCaptainId={viceCaptainId}
+              sampleTier={sampleTier}
+              onSampleTierChange={setSampleTier}
               onOpenChatWithPrompt={onOpenChatWithPrompt}
             />
           )}
@@ -184,19 +191,49 @@ export const HomeTab: React.FC<HomeTabProps> = ({
 
           {secondaryTab === "team" && (
             <>
-              {/* Pitch Component with Dynamic Formation */}
+              {/* Sample Tier Selector */}
+              <div className="p-2.5 rounded-xl bg-neutral-900/50 border border-white/[0.06] flex items-center justify-between">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[11px] font-mono text-neutral-400">Choose Sample:</span>
+                  <select
+                    value={sampleTier}
+                    onChange={(e) => setSampleTier(e.target.value as SampleTier)}
+                    className="bg-neutral-900 border border-white/[0.08] text-xs font-mono text-neutral-200 rounded px-2 py-1 focus:outline-none focus:border-neutral-600"
+                  >
+                    {SAMPLE_TIER_OPTIONS.map((opt) => (
+                      <option key={opt.id} value={opt.id}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <button
+                  onClick={() => setShowEOInfoModal(true)}
+                  className="p-1 text-neutral-400 hover:text-neutral-200 transition-colors"
+                  title="Explain EO / xEO"
+                >
+                  <HelpCircle className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Pitch Component with Dynamic Formation & EO Support */}
               <Pitch
                 players={players}
                 onPlayerClick={handlePlayerSelect}
                 captainId={captainId}
                 viceCaptainId={viceCaptainId}
                 formation={stats.formation}
+                sampleTier={sampleTier}
+                userRank={stats.overallRank}
               />
 
               {/* Substitutes Bench Area */}
               <Bench
                 benchPlayers={players.filter((p) => p.isBench)}
                 onPlayerClick={handlePlayerSelect}
+                sampleTier={sampleTier}
+                userRank={stats.overallRank}
               />
 
               {/* Latest News / Flags */}
@@ -315,6 +352,45 @@ export const HomeTab: React.FC<HomeTabProps> = ({
             <FixturesTab currentGameweek={stats.currentGameweek || 1} />
           )}
         </>
+      )}
+
+      {/* EO Explanation Modal */}
+      {showEOInfoModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in">
+          <div className="bg-[#0B0E14] border border-white/[0.08] w-full max-w-sm rounded-2xl p-4 shadow-2xl space-y-3">
+            <div className="flex items-center justify-between pb-2 border-b border-white/[0.06]">
+              <span className="text-xs font-bold font-mono text-neutral-100 uppercase tracking-wider">
+                Effective Ownership (EO / xEO)
+              </span>
+              <button
+                onClick={() => setShowEOInfoModal(false)}
+                className="p-1 rounded text-neutral-400 hover:text-neutral-200"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <div className="text-xs text-neutral-300 space-y-2 leading-relaxed font-sans">
+              <p>
+                <strong className="text-neutral-100">Effective Ownership (EO)</strong> represents the total percentage of active teams gaining points from a player:
+              </p>
+              <div className="p-2 rounded bg-neutral-900/80 border border-white/[0.06] font-mono text-[11px] text-emerald-400">
+                EO = Start% + Captain% + (2 × TripleCap%)
+              </div>
+              <p>
+                If a player has <span className="text-neutral-100 font-mono">140% EO</span>, owning them without captaincy leaves you with negative rank gain when they score.
+              </p>
+              <p>
+                <strong className="text-neutral-100">xEO (Predicted EO)</strong> simulates expected captaincy concentration and template shifts for the upcoming Gameweek.
+              </p>
+            </div>
+            <button
+              onClick={() => setShowEOInfoModal(false)}
+              className="w-full py-2 rounded-lg bg-neutral-900 border border-neutral-800 text-xs font-medium text-neutral-200 hover:bg-neutral-800 transition-colors"
+            >
+              Got it
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

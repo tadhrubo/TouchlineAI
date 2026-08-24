@@ -3,6 +3,7 @@
 import React from "react";
 import { Player } from "@/types/fpl";
 import { JerseyIcon } from "./JerseyIcon";
+import { SampleTier, calculateXEO } from "@/utils/eo";
 
 interface PlayerCardProps {
   player: Player;
@@ -12,6 +13,8 @@ interface PlayerCardProps {
   showProjected?: boolean;
   isBench?: boolean;
   benchLabel?: string;
+  sampleTier?: SampleTier;
+  userRank?: number;
 }
 
 export const PlayerCard: React.FC<PlayerCardProps> = ({
@@ -22,11 +25,16 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
   showProjected = true,
   isBench = false,
   benchLabel,
+  sampleTier,
+  userRank,
 }) => {
   const isCap = isCaptain || player.isCaptain;
   const isVice = isViceCaptain || player.isViceCaptain;
 
   const fixtureText = `${player.currentFixture.opponent} (${player.currentFixture.isHome ? "H" : "A"})`;
+  const eoResult = sampleTier && sampleTier !== "NO_EO"
+    ? calculateXEO(player, sampleTier, userRank)
+    : null;
 
   return (
     <div
@@ -100,6 +108,13 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
             </>
           )}
         </div>
+
+        {/* xEO Badge */}
+        {eoResult && (
+          <div className="text-[8px] sm:text-[8.5px] font-mono text-neutral-400 mt-0.5 pt-0.5 border-t border-white/[0.04] leading-tight truncate w-full">
+            {eoResult.displayText}
+          </div>
+        )}
       </div>
     </div>
   );

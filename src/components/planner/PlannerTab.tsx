@@ -26,6 +26,8 @@ interface PlannerTabProps {
   initialPlayers: Player[];
   captainId: string;
   viceCaptainId: string;
+  sampleTier?: SampleTier;
+  onSampleTierChange?: (tier: SampleTier) => void;
   onOpenChatWithPrompt?: (prompt: string) => void;
 }
 
@@ -34,6 +36,8 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
   initialPlayers,
   captainId: initialCaptainId,
   viceCaptainId: initialViceCaptainId,
+  sampleTier: controlledSampleTier,
+  onSampleTierChange,
   onOpenChatWithPrompt,
 }) => {
   const currentGW = stats?.currentGameweek || 1;
@@ -41,7 +45,15 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
   const [plannedSquad, setPlannedSquad] = useState<Player[]>(initialPlayers);
   const [captainId, setCaptainId] = useState<string>(initialCaptainId || initialPlayers[0]?.id || "");
   const [viceCaptainId, setViceCaptainId] = useState<string>(initialViceCaptainId || initialPlayers[1]?.id || "");
-  const [sampleTier, setSampleTier] = useState<SampleTier>("TOP_10K_NEAR_U");
+  const [internalSampleTier, setInternalSampleTier] = useState<SampleTier>("TOP_10K_NEAR_U");
+  const sampleTier = controlledSampleTier ?? internalSampleTier;
+  const setSampleTier = (tier: SampleTier) => {
+    if (onSampleTierChange) {
+      onSampleTierChange(tier);
+    } else {
+      setInternalSampleTier(tier);
+    }
+  };
   const [swappingPlayerId, setSwappingPlayerId] = useState<string | null>(null);
   const [transferOutPlayer, setTransferOutPlayer] = useState<Player | null>(null);
   const [showEOInfoModal, setShowEOInfoModal] = useState<boolean>(false);
