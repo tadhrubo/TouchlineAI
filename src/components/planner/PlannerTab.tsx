@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
+import Image from "next/image";
 import { Player, TeamStats } from "@/types/fpl";
 import { JerseyIcon } from "../fpl/JerseyIcon";
 import { TransferModal } from "../fpl/TransferModal";
@@ -455,11 +456,38 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
           />
         </svg>
 
+        {/* Top Symmetrical Pitchside Branding Banners */}
+        <div className="absolute top-2 inset-x-2.5 sm:inset-x-3.5 flex items-center justify-between pointer-events-none z-10">
+          {/* Left Pitchside Ad Board */}
+          <div className="relative w-[76px] sm:w-[88px] h-[22px] sm:h-[26px] rounded-sm overflow-hidden bg-[#0B0E14]/90 border border-white/[0.12] shadow-sm flex items-center justify-center p-0.5">
+            <Image
+              src="/asset/image/tl-pitchside.jpeg"
+              alt="Touchline AI Pitchside Banner"
+              width={88}
+              height={26}
+              className="w-full h-full object-contain"
+              priority
+            />
+          </div>
+
+          {/* Right Pitchside Ad Board */}
+          <div className="relative w-[76px] sm:w-[88px] h-[22px] sm:h-[26px] rounded-sm overflow-hidden bg-[#0B0E14]/90 border border-white/[0.12] shadow-sm flex items-center justify-center p-0.5">
+            <Image
+              src="/asset/image/tl-pitchside.jpeg"
+              alt="Touchline AI Pitchside Banner"
+              width={88}
+              height={26}
+              className="w-full h-full object-contain"
+              priority
+            />
+          </div>
+        </div>
+
         {/* Starting Formation Rows */}
         <div className="relative z-10 w-full flex flex-col justify-between py-3 h-[520px] sm:h-[560px]">
-          {/* Formation Label */}
-          <div className="absolute top-2 left-3 z-20">
-            <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider">
+          {/* Formation Label (Bottom Left) */}
+          <div className="absolute bottom-2 left-3 z-20">
+            <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider bg-neutral-900/80 border border-white/[0.06] rounded px-1.5 py-0.5">
               {defs.length}-{mids.length}-{fwds.length}
             </span>
           </div>

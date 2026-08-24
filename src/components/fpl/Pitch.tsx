@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { Player } from "@/types/fpl";
 import { PlayerCard } from "./PlayerCard";
 
@@ -126,8 +127,35 @@ export const Pitch: React.FC<PitchProps> = ({
           <circle cx="50%" cy="calc(100% - 52px)" r="1.5" fill="#ffffff" />
         </svg>
 
-        {/* Dynamic Formation Indicator */}
-        <div className="absolute top-2 right-2.5 z-10">
+        {/* Top Symmetrical Pitchside Branding Banners */}
+        <div className="absolute top-2 inset-x-2.5 sm:inset-x-3.5 flex items-center justify-between pointer-events-none z-10">
+          {/* Left Pitchside Ad Board */}
+          <div className="relative w-[76px] sm:w-[88px] h-[22px] sm:h-[26px] rounded-sm overflow-hidden bg-[#0B0E14]/90 border border-white/[0.12] shadow-sm flex items-center justify-center p-0.5">
+            <Image
+              src="/asset/image/tl-pitchside.jpeg"
+              alt="Touchline AI Pitchside Banner"
+              width={88}
+              height={26}
+              className="w-full h-full object-contain"
+              priority
+            />
+          </div>
+
+          {/* Right Pitchside Ad Board */}
+          <div className="relative w-[76px] sm:w-[88px] h-[22px] sm:h-[26px] rounded-sm overflow-hidden bg-[#0B0E14]/90 border border-white/[0.12] shadow-sm flex items-center justify-center p-0.5">
+            <Image
+              src="/asset/image/tl-pitchside.jpeg"
+              alt="Touchline AI Pitchside Banner"
+              width={88}
+              height={26}
+              className="w-full h-full object-contain"
+              priority
+            />
+          </div>
+        </div>
+
+        {/* Dynamic Formation Indicator (Bottom Right) */}
+        <div className="absolute bottom-2 right-2.5 z-10">
           <span className="text-[10px] font-mono font-medium text-neutral-400 bg-neutral-900/80 border border-white/[0.06] rounded px-2 py-0.5">
             {displayFormation}
           </span>
