@@ -467,6 +467,7 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
               height={26}
               className="w-full h-full object-contain"
               priority
+              unoptimized
             />
           </div>
 
@@ -479,6 +480,7 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
               height={26}
               className="w-full h-full object-contain"
               priority
+              unoptimized
             />
           </div>
         </div>

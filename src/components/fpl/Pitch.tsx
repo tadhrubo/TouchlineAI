@@ -138,6 +138,7 @@ export const Pitch: React.FC<PitchProps> = ({
               height={26}
               className="w-full h-full object-contain"
               priority
+              unoptimized
             />
           </div>
 
@@ -150,6 +151,7 @@ export const Pitch: React.FC<PitchProps> = ({
               height={26}
               className="w-full h-full object-contain"
               priority
+              unoptimized
             />
           </div>
         </div>

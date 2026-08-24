@@ -30,11 +30,11 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="relative flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-700 shadow-[0_0_12px_rgba(16,185,129,0.35)]">
             <Sparkles className="w-4 h-4 text-slate-950 fill-slate-950" />
           </div>
-          <div className="flex items-baseline tracking-wider">
-            <span className="font-extrabold text-lg text-white font-sans tracking-tight">
+          <div className="flex items-baseline font-brand tracking-wider">
+            <span className="text-base text-white">
               TOUCHLINE
             </span>
-            <span className="ml-1 font-extrabold text-lg bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent drop-shadow-[0_0_10px_rgba(16,185,129,0.5)]">
+            <span className="ml-1 text-base text-emerald-400">
               AI
             </span>
           </div>

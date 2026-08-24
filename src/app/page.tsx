@@ -170,11 +170,11 @@ export default function App() {
               className="w-6 h-6 object-contain"
               priority
             />
-            <div className="flex items-baseline tracking-tight">
-              <span className="text-sm font-black tracking-wider text-neutral-100">
+            <div className="flex items-baseline font-brand tracking-wider">
+              <span className="text-sm text-neutral-100">
                 TOUCHLINE
               </span>
-              <span className="text-sm font-black tracking-wider text-emerald-400 ml-1">
+              <span className="text-sm text-emerald-400 ml-1">
                 AI
               </span>
             </div>

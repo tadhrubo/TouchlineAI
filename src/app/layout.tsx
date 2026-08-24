@@ -1,5 +1,12 @@
 import type { Metadata, Viewport } from "next";
+import localFont from "next/font/local";
 import "./globals.css";
+
+const lemonMilk = localFont({
+  src: "../../public/asset/fonts/LEMONMILK-Medium.otf",
+  variable: "--font-lemon-milk",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Touchline AI | FPL Assistant & Captaincy Advisor",
@@ -48,7 +55,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/asset/image/apple-touch-icon.png" sizes="180x180" />
         <link rel="manifest" href="/asset/image/site.webmanifest" />
       </head>
-      <body className="bg-black text-neutral-100 min-h-screen antialiased selection:bg-emerald-500/20 selection:text-emerald-300">
+      <body className={`${lemonMilk.variable} bg-black text-neutral-100 min-h-screen antialiased selection:bg-emerald-500/20 selection:text-emerald-300`}>
         <main className="min-h-screen flex flex-col items-center justify-start bg-black">
           <div className="w-full max-w-md min-h-screen bg-black border-x border-white/[0.04] shadow-2xl relative flex flex-col">
             {children}
