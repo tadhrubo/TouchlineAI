@@ -61,57 +61,66 @@ export async function fetchManagerSquad(
 
   const fplHeaders = {
     "User-Agent":
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
     Accept: "application/json",
   };
 
   // 1. Fetch Manager Overview
-  const entryRes = await fetch(
-    `https://fantasy.premierleague.com/api/entry/${cleanId}/`,
-    {
-      headers: fplHeaders,
-      next: { revalidate: 60 },
-    }
-  );
-
-  if (!entryRes.ok) {
-    throw new Error(`FPL Entry ${cleanId} not found (${entryRes.status})`);
-  }
-
-  const entryData = await entryRes.json();
-  const currentEvent = entryData.current_event || 1;
-
-  // 2. Fetch Gameweek Squad Picks
-  const picksRes = await fetch(
-    `https://fantasy.premierleague.com/api/entry/${cleanId}/event/${currentEvent}/picks/`,
-    {
-      headers: fplHeaders,
-      next: { revalidate: 60 },
-    }
-  );
-
-  let picksData: any = null;
-  if (picksRes.ok) {
-    picksData = await picksRes.json();
-  } else {
-    // If current event picks aren't live yet, fallback to event 1
-    const fallbackPicksRes = await fetch(
-      `https://fantasy.premierleague.com/api/entry/${cleanId}/event/1/picks/`,
+  let entryRes: Response;
+  try {
+    entryRes = await fetch(
+      `https://fantasy.premierleague.com/api/entry/${cleanId}/`,
       {
         headers: fplHeaders,
         next: { revalidate: 60 },
       }
     );
-    if (fallbackPicksRes.ok) {
-      picksData = await fallbackPicksRes.json();
+  } catch (err: any) {
+    throw new Error(`Failed to reach FPL API for Entry ${cleanId}: ${err?.message || "Network error"}`);
+  }
+
+  if (!entryRes.ok) {
+    throw new Error(`FPL Entry ${cleanId} not found (${entryRes.status})`);
+  }
+
+  const entryData = await entryRes.json().catch(() => ({}));
+  const currentEvent = entryData?.current_event || 1;
+
+  // 2. Fetch Gameweek Squad Picks
+  let picksData: any = null;
+  try {
+    const picksRes = await fetch(
+      `https://fantasy.premierleague.com/api/entry/${cleanId}/event/${currentEvent}/picks/`,
+      {
+        headers: fplHeaders,
+        next: { revalidate: 60 },
+      }
+    );
+
+    if (picksRes.ok) {
+      picksData = await picksRes.json().catch(() => null);
+    } else {
+      // If current event picks aren't live yet, fallback to event 1
+      const fallbackPicksRes = await fetch(
+        `https://fantasy.premierleague.com/api/entry/${cleanId}/event/1/picks/`,
+        {
+          headers: fplHeaders,
+          next: { revalidate: 60 },
+        }
+      );
+      if (fallbackPicksRes.ok) {
+        picksData = await fallbackPicksRes.json().catch(() => null);
+      }
     }
+  } catch (err) {
+    console.warn(`Could not fetch picks for Entry ${cleanId}:`, err);
   }
 
   if (!picksData || !picksData.picks || picksData.picks.length === 0) {
-    throw new Error(`Could not retrieve squad picks for Entry ${cleanId}`);
+    throw new Error(`Could not retrieve squad picks for Entry ${cleanId} (FPL GW${currentEvent} picks unavailable)`);
   }
 
-  const rawPicks = picksData.picks as Array<{
+  const rawPicks = (picksData.picks || []) as Array<{
     element: number;
     position: number;
     multiplier: number;
@@ -125,20 +134,26 @@ export async function fetchManagerSquad(
   const elementIds = rawPicks.map((p) => p.element);
 
   // 3. Query Supabase to enrich player, team, and ML prediction details
-  const [{ data: dbPlayers, error: dbError }, { data: allTeams }] = await Promise.all([
-    supabase
-      .from("players")
-      .select("*, teams(*), player_predictions(*)")
-      .in("id", elementIds),
-    supabase.from("teams").select("id, name, short_name"),
-  ]);
-
-  if (dbError) {
-    console.error("Supabase query error:", dbError);
+  let dbPlayers: any[] | null = null;
+  let allTeams: any[] | null = null;
+  try {
+    const [playersResult, teamsResult] = await Promise.all([
+      supabase
+        .from("players")
+        .select("*, teams(*), player_predictions(*)")
+        .in("id", elementIds),
+      supabase.from("teams").select("id, name, short_name"),
+    ]);
+    dbPlayers = playersResult.data;
+    allTeams = teamsResult.data;
+    if (playersResult.error) console.warn("Supabase players query:", playersResult.error.message);
+    if (teamsResult.error) console.warn("Supabase teams query:", teamsResult.error.message);
+  } catch (err) {
+    console.warn("Supabase query fallback:", err);
   }
 
   const teamMap = new Map<number, { name: string; short_name: string }>();
-  if (allTeams) {
+  if (allTeams && Array.isArray(allTeams)) {
     allTeams.forEach((t) => teamMap.set(t.id, t));
   }
 

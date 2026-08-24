@@ -20,10 +20,14 @@ export async function GET(
     const data = await fetchManagerSquad(entryId);
     return NextResponse.json(data);
   } catch (error: any) {
-    console.error("Error in /api/fpl/[entryId]:", error);
+    console.error("Error in /api/fpl/[entryId]:", error?.message || error);
+    
+    const statusMatch = error?.message?.match(/\((\d{3})\)/);
+    const statusCode = statusMatch ? parseInt(statusMatch[1], 10) : 500;
+
     return NextResponse.json(
-      { error: error.message || "Failed to fetch FPL manager squad" },
-      { status: 500 }
+      { error: error?.message || "Failed to fetch FPL manager squad" },
+      { status: statusCode >= 400 && statusCode < 600 ? statusCode : 500 }
     );
   }
 }
