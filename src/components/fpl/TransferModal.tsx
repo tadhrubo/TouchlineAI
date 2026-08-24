@@ -249,9 +249,8 @@ export const TransferModal: React.FC<TransferModalProps> = ({
                 {/* Player identity */}
                 <div className="flex items-center gap-2.5 min-w-0 flex-1">
                   <JerseyIcon
-                    primaryColor={candidate.teamColor}
-                    secondaryColor={candidate.teamSecondaryColor}
-                    pattern={candidate.teamPattern}
+                    teamShort={candidate.teamShort}
+                    isGK={candidate.position === "GKP"}
                     size={32}
                   />
                   <div className="min-w-0 flex-1">

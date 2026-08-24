@@ -14,6 +14,10 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
+        hostname: "fantasy.premierleague.com",
+      },
+      {
+        protocol: "https",
         hostname: "resources.premierleague.com",
       },
       {

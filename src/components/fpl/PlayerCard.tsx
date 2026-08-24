@@ -74,10 +74,10 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
       {/* Jersey Graphic */}
       <div className="relative my-0.5 flex items-center justify-center">
         <JerseyIcon
-          primaryColor={player.teamColor}
-          secondaryColor={player.teamSecondaryColor}
-          pattern={player.teamPattern}
+          teamShort={player.teamShort}
+          isGK={player.position === "GKP"}
           size={isBench ? 36 : 42}
+          priority={!isBench}
         />
       </div>
 

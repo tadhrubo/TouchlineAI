@@ -687,10 +687,10 @@ const PlannerPlayerCard: React.FC<PlannerPlayerCardProps> = ({
       {/* Jersey Icon */}
       <div className="relative my-0.5 flex items-center justify-center mt-1">
         <JerseyIcon
-          primaryColor={player.teamColor}
-          secondaryColor={player.teamSecondaryColor}
-          pattern={player.teamPattern}
+          teamShort={player.teamShort}
+          isGK={player.position === "GKP"}
           size={isBench ? 34 : 40}
+          priority={!isBench}
         />
       </div>
 

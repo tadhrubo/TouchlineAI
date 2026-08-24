@@ -182,10 +182,10 @@ export const PlayerModal: React.FC<PlayerModalProps> = ({
         <div className="p-4 border-b border-white/[0.06] flex items-center justify-between flex-shrink-0">
           <div className="flex items-center gap-3">
             <JerseyIcon
-              primaryColor={player.teamColor}
-              secondaryColor={player.teamSecondaryColor}
-              pattern={player.teamPattern}
+              teamShort={player.teamShort}
+              isGK={player.position === "GKP"}
               size={38}
+              priority
             />
             <div>
               <div className="flex items-center gap-2">
