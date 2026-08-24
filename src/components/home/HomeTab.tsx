@@ -9,6 +9,7 @@ import { LatestNews } from "../fpl/LatestNews";
 import { EntryIdSelector } from "../fpl/EntryIdSelector";
 import { EmptyState } from "../fpl/EmptyState";
 import { ChipTimeline } from "../chips/ChipTimeline";
+import { PlayerModal } from "../fpl/PlayerModal";
 import {
   ArrowRight,
   RefreshCw,
@@ -24,7 +25,7 @@ interface HomeTabProps {
   isLoading?: boolean;
   onSelectEntryId: (entryId: string) => void;
   onClearEntryId?: () => void;
-  onPlayerClick: (player: Player) => void;
+  onPlayerClick?: (player: Player) => void;
   onOpenChatWithPrompt: (prompt: string) => void;
 }
 
@@ -42,6 +43,18 @@ export const HomeTab: React.FC<HomeTabProps> = ({
   onOpenChatWithPrompt,
 }) => {
   const [secondaryTab, setSecondaryTab] = useState<"team" | "strategy" | "points" | "fixtures">("team");
+  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
+
+  const handlePlayerSelect = (player: Player) => {
+    setSelectedPlayer(player);
+  };
+
+  const handleDiscussPlayer = (player: Player) => {
+    setSelectedPlayer(null);
+    onOpenChatWithPrompt(
+      `Tell me about ${player.webName || player.fullName} (${player.teamShort || player.team}). How do their underlying stats look?`
+    );
+  };
 
   // If no Entry ID is set or squad not loaded, show clean EmptyState
   if (!currentEntryId || !stats || players.length === 0) {
@@ -67,6 +80,14 @@ export const HomeTab: React.FC<HomeTabProps> = ({
 
   return (
     <div className="w-full space-y-3 pb-20 animate-fade-in">
+      {/* Player Stats & Breakdown Modal */}
+      <PlayerModal
+        player={selectedPlayer}
+        isOpen={!!selectedPlayer}
+        onClose={() => setSelectedPlayer(null)}
+        onDiscuss={handleDiscussPlayer}
+      />
+
       {/* 0. Entry ID Selector */}
       <EntryIdSelector
         currentEntryId={currentEntryId}
@@ -144,7 +165,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({
               {/* Pitch Component with Dynamic Formation */}
               <Pitch
                 players={players}
-                onPlayerClick={onPlayerClick}
+                onPlayerClick={handlePlayerSelect}
                 captainId={captainId}
                 viceCaptainId={viceCaptainId}
                 formation={stats.formation}
@@ -153,7 +174,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({
               {/* Substitutes Bench Area */}
               <Bench
                 benchPlayers={players.filter((p) => p.isBench)}
-                onPlayerClick={onPlayerClick}
+                onPlayerClick={handlePlayerSelect}
               />
 
               {/* Latest News / Flags */}
