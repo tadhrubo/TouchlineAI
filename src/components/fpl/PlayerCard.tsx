@@ -40,7 +40,7 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
     <div
       onClick={() => onClick?.(player)}
       className={`group relative flex flex-col items-center justify-between cursor-pointer select-none transition-transform duration-150 hover:-translate-y-0.5 active:scale-95 ${
-        isBench ? "w-[74px] sm:w-[82px]" : "w-[78px] sm:w-[86px]"
+        isBench ? "w-[76px] sm:w-[84px]" : "w-[80px] sm:w-[88px]"
       }`}
     >
       {/* Minimalist Captain / Vice Captain Badge */}
@@ -111,8 +111,21 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
 
         {/* xEO Badge */}
         {eoResult && (
-          <div className="text-[8px] sm:text-[8.5px] font-mono text-neutral-400 mt-0.5 pt-0.5 border-t border-white/[0.04] leading-tight truncate w-full">
-            {eoResult.displayText}
+          <div className="w-full mt-0.5 pt-0.5 border-t border-white/[0.04]">
+            {sampleTier === "TOP_10K_NEAR_U" && eoResult.top10k != null && eoResult.nearU != null ? (
+              <div className="flex w-full items-center justify-between px-0.5 text-[8.5px] sm:text-[9.5px] font-mono leading-none tracking-tight">
+                <span className="text-neutral-200" title="Top 10k EO">
+                  {eoResult.top10k}%
+                </span>
+                <span className="text-neutral-500" title="Near You EO">
+                  {eoResult.nearU}%
+                </span>
+              </div>
+            ) : (
+              <div className="w-full text-center text-[8.5px] sm:text-[9.5px] font-mono text-neutral-400 leading-none">
+                {eoResult.displayText}
+              </div>
+            )}
           </div>
         )}
       </div>
