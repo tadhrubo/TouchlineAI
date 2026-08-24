@@ -457,14 +457,14 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
         </svg>
 
         {/* Top Symmetrical Pitchside Branding Banners */}
-        <div className="absolute top-2 inset-x-2.5 sm:inset-x-3.5 flex items-center justify-between pointer-events-none z-10">
+        <div className="absolute top-2 inset-x-2 sm:inset-x-3 flex items-center justify-between pointer-events-none z-10">
           {/* Left Pitchside Ad Board */}
-          <div className="relative w-[76px] sm:w-[88px] h-[22px] sm:h-[26px] rounded-sm overflow-hidden bg-[#0B0E14]/90 border border-white/[0.12] shadow-sm flex items-center justify-center p-0.5">
+          <div className="relative w-[96px] sm:w-[112px] h-[28px] sm:h-[32px] rounded-md overflow-hidden bg-[#0B0E14]/90 border border-white/[0.14] shadow-sm flex items-center justify-center p-0.5">
             <Image
               src="/asset/image/tl-pitchside.jpeg"
               alt="Touchline AI Pitchside Banner"
-              width={88}
-              height={26}
+              width={112}
+              height={32}
               className="w-full h-full object-contain"
               priority
               unoptimized
@@ -472,12 +472,12 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
           </div>
 
           {/* Right Pitchside Ad Board */}
-          <div className="relative w-[76px] sm:w-[88px] h-[22px] sm:h-[26px] rounded-sm overflow-hidden bg-[#0B0E14]/90 border border-white/[0.12] shadow-sm flex items-center justify-center p-0.5">
+          <div className="relative w-[96px] sm:w-[112px] h-[28px] sm:h-[32px] rounded-md overflow-hidden bg-[#0B0E14]/90 border border-white/[0.14] shadow-sm flex items-center justify-center p-0.5">
             <Image
               src="/asset/image/tl-pitchside.jpeg"
               alt="Touchline AI Pitchside Banner"
-              width={88}
-              height={26}
+              width={112}
+              height={32}
               className="w-full h-full object-contain"
               priority
               unoptimized
