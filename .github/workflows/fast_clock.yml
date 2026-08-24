@@ -1,0 +1,34 @@
+name: Fast-Clock Matchday Live Sync (5-Min Weekend)
+
+on:
+  schedule:
+    # Runs every 5 minutes on Saturday (6) and Sunday (0) UTC
+    - cron: '*/5 * * * 0,6'
+  workflow_dispatch:
+
+jobs:
+  sync-fast-clock:
+    runs-on: ubuntu-latest
+    name: Sync Live Matchday Telemetry & Provisional BPS
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install supabase requests python-dotenv
+
+      - name: Execute Fast-Clock Live Matchday Sync
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          python backend/scripts/fast_clock_sync.py
