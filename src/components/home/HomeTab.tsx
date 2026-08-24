@@ -11,6 +11,7 @@ import { EmptyState } from "../fpl/EmptyState";
 import { ChipTimeline } from "../chips/ChipTimeline";
 import { PlayerModal } from "../fpl/PlayerModal";
 import { PlannerTab } from "../planner/PlannerTab";
+import { FixturesTab } from "../fixtures/FixturesTab";
 import {
   ArrowRight,
   RefreshCw,
@@ -311,41 +312,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({
 
           {/* Fixtures Tab View */}
           {secondaryTab === "fixtures" && (
-            <div className="space-y-3">
-              <div className="p-3 rounded-xl bg-neutral-900/40 border border-white/[0.06]">
-                <h3 className="text-[10px] font-medium text-neutral-400 uppercase tracking-wider mb-2">
-                  Gameweek {stats.nextGameweek} Schedule
-                </h3>
-                <div className="space-y-1.5">
-                  {upcomingGameweekFixtures.map((f, i) => (
-                    <div
-                      key={i}
-                      className="flex items-center justify-between p-2 rounded-md bg-neutral-950/40 border border-white/[0.04]"
-                    >
-                      <div className="flex-1 flex items-center justify-end gap-1.5 text-right">
-                        <span className="text-xs font-medium text-neutral-200">
-                          {f.home}
-                        </span>
-                        <span className="text-[9.5px] font-mono px-1 rounded bg-neutral-900 text-neutral-400 border border-white/[0.06]">
-                          FDR {f.fdrHome}
-                        </span>
-                      </div>
-                      <div className="px-3 text-[10px] font-mono text-neutral-600">
-                        vs
-                      </div>
-                      <div className="flex-1 flex items-center justify-start gap-1.5 text-left">
-                        <span className="text-[9.5px] font-mono px-1 rounded bg-neutral-900 text-neutral-400 border border-white/[0.06]">
-                          FDR {f.fdrAway}
-                        </span>
-                        <span className="text-xs font-medium text-neutral-200">
-                          {f.away}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <FixturesTab currentGameweek={stats.currentGameweek || 1} />
           )}
         </>
       )}
