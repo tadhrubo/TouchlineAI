@@ -10,6 +10,7 @@ import { EntryIdSelector } from "../fpl/EntryIdSelector";
 import { EmptyState } from "../fpl/EmptyState";
 import { ChipTimeline } from "../chips/ChipTimeline";
 import { PlayerModal } from "../fpl/PlayerModal";
+import { PlannerTab } from "../planner/PlannerTab";
 import {
   ArrowRight,
   RefreshCw,
@@ -42,7 +43,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({
   onPlayerClick,
   onOpenChatWithPrompt,
 }) => {
-  const [secondaryTab, setSecondaryTab] = useState<"team" | "strategy" | "points" | "fixtures">("team");
+  const [secondaryTab, setSecondaryTab] = useState<"team" | "planner" | "strategy" | "points" | "fixtures">("team");
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
 
   const handlePlayerSelect = (player: Player) => {
@@ -109,10 +110,10 @@ export const HomeTab: React.FC<HomeTabProps> = ({
           <StatsCard stats={stats} />
 
           {/* 2. Secondary Navigation Bar */}
-          <div className="flex items-center p-0.5 bg-neutral-900/60 rounded-lg border border-white/[0.06]">
+          <div className="flex items-center p-0.5 bg-neutral-900/60 rounded-lg border border-white/[0.06] overflow-x-auto no-scrollbar">
             <button
               onClick={() => setSecondaryTab("team")}
-              className={`flex-1 py-1.5 px-2.5 rounded-md text-xs font-medium transition-colors ${
+              className={`flex-1 py-1.5 px-2 rounded-md text-xs font-medium transition-colors whitespace-nowrap ${
                 secondaryTab === "team"
                   ? "bg-neutral-800 text-neutral-100 shadow-sm"
                   : "text-neutral-400 hover:text-neutral-200"
@@ -121,8 +122,18 @@ export const HomeTab: React.FC<HomeTabProps> = ({
               My XI
             </button>
             <button
+              onClick={() => setSecondaryTab("planner")}
+              className={`flex-1 py-1.5 px-2 rounded-md text-xs font-medium transition-colors whitespace-nowrap ${
+                secondaryTab === "planner"
+                  ? "bg-neutral-800 text-emerald-400 shadow-sm font-semibold"
+                  : "text-neutral-400 hover:text-neutral-200"
+              }`}
+            >
+              Planner
+            </button>
+            <button
               onClick={() => setSecondaryTab("strategy")}
-              className={`flex-1 py-1.5 px-2.5 rounded-md text-xs font-medium transition-colors ${
+              className={`flex-1 py-1.5 px-2 rounded-md text-xs font-medium transition-colors whitespace-nowrap ${
                 secondaryTab === "strategy"
                   ? "bg-neutral-800 text-emerald-400 shadow-sm"
                   : "text-neutral-400 hover:text-neutral-200"
@@ -132,7 +143,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({
             </button>
             <button
               onClick={() => setSecondaryTab("points")}
-              className={`flex-1 py-1.5 px-2.5 rounded-md text-xs font-medium transition-colors ${
+              className={`flex-1 py-1.5 px-2 rounded-md text-xs font-medium transition-colors whitespace-nowrap ${
                 secondaryTab === "points"
                   ? "bg-neutral-800 text-neutral-100 shadow-sm"
                   : "text-neutral-400 hover:text-neutral-200"
@@ -142,7 +153,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({
             </button>
             <button
               onClick={() => setSecondaryTab("fixtures")}
-              className={`flex-1 py-1.5 px-2.5 rounded-md text-xs font-medium transition-colors ${
+              className={`flex-1 py-1.5 px-2 rounded-md text-xs font-medium transition-colors whitespace-nowrap ${
                 secondaryTab === "fixtures"
                   ? "bg-neutral-800 text-neutral-100 shadow-sm"
                   : "text-neutral-400 hover:text-neutral-200"
@@ -153,6 +164,16 @@ export const HomeTab: React.FC<HomeTabProps> = ({
           </div>
 
           {/* 3. Conditional Content based on Secondary Nav */}
+          {secondaryTab === "planner" && (
+            <PlannerTab
+              stats={stats}
+              initialPlayers={players}
+              captainId={captainId}
+              viceCaptainId={viceCaptainId}
+              onOpenChatWithPrompt={onOpenChatWithPrompt}
+            />
+          )}
+
           {secondaryTab === "strategy" && (
             <ChipTimeline
               entryId={currentEntryId}
