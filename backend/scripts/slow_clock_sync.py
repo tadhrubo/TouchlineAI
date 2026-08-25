@@ -26,6 +26,11 @@ STATUS_MAP = {
     "n": "unavailable",
 }
 
+FPL_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+    "Accept": "application/json",
+}
+
 def sync_slow_clock():
     """
     Slow-Clock Sync Pipeline:
@@ -33,19 +38,36 @@ def sync_slow_clock():
     """
     print("[*] Starting Touchline AI Slow-Clock Sync...")
     
-    if not SUPABASE_URL or not SUPABASE_KEY:
-        raise ValueError("Missing Supabase credentials in environment variables.")
+    # Task 3: Check Supabase credentials
+    if not SUPABASE_URL:
+        raise ValueError(
+            "Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_URL in environment variables. "
+            "Please ensure NEXT_PUBLIC_SUPABASE_URL is configured in GitHub Secrets / .env.local."
+        )
+    if not SUPABASE_KEY:
+        raise ValueError(
+            "Missing SUPABASE_SERVICE_ROLE_KEY or NEXT_PUBLIC_SUPABASE_ANON_KEY in environment variables. "
+            "Please ensure SUPABASE_SERVICE_ROLE_KEY is configured in GitHub Secrets / .env.local."
+        )
         
     supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
     
-    # 1. Fetch live bootstrap-static from FPL API
+    # 1. Fetch live bootstrap-static from FPL API with User-Agent bypass
     fpl_url = "https://fantasy.premierleague.com/api/bootstrap-static/"
-    headers = {"User-Agent": "TouchlineAI/1.0 (SlowClockBot)"}
     print(f"[*] Fetching live FPL bootstrap static data from {fpl_url}...")
-    res = requests.get(fpl_url, headers=headers, timeout=15)
-    res.raise_for_status()
-    data = res.json()
     
+    try:
+        res = requests.get(fpl_url, headers=FPL_HEADERS, timeout=20)
+        print(f"[*] FPL API Response Status: {res.status_code}")
+        res.raise_for_status()
+    except requests.exceptions.RequestException as e:
+        status_code = getattr(getattr(e, "response", None), "status_code", "UNKNOWN")
+        print(f"[!] FPL API Request Failed! HTTP Status: {status_code} - Error: {e}")
+        if getattr(e, "response", None) is not None:
+            print(f"[!] Response Preview: {e.response.text[:300]}")
+        raise
+        
+    data = res.json()
     elements = data.get("elements", [])
     print(f"    -> Successfully retrieved {len(elements)} players from FPL API.")
     

@@ -17,6 +17,11 @@ load_dotenv(ENV_PATH)
 SUPABASE_URL = os.getenv("NEXT_PUBLIC_SUPABASE_URL") or os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY") or os.getenv("NEXT_PUBLIC_SUPABASE_ANON_KEY")
 
+FPL_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+    "Accept": "application/json",
+}
+
 def sync_fast_clock(force_gw: int = None):
     """
     Fast-Clock Sync Pipeline:
@@ -25,17 +30,26 @@ def sync_fast_clock(force_gw: int = None):
     """
     print("[*] Starting Touchline AI Fast-Clock Matchday Sync...")
     
-    if not SUPABASE_URL or not SUPABASE_KEY:
-        raise ValueError("Missing Supabase credentials in environment variables.")
+    if not SUPABASE_URL:
+        raise ValueError("Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_URL in environment variables.")
+    if not SUPABASE_KEY:
+        raise ValueError("Missing SUPABASE_SERVICE_ROLE_KEY or NEXT_PUBLIC_SUPABASE_ANON_KEY in environment variables.")
         
     supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
-    headers = {"User-Agent": "TouchlineAI/1.0 (FastClockBot)"}
     
     # 1. Determine active gameweek from bootstrap-static
     fpl_url = "https://fantasy.premierleague.com/api/bootstrap-static/"
     print(f"[*] Checking active matchday event from {fpl_url}...")
-    bs_res = requests.get(fpl_url, headers=headers, timeout=12)
-    bs_res.raise_for_status()
+    
+    try:
+        bs_res = requests.get(fpl_url, headers=FPL_HEADERS, timeout=15)
+        print(f"[*] FPL Bootstrap Response Status: {bs_res.status_code}")
+        bs_res.raise_for_status()
+    except requests.exceptions.RequestException as e:
+        status_code = getattr(getattr(e, "response", None), "status_code", "UNKNOWN")
+        print(f"[!] FPL Bootstrap Request Failed! HTTP Status: {status_code} - Error: {e}")
+        raise
+        
     bs_data = bs_res.json()
     
     events = bs_data.get("events", [])
@@ -51,78 +65,89 @@ def sync_fast_clock(force_gw: int = None):
     # 2. Fetch live event stats from FPL Live API
     live_url = f"https://fantasy.premierleague.com/api/event/{current_event}/live/"
     print(f"[*] Fetching live match statistics from {live_url}...")
-    live_res = requests.get(live_url, headers=headers, timeout=15)
     
-    if live_res.status_code == 404:
-        print(f"[!] Live stats not yet opened for GW{current_event}. Exiting gracefully.")
-        return
+    try:
+        live_res = requests.get(live_url, headers=FPL_HEADERS, timeout=15)
+        print(f"[*] FPL Live Match Stats Response Status: {live_res.status_code}")
         
-    live_res.raise_for_status()
+        if live_res.status_code == 404:
+            print(f"[!] Live stats not yet opened for GW{current_event}. Exiting gracefully.")
+            return
+            
+        live_res.raise_for_status()
+    except requests.exceptions.RequestException as e:
+        status_code = getattr(getattr(e, "response", None), "status_code", "UNKNOWN")
+        print(f"[!] FPL Live Stats Request Failed! HTTP Status: {status_code} - Error: {e}")
+        raise
+        
     live_data = live_res.json()
-    live_elements = live_data.get("elements", [])
+    elements = live_data.get("elements", [])
+    print(f"    -> Retrieved telemetry for {len(elements)} player entities.")
     
-    if not live_elements:
-        print(f"[*] No live elements found for GW{current_event}.")
-        return
-        
-    print(f"    -> Successfully retrieved live telemetry for {len(live_elements)} players.")
-    
-    # 3. Format records for Supabase live_gameweek_stats table
+    # 3. Extract and format live performance metrics
     live_records = []
     active_players_count = 0
     
-    for item in live_elements:
-        p_id = item["id"]
-        stats = item.get("stats", {})
+    for el in elements:
+        p_id = el["id"]
+        stats = el.get("stats", {})
         
-        minutes = stats.get("minutes", 0)
+        mins = stats.get("minutes", 0)
+        goals = stats.get("goals_scored", 0)
+        assists = stats.get("assists", 0)
+        cs = stats.get("clean_sheets", 0)
+        gc = stats.get("goals_conceded", 0)
+        og = stats.get("own_goals", 0)
+        ps = stats.get("penalties_saved", 0)
+        pm = stats.get("penalties_missed", 0)
+        yc = stats.get("yellow_cards", 0)
+        rc = stats.get("red_cards", 0)
+        saves = stats.get("saves", 0)
+        bonus = stats.get("bonus", 0)
         bps = stats.get("bps", 0)
-        live_pts = stats.get("total_points", 0)
+        total_pts = stats.get("total_points", 0)
+        in_dt = stats.get("in_dreamteam", False)
         
-        if minutes > 0 or live_pts != 0:
+        if mins > 0 or total_pts != 0:
             active_players_count += 1
             
         record = {
             "player_id": p_id,
             "gw": current_event,
-            "minutes": minutes,
-            "goals_scored": stats.get("goals_scored", 0),
-            "assists": stats.get("assists", 0),
-            "clean_sheets": stats.get("clean_sheets", 0),
-            "goals_conceded": stats.get("goals_conceded", 0),
-            "own_goals": stats.get("own_goals", 0),
-            "penalties_saved": stats.get("penalties_saved", 0),
-            "penalties_missed": stats.get("penalties_missed", 0),
-            "yellow_cards": stats.get("yellow_cards", 0),
-            "red_cards": stats.get("red_cards", 0),
-            "saves": stats.get("saves", 0),
-            "bonus": stats.get("bonus", 0),
+            "minutes": mins,
+            "goals_scored": goals,
+            "assists": assists,
+            "clean_sheets": cs,
+            "goals_conceded": gc,
+            "own_goals": og,
+            "penalties_saved": ps,
+            "penalties_missed": pm,
+            "yellow_cards": yc,
+            "red_cards": rc,
+            "saves": saves,
+            "bonus": bonus,
             "bps": bps,
-            "live_points": live_pts,
-            "in_dreamteam": stats.get("in_dreamteam", False),
+            "live_points": total_pts,
+            "in_dreamteam": in_dt,
         }
         live_records.append(record)
         
-    print(f"[*] Prepared {len(live_records)} live player records ({active_players_count} players featured on pitch so far).")
+    print(f"[*] Prepared {len(live_records)} live records ({active_players_count} players featured/active so far).")
     
-    # 4. Batch upsert into Supabase live_gameweek_stats table
+    # 4. Upsert into live_gameweek_stats in Supabase
     chunk_size = 150
     total_chunks = (len(live_records) + chunk_size - 1) // chunk_size
-    print(f"[*] Upserting live matchday telemetry to Supabase in {total_chunks} batches...")
+    print(f"[*] Upserting live stats to Supabase in {total_chunks} batches...")
     
     for i in range(0, len(live_records), chunk_size):
         chunk = live_records[i : i + chunk_size]
-        supabase.table("live_gameweek_stats").upsert(chunk, on_conflict="player_id,gw").execute()
+        supabase.table("live_gameweek_stats").upsert(
+            chunk, on_conflict="player_id,gw"
+        ).execute()
         chunk_num = i // chunk_size + 1
-        print(f"    -> Uploaded live chunk {chunk_num}/{total_chunks} ({len(chunk)} records)")
+        print(f"    -> Uploaded chunk {chunk_num}/{total_chunks} ({len(chunk)} records)")
         
-    print("[+] Fast-Clock Matchday Sync completed successfully!")
-    
-    # Display top 5 live BPS leaders
-    top_bps = sorted(live_records, key=lambda x: x["bps"], reverse=True)[:5]
-    print("\n--- TOP 5 LIVE MATCHDAY BPS LEADERS ---")
-    for p in top_bps:
-        print(f"Player ID #{p['player_id']}: {p['live_points']} pts | {p['bps']} BPS | {p['minutes']} mins played")
+    print(f"[+] Fast-Clock Live Matchday Sync for GW{current_event} completed successfully!")
 
 if __name__ == "__main__":
     sync_fast_clock()
