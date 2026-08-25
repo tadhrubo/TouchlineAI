@@ -29,8 +29,8 @@ interface LeaguePlayer {
 }
 
 interface LeaguePitchViewProps {
-  managerName: string;
-  teamName: string;
+  managerName?: string;
+  teamName?: string;
   transfers: number;
   teamValue: number;
   bank: number;
@@ -39,7 +39,70 @@ interface LeaguePitchViewProps {
   activeChip: string | null;
   starters: LeaguePlayer[];
   bench: LeaguePlayer[];
+  layoutMode?: "list" | "pitch";
 }
+
+const PlayerCompactCard: React.FC<{ player: LeaguePlayer; isBench: boolean }> = ({
+  player,
+  isBench,
+}) => {
+  const isGK = player.elementType === 1 || player.position === "GKP";
+  const fallbackUrl = isGK
+    ? "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_0_1-66.webp"
+    : "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_0-66.webp";
+
+  const pts = player.livePoints ?? player.rawPoints ?? 0;
+  const hasPlayed = player.played || player.minutes > 0;
+
+  return (
+    <div
+      className={`flex flex-col w-[18%] min-w-[55px] max-w-[65px] items-center ${
+        isBench ? "opacity-70" : ""
+      }`}
+    >
+      {/* Shirt & Captaincy */}
+      <div className="relative mb-1 flex items-center justify-center">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={player.kitUrl || fallbackUrl}
+          alt={player.webName}
+          className="h-8 object-contain drop-shadow"
+          onError={(e) => {
+            (e.currentTarget as HTMLImageElement).src = fallbackUrl;
+          }}
+        />
+        {player.isCaptain && (
+          <span className="absolute -bottom-1 -right-2 bg-amber-400 text-black text-[9px] font-bold px-1 rounded-full border border-amber-300 shadow">
+            {player.multiplier === 3 ? "3C" : "C"}
+          </span>
+        )}
+        {!player.isCaptain && player.isViceCaptain && (
+          <span className="absolute -bottom-1 -right-2 bg-neutral-200 text-black text-[9px] font-bold px-1 rounded-full border border-neutral-400 shadow">
+            V
+          </span>
+        )}
+      </div>
+
+      {/* Name Bar */}
+      <div className="w-full bg-neutral-900 text-white text-[9px] font-semibold truncate text-center px-0.5 py-0.5 border border-white/[0.08] rounded-t-sm">
+        {player.webName}
+      </div>
+
+      {/* Points Bar */}
+      <div
+        className={`w-full text-center text-[10px] font-mono font-bold py-0.5 border border-t-0 rounded-b-sm ${
+          pts > 0
+            ? "bg-emerald-500 text-white border-emerald-600 shadow-sm"
+            : hasPlayed
+            ? "bg-neutral-300 text-neutral-900 border-neutral-400"
+            : "bg-neutral-900 text-neutral-500 border-neutral-800"
+        }`}
+      >
+        {pts}
+      </div>
+    </div>
+  );
+};
 
 export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
   managerName,
@@ -52,7 +115,66 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
   activeChip,
   starters,
   bench,
+  layoutMode = "list",
 }) => {
+  // LiveFPL Compact List View (Default)
+  if (layoutMode === "list") {
+    return (
+      <div className="p-3 bg-[#0B0E14] border-t border-white/[0.06] rounded-b-xl space-y-2.5">
+        {/* Status Bar */}
+        <div className="flex items-center justify-between text-[11px] font-mono text-neutral-400 pb-2 border-b border-white/[0.06]">
+          <div className="flex items-center gap-2">
+            <span>
+              FT: <strong className="text-white">{transfers}</strong>
+            </span>
+            <span className="text-neutral-600">|</span>
+            <span>
+              TV: <strong className="text-white">£{teamValue.toFixed(1)}m</strong>
+            </span>
+            <span className="text-neutral-600">|</span>
+            <span>
+              Bank: <strong className="text-white">£{bank.toFixed(1)}m</strong>
+            </span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            {activeChip && (
+              <span className="px-1.5 py-0.2 rounded text-[9px] font-extrabold bg-purple-950 text-purple-300 border border-purple-800 font-mono">
+                {activeChip}
+              </span>
+            )}
+            <span className="text-emerald-400 font-semibold font-mono">
+              Played: {playedCount}/{maxPlayedCount}
+            </span>
+          </div>
+        </div>
+
+        {/* Compact Players Flex Layout */}
+        <div className="flex flex-wrap gap-1.5 justify-start">
+          {starters.map((player) => (
+            <PlayerCompactCard
+              key={`${player.id}-${player.pickPosition}`}
+              player={player}
+              isBench={false}
+            />
+          ))}
+          {bench.length > 0 && (
+            <>
+              <div className="w-full h-px bg-white/[0.06] my-1" />
+              {bench.map((player) => (
+                <PlayerCompactCard
+                  key={`${player.id}-${player.pickPosition}`}
+                  player={player}
+                  isBench={true}
+                />
+              ))}
+            </>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // Pitch View
   const gks = starters.filter((p) => p.elementType === 1 || p.position === "GKP");
   const defs = starters.filter((p) => p.elementType === 2 || p.position === "DEF");
   const mids = starters.filter((p) => p.elementType === 3 || p.position === "MID");

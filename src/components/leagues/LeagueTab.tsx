@@ -67,7 +67,8 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
   const [managers, setManagers] = useState<ManagerRow[]>([]);
   const [gameweek, setGameweek] = useState<number>(1);
   const [totalManagersCount, setTotalManagersCount] = useState<number>(0);
-  const [expandedEntryId, setExpandedEntryId] = useState<number | null>(null);
+  const [expandedIds, setExpandedIds] = useState<Set<number>>(new Set());
+  const [layoutMode, setLayoutMode] = useState<"list" | "pitch">("list");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [customLeagueInput, setCustomLeagueInput] = useState<string>("");
   const [isLoadingLeagues, setIsLoadingLeagues] = useState<boolean>(false);
@@ -152,8 +153,16 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
     }
   }, [selectedLeagueId, fetchLeagueStandings]);
 
-  const toggleExpand = (mgrEntry: number) => {
-    setExpandedEntryId((prev) => (prev === mgrEntry ? null : mgrEntry));
+  const toggleManager = (mgrEntry: number) => {
+    setExpandedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(mgrEntry)) {
+        next.delete(mgrEntry);
+      } else {
+        next.add(mgrEntry);
+      }
+      return next;
+    });
   };
 
   const filteredManagers = managers.filter((m) => {
@@ -217,7 +226,7 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
         </div>
       </div>
 
-      {/* 2. Search and Filter Bar */}
+      {/* 2. Search & Filter Bar */}
       <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-neutral-900/80 border border-white/[0.06]">
         <Search className="w-3.5 h-3.5 text-neutral-500" />
         <input
@@ -237,7 +246,41 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
         )}
       </div>
 
-      {/* 3. Error state notice if any */}
+      {/* 3. Layout Selector Bar */}
+      <div className="flex items-center justify-between px-1 text-xs">
+        <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-wider">
+          GW{gameweek} Standings ({filteredManagers.length})
+        </span>
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider">
+            Layout:
+          </span>
+          <div className="flex bg-neutral-900 rounded-lg p-0.5 border border-white/[0.06]">
+            <button
+              onClick={() => setLayoutMode("list")}
+              className={`px-3 py-1 text-xs font-mono font-medium rounded-md transition-all ${
+                layoutMode === "list"
+                  ? "bg-neutral-800 text-emerald-400 shadow font-semibold"
+                  : "text-neutral-400 hover:text-neutral-200"
+              }`}
+            >
+              List
+            </button>
+            <button
+              onClick={() => setLayoutMode("pitch")}
+              className={`px-3 py-1 text-xs font-mono font-medium rounded-md transition-all ${
+                layoutMode === "pitch"
+                  ? "bg-neutral-800 text-emerald-400 shadow font-semibold"
+                  : "text-neutral-400 hover:text-neutral-200"
+              }`}
+            >
+              Pitch
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* 4. Error state notice if any */}
       {errorMsg && (
         <div className="p-3 rounded-lg bg-rose-950/40 border border-rose-900/60 text-rose-300 text-xs flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -253,7 +296,7 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
         </div>
       )}
 
-      {/* 4. Standings Table / List */}
+      {/* 5. Standings Table / List */}
       {isLoadingStandings ? (
         <div className="w-full h-72 flex flex-col items-center justify-center p-8 rounded-xl bg-neutral-900/30 border border-white/[0.04] space-y-2.5">
           <RefreshCw className="w-6 h-6 text-emerald-400 animate-spin" />
@@ -284,7 +327,7 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
 
           {/* Manager Rows */}
           {filteredManagers.map((mgr) => {
-            const isExpanded = expandedEntryId === mgr.entry;
+            const isExpanded = expandedIds.has(mgr.entry);
             const isUserTeam = String(mgr.entry) === String(activeEntryId);
 
             return (
@@ -300,7 +343,7 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
               >
                 {/* Clickable Header Row */}
                 <button
-                  onClick={() => toggleExpand(mgr.entry)}
+                  onClick={() => toggleManager(mgr.entry)}
                   className="w-full p-2.5 flex items-center justify-between text-left transition-colors active:bg-neutral-800/40"
                 >
                   {/* Left: Rank & Manager Info */}
@@ -382,9 +425,9 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
                   </div>
                 </button>
 
-                {/* Expanded Pitch View */}
+                {/* Expanded Manager View (Compact List or Pitch) */}
                 {isExpanded && (
-                  <div className="p-2.5 pt-0 border-t border-white/[0.04] bg-black/40 animate-fade-in">
+                  <div className="p-0 border-t border-white/[0.04] bg-black/40 animate-fade-in">
                     <LeaguePitchView
                       managerName={mgr.name}
                       teamName={mgr.teamName}
@@ -396,6 +439,7 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
                       activeChip={mgr.activeChip}
                       starters={mgr.starters}
                       bench={mgr.bench}
+                      layoutMode={layoutMode}
                     />
                   </div>
                 )}
@@ -405,7 +449,7 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
         </div>
       )}
 
-      {/* 5. "Choose League" Modal with React Portal Mounting to Document Body */}
+      {/* 6. "Choose League" Modal with React Portal */}
       {isModalOpen &&
         mounted &&
         createPortal(
