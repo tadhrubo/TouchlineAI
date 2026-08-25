@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Player, TeamStats, NewsItem } from "@/types/fpl";
 import { StatsCard } from "../fpl/StatsCard";
 import { Pitch } from "../fpl/Pitch";
@@ -12,12 +12,14 @@ import { ChipTimeline } from "../chips/ChipTimeline";
 import { PlayerModal } from "../fpl/PlayerModal";
 import { PlannerTab } from "../planner/PlannerTab";
 import { FixturesTab } from "../fixtures/FixturesTab";
+import { LeagueTab } from "../leagues/LeagueTab";
 import { SampleTier, SAMPLE_TIER_OPTIONS } from "@/utils/eo";
 import {
   ArrowRight,
   RefreshCw,
   HelpCircle,
   X,
+  Radio,
 } from "lucide-react";
 
 interface HomeTabProps {
@@ -47,10 +49,28 @@ export const HomeTab: React.FC<HomeTabProps> = ({
   onPlayerClick,
   onOpenChatWithPrompt,
 }) => {
-  const [secondaryTab, setSecondaryTab] = useState<"team" | "planner" | "strategy" | "points" | "fixtures">("team");
+  const [secondaryTab, setSecondaryTab] = useState<
+    "team" | "planner" | "strategy" | "points" | "fixtures" | "leagues"
+  >("team");
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
   const [sampleTier, setSampleTier] = useState<SampleTier>("TOP_10K_NEAR_U");
   const [showEOInfoModal, setShowEOInfoModal] = useState<boolean>(false);
+  const [lastLivePollTime, setLastLivePollTime] = useState<string>("Just now");
+
+  // Real-time polling effect (every 120 seconds / 2 minutes)
+  useEffect(() => {
+    if (!currentEntryId) return;
+
+    const intervalId = setInterval(() => {
+      // Background silent refresh of squad telemetry
+      onSelectEntryId(currentEntryId);
+      const now = new Date();
+      const timeString = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+      setLastLivePollTime(timeString);
+    }, 120000); // 2 minutes
+
+    return () => clearInterval(intervalId);
+  }, [currentEntryId, onSelectEntryId]);
 
   const handlePlayerSelect = (player: Player) => {
     setSelectedPlayer(player);
@@ -67,10 +87,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({
   if (!currentEntryId || !stats || players.length === 0) {
     return (
       <div className="w-full pb-20 pt-4 animate-fade-in flex flex-col justify-center items-center min-h-[70vh]">
-        <EmptyState
-          onLoadEntryId={onSelectEntryId}
-          isLoading={isLoading}
-        />
+        <EmptyState onLoadEntryId={onSelectEntryId} isLoading={isLoading} />
       </div>
     );
   }
@@ -95,13 +112,27 @@ export const HomeTab: React.FC<HomeTabProps> = ({
         onDiscuss={handleDiscussPlayer}
       />
 
-      {/* 0. Entry ID Selector */}
-      <EntryIdSelector
-        currentEntryId={currentEntryId}
-        onSelectEntryId={onSelectEntryId}
-        onClearEntryId={onClearEntryId}
-        isLoading={isLoading}
-      />
+      {/* 0. Entry ID Selector & Live Polling Status */}
+      <div className="space-y-1.5">
+        <EntryIdSelector
+          currentEntryId={currentEntryId}
+          onSelectEntryId={onSelectEntryId}
+          onClearEntryId={onClearEntryId}
+          isLoading={isLoading}
+        />
+        
+        {/* Subtle Live Sync Polling Indicator */}
+        <div className="flex items-center justify-between px-2 text-[10px] font-mono text-neutral-500">
+          <div className="flex items-center gap-1.5">
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+            </span>
+            <span className="text-neutral-400">Live Matchday Polling (2m)</span>
+          </div>
+          <span className="text-neutral-500">Updated: {lastLivePollTime}</span>
+        </div>
+      </div>
 
       {isLoading ? (
         <div className="w-full h-80 flex flex-col items-center justify-center p-8 rounded-xl bg-neutral-900/30 border border-white/[0.04] space-y-2.5">
@@ -126,6 +157,16 @@ export const HomeTab: React.FC<HomeTabProps> = ({
               }`}
             >
               My XI
+            </button>
+            <button
+              onClick={() => setSecondaryTab("leagues")}
+              className={`flex-1 py-1.5 px-2 rounded-md text-xs font-medium transition-colors whitespace-nowrap ${
+                secondaryTab === "leagues"
+                  ? "bg-neutral-800 text-emerald-400 shadow-sm font-semibold"
+                  : "text-neutral-400 hover:text-neutral-200"
+              }`}
+            >
+              Leagues
             </button>
             <button
               onClick={() => setSecondaryTab("planner")}
@@ -170,6 +211,10 @@ export const HomeTab: React.FC<HomeTabProps> = ({
           </div>
 
           {/* 3. Conditional Content based on Secondary Nav */}
+          {secondaryTab === "leagues" && (
+            <LeagueTab currentEntryId={currentEntryId} />
+          )}
+
           {secondaryTab === "planner" && (
             <PlannerTab
               stats={stats}
@@ -248,144 +293,152 @@ export const HomeTab: React.FC<HomeTabProps> = ({
                   <span className="text-[10px] font-mono text-neutral-500">Touchline AI</span>
                 </div>
 
-                <div className="space-y-1.5">
+                <div className="grid grid-cols-2 gap-2">
                   <button
                     onClick={() =>
                       onOpenChatWithPrompt(
                         `Who should I captain for Gameweek ${stats.nextGameweek} in ${stats.teamName}?`
                       )
                     }
-                    className="w-full flex items-center justify-between p-2 rounded-lg bg-neutral-950/60 border border-white/[0.04] hover:border-white/[0.1] hover:bg-neutral-900 transition text-left group"
+                    className="p-2.5 rounded-lg bg-neutral-900 border border-white/[0.04] text-left hover:border-neutral-700 transition active:scale-95 group"
                   >
-                    <span className="text-xs text-neutral-300 group-hover:text-neutral-100">
-                      Captaincy evaluation for Gameweek {stats.nextGameweek}
-                    </span>
-                    <ArrowRight className="w-3.5 h-3.5 text-neutral-500 group-hover:text-neutral-300 transition" />
+                    <p className="text-xs font-medium text-neutral-200 group-hover:text-emerald-400 transition-colors">
+                      Captaincy Advice
+                    </p>
+                    <p className="text-[10px] font-mono text-neutral-500 mt-0.5">
+                      Analyze xP & match-ups
+                    </p>
                   </button>
 
                   <button
                     onClick={() =>
                       onOpenChatWithPrompt(
-                        `Optimize my starting XI and bench priority order for Gameweek ${stats.nextGameweek}.`
+                        `Optimize my starting XI formation and bench order for Gameweek ${stats.nextGameweek}.`
                       )
                     }
-                    className="w-full flex items-center justify-between p-2 rounded-lg bg-neutral-950/60 border border-white/[0.04] hover:border-white/[0.1] hover:bg-neutral-900 transition text-left group"
+                    className="p-2.5 rounded-lg bg-neutral-900 border border-white/[0.04] text-left hover:border-neutral-700 transition active:scale-95 group"
                   >
-                    <span className="text-xs text-neutral-300 group-hover:text-neutral-100">
-                      Optimize starting XI & auto-sub order
-                    </span>
-                    <ArrowRight className="w-3.5 h-3.5 text-neutral-500 group-hover:text-neutral-300 transition" />
+                    <p className="text-xs font-medium text-neutral-200 group-hover:text-emerald-400 transition-colors">
+                      Optimize Starting XI
+                    </p>
+                    <p className="text-[10px] font-mono text-neutral-500 mt-0.5">
+                      ILP formation solver
+                    </p>
                   </button>
 
                   <button
                     onClick={() =>
                       onOpenChatWithPrompt(
-                        `What are the best transfer targets with £${stats.inTheBank.toFixed(1)}m in the bank and ${stats.freeTransfers} Free Transfer?`
+                        `What is my best transfer move for Gameweek ${stats.nextGameweek} with £${stats.inTheBank.toFixed(1)}m ITB?`
                       )
                     }
-                    className="w-full flex items-center justify-between p-2 rounded-lg bg-neutral-950/60 border border-white/[0.04] hover:border-white/[0.1] hover:bg-neutral-900 transition text-left group"
+                    className="p-2.5 rounded-lg bg-neutral-900 border border-white/[0.04] text-left hover:border-neutral-700 transition active:scale-95 group"
                   >
-                    <span className="text-xs text-neutral-300 group-hover:text-neutral-100 font-mono text-[11.5px]">
-                      Transfer targets (£{stats.inTheBank.toFixed(1)}m ITB · {stats.freeTransfers} FT)
-                    </span>
-                    <ArrowRight className="w-3.5 h-3.5 text-neutral-500 group-hover:text-neutral-300 transition" />
+                    <p className="text-xs font-medium text-neutral-200 group-hover:text-emerald-400 transition-colors">
+                      Transfer Targets
+                    </p>
+                    <p className="text-[10px] font-mono text-neutral-500 mt-0.5">
+                      SHAP expected gain
+                    </p>
+                  </button>
+
+                  <button
+                    onClick={() =>
+                      onOpenChatWithPrompt(
+                        `Check injury flags, rotation risks, and press conference updates across my squad.`
+                      )
+                    }
+                    className="p-2.5 rounded-lg bg-neutral-900 border border-white/[0.04] text-left hover:border-neutral-700 transition active:scale-95 group"
+                  >
+                    <p className="text-xs font-medium text-neutral-200 group-hover:text-emerald-400 transition-colors">
+                      Fitness & Flags
+                    </p>
+                    <p className="text-[10px] font-mono text-neutral-500 mt-0.5">
+                      Press conference intel
+                    </p>
                   </button>
                 </div>
               </div>
             </>
           )}
 
-          {/* Points Tab View */}
+          {secondaryTab === "fixtures" && (
+            <FixturesTab currentGameweek={stats.nextGameweek || 1} />
+          )}
+
           {secondaryTab === "points" && (
-            <div className="space-y-3">
-              <div className="p-4 rounded-xl bg-neutral-900/40 border border-white/[0.06] text-center">
-                <span className="text-[10px] uppercase tracking-wider font-medium text-neutral-500">
-                  Gameweek {stats.currentGameweek} Score
-                </span>
-                <h2 className="text-3xl font-black text-neutral-100 font-mono mt-1">
-                  {stats.gameweekPoints} <span className="text-sm font-medium text-neutral-400">pts</span>
-                </h2>
-                <p className="text-xs text-neutral-400 font-mono mt-1">
-                  Total: {stats.overallPoints.toLocaleString()} pts · Rank: #{stats.overallRank.toLocaleString()}
+            <div className="space-y-3 animate-fade-in">
+              <div className="p-4 rounded-xl bg-neutral-900/60 border border-white/[0.06] text-center space-y-1">
+                <p className="text-[10px] font-mono uppercase tracking-wider text-neutral-500">
+                  Live Matchday Score
+                </p>
+                <div className="text-3xl font-bold font-mono text-emerald-400">
+                  {stats.gameweekPoints} <span className="text-sm font-normal text-neutral-400">pts</span>
+                </div>
+                <p className="text-xs text-neutral-400">
+                  Gameweek {stats.currentGameweek} Total Points
                 </p>
               </div>
 
-              <div className="p-3 rounded-xl bg-neutral-900/40 border border-white/[0.06]">
-                <h3 className="text-[10px] font-medium text-neutral-400 uppercase tracking-wider mb-2">
-                  Squad Output
-                </h3>
-                <div className="space-y-1">
-                  {players
-                    .slice()
-                    .sort((a, b) => b.totalPoints - a.totalPoints)
-                    .slice(0, 7)
-                    .map((p) => (
-                      <div
-                        key={p.id}
-                        className="flex items-center justify-between p-2 rounded-md bg-neutral-950/40 border border-white/[0.04]"
-                      >
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs font-medium text-neutral-200">
-                            {p.webName}
-                          </span>
-                          <span className="text-[10px] font-mono text-neutral-500">
-                            {p.teamShort} · {p.position}
-                          </span>
-                          {(captainId === p.id || p.isCaptain) && (
-                            <span className="text-[9px] px-1 py-0.2 bg-neutral-100 text-neutral-950 font-bold rounded-sm">
-                              C
-                            </span>
-                          )}
-                        </div>
-                        <span className="text-xs font-mono font-medium text-emerald-400">
-                          {p.totalPoints} pts
-                        </span>
-                      </div>
-                    ))}
-                </div>
-              </div>
-            </div>
-          )}
+              {/* Pitch in Matchday Points Mode */}
+              <Pitch
+                players={players}
+                onPlayerClick={handlePlayerSelect}
+                captainId={captainId}
+                viceCaptainId={viceCaptainId}
+                formation={stats.formation}
+                sampleTier={sampleTier}
+                userRank={stats.overallRank}
+              />
 
-          {/* Fixtures Tab View */}
-          {secondaryTab === "fixtures" && (
-            <FixturesTab currentGameweek={stats.currentGameweek || 1} />
+              <Bench
+                benchPlayers={players.filter((p) => p.isBench)}
+                onPlayerClick={handlePlayerSelect}
+                sampleTier={sampleTier}
+                userRank={stats.overallRank}
+              />
+            </div>
           )}
         </>
       )}
 
-      {/* EO Explanation Modal */}
+      {/* Explanation Modal for EO & xEO */}
       {showEOInfoModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in">
-          <div className="bg-[#0B0E14] border border-white/[0.08] w-full max-w-sm rounded-2xl p-4 shadow-2xl space-y-3">
-            <div className="flex items-center justify-between pb-2 border-b border-white/[0.06]">
-              <span className="text-xs font-bold font-mono text-neutral-100 uppercase tracking-wider">
-                Effective Ownership (EO / xEO)
-              </span>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
+          <div className="w-full max-w-sm rounded-2xl bg-[#0E121A] border border-white/[0.1] shadow-2xl p-4 space-y-3.5 animate-scale-in">
+            <div className="flex items-center justify-between border-b border-white/[0.06] pb-2.5">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-emerald-400" />
+                <h3 className="text-sm font-semibold text-neutral-100">
+                  Effective Ownership (EO)
+                </h3>
+              </div>
               <button
                 onClick={() => setShowEOInfoModal(false)}
-                className="p-1 rounded text-neutral-400 hover:text-neutral-200"
+                className="p-1 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-800 transition"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
-            <div className="text-xs text-neutral-300 space-y-2 leading-relaxed font-sans">
+
+            <div className="space-y-2.5 text-xs text-neutral-300 leading-relaxed font-sans">
               <p>
-                <strong className="text-neutral-100">Effective Ownership (EO)</strong> represents the total percentage of active teams gaining points from a player:
+                <strong className="text-neutral-100">Effective Ownership (EO)</strong> accounts for captaincy multipliers. If a player is started by 60% of managers and captained by 30%, their EO is <strong className="text-emerald-400">90%</strong>.
               </p>
-              <div className="p-2 rounded bg-neutral-900/80 border border-white/[0.06] font-mono text-[11px] text-emerald-400">
-                EO = Start% + Captain% + (2 × TripleCap%)
+              <div className="p-2 rounded-lg bg-neutral-900/80 border border-white/[0.04] space-y-1 font-mono text-[11px]">
+                <div className="text-neutral-400">Sample Tiers:</div>
+                <div className="text-neutral-300">• <span className="text-emerald-400 font-bold">Top 10k:</span> Elite competitive benchmark</div>
+                <div className="text-neutral-300">• <span className="text-emerald-400 font-bold">Near U:</span> Managers within ±50k of your current rank</div>
+                <div className="text-neutral-300">• <span className="text-emerald-400 font-bold">Elite:</span> Top 1k hall of fame managers</div>
               </div>
-              <p>
-                If a player has <span className="text-neutral-100 font-mono">140% EO</span>, owning them without captaincy leaves you with negative rank gain when they score.
-              </p>
-              <p>
-                <strong className="text-neutral-100">xEO (Predicted EO)</strong> simulates expected captaincy concentration and template shifts for the upcoming Gameweek.
+              <p className="text-[11px] text-neutral-400">
+                In <strong className="text-neutral-200">My XI</strong>, you can track live EO threat levels so you know which players hurt or protect your rank when they score.
               </p>
             </div>
+
             <button
               onClick={() => setShowEOInfoModal(false)}
-              className="w-full py-2 rounded-lg bg-neutral-900 border border-neutral-800 text-xs font-medium text-neutral-200 hover:bg-neutral-800 transition-colors"
+              className="w-full py-2 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold hover:bg-emerald-500/20 transition"
             >
               Got it
             </button>
