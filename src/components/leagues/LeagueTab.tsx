@@ -14,7 +14,6 @@ import {
   ShieldAlert,
   X,
   SlidersHorizontal,
-  Plus,
 } from "lucide-react";
 import { LeaguePitchView } from "./LeaguePitchView";
 
@@ -52,10 +51,14 @@ interface ManagerRow {
 }
 
 interface LeagueTabProps {
-  currentEntryId: string;
+  entryId?: string;
+  currentEntryId?: string;
 }
 
-export const LeagueTab: React.FC<LeagueTabProps> = ({ currentEntryId }) => {
+export const LeagueTab: React.FC<LeagueTabProps> = ({
+  entryId,
+  currentEntryId,
+}) => {
   const [leagues, setLeagues] = useState<ClassicLeague[]>([]);
   const [selectedLeagueId, setSelectedLeagueId] = useState<number | null>(null);
   const [selectedLeagueName, setSelectedLeagueName] = useState<string>("");
@@ -67,13 +70,14 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({ currentEntryId }) => {
   const [customLeagueInput, setCustomLeagueInput] = useState<string>("");
   const [isLoadingLeagues, setIsLoadingLeagues] = useState<boolean>(false);
   const [isLoadingStandings, setIsLoadingStandings] = useState<boolean>(false);
-  const [showLeagueModal, setShowLeagueModal] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   // Derive dynamic Entry ID from props or localStorage
+  const rawId = entryId || currentEntryId;
   const activeEntryId =
-    currentEntryId && currentEntryId.trim() !== ""
-      ? currentEntryId
+    rawId && rawId.trim() !== ""
+      ? rawId.trim()
       : typeof window !== "undefined"
       ? localStorage.getItem("touchline_fpl_entry_id") || "1"
       : "1";
@@ -141,25 +145,8 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({ currentEntryId }) => {
     }
   }, [selectedLeagueId, fetchLeagueStandings]);
 
-  const handleSelectLeague = (league: ClassicLeague) => {
-    setSelectedLeagueId(league.id);
-    setSelectedLeagueName(league.name);
-    setShowLeagueModal(false);
-  };
-
-  const handleLoadCustomLeague = (e: React.FormEvent) => {
-    e.preventDefault();
-    const parsedId = parseInt(customLeagueInput.trim(), 10);
-    if (!isNaN(parsedId) && parsedId > 0) {
-      setSelectedLeagueId(parsedId);
-      setSelectedLeagueName(`League #${parsedId}`);
-      setShowLeagueModal(false);
-      setCustomLeagueInput("");
-    }
-  };
-
-  const toggleExpand = (entryId: number) => {
-    setExpandedEntryId((prev) => (prev === entryId ? null : entryId));
+  const toggleExpand = (mgrEntry: number) => {
+    setExpandedEntryId((prev) => (prev === mgrEntry ? null : mgrEntry));
   };
 
   const filteredManagers = managers.filter((m) => {
@@ -194,7 +181,7 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({ currentEntryId }) => {
 
         <div className="flex items-center gap-1.5 flex-shrink-0">
           <button
-            onClick={() => setShowLeagueModal(true)}
+            onClick={() => setIsModalOpen(true)}
             className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-neutral-900 border border-white/[0.08] text-xs font-medium text-neutral-200 hover:text-emerald-400 hover:border-emerald-500/30 transition active:scale-95"
           >
             <SlidersHorizontal className="w-3.5 h-3.5 text-emerald-400" />
@@ -411,92 +398,99 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({ currentEntryId }) => {
         </div>
       )}
 
-      {/* 5. "Choose League" Modal with High Z-Index */}
-      {showLeagueModal && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fade-in">
-          <div className="w-full max-w-sm rounded-2xl bg-[#0E121A] border border-white/[0.12] shadow-2xl overflow-hidden animate-scale-in flex flex-col max-h-[85vh]">
+      {/* 5. "Choose League" Modal Overlay & Centered Card */}
+      {isModalOpen && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in"
+          onClick={() => setIsModalOpen(false)}
+        >
+          <div
+            className="relative w-full max-w-sm max-h-[80vh] flex flex-col bg-[#131722] border border-gray-800 rounded-2xl p-5 shadow-2xl overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
             {/* Modal Header */}
-            <div className="p-4 border-b border-white/[0.06] flex items-center justify-between bg-black/40">
+            <div className="flex items-center justify-between pb-3 border-b border-gray-800">
               <div className="flex items-center gap-2">
                 <Trophy className="w-4 h-4 text-emerald-400" />
-                <h3 className="text-sm font-semibold text-neutral-100">
-                  Choose League
-                </h3>
+                <h3 className="text-base font-bold text-white">Choose league</h3>
               </div>
               <button
-                onClick={() => setShowLeagueModal(false)}
-                className="p-1 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-800 transition"
+                onClick={() => setIsModalOpen(false)}
+                className="text-gray-400 hover:text-white text-xs px-2.5 py-1 rounded-lg bg-gray-800 transition"
               >
-                <X className="w-4 h-4" />
+                Close
               </button>
             </div>
 
-            {/* Custom League ID Quick Input */}
-            <div className="p-3 border-b border-white/[0.06] bg-neutral-900/40">
-              <form onSubmit={handleLoadCustomLeague} className="flex items-center gap-2">
+            {/* Modal Body / League List */}
+            <div className="flex-1 overflow-y-auto py-3 space-y-2">
+              {isLoadingLeagues ? (
+                <div className="py-8 text-center text-sm text-gray-400 flex flex-col items-center gap-2">
+                  <RefreshCw className="w-5 h-5 text-emerald-400 animate-spin" />
+                  <span>Loading leagues...</span>
+                </div>
+              ) : leagues && leagues.length > 0 ? (
+                leagues.map((lg) => (
+                  <button
+                    key={lg.id}
+                    onClick={() => {
+                      setSelectedLeagueId(lg.id);
+                      setSelectedLeagueName(lg.name);
+                      setIsModalOpen(false);
+                    }}
+                    className={`w-full text-left p-3 rounded-xl border transition-all flex items-center justify-between ${
+                      selectedLeagueId === lg.id
+                        ? "bg-emerald-500/10 border-emerald-500/40 text-emerald-400"
+                        : "bg-gray-900/50 border-gray-800/80 hover:bg-gray-800/60 text-gray-200"
+                    }`}
+                  >
+                    <div className="min-w-0 pr-2">
+                      <span className="font-semibold text-sm truncate block">{lg.name}</span>
+                      <span className="text-[11px] text-gray-400 font-mono">
+                        Rank: <strong className="text-emerald-400">#{lg.entryRank ? lg.entryRank.toLocaleString() : "N/A"}</strong> of {lg.rankCount ? lg.rankCount.toLocaleString() : "All"}
+                      </span>
+                    </div>
+                    {selectedLeagueId === lg.id && <span className="text-xs text-emerald-400 font-bold">✓</span>}
+                  </button>
+                ))
+              ) : (
+                <div className="py-6 text-center text-xs text-gray-400">
+                  No mini-leagues found for this ID.
+                </div>
+              )}
+            </div>
+
+            {/* Quick League ID Input Fallback */}
+            <div className="pt-3 border-t border-gray-800">
+              <p className="text-[11px] text-gray-400 mb-2">Or enter League ID manually:</p>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const parsed = parseInt(customLeagueInput.trim(), 10);
+                  if (!isNaN(parsed) && parsed > 0) {
+                    setSelectedLeagueId(parsed);
+                    setSelectedLeagueName(`League #${parsed}`);
+                    setIsModalOpen(false);
+                    setCustomLeagueInput("");
+                  }
+                }}
+                className="flex gap-2"
+              >
                 <input
                   type="number"
-                  placeholder="Enter League ID (e.g. 14)..."
+                  placeholder="e.g. 280033"
                   value={customLeagueInput}
                   onChange={(e) => setCustomLeagueInput(e.target.value)}
-                  className="flex-1 bg-neutral-950 border border-white/[0.08] text-xs font-mono text-neutral-100 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-emerald-500/50"
+                  className="flex-1 bg-black/50 border border-gray-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500 font-mono"
                 />
                 <button
                   type="submit"
                   disabled={!customLeagueInput.trim()}
-                  className="px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs font-semibold hover:bg-emerald-500/30 transition disabled:opacity-40"
+                  className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-3.5 py-1.5 rounded-lg transition disabled:opacity-40"
                 >
                   Load
                 </button>
               </form>
-            </div>
-
-            {/* League List */}
-            <div className="flex-1 overflow-y-auto p-3 space-y-1.5 min-h-[160px]">
-              {isLoadingLeagues ? (
-                <div className="py-8 text-center text-xs font-mono text-neutral-400">
-                  <RefreshCw className="w-5 h-5 text-emerald-400 animate-spin mx-auto mb-2" />
-                  Loading your leagues...
-                </div>
-              ) : leagues.length === 0 ? (
-                <div className="py-6 text-center text-xs font-mono text-neutral-400 space-y-1">
-                  <p>No classic leagues loaded for Entry #{activeEntryId}.</p>
-                  <p className="text-[11px] text-neutral-500">
-                    Use the input above to enter any classic league ID.
-                  </p>
-                </div>
-              ) : (
-                leagues.map((l) => (
-                  <button
-                    key={l.id}
-                    onClick={() => handleSelectLeague(l)}
-                    className={`w-full p-3 rounded-xl border text-left flex items-center justify-between transition-all ${
-                      selectedLeagueId === l.id
-                        ? "bg-emerald-950/30 border-emerald-500/40 text-neutral-100"
-                        : "bg-neutral-900/60 border-white/[0.04] text-neutral-300 hover:border-white/[0.12] hover:bg-neutral-800/50"
-                    }`}
-                  >
-                    <div className="min-w-0 pr-2">
-                      <p className="text-xs font-semibold text-neutral-100 truncate">
-                        {l.name}
-                      </p>
-                      <p className="text-[10px] font-mono text-neutral-400 mt-0.5">
-                        Rank: <strong className="text-emerald-400">#{l.entryRank ? l.entryRank.toLocaleString() : "N/A"}</strong> of {l.rankCount ? l.rankCount.toLocaleString() : "All"}
-                      </p>
-                    </div>
-                    <span className="px-2 py-0.5 rounded text-[9px] font-mono uppercase bg-neutral-800 border border-white/[0.06] text-neutral-400 flex-shrink-0">
-                      {l.leagueType}
-                    </span>
-                  </button>
-                ))
-              )}
-            </div>
-
-            {/* Modal Footer */}
-            <div className="p-3 border-t border-white/[0.06] bg-neutral-950/80 text-center">
-              <p className="text-[11px] font-mono text-neutral-400">
-                Official FPL Classic & Mini-League Standings
-              </p>
             </div>
           </div>
         </div>
