@@ -53,15 +53,20 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
   starters,
   bench,
 }) => {
-  const gks = starters.filter((p) => p.elementType === 1);
-  const defs = starters.filter((p) => p.elementType === 2);
-  const mids = starters.filter((p) => p.elementType === 3);
-  const fwds = starters.filter((p) => p.elementType === 4);
+  const gks = starters.filter((p) => p.elementType === 1 || p.position === "GKP");
+  const defs = starters.filter((p) => p.elementType === 2 || p.position === "DEF");
+  const mids = starters.filter((p) => p.elementType === 3 || p.position === "MID");
+  const fwds = starters.filter((p) => p.elementType === 4 || p.position === "FWD");
 
   const renderPlayer = (player: LeaguePlayer, isBench = false) => {
+    const isGK = player.elementType === 1 || player.position === "GKP";
+    const fallbackUrl = isGK
+      ? "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_0_1-66.webp"
+      : "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_0-66.webp";
+
     return (
       <div
-        key={player.id}
+        key={`${player.id}-${player.pickPosition}`}
         className="flex flex-col items-center justify-center relative flex-1 min-w-0 max-w-[76px] transition-transform duration-150 hover:scale-105"
       >
         {/* Captaincy / Vice Captaincy / Chip Badge */}
@@ -76,15 +81,21 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
           </div>
         )}
 
-        {/* Kit Shirt Graphics */}
+        {/* Kit Shirt Graphics with Fallback Handling */}
         <div className="relative w-10 h-10 flex items-center justify-center">
           <Image
-            src={player.kitUrl}
+            src={player.kitUrl || fallbackUrl}
             alt={player.webName}
             width={40}
             height={40}
             className="w-9 h-9 object-contain drop-shadow-md"
             unoptimized
+            onError={(e) => {
+              const target = e.currentTarget as HTMLImageElement;
+              if (target && target.src !== fallbackUrl) {
+                target.src = fallbackUrl;
+              }
+            }}
           />
           {/* Minutes played indicator dot */}
           {player.played && (
@@ -185,7 +196,7 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
           </div>
           <div className="flex justify-around items-center gap-1">
             {bench.map((p, idx) => (
-              <div key={p.id} className="relative flex flex-col items-center">
+              <div key={`${p.id}-${p.pickPosition}`} className="relative flex flex-col items-center">
                 <span className="text-[9px] font-mono text-neutral-500 mb-0.5">
                   {idx === 0 ? "GK" : `B${idx}`}
                 </span>

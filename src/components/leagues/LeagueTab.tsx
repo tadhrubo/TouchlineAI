@@ -10,11 +10,11 @@ import {
   ArrowUp,
   ArrowDown,
   Minus,
-  Sparkles,
   Users,
   ShieldAlert,
   X,
   SlidersHorizontal,
+  Plus,
 } from "lucide-react";
 import { LeaguePitchView } from "./LeaguePitchView";
 
@@ -64,27 +64,36 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({ currentEntryId }) => {
   const [totalManagersCount, setTotalManagersCount] = useState<number>(0);
   const [expandedEntryId, setExpandedEntryId] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [customLeagueInput, setCustomLeagueInput] = useState<string>("");
   const [isLoadingLeagues, setIsLoadingLeagues] = useState<boolean>(false);
   const [isLoadingStandings, setIsLoadingStandings] = useState<boolean>(false);
   const [showLeagueModal, setShowLeagueModal] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  // 1. Fetch user's joined classic leagues
+  // Derive dynamic Entry ID from props or localStorage
+  const activeEntryId =
+    currentEntryId && currentEntryId.trim() !== ""
+      ? currentEntryId
+      : typeof window !== "undefined"
+      ? localStorage.getItem("touchline_fpl_entry_id") || "1"
+      : "1";
+
+  // 1. Fetch user's joined classic leagues dynamically
   const fetchUserLeagues = useCallback(async () => {
-    if (!currentEntryId) return;
+    if (!activeEntryId) return;
     setIsLoadingLeagues(true);
     setErrorMsg(null);
 
     try {
-      const res = await fetch(`/api/league/user/${currentEntryId}`);
+      const res = await fetch(`/api/league/user/${activeEntryId}`);
       if (!res.ok) throw new Error(`Failed to load user leagues (Status ${res.status})`);
       const data = await res.json();
       const classic = data.classicLeagues || [];
       setLeagues(classic);
 
-      if (classic.length > 0 && !selectedLeagueId) {
-        setSelectedLeagueId(classic[0].id);
-        setSelectedLeagueName(classic[0].name);
+      if (classic.length > 0) {
+        setSelectedLeagueId((prev) => (prev !== null ? prev : classic[0].id));
+        setSelectedLeagueName((prev) => (prev !== "" ? prev : classic[0].name));
       }
     } catch (err: any) {
       console.error("Error fetching leagues:", err);
@@ -92,7 +101,7 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({ currentEntryId }) => {
     } finally {
       setIsLoadingLeagues(false);
     }
-  }, [currentEntryId, selectedLeagueId]);
+  }, [activeEntryId]);
 
   useEffect(() => {
     fetchUserLeagues();
@@ -113,7 +122,9 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({ currentEntryId }) => {
         setManagers(data.managers || []);
         setGameweek(data.gameweek || 1);
         setTotalManagersCount(data.league?.rankCount || data.totalCount || 0);
-        setSelectedLeagueName(data.league?.name || selectedLeagueName);
+        if (data.league?.name) {
+          setSelectedLeagueName(data.league.name);
+        }
       } catch (err: any) {
         console.error("Error loading standings:", err);
         setErrorMsg(err.message || "Failed to load standings.");
@@ -121,7 +132,7 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({ currentEntryId }) => {
         setIsLoadingStandings(false);
       }
     },
-    [selectedLeagueName]
+    []
   );
 
   useEffect(() => {
@@ -134,6 +145,17 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({ currentEntryId }) => {
     setSelectedLeagueId(league.id);
     setSelectedLeagueName(league.name);
     setShowLeagueModal(false);
+  };
+
+  const handleLoadCustomLeague = (e: React.FormEvent) => {
+    e.preventDefault();
+    const parsedId = parseInt(customLeagueInput.trim(), 10);
+    if (!isNaN(parsedId) && parsedId > 0) {
+      setSelectedLeagueId(parsedId);
+      setSelectedLeagueName(`League #${parsedId}`);
+      setShowLeagueModal(false);
+      setCustomLeagueInput("");
+    }
   };
 
   const toggleExpand = (entryId: number) => {
@@ -151,7 +173,7 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({ currentEntryId }) => {
   });
 
   return (
-    <div className="w-full space-y-3 pb-8 animate-fade-in">
+    <div className="w-full space-y-3 pb-8 animate-fade-in relative">
       {/* 1. Header & Choose League Selector Bar */}
       <div className="p-3 rounded-xl bg-[#0B0E14] border border-white/[0.06] flex items-center justify-between shadow-md">
         <div className="flex items-center gap-2.5 min-w-0">
@@ -163,7 +185,9 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({ currentEntryId }) => {
               Live Mini-League Standings
             </p>
             <h2 className="text-sm font-semibold text-neutral-100 truncate">
-              {selectedLeagueName || "Select a League"}
+              {isLoadingLeagues && !selectedLeagueName
+                ? "Loading leagues..."
+                : selectedLeagueName || "Choose League"}
             </h2>
           </div>
         </div>
@@ -174,7 +198,13 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({ currentEntryId }) => {
             className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-neutral-900 border border-white/[0.08] text-xs font-medium text-neutral-200 hover:text-emerald-400 hover:border-emerald-500/30 transition active:scale-95"
           >
             <SlidersHorizontal className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Choose league</span>
+            <span>
+              {isLoadingLeagues
+                ? "Loading..."
+                : selectedLeagueName
+                ? "Switch league"
+                : "Choose league"}
+            </span>
             <ChevronDown className="w-3 h-3 text-neutral-400" />
           </button>
 
@@ -261,7 +291,7 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({ currentEntryId }) => {
           {/* Manager Rows */}
           {filteredManagers.map((mgr) => {
             const isExpanded = expandedEntryId === mgr.entry;
-            const isUserTeam = String(mgr.entry) === String(currentEntryId);
+            const isUserTeam = String(mgr.entry) === String(activeEntryId);
 
             return (
               <div
@@ -381,11 +411,12 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({ currentEntryId }) => {
         </div>
       )}
 
-      {/* 5. "Choose League" Modal / Bottom Sheet */}
+      {/* 5. "Choose League" Modal with High Z-Index */}
       {showLeagueModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-          <div className="w-full max-w-sm rounded-2xl bg-[#0E121A] border border-white/[0.1] shadow-2xl overflow-hidden animate-scale-in">
-            <div className="p-4 border-b border-white/[0.06] flex items-center justify-between">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fade-in">
+          <div className="w-full max-w-sm rounded-2xl bg-[#0E121A] border border-white/[0.12] shadow-2xl overflow-hidden animate-scale-in flex flex-col max-h-[85vh]">
+            {/* Modal Header */}
+            <div className="p-4 border-b border-white/[0.06] flex items-center justify-between bg-black/40">
               <div className="flex items-center gap-2">
                 <Trophy className="w-4 h-4 text-emerald-400" />
                 <h3 className="text-sm font-semibold text-neutral-100">
@@ -400,15 +431,39 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({ currentEntryId }) => {
               </button>
             </div>
 
-            <div className="max-h-80 overflow-y-auto p-3 space-y-1.5">
+            {/* Custom League ID Quick Input */}
+            <div className="p-3 border-b border-white/[0.06] bg-neutral-900/40">
+              <form onSubmit={handleLoadCustomLeague} className="flex items-center gap-2">
+                <input
+                  type="number"
+                  placeholder="Enter League ID (e.g. 14)..."
+                  value={customLeagueInput}
+                  onChange={(e) => setCustomLeagueInput(e.target.value)}
+                  className="flex-1 bg-neutral-950 border border-white/[0.08] text-xs font-mono text-neutral-100 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-emerald-500/50"
+                />
+                <button
+                  type="submit"
+                  disabled={!customLeagueInput.trim()}
+                  className="px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs font-semibold hover:bg-emerald-500/30 transition disabled:opacity-40"
+                >
+                  Load
+                </button>
+              </form>
+            </div>
+
+            {/* League List */}
+            <div className="flex-1 overflow-y-auto p-3 space-y-1.5 min-h-[160px]">
               {isLoadingLeagues ? (
                 <div className="py-8 text-center text-xs font-mono text-neutral-400">
                   <RefreshCw className="w-5 h-5 text-emerald-400 animate-spin mx-auto mb-2" />
                   Loading your leagues...
                 </div>
               ) : leagues.length === 0 ? (
-                <div className="py-6 text-center text-xs font-mono text-neutral-400">
-                  No classic leagues found for Entry #{currentEntryId}.
+                <div className="py-6 text-center text-xs font-mono text-neutral-400 space-y-1">
+                  <p>No classic leagues loaded for Entry #{activeEntryId}.</p>
+                  <p className="text-[11px] text-neutral-500">
+                    Use the input above to enter any classic league ID.
+                  </p>
                 </div>
               ) : (
                 leagues.map((l) => (
@@ -426,7 +481,7 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({ currentEntryId }) => {
                         {l.name}
                       </p>
                       <p className="text-[10px] font-mono text-neutral-400 mt-0.5">
-                        Rank: <strong className="text-emerald-400">#{l.entryRank?.toLocaleString() || "N/A"}</strong> of {l.rankCount?.toLocaleString() || "All"}
+                        Rank: <strong className="text-emerald-400">#{l.entryRank ? l.entryRank.toLocaleString() : "N/A"}</strong> of {l.rankCount ? l.rankCount.toLocaleString() : "All"}
                       </p>
                     </div>
                     <span className="px-2 py-0.5 rounded text-[9px] font-mono uppercase bg-neutral-800 border border-white/[0.06] text-neutral-400 flex-shrink-0">
@@ -437,9 +492,10 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({ currentEntryId }) => {
               )}
             </div>
 
-            <div className="p-3 border-t border-white/[0.06] bg-neutral-950/60 text-center">
+            {/* Modal Footer */}
+            <div className="p-3 border-t border-white/[0.06] bg-neutral-950/80 text-center">
               <p className="text-[11px] font-mono text-neutral-400">
-                Data refreshed live from official FPL standings
+                Official FPL Classic & Mini-League Standings
               </p>
             </div>
           </div>

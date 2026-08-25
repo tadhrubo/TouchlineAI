@@ -17,10 +17,12 @@ const POSITION_MAP: Record<number, string> = {
 
 function getFplKitUrl(teamCode: number | undefined, isGoalkeeper: boolean = false): string {
   if (!teamCode) {
-    return "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_0-110.webp";
+    return isGoalkeeper
+      ? "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_0_1-66.webp"
+      : "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_0-66.webp";
   }
-  const prefix = isGoalkeeper ? "shirt_gk_" : "shirt_";
-  return `https://fantasy.premierleague.com/dist/img/shirts/standard/${prefix}${teamCode}-110.webp`;
+  const shirtCode = isGoalkeeper ? `${teamCode}_1` : `${teamCode}`;
+  return `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${shirtCode}-66.webp`;
 }
 
 // Helper to chunk array
@@ -193,7 +195,7 @@ export async function GET(
         let viceCaptainName = "Unknown";
         let liveGwPoints = 0;
         let playedStarters = 0;
-        let totalStartersCount = isBenchBoost ? 15 : 11;
+        const totalStartersCount = isBenchBoost ? 15 : 11;
 
         const starters: any[] = [];
         const bench: any[] = [];
@@ -262,7 +264,7 @@ export async function GET(
         const teamVal = entryHist.value ? entryHist.value / 10 : 100;
         const bankVal = entryHist.bank ? entryHist.bank / 10 : 0;
         const transfers = entryHist.event_transfers ?? 0;
-        const totalOverallPts = (mgr.total ?? 0);
+        const totalOverallPts = mgr.total ?? 0;
 
         enrichedManagers.push({
           id: mgr.entry,
