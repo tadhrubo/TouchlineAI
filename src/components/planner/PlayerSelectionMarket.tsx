@@ -108,7 +108,7 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
   const [selectedPosition, setSelectedPosition] = useState<string>(
     outPlayer?.position || "MID"
   );
-  const [maxCostInput, setMaxCostInput] = useState<string>("");
+  const [maxPrice, setMaxPrice] = useState<number | undefined>(undefined);
 
   useEffect(() => {
     setMounted(true);
@@ -177,11 +177,9 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
         return false;
       }
 
-      // Max cost filter
-      if (maxCostInput && !isNaN(Number(maxCostInput)) && Number(maxCostInput) > 0) {
-        if (p.price > Number(maxCostInput)) {
-          return false;
-        }
+      // Max price dropdown filter
+      if (maxPrice !== undefined && p.price > maxPrice) {
+        return false;
       }
 
       // Search query filter
@@ -258,7 +256,7 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
     outPlayer,
     selectedPosition,
     selectedTeam,
-    maxCostInput,
+    maxPrice,
     searchQuery,
     customStat,
   ]);
@@ -331,8 +329,8 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
         </div>
       </div>
 
-      {/* 2. Mobile-Responsive Advanced Filter Panel */}
-      <div className="flex-shrink-0 flex flex-col gap-2.5 p-3 bg-[#0E121A] border-b border-white/[0.08] shadow-sm">
+      {/* 2. Mobile-First 2x2 Filter Grid Container */}
+      <div className="flex-shrink-0 flex flex-col gap-2 p-3 bg-[#0E121A] border-b border-white/[0.08] shadow-sm">
         {/* Search Row - Full width on mobile */}
         <div className="w-full relative flex items-center">
           <Search className="w-4 h-4 text-neutral-400 absolute left-3 pointer-events-none" />
@@ -341,7 +339,7 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
             placeholder="Search by player or club..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-neutral-900 border border-white/[0.08] rounded-xl pl-9 pr-8 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-500/50"
+            className="w-full bg-black/50 border border-gray-700 rounded-lg pl-9 pr-8 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-500"
           />
           {searchQuery && (
             <button
@@ -353,55 +351,62 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
           )}
         </div>
 
-        {/* Filters Grid - 2 columns on mobile, row on desktop */}
-        <div className="grid grid-cols-2 md:flex md:flex-row gap-2 w-full font-mono text-xs">
+        {/* Filters Grid - 2x2 on mobile, single row on desktop */}
+        <div className="grid grid-cols-2 md:flex md:flex-row gap-2 w-full mt-1 font-mono text-xs">
+          {/* Sort Options */}
           <select
             value={customStat}
             onChange={(e) => setCustomStat(e.target.value as CustomStatOption)}
-            className="col-span-1 bg-neutral-900 border border-white/[0.08] rounded-lg px-2.5 py-2 text-[11px] text-neutral-200 focus:outline-none focus:border-emerald-500/50 truncate"
+            className="col-span-1 bg-black/50 border border-gray-700 rounded-lg px-2.5 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 appearance-none truncate"
           >
             {Object.entries(CUSTOM_STAT_LABELS).map(([key, label]) => (
-              <option key={key} value={key}>
+              <option key={key} value={key} className="bg-neutral-900 text-white">
                 {label}
               </option>
             ))}
           </select>
 
+          {/* Position Options */}
           <select
             value={selectedPosition}
             onChange={(e) => setSelectedPosition(e.target.value)}
-            className="col-span-1 bg-neutral-900 border border-white/[0.08] rounded-lg px-2.5 py-2 text-[11px] text-neutral-200 focus:outline-none focus:border-emerald-500/50 truncate"
+            className="col-span-1 bg-black/50 border border-gray-700 rounded-lg px-2.5 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 appearance-none truncate"
           >
-            <option value="ALL">All Positions</option>
-            <option value="GKP">Goalkeepers</option>
-            <option value="DEF">Defenders</option>
-            <option value="MID">Midfielders</option>
-            <option value="FWD">Forwards</option>
+            <option value="ALL" className="bg-neutral-900 text-white">All Positions</option>
+            <option value="GKP" className="bg-neutral-900 text-white">Goalkeepers</option>
+            <option value="DEF" className="bg-neutral-900 text-white">Defenders</option>
+            <option value="MID" className="bg-neutral-900 text-white">Midfielders</option>
+            <option value="FWD" className="bg-neutral-900 text-white">Forwards</option>
           </select>
 
+          {/* Team Options */}
           <select
             value={selectedTeam}
             onChange={(e) => setSelectedTeam(e.target.value)}
-            className="col-span-1 bg-neutral-900 border border-white/[0.08] rounded-lg px-2.5 py-2 text-[11px] text-neutral-200 focus:outline-none focus:border-emerald-500/50 truncate"
+            className="col-span-1 bg-black/50 border border-gray-700 rounded-lg px-2.5 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 appearance-none truncate"
           >
             {TEAMS_LIST.map((t) => (
-              <option key={t.short} value={t.short}>
+              <option key={t.short} value={t.short} className="bg-neutral-900 text-white">
                 {t.name}
               </option>
             ))}
           </select>
 
-          <div className="col-span-1 flex items-center bg-neutral-900 border border-white/[0.08] rounded-lg px-2 text-[11px] text-neutral-200 overflow-hidden">
-            <span className="text-neutral-400 mr-1.5 whitespace-nowrap text-[10px]">Max £M:</span>
-            <input
-              type="number"
-              step="0.1"
-              placeholder="No limit"
-              value={maxCostInput}
-              onChange={(e) => setMaxCostInput(e.target.value)}
-              className="w-full bg-transparent text-neutral-100 focus:outline-none py-2 text-[11px] font-mono"
-            />
-          </div>
+          {/* Max Price Dropdown */}
+          <select
+            value={maxPrice !== undefined ? String(maxPrice) : ""}
+            onChange={(e) =>
+              setMaxPrice(e.target.value ? Number(e.target.value) : undefined)
+            }
+            className="col-span-1 bg-black/50 border border-gray-700 rounded-lg px-2.5 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 appearance-none truncate"
+          >
+            <option value="" className="bg-neutral-900 text-white">Max £M: No limit</option>
+            {Array.from({ length: 23 }, (_, i) => (15.0 - i * 0.5).toFixed(1)).map((price) => (
+              <option key={price} value={price} className="bg-neutral-900 text-white">
+                Max: £{price}m
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 
@@ -421,7 +426,7 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
           <div className="p-8 text-center text-xs font-mono text-neutral-400 bg-neutral-900/30 rounded-xl border border-white/[0.04] space-y-1">
             <p>No players matched your filter criteria.</p>
             <p className="text-[11px] text-neutral-500">
-              Try resetting the Max Cost or adjusting the Search query.
+              Try selecting "No limit" or adjusting your search query.
             </p>
           </div>
         ) : (
@@ -440,8 +445,8 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
                 onClick={() => onSelect(player)}
                 className="w-full p-2.5 rounded-xl border text-left flex items-center justify-between transition-all duration-150 bg-[#0E121A] border-white/[0.06] hover:border-emerald-500/40 hover:bg-neutral-900 active:scale-[0.99]"
               >
-                {/* Left: Shirt & Name & Fixture */}
-                <div className="flex items-center gap-2.5 min-w-0 flex-1 pr-2">
+                {/* Left: Shirt & Name Info */}
+                <div className="flex items-center min-w-0 flex-1 pr-2">
                   {/* Shirt Icon */}
                   <div className="relative w-9 h-9 flex items-center justify-center bg-neutral-950 rounded-lg border border-white/[0.06] p-0.5 flex-shrink-0">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -458,20 +463,12 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
                     </span>
                   </div>
 
-                  {/* Player & Team Info */}
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-xs font-semibold text-neutral-100 truncate">
-                        {player.webName}
-                      </span>
-                      <span className="text-[10px] font-mono text-neutral-400 flex-shrink-0">
-                        {player.teamShort}
-                      </span>
-                    </div>
-
-                    {/* Next Match Badge */}
-                    <div className="flex items-center gap-1.5 mt-0.5 text-[10px] font-mono">
-                      {nextFix ? (
+                  {/* Player Name & Team Container */}
+                  <div className="flex-1 min-w-0 ml-3">
+                    <div className="text-sm font-bold text-white truncate">{player.webName}</div>
+                    <div className="text-[10px] text-gray-400 uppercase font-mono mt-0.5 flex items-center gap-1.5">
+                      <span>{player.teamShort} · {player.position}</span>
+                      {nextFix && (
                         <span
                           className={`px-1.5 py-0.2 rounded text-[9px] font-bold ${getFdrBadgeColor(
                             nextFix.difficulty
@@ -479,12 +476,7 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
                         >
                           {nextFix.opponent} ({nextFix.isHome ? "H" : "A"})
                         </span>
-                      ) : (
-                        <span className="text-neutral-500">TBD</span>
                       )}
-                      <span className="text-neutral-500">
-                        xP: <strong className="text-neutral-300">{player.projectedPoints}</strong>
-                      </span>
                     </div>
                   </div>
                 </div>
@@ -501,7 +493,7 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
                     </span>
                   </div>
 
-                  {/* Buy / Swap Action Button with Comfortable Mobile Touch Target */}
+                  {/* Buy / Swap Action Button with Generous Mobile Touch Target */}
                   <div className="min-w-[32px] h-8 px-2 rounded-lg flex items-center justify-center border bg-emerald-500/15 border-emerald-500/35 text-emerald-400 hover:bg-emerald-500/25 transition">
                     <Check className="w-4 h-4" />
                   </div>
