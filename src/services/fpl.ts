@@ -303,6 +303,8 @@ export async function fetchManagerSquad(
         { opponent: "PL", isHome: !isHome, difficulty: 3, gameweek: targetEvent + 1 },
       ],
       photoUrl: `https://resources.premierleague.com/premierleague/photos/players/110x140/p${pick.element}.png`,
+      top10kEo: dbP?.top_10k_eo != null ? Number(dbP.top_10k_eo) : undefined,
+      top_10k_eo: dbP?.top_10k_eo != null ? Number(dbP.top_10k_eo) : undefined,
     };
 
     if (isBench) {

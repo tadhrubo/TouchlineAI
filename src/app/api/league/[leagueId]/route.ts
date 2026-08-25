@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import { NextRequest, NextResponse } from "next/server";
+import { supabase } from "@/lib/supabase";
 
 const fplHeaders = {
   "User-Agent":
@@ -99,7 +100,21 @@ export async function GET(
       elementsMap.set(el.id, el);
     }
 
-    // 3. Fetch Live Gameweek Match Telemetry
+    // 3. Fetch Live Gameweek Match Telemetry & Supabase Top 10k EO
+    const dbEoMap = new Map<number, number>();
+    try {
+      const { data: dbPlayers } = await supabase.from("players").select("id, top_10k_eo");
+      if (dbPlayers) {
+        for (const p of dbPlayers) {
+          if (p.top_10k_eo != null) {
+            dbEoMap.set(Number(p.id), Number(p.top_10k_eo));
+          }
+        }
+      }
+    } catch (e) {
+      console.warn("Could not load top_10k_eo from database:", e);
+    }
+
     let liveElementsMap = new Map<number, any>();
     try {
       const liveRes = await fetch(
@@ -221,6 +236,9 @@ export async function GET(
             viceCaptainName = el ? el.web_name : "Vice-Captain";
           }
 
+          const selectedByPercent = el ? Number(el.selected_by_percent || "0") : 0;
+          const top10kEo = dbEoMap.get(pick.element) ?? (selectedByPercent > 0 ? selectedByPercent * 1.5 : undefined);
+
           const playerCard = {
             id: pick.element,
             pickPosition: pick.position,
@@ -231,6 +249,9 @@ export async function GET(
             position: pos,
             elementType: el ? el.element_type : 3,
             nowCost: el ? el.now_cost / 10 : 5.0,
+            selectedByPercent,
+            top10kEo,
+            top_10k_eo: top10kEo,
             multiplier: mult,
             isCaptain: pick.is_captain,
             isViceCaptain: pick.is_vice_captain,

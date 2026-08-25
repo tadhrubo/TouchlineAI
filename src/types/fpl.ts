@@ -40,6 +40,8 @@ export interface Player {
   currentFixture: FixtureInfo;
   upcomingFixtures: FixtureInfo[];
   photoUrl: string;
+  top10kEo?: number;
+  top_10k_eo?: number;
 }
 
 export interface TeamStats {

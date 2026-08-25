@@ -13,6 +13,7 @@ import {
   calculateXEO,
   calculateTemplateOverlap,
 } from "@/utils/eo";
+import { getPerformanceBadge } from "@/utils/fplBadges";
 import {
   ChevronLeft,
   ChevronRight,
@@ -715,6 +716,14 @@ const PlannerPlayerCard: React.FC<PlannerPlayerCardProps> = ({
   const eoResult = calculateXEO(player, sampleTier, userRank);
   const fixtureText = `${player.currentFixture?.opponent || "PL"} (${player.currentFixture?.isHome ? "H" : "A"})`;
 
+  const perfBadge = getPerformanceBadge(
+    player.gameweekPoints ?? player.totalPoints ?? 0,
+    player.minutesExpected ?? 90,
+    player.selectedByPercent ?? 0,
+    player.top10kEo ?? player.top_10k_eo,
+    isCaptain
+  );
+
   return (
     <div
       onClick={onCardClick}
@@ -780,10 +789,20 @@ const PlannerPlayerCard: React.FC<PlannerPlayerCardProps> = ({
 
       {/* Player Info Badge */}
       <div className="w-full flex flex-col items-center mt-0.5 bg-neutral-950/85 border border-white/[0.08] rounded-md px-1 py-0.5 text-center backdrop-blur-sm shadow-md">
-        {/* Web Name */}
-        <p className="text-[11px] font-medium text-neutral-200 truncate leading-tight w-full">
-          {player.webName}
-        </p>
+        {/* Web Name & Performance Badge */}
+        <div className="flex items-center justify-center gap-1 w-full px-0.5">
+          <p className="text-[11px] font-medium text-neutral-200 truncate leading-tight">
+            {player.webName}
+          </p>
+          {perfBadge && (
+            <span
+              title={perfBadge.description}
+              className="text-[9px] leading-none flex-shrink-0"
+            >
+              {perfBadge.emoji}
+            </span>
+          )}
+        </div>
 
         {/* Fixture & Price */}
         <div className="flex items-center justify-center gap-1 text-[9px] font-mono text-neutral-400 mt-0.5 leading-none">

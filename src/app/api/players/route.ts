@@ -100,6 +100,8 @@ export async function GET(request: Request) {
         },
         upcomingFixtures: [],
         photoUrl: `https://resources.premierleague.com/premierleague/photos/players/110x140/p${p.id}.png`,
+        top10kEo: p.top_10k_eo != null ? Number(p.top_10k_eo) : undefined,
+        top_10k_eo: p.top_10k_eo != null ? Number(p.top_10k_eo) : undefined,
       };
     });
 

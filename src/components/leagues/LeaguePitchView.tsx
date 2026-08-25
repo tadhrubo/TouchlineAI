@@ -2,6 +2,7 @@
 
 import React, { useMemo } from "react";
 import Image from "next/image";
+import { getPerformanceBadge } from "@/utils/fplBadges";
 
 interface LeaguePlayer {
   id: number;
@@ -26,6 +27,8 @@ interface LeaguePlayer {
   cleanSheet: number;
   kitUrl: string;
   played: boolean;
+  selectedByPercent?: number;
+  top10kEo?: number;
   isSubbedIn?: boolean;
   isSubbedOut?: boolean;
 }
@@ -58,6 +61,14 @@ const PlayerCompactCard: React.FC<{
   const hasPlayed = player.played || player.minutes > 0;
   const isBenchDimmed = isBench && !player.isSubbedIn;
 
+  const badge = getPerformanceBadge(
+    player.rawPoints ?? player.livePoints ?? 0,
+    player.minutes ?? 0,
+    player.selectedByPercent ?? 0,
+    player.top10kEo,
+    player.isCaptain
+  );
+
   return (
     <div
       className={`flex flex-col w-[18%] min-w-[55px] max-w-[65px] items-center transition-all ${
@@ -89,6 +100,16 @@ const PlayerCompactCard: React.FC<{
         {player.isSubbedOut && (
           <span className="absolute -top-1.5 -left-1.5 z-20 bg-rose-600 text-white text-[8px] font-extrabold px-1 rounded shadow border border-rose-500 leading-tight">
             ▼ OUT
+          </span>
+        )}
+
+        {/* Performance Badge (Template, Spy, Differential Hero, etc.) */}
+        {badge && (
+          <span
+            title={badge.description}
+            className={`absolute -bottom-1.5 -left-1.5 z-20 text-[9px] px-1 py-0.2 rounded border shadow-sm backdrop-blur-sm ${badge.colorClass}`}
+          >
+            {badge.emoji}
           </span>
         )}
 
@@ -282,6 +303,14 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
       ? "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_0_1-66.webp"
       : "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_0-66.webp";
 
+    const badge = getPerformanceBadge(
+      player.rawPoints ?? player.livePoints ?? 0,
+      player.minutes ?? 0,
+      player.selectedByPercent ?? 0,
+      player.top10kEo,
+      player.isCaptain
+    );
+
     return (
       <div
         key={`${player.id}-${player.pickPosition}`}
@@ -297,6 +326,16 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
           <span className="absolute -top-1.5 -left-1.5 z-30 bg-rose-600 text-white text-[8px] font-extrabold px-1 rounded shadow border border-rose-500 leading-tight">
             ▼ OUT
           </span>
+        )}
+
+        {/* Performance Badge (Template, Spy, Differential Hero, etc.) */}
+        {badge && (
+          <div
+            title={badge.description}
+            className={`absolute -top-1.5 -left-1.5 z-20 flex items-center justify-center text-[10px] px-1 py-0.2 rounded border shadow-sm backdrop-blur-sm ${badge.colorClass}`}
+          >
+            {badge.emoji}
+          </div>
         )}
 
         {/* Captaincy / Vice Captaincy / Chip Badge */}

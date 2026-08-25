@@ -4,6 +4,7 @@ import React from "react";
 import { Player } from "@/types/fpl";
 import { JerseyIcon } from "./JerseyIcon";
 import { SampleTier, calculateXEO } from "@/utils/eo";
+import { getPerformanceBadge } from "@/utils/fplBadges";
 
 interface PlayerCardProps {
   player: Player;
@@ -36,6 +37,14 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
     ? calculateXEO(player, sampleTier, userRank)
     : null;
 
+  const perfBadge = getPerformanceBadge(
+    player.gameweekPoints ?? 0,
+    player.minutesExpected ?? 90,
+    player.selectedByPercent ?? 0,
+    player.top10kEo ?? player.top_10k_eo,
+    isCap
+  );
+
   return (
     <div
       onClick={() => onClick?.(player)}
@@ -58,14 +67,23 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
         </div>
       )}
 
-      {/* Bench Priority Tag */}
-      {isBench && benchLabel && (
+      {/* Bench Priority Tag or Performance Badge */}
+      {isBench && benchLabel ? (
         <div className="absolute -top-1 -right-0.5 z-20">
           <span className="px-1 py-0.2 text-[9px] font-mono font-medium rounded bg-neutral-900 text-neutral-400 border border-white/[0.08]">
             {benchLabel}
           </span>
         </div>
-      )}
+      ) : perfBadge ? (
+        <div className="absolute -top-1 -right-0.5 z-20">
+          <span
+            title={perfBadge.description}
+            className={`px-1 py-0.2 text-[9px] font-mono rounded border shadow-sm backdrop-blur-sm ${perfBadge.colorClass}`}
+          >
+            {perfBadge.emoji}
+          </span>
+        </div>
+      ) : null}
 
       {/* Injury / Status Alert Flag */}
       {player.status !== "available" && (
