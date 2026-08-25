@@ -171,7 +171,7 @@ function generateDynamicInsights(
     };
   } else {
     const candidateWarning =
-      starters.find((p) => p.currentFixture.difficulty >= 4) || starters[1];
+      starters.find((p) => p.currentFixture.difficulty >= 4) || starters[1] || starters[0];
     secondInsight = {
       id: `ins-warn-${Date.now()}`,
       type: "rotation",
@@ -221,17 +221,24 @@ export async function POST(request: NextRequest) {
       stats.freeTransfers
     );
 
-    const userPromptText =
-      message ||
-      (actionType === "CAPTAINCY_CHECK"
-        ? "Who should I captain for the upcoming gameweek?"
-        : actionType === "OPTIMIZE_XI"
-        ? "Optimize my starting XI and bench order for maximum points."
-        : actionType === "TRANSFER_TARGETS"
-        ? "What are the best transfer recommendations given my squad and budget?"
-        : actionType === "CHECK_INJURIES"
-        ? "Check any injury flags, press conference updates, or rotation risks in my squad."
-        : "Analyze my squad and give me tactical recommendations.");
+    // Differentiate custom free-text query from rigid actionType
+    const isFreeTextQuery = typeof message === "string" && message.trim().length > 0;
+    const cleanMessage = isFreeTextQuery ? message.trim() : "";
+
+    let userPromptText = "";
+    if (isFreeTextQuery) {
+      userPromptText = cleanMessage;
+    } else if (actionType === "CAPTAINCY_CHECK") {
+      userPromptText = `Who should I captain for Gameweek ${stats.nextGameweek} in ${stats.teamName}, and what is the tactical justification?`;
+    } else if (actionType === "OPTIMIZE_XI") {
+      userPromptText = `Optimize my starting XI formation and bench order for maximum expected points in Gameweek ${stats.nextGameweek}.`;
+    } else if (actionType === "TRANSFER_TARGETS") {
+      userPromptText = `What is my best transfer move for Gameweek ${stats.nextGameweek} given my £${stats.inTheBank.toFixed(1)}m in the bank and ${stats.freeTransfers} Free Transfer(s)?`;
+    } else if (actionType === "CHECK_INJURIES") {
+      userPromptText = `Check injury flags, rotation risks, and press conference updates across my squad for Gameweek ${stats.nextGameweek}.`;
+    } else {
+      userPromptText = `Analyze my current squad for Gameweek ${stats.nextGameweek} and highlight key tactical priorities.`;
+    }
 
     // Vector Similarity Search for Press Conference & Injury News
     const newsQuery =
@@ -240,10 +247,8 @@ export async function POST(request: NextRequest) {
         : userPromptText;
     const relevantNews = await fetchRelevantNews(newsQuery, genAI);
 
-    // Filter starting outfielders and sort by ML projected points
+    // Outfield starters sorted by projected points
     const starters = players.filter((p) => !p.isBench);
-    const bench = players.filter((p) => p.isBench);
-
     const outfieldStarters = starters
       .filter((p) => p.position !== "GKP")
       .sort((a, b) => b.projectedPoints - a.projectedPoints);
@@ -255,17 +260,20 @@ export async function POST(request: NextRequest) {
       players.find((p) => p.id === squadData.captainId || p.isCaptain) ||
       optimalXI.captain;
 
-    const viceCaptainPlayer =
-      players.find(
-        (p) => p.id === squadData.viceCaptainId || p.isViceCaptain
-      ) || optimalXI.viceCaptain;
+    const lowerQuery = userPromptText.toLowerCase();
 
-    // Generate comparison card and top 3 insights
-    const comparisonCard = generateComparisonCard(
-      topPlayerA,
-      topPlayerB,
-      stats.nextGameweek
-    );
+    // Determine whether to include captaincy comparison card
+    const isCaptaincyExplicitQuery =
+      actionType === "CAPTAINCY_CHECK" ||
+      lowerQuery.includes("who should i captain") ||
+      lowerQuery.includes("armband") ||
+      (lowerQuery.includes("captain") && (lowerQuery.includes(" or ") || lowerQuery.includes(" vs "))) ||
+      lowerQuery.includes("compare");
+
+    const comparisonCard = isCaptaincyExplicitQuery
+      ? generateComparisonCard(topPlayerA, topPlayerB, stats.nextGameweek)
+      : null;
+
     const dynamicInsights = generateDynamicInsights(
       players,
       captainPlayer,
@@ -273,16 +281,6 @@ export async function POST(request: NextRequest) {
       bestTransferMove,
       relevantNews
     );
-
-    const lowerMsg = (message || actionType).toLowerCase();
-
-    // Determine if captaincy comparison card should be displayed
-    const includeComparison =
-      lowerMsg.includes("captain") ||
-      actionType === "CAPTAINCY_CHECK" ||
-      lowerMsg.includes("who should i captain") ||
-      lowerMsg.includes(topPlayerA.webName.toLowerCase()) ||
-      lowerMsg.includes(topPlayerB.webName.toLowerCase());
 
     const quickActions = [
       { label: "Captaincy Advice", action: "CAPTAINCY_CHECK" },
@@ -305,7 +303,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Format Vector News context
-    let newsContextText = "No breaking press conference alerts matched this query.";
+    let newsContextText = "No specific press conference alerts matched this query.";
     if (relevantNews && relevantNews.length > 0) {
       newsContextText = relevantNews
         .map(
@@ -315,51 +313,49 @@ export async function POST(request: NextRequest) {
         .join("\n");
     }
 
-    // Construct RAG System Prompt feeding real FPL context + ILP optimizer results + Vector News to Gemini
-    const systemInstruction = `You are "Touchline AI", an elite Fantasy Premier League (FPL) tactical assistant and data scientist.
-You provide sharp, concise, engaging, and mathematically exact FPL recommendations based strictly on the user's real team data, LightGBM machine learning predictions, Integer Linear Programming (ILP) optimization, and real-time press conference reports.
+    // Overhauled System Prompt enforcing conversational focus & anti-defaulting
+    const systemInstruction = `You are "Touchline AI", an expert Fantasy Premier League (FPL) tactical assistant and data scientist.
+Your primary goal is to directly and conversationally answer the user's specific questions. If the user asks about a specific player's viability (e.g., rotation risk, clean sheet odds, transfer targets, form, tactical role), analyze the provided squad data, xP projections, FDR, and news RAG context to give a sharp, tactical answer. Do NOT default to listing their optimal starting XI unless specifically requested.
 
 === LIVE MANAGER & SQUAD CONTEXT ===
 - Manager: ${stats.managerName} | Team: "${stats.teamName}" (FPL ID: #${entryId})
-- Gameweek: Current GW${stats.currentGameweek} • Upcoming Target GW${stats.nextGameweek}
+- Gameweek: Current GW${stats.currentGameweek} • Target Upcoming GW${stats.nextGameweek}
 - Overall Rank: #${stats.overallRank.toLocaleString()} (Top ${stats.overallRankPercentile}%) • Points: ${stats.overallPoints} pts
 - In The Bank (ITB): £${stats.inTheBank.toFixed(1)}m | Free Transfers: ${stats.freeTransfers} FT | Team Value: £${stats.teamValue.toFixed(1)}m
 - Current Squad (${players.length} players):
 ${players
   .map(
     (p) =>
-      `  • ${p.webName} (${p.teamShort}, ${p.position}) - Price: £${p.price.toFixed(1)}m, ML xP: ${p.projectedPoints} pts, Start%: ${p.startProbability}%, Status: ${p.status || "available"}${p.news ? ` [Medical: ${p.news}]` : ""}`
+      `  • ${p.webName} (${p.teamShort}, ${p.position}) - Price: £${p.price.toFixed(1)}m, ML xP: ${p.projectedPoints} pts, Form: ${p.form}, Fixture: ${p.currentFixture.opponent} (${p.currentFixture.isHome ? "H" : "A"}, FDR ${p.currentFixture.difficulty}), Start%: ${p.startProbability}%, Status: ${p.status || "available"}${p.news ? ` [Medical: ${p.news}]` : ""}`
   )
   .join("\n")}
 
-=== MATHEMATICAL ILP OPTIMIZATION ENGINE RESULTS ===
-1. Optimal Starting XI Formation: ${optimalXI.formation}
-   - Total Starting Projected xP: ${optimalXI.totalStartingXP} pts
-   - Recommended Captain (C): ${optimalXI.captain.webName} (${optimalXI.captain.teamShort}) - ${optimalXI.captain.projectedPoints} xP
-   - Recommended Vice-Captain (VC): ${optimalXI.viceCaptain.webName} (${optimalXI.viceCaptain.teamShort}) - ${optimalXI.viceCaptain.projectedPoints} xP
-   - Starters: ${optimalXI.starters.map((p) => `${p.webName} (${p.projectedPoints} xP)`).join(", ")}
-   - Auto-Sub Bench Order: ${optimalXI.bench.map((p, idx) => `[B${idx + 1}] ${p.webName} (${p.projectedPoints} xP)`).join(", ")}
+=== MATHEMATICAL ILP OPTIMIZATION REFERENCE ===
+- Optimal Starting Formation: ${optimalXI.formation} (Projected: ${optimalXI.totalStartingXP} xP)
+- Top Captain Pick: ${optimalXI.captain.webName} (${optimalXI.captain.teamShort}) - ${optimalXI.captain.projectedPoints} xP
+- Top Vice-Captain Pick: ${optimalXI.viceCaptain.webName} (${optimalXI.viceCaptain.teamShort}) - ${optimalXI.viceCaptain.projectedPoints} xP
+- Optimal 1-Transfer Move: ${transferContextText}
 
-2. Optimal 1-Transfer Move:
-${transferContextText}
-
-=== REAL-TIME PRESS CONFERENCES & INJURY NEWS (VECTOR RETRIEVAL) ===
+=== REAL-TIME PRESS CONFERENCES & MEDICAL INTEL ===
 ${newsContextText}
 
-=== GUIDELINES FOR YOUR RESPONSE ===
-1. Tone: Insightful, authoritative, data-driven yet conversational.
-2. Formatting: Use clean Markdown formatting with clear section headers (###), bold text for player names, and bullet points.
-3. Accuracy: When asked about starting XI, captaincy, or transfers, always quote the exact ILP solver recommendation (formation, net xP gains, and specific player names).
-4. Real-time News: If discussing injuries or fitness, quote the specific manager statements from the press conference context above.
-5. Length: Keep your response mobile-friendly, crisp, and concise (2-4 structured paragraphs or bullet blocks).`;
+=== STRICT GUIDELINES FOR YOUR RESPONSE ===
+1. Direct Focus: Always answer the user's exact question or topic first. If they ask about a specific player (e.g., Szoboszlai, Palmer, Saka, Diaz), analyze that specific player's expected minutes, fixture difficulty, attacking/defensive threat, price bracket competition, and rotation risk directly.
+2. Anti-Defaulting Rule: NEVER default to dumping the starting XI or full team layout unless the user explicitly asks for their starting XI or team optimization.
+3. Tone: Authoritative, tactical, concise, and engaging FPL punditry with exact data points (FDR, xP, price, form).
+4. Formatting: Use clean Markdown with bolding on player names, clear headers (###), and bullet points where helpful. Keep it mobile-friendly (2-4 concise paragraphs/sections).`;
 
     let responseText = "";
 
-    // Call Google Gemini API with supported models with 5s timeout race
+    // Call Google Gemini API with fallback across active fast models (12s timeout)
     if (genAI) {
       const candidateModels = [
-        "gemini-flash-latest",
+        "gemini-3.5-flash",
+        "gemini-3.1-flash-lite",
         "gemini-3.6-flash",
+        "gemini-3-flash-preview",
+        "gemini-3.7-flash",
+        "gemini-flash-latest",
       ];
 
       for (const modelName of candidateModels) {
@@ -371,7 +367,7 @@ ${newsContextText}
 
           const geminiPromise = model.generateContent(userPromptText);
           const timeoutPromise = new Promise<null>((resolve) =>
-            setTimeout(() => resolve(null), 5000)
+            setTimeout(() => resolve(null), 12000)
           );
 
           const result: any = await Promise.race([geminiPromise, timeoutPromise]);
@@ -384,17 +380,18 @@ ${newsContextText}
           }
         } catch (geminiError: any) {
           console.warn(`Model ${modelName} attempt error:`, geminiError.message || geminiError);
+          continue;
         }
       }
     }
 
-    // Fallback heuristic response if Gemini API is unreachable or times out
+    // Dynamic Context-Aware Fallback (only used if Gemini API is unreachable or rate limited)
     if (!responseText) {
-      if (includeComparison) {
-        responseText = `Here is your dynamic **Gameweek ${stats.nextGameweek} Captaincy Breakdown** for **${stats.teamName}**:\n\nComparing your two highest ceiling assets: **${topPlayerA.fullName} (${topPlayerA.teamShort})** vs **${topPlayerB.fullName} (${topPlayerB.teamShort})**.\n\nOur LightGBM model rates **${topPlayerA.webName}** as the optimal armband pick with **${topPlayerA.projectedPoints} xP** (${topPlayerA.startProbability}% start probability).`;
-      } else if (lowerMsg.includes("optimize") || actionType === "OPTIMIZE_XI") {
+      if (actionType === "OPTIMIZE_XI" || (!isFreeTextQuery && lowerQuery.includes("optimize"))) {
         responseText = `### ⚡ Mathematically Optimal Starting XI (GW${stats.nextGameweek})\n\n- **Formation**: **${optimalXI.formation}** (Total Projected: **${optimalXI.totalStartingXP} pts**)\n- **Captain**: **${optimalXI.captain.webName} (C)** (${optimalXI.captain.projectedPoints} xP)\n- **Vice-Captain**: **${optimalXI.viceCaptain.webName} (VC)** (${optimalXI.viceCaptain.projectedPoints} xP)\n- **Starting XI**: ${optimalXI.starters.map((p) => p.webName).join(", ")}\n- **Bench Priority**: ${optimalXI.bench.map((p, idx) => `B${idx + 1}: ${p.webName}`).join(" · ")}`;
-      } else if (lowerMsg.includes("transfer") || actionType === "TRANSFER_TARGETS") {
+      } else if (actionType === "CAPTAINCY_CHECK" || (!isFreeTextQuery && lowerQuery.includes("captain"))) {
+        responseText = `### 👑 Gameweek ${stats.nextGameweek} Captaincy Recommendation\n\nOur LightGBM model projects **${topPlayerA.webName}** (${topPlayerA.teamShort}) as your premier armband pick with **${topPlayerA.projectedPoints} xP** (${topPlayerA.startProbability}% start probability) vs **${topPlayerA.currentFixture.opponent}** (${topPlayerA.currentFixture.isHome ? "H" : "A"}).\n\n**Vice-Captain Option**: **${topPlayerB.webName}** (${topPlayerB.teamShort}) with **${topPlayerB.projectedPoints} xP**.`;
+      } else if (actionType === "TRANSFER_TARGETS" || (!isFreeTextQuery && lowerQuery.includes("transfer"))) {
         if (bestTransferMove && bestTransferMove.transfersIn.length > 0) {
           const pIn = bestTransferMove.transfersIn[0].player;
           const pOut = bestTransferMove.transfersOut[0];
@@ -402,21 +399,42 @@ ${newsContextText}
         } else {
           responseText = `Your current 15-player squad is mathematically optimal for Gameweek ${stats.nextGameweek}. We recommend rolling your Free Transfer to carry 2 FTs into next gameweek.`;
         }
-      } else if (lowerMsg.includes("injury") || actionType === "CHECK_INJURIES") {
+      } else if (actionType === "CHECK_INJURIES" || (!isFreeTextQuery && lowerQuery.includes("injury"))) {
         if (relevantNews && relevantNews.length > 0) {
           responseText = `### 🚑 Real-Time Medical & Press Conference Briefing\n\n` +
-            relevantNews.map(n => `- **${n.source}**: ${n.news_text}`).join("\n\n");
+            relevantNews.map((n) => `- **${n.source}**: ${n.news_text}`).join("\n\n");
         } else {
-          responseText = `No critical injury flags detected across your active squad. All starting XI outfielders are rated available.`;
+          responseText = `No critical injury flags detected across your active squad. All starting XI outfielders are rated available for Gameweek ${stats.nextGameweek}.`;
         }
       } else {
-        responseText = `Based on your squad in **${stats.teamName}** (Formation: **${optimalXI.formation}**, Bank: **£${stats.inTheBank.toFixed(1)}m**):\n\nYour optimal starting projection is **${optimalXI.totalStartingXP} pts** with **${optimalXI.captain.webName} (C)**. How else can I assist with your FPL planning?`;
+        // Conversational query fallback addressing player or general topic
+        const matchedSquadPlayer = players.find(
+          (p) =>
+            lowerQuery.includes(p.webName.toLowerCase()) ||
+            lowerQuery.includes(p.fullName.toLowerCase())
+        );
+
+        if (matchedSquadPlayer) {
+          const fixture = matchedSquadPlayer.currentFixture;
+          responseText = `### Tactical Report: **${matchedSquadPlayer.webName}** (${matchedSquadPlayer.teamShort})\n\n` +
+            `• **Upcoming Matchup**: vs **${fixture.opponent}** (${fixture.isHome ? "Home" : "Away"}) — Fixture Difficulty: **FDR ${fixture.difficulty}**\n` +
+            `• **Projections**: **${matchedSquadPlayer.projectedPoints} xP** with a **${matchedSquadPlayer.startProbability}%** probability of starting\n` +
+            `• **Season Form**: **${matchedSquadPlayer.form}** (${matchedSquadPlayer.totalPoints} total points, price £${matchedSquadPlayer.price.toFixed(1)}m)\n` +
+            (matchedSquadPlayer.news ? `• **Medical Intel**: ${matchedSquadPlayer.news}\n\n` : "\n") +
+            (fixture.difficulty <= 2
+              ? `**Tactical Verdict**: Highly favorable fixture. Excellent candidate for your starting XI with strong attacking/defensive potential.`
+              : fixture.difficulty >= 4
+              ? `**Tactical Verdict**: Facing stern defensive opposition. Moderate ceiling for Gameweek ${stats.nextGameweek}; consider benching if you have strong depth.`
+              : `**Tactical Verdict**: Balanced fixture. Expected to maintain a solid baseline return for Gameweek ${stats.nextGameweek}.`);
+        } else {
+          responseText = `Regarding **"${cleanMessage}"** for Gameweek ${stats.nextGameweek}:\n\nWith **£${stats.inTheBank.toFixed(1)}m ITB** and **${stats.freeTransfers} Free Transfer(s)** in **${stats.teamName}**, our model recommends assessing upcoming FDR swings before locking in changes. Would you like a breakdown of specific transfer targets, captaincy picks, or rotation risks?`;
+        }
       }
     }
 
     return NextResponse.json({
       text: responseText,
-      comparisonCard: includeComparison ? comparisonCard : null,
+      comparisonCard,
       insights: dynamicInsights,
       quickActions,
       stats,
