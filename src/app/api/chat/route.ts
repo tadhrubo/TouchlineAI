@@ -12,6 +12,215 @@ import {
   ComparisonPlayer,
 } from "@/types/fpl";
 
+const PREMIER_LEAGUE_TEAMS: Array<{ id: number; name: string; shortName: string; aliases: string[] }> = [
+  { id: 1, name: "Arsenal", shortName: "ARS", aliases: ["arsenal", "gunners"] },
+  { id: 2, name: "Aston Villa", shortName: "AVL", aliases: ["aston villa", "villa"] },
+  { id: 3, name: "Bournemouth", shortName: "BOU", aliases: ["bournemouth", "cherries"] },
+  { id: 4, name: "Brentford", shortName: "BRE", aliases: ["brentford", "bees"] },
+  { id: 5, name: "Brighton", shortName: "BHA", aliases: ["brighton", "seagulls"] },
+  { id: 6, name: "Chelsea", shortName: "CHE", aliases: ["chelsea", "blues"] },
+  { id: 7, name: "Crystal Palace", shortName: "CRY", aliases: ["crystal palace", "palace", "eagles"] },
+  { id: 8, name: "Everton", shortName: "EVE", aliases: ["everton", "toffees"] },
+  { id: 9, name: "Fulham", shortName: "FUL", aliases: ["fulham", "cottagers"] },
+  { id: 10, name: "Ipswich", shortName: "IPS", aliases: ["ipswich", "tractor boys"] },
+  { id: 11, name: "Leicester", shortName: "LEI", aliases: ["leicester", "foxes"] },
+  { id: 12, name: "Liverpool", shortName: "LIV", aliases: ["liverpool", "reds"] },
+  { id: 13, name: "Man City", shortName: "MCI", aliases: ["man city", "manchester city", "city", "citizens"] },
+  { id: 14, name: "Man Utd", shortName: "MUN", aliases: ["man utd", "man united", "manchester united", "united", "red devils"] },
+  { id: 15, name: "Newcastle", shortName: "NEW", aliases: ["newcastle", "magpies", "toon"] },
+  { id: 16, name: "Nott'm Forest", shortName: "NFO", aliases: ["nottingham forest", "forest", "trees"] },
+  { id: 17, name: "Southampton", shortName: "SOU", aliases: ["southampton", "saints"] },
+  { id: 18, name: "Spurs", shortName: "TOT", aliases: ["tottenham", "spurs"] },
+  { id: 19, name: "West Ham", shortName: "WHU", aliases: ["west ham", "hammers", "irons"] },
+  { id: 20, name: "Wolves", shortName: "WOL", aliases: ["wolves", "wolverhampton"] },
+];
+
+interface ExtractedIntent {
+  isFactQuery: boolean;
+  isNewsQuery: boolean;
+  mentionedPlayerIds: number[];
+  mentionedTeamIds: number[];
+}
+
+async function extractEntitiesAndIntent(
+  query: string,
+  squadPlayers: Player[]
+): Promise<ExtractedIntent> {
+  const isFactQuery = Boolean(
+    query.match(
+      /\b(score|scores|scored|scoring|goals?|assists?|clean\s*sheets?|points?|did\s+he\s+play|result|results|started|minutes|stats|bonus|bps|yellow\s*cards?|red\s*cards?|saves?|how\s+many|bench\s*points)\b/i
+    )
+  );
+
+  const isNewsQuery = Boolean(
+    query.match(
+      /\b(press\s*conference|rumou?rs?|news|quotes?|injury\s*update|injur(ed|y)|fitness|fit|training|doubtful|suspension|ruled\s*out|presser)\b/i
+    )
+  );
+
+  const lower = query.toLowerCase();
+  const matchedTeamIds = new Set<number>();
+  for (const t of PREMIER_LEAGUE_TEAMS) {
+    if (
+      lower.includes(t.name.toLowerCase()) ||
+      lower.includes(t.shortName.toLowerCase()) ||
+      t.aliases.some((a) => lower.includes(a))
+    ) {
+      matchedTeamIds.add(t.id);
+    }
+  }
+
+  const matchedPlayerIds = new Set<number>();
+
+  // 1. Check user's squad players
+  for (const p of squadPlayers) {
+    const wName = p.webName.toLowerCase();
+    const fName = p.fullName.toLowerCase();
+    if (
+      (wName.length >= 3 && lower.includes(wName)) ||
+      (fName.length >= 4 && lower.includes(fName))
+    ) {
+      matchedPlayerIds.add(Number(p.id));
+    }
+  }
+
+  // 2. Extract potential player keywords (words with length >= 4) and query Supabase
+  const stopWords = new Set([
+    "what", "think", "about", "should", "could", "would", "score", "goals",
+    "assists", "clean", "sheet", "points", "gameweek", "transfer", "captain",
+    "player", "start", "bench", "versus", "against", "premier", "league", "have",
+    "this", "that", "with", "from", "when", "where", "which", "will", "does"
+  ]);
+
+  const words = query
+    .replace(/[^\w\s]/g, "")
+    .split(/\s+/)
+    .filter((w) => w.length >= 4 && !stopWords.has(w.toLowerCase()));
+
+  if (words.length > 0) {
+    try {
+      const orFilter = words
+        .slice(0, 4)
+        .map((w) => `web_name.ilike.%${w}%,second_name.ilike.%${w}%`)
+        .join(",");
+      const { data: dbPlayers } = await supabase
+        .from("players")
+        .select("id, web_name, second_name")
+        .or(orFilter)
+        .limit(6);
+
+      if (dbPlayers) {
+        for (const dp of dbPlayers) {
+          matchedPlayerIds.add(dp.id);
+        }
+      }
+    } catch (err) {
+      console.warn("Supabase player entity lookup warning:", err);
+    }
+  }
+
+  return {
+    isFactQuery,
+    isNewsQuery,
+    mentionedPlayerIds: Array.from(matchedPlayerIds),
+    mentionedTeamIds: Array.from(matchedTeamIds),
+  };
+}
+
+async function fetchVerifiedGameweekLedger(
+  playerIds: number[],
+  teamIds: number[],
+  gw: number = 1
+): Promise<string> {
+  if (playerIds.length === 0 && teamIds.length === 0) return "";
+
+  try {
+    const ledgerLines: string[] = [];
+
+    // Query live gameweek stats for player IDs
+    if (playerIds.length > 0) {
+      const { data: playerStats } = await supabase
+        .from("live_gameweek_stats")
+        .select(`
+          *,
+          players (
+            id,
+            web_name,
+            first_name,
+            second_name,
+            teams (
+              id,
+              name,
+              short_name
+            )
+          )
+        `)
+        .in("player_id", playerIds.slice(0, 4))
+        .order("gw", { ascending: false });
+
+      if (playerStats && playerStats.length > 0) {
+        for (const s of playerStats) {
+          const p = s.players;
+          const teamShort = p?.teams?.short_name || "PL";
+          const fullName = `${p?.first_name || ""} ${p?.web_name || ""}`.trim();
+          ledgerLines.push(
+            `Player Telemetry: ${fullName} (${teamShort}) | Minutes: ${s.minutes}' | Goals: ${s.goals_scored} | Assists: ${s.assists} | Clean Sheet: ${s.clean_sheets} | Bonus: ${s.bonus} | Total Pts: ${s.live_points}`
+          );
+        }
+      }
+    }
+
+    // Query match fixtures to get verified scorelines
+    if (teamIds.length > 0 || playerIds.length > 0) {
+      try {
+        const fplRes = await fetch(
+          `https://fantasy.premierleague.com/api/fixtures/?event=${gw}`,
+          {
+            headers: {
+              "User-Agent":
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+              Accept: "application/json",
+            },
+            next: { revalidate: 60 },
+          }
+        );
+
+        if (fplRes.ok) {
+          const fixtures = await fplRes.json();
+          const targetTeamIds = new Set(teamIds);
+
+          const matchedFixtures = fixtures.filter(
+            (f: any) => targetTeamIds.has(f.team_h) || targetTeamIds.has(f.team_a)
+          );
+
+          for (const f of matchedFixtures.slice(0, 2)) {
+            const hTeam = PREMIER_LEAGUE_TEAMS.find((t) => t.id === f.team_h)?.shortName || `Team ${f.team_h}`;
+            const aTeam = PREMIER_LEAGUE_TEAMS.find((t) => t.id === f.team_a)?.shortName || `Team ${f.team_a}`;
+            const statusStr = f.finished ? "Finished" : f.started ? "In Progress" : "Upcoming";
+            const scoreStr = f.started || f.finished ? `${f.team_h_score ?? 0} - ${f.team_a_score ?? 0}` : "vs";
+            ledgerLines.unshift(
+              `Fixture: [GW${f.event || gw}] ${hTeam} ${scoreStr} ${aTeam} (${statusStr})`
+            );
+          }
+        }
+      } catch (err) {
+        console.warn("FPL fixtures lookup warning:", err);
+      }
+    }
+
+    if (ledgerLines.length === 0) return "";
+
+    return [
+      "--- VERIFIED GAMEWEEK MATCH LEDGER (GROUND TRUTH) ---",
+      ...ledgerLines,
+      "-----------------------------------------------------",
+    ].join("\n");
+  } catch (err: any) {
+    console.warn("fetchVerifiedGameweekLedger error:", err);
+    return "";
+  }
+}
+
 async function fetchRelevantNews(
   query: string,
   genAI: GoogleGenerativeAI | null
@@ -274,6 +483,37 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // Extract recent user messages (last 2 turns) for scoped entity & intent detection
+    const recentUserMessages = (messages || [])
+      .filter((m: any) => m && (m.role === "user" || m.sender === "user") && (m.content || m.text))
+      .slice(-2)
+      .map((m: any) => (m.content || m.text || "").trim());
+
+    const combinedQuery = [
+      ...recentUserMessages,
+      cleanMessage || userPromptText,
+    ].join(" ");
+
+    const entityExtraction = await extractEntitiesAndIntent(combinedQuery, players);
+    const targetGW = stats.currentGameweek || 1;
+    const miniLedgerText = await fetchVerifiedGameweekLedger(
+      entityExtraction.mentionedPlayerIds,
+      entityExtraction.mentionedTeamIds,
+      targetGW
+    );
+
+    const hasVerifiedLedger = Boolean(miniLedgerText && miniLedgerText.trim().length > 0);
+
+    // Programmatic Tool Gating:
+    // If IS_FACT_QUERY is true and we have verified data in the mini-ledger, set tools = [] to eliminate hallucinations
+    // If IS_NEWS_QUERY is true or no local match is found, pass tools = [{ googleSearch: {} }]
+    let toolsConfig: any[] = [];
+    if (entityExtraction.isFactQuery && hasVerifiedLedger) {
+      toolsConfig = [];
+    } else if (entityExtraction.isNewsQuery || !hasVerifiedLedger) {
+      toolsConfig = [{ googleSearch: {} }];
+    }
+
     // Vector Similarity Search for Press Conference & Injury News
     const newsQuery =
       actionType === "CHECK_INJURIES"
@@ -347,10 +587,13 @@ export async function POST(request: NextRequest) {
         .join("\n");
     }
 
-    // Overhauled System Prompt with Google Search Grounding and Context Awareness
+    // Overhauled System Prompt with Verified Ground Truth Ledger & Anti-Defaulting Directives
     const systemInstruction = `You are "Touchline AI", an expert Fantasy Premier League (FPL) tactical assistant and data scientist.
 Your primary goal is to directly and conversationally answer the user's specific questions. If the user asks about a specific player's viability (e.g., rotation risk, clean sheet odds, transfer targets, form, tactical role), analyze the provided squad data, xP projections, FDR, and news RAG context to give a sharp, tactical answer. Do NOT default to listing their optimal starting XI unless specifically requested.
-Use the Google Search tool to verify recent match results, real-time injuries, and live FPL data. Always read the conversation history to understand pronoun references (e.g., 'he' or 'him') before answering.
+Use the Google Search tool when enabled to verify recent match results, real-time injuries, and live FPL data. Always read the conversation history to understand pronoun references (e.g., 'he' or 'him') before answering.
+When a 'VERIFIED GAMEWEEK MATCH LEDGER' is provided, treat it as absolute mathematical truth for all player stats and scores. Never contradict this ledger or claim a player scored/assisted if the ledger shows 0.
+
+${miniLedgerText ? `\n${miniLedgerText}\n` : ""}
 
 === LIVE MANAGER & SQUAD CONTEXT ===
 - Manager: ${stats.managerName} | Team: "${stats.teamName}" (FPL ID: #${entryId})
@@ -375,15 +618,16 @@ ${players
 ${newsContextText}
 
 === STRICT GUIDELINES FOR YOUR RESPONSE ===
-1. Direct Focus: Always answer the user's exact question or topic first. If they ask about a specific player (e.g., Szoboszlai, Palmer, Saka, Diaz), analyze that specific player's expected minutes, fixture difficulty, attacking/defensive threat, price bracket competition, and rotation risk directly.
+1. Direct Focus: Always answer the user's exact question or topic first. If they ask about a specific player (e.g., Szoboszlai, Palmer, Saka, Diaz, Elanga), analyze that specific player's expected minutes, fixture difficulty, attacking/defensive threat, price bracket competition, and rotation risk directly.
 2. Anti-Defaulting Rule: NEVER default to dumping the starting XI or full team layout unless the user explicitly asks for their starting XI or team optimization.
-3. Pronoun and Context Awareness: Evaluate the conversation history carefully when resolving references like "him", "he", "them", or "both".
-4. Tone: Authoritative, tactical, concise, and engaging FPL punditry with exact data points (FDR, xP, price, form).
-5. Formatting: Use clean Markdown with bolding on player names, clear headers (###), and bullet points where helpful. Keep it mobile-friendly (2-4 concise paragraphs/sections).`;
+3. Ground Truth Strictness: Never hallucinate match scores or player stats when the VERIFIED GAMEWEEK MATCH LEDGER contains the true numbers.
+4. Pronoun and Context Awareness: Evaluate the conversation history carefully when resolving references like "him", "he", "them", or "both".
+5. Tone: Authoritative, tactical, concise, and engaging FPL punditry with exact data points (FDR, xP, price, form).
+6. Formatting: Use clean Markdown with bolding on player names, clear headers (###), and bullet points where helpful. Keep it mobile-friendly (2-4 concise paragraphs/sections).`;
 
     let responseText = "";
 
-    // Call Google Gemini API with Search Grounding tool enabled and graceful fallback
+    // Call Google Gemini API with gated tools and fallback models (12s timeout)
     if (genAI) {
       const candidateModels = [
         "gemini-3.5-flash",
@@ -396,13 +640,16 @@ ${newsContextText}
 
       for (const modelName of candidateModels) {
         try {
-          // Attempt with Google Search Grounding tool
-          const model = genAI.getGenerativeModel({
+          const modelOptions: any = {
             model: modelName,
             systemInstruction: systemInstruction,
-            tools: [{ googleSearch: {} }] as any,
-          });
+          };
 
+          if (toolsConfig && toolsConfig.length > 0) {
+            modelOptions.tools = toolsConfig;
+          }
+
+          const model = genAI.getGenerativeModel(modelOptions);
           const geminiPromise = model.generateContent({ contents });
           const timeoutPromise = new Promise<null>((resolve) =>
             setTimeout(() => resolve(null), 12000)
@@ -417,28 +664,30 @@ ${newsContextText}
             }
           }
         } catch (geminiError: any) {
-          console.warn(`Model ${modelName} with search tool error:`, geminiError.message || geminiError);
+          console.warn(`Model ${modelName} attempt with tools error:`, geminiError.message || geminiError);
 
-          // Secondary attempt without tool in case search tool is quota restricted
-          try {
-            const fallbackModel = genAI.getGenerativeModel({
-              model: modelName,
-              systemInstruction: systemInstruction,
-            });
-            const fallbackPromise = fallbackModel.generateContent({ contents });
-            const timeoutPromise = new Promise<null>((resolve) =>
-              setTimeout(() => resolve(null), 8000)
-            );
-            const result: any = await Promise.race([fallbackPromise, timeoutPromise]);
-            if (result && result.response) {
-              const geminiText = result.response.text();
-              if (geminiText && geminiText.trim().length > 0) {
-                responseText = geminiText.trim();
-                break;
+          // Retry without tools if toolsConfig was rejected or rate limited
+          if (toolsConfig.length > 0) {
+            try {
+              const fallbackModel = genAI.getGenerativeModel({
+                model: modelName,
+                systemInstruction: systemInstruction,
+              });
+              const fallbackPromise = fallbackModel.generateContent({ contents });
+              const timeoutPromise = new Promise<null>((resolve) =>
+                setTimeout(() => resolve(null), 8000)
+              );
+              const result: any = await Promise.race([fallbackPromise, timeoutPromise]);
+              if (result && result.response) {
+                const geminiText = result.response.text();
+                if (geminiText && geminiText.trim().length > 0) {
+                  responseText = geminiText.trim();
+                  break;
+                }
               }
+            } catch {
+              continue;
             }
-          } catch {
-            continue;
           }
         }
       }
@@ -465,8 +714,9 @@ ${newsContextText}
         } else {
           responseText = `No critical injury flags detected across your active squad. All starting XI outfielders are rated available for Gameweek ${stats.nextGameweek}.`;
         }
+      } else if (hasVerifiedLedger) {
+        responseText = `### Verified Matchday Telemetry (GW${targetGW})\n\n${miniLedgerText}\n\nAll metrics are verified from official Premier League match logs.`;
       } else {
-        // Conversational query fallback addressing player or general topic
         const matchedSquadPlayer = players.find(
           (p) =>
             lowerQuery.includes(p.webName.toLowerCase()) ||
