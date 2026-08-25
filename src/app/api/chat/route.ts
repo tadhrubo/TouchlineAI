@@ -35,11 +35,48 @@ const PREMIER_LEAGUE_TEAMS: Array<{ id: number; name: string; shortName: string;
   { id: 20, name: "Wolves", shortName: "WOL", aliases: ["wolves", "wolverhampton"] },
 ];
 
+const DEPARTED_PLAYERS_MAP: Record<string, string> = {
+  salah: "Mohamed Salah",
+  "mo salah": "Mohamed Salah",
+  "mohamed salah": "Mohamed Salah",
+  kane: "Harry Kane",
+  "harry kane": "Harry Kane",
+  "de bruyne": "Kevin De Bruyne",
+  "kevin de bruyne": "Kevin De Bruyne",
+  kdb: "Kevin De Bruyne",
+  sterling: "Raheem Sterling",
+  "raheem sterling": "Raheem Sterling",
+  mane: "Sadio Mané",
+  "sadio mane": "Sadio Mané",
+  firmino: "Roberto Firmino",
+  "roberto firmino": "Roberto Firmino",
+  toney: "Ivan Toney",
+  "ivan toney": "Ivan Toney",
+  mahrez: "Riyad Mahrez",
+  "riyad mahrez": "Riyad Mahrez",
+  aubameyang: "Pierre-Emerick Aubameyang",
+  lukaku: "Romelu Lukaku",
+  "romelu lukaku": "Romelu Lukaku",
+  pogba: "Paul Pogba",
+  hazard: "Eden Hazard",
+  "eden hazard": "Eden Hazard",
+  aguero: "Sergio Agüero",
+  "sergio aguero": "Sergio Agüero",
+  mitrovic: "Aleksandar Mitrović",
+  henderson: "Jordan Henderson",
+  "jordan henderson": "Jordan Henderson",
+  fabinho: "Fabinho",
+  cancelo: "João Cancelo",
+  "joao cancelo": "João Cancelo",
+  laporte: "Aymeric Laporte",
+};
+
 interface ExtractedIntent {
   isFactQuery: boolean;
   isNewsQuery: boolean;
   mentionedPlayerIds: number[];
   mentionedTeamIds: number[];
+  ghostPlayers: string[];
 }
 
 async function extractEntitiesAndIntent(
@@ -71,6 +108,7 @@ async function extractEntitiesAndIntent(
   }
 
   const matchedPlayerIds = new Set<number>();
+  const ghostPlayers = new Set<string>();
 
   // 1. Check user's squad players
   for (const p of squadPlayers) {
@@ -84,12 +122,34 @@ async function extractEntitiesAndIntent(
     }
   }
 
-  // 2. Extract potential player keywords (words with length >= 4) and query Supabase
+  // 2. Check for famous departed players in query
+  for (const [key, canonicalName] of Object.entries(DEPARTED_PLAYERS_MAP)) {
+    const regex = new RegExp(`\\b${key}\\b`, "i");
+    if (regex.test(lower)) {
+      // Verify whether player exists in current database
+      try {
+        const { data: dbCheck } = await supabase
+          .from("players")
+          .select("id, web_name")
+          .ilike("web_name", `%${key}%`)
+          .limit(1);
+
+        if (!dbCheck || dbCheck.length === 0) {
+          ghostPlayers.add(canonicalName);
+        }
+      } catch {
+        ghostPlayers.add(canonicalName);
+      }
+    }
+  }
+
+  // 3. Extract candidate player keywords and query Supabase
   const stopWords = new Set([
     "what", "think", "about", "should", "could", "would", "score", "goals",
     "assists", "clean", "sheet", "points", "gameweek", "transfer", "captain",
     "player", "start", "bench", "versus", "against", "premier", "league", "have",
-    "this", "that", "with", "from", "when", "where", "which", "will", "does"
+    "this", "that", "with", "from", "when", "where", "which", "will", "does",
+    "tell", "give", "good", "pick", "help", "with", "team"
   ]);
 
   const words = query
@@ -109,7 +169,7 @@ async function extractEntitiesAndIntent(
         .or(orFilter)
         .limit(6);
 
-      if (dbPlayers) {
+      if (dbPlayers && dbPlayers.length > 0) {
         for (const dp of dbPlayers) {
           matchedPlayerIds.add(dp.id);
         }
@@ -124,20 +184,20 @@ async function extractEntitiesAndIntent(
     isNewsQuery,
     mentionedPlayerIds: Array.from(matchedPlayerIds),
     mentionedTeamIds: Array.from(matchedTeamIds),
+    ghostPlayers: Array.from(ghostPlayers),
   };
 }
 
 async function fetchVerifiedGameweekLedger(
   playerIds: number[],
   teamIds: number[],
+  squadPlayers: Player[] = [],
   gw: number = 1
 ): Promise<string> {
-  if (playerIds.length === 0 && teamIds.length === 0) return "";
-
   try {
     const ledgerLines: string[] = [];
 
-    // Query live gameweek stats for player IDs
+    // 1. Query live gameweek stats for specifically requested player IDs
     if (playerIds.length > 0) {
       const { data: playerStats } = await supabase
         .from("live_gameweek_stats")
@@ -155,7 +215,7 @@ async function fetchVerifiedGameweekLedger(
             )
           )
         `)
-        .in("player_id", playerIds.slice(0, 4))
+        .in("player_id", playerIds.slice(0, 5))
         .order("gw", { ascending: false });
 
       if (playerStats && playerStats.length > 0) {
@@ -170,7 +230,7 @@ async function fetchVerifiedGameweekLedger(
       }
     }
 
-    // Query match fixtures to get verified scorelines
+    // 2. Query match fixtures to get verified scorelines
     if (teamIds.length > 0 || playerIds.length > 0) {
       try {
         const fplRes = await fetch(
@@ -208,13 +268,53 @@ async function fetchVerifiedGameweekLedger(
       }
     }
 
-    if (ledgerLines.length === 0) return "";
+    // 3. Squad-Aware Live GW Stats (Task 1)
+    let squadLiveSection = "";
+    if (squadPlayers && squadPlayers.length > 0) {
+      const squadIds = squadPlayers.map((p) => Number(p.id));
+      const { data: squadLiveStats } = await supabase
+        .from("live_gameweek_stats")
+        .select("player_id, minutes, goals_scored, assists, clean_sheets, bonus, live_points, gw")
+        .in("player_id", squadIds)
+        .eq("gw", gw);
 
-    return [
-      "--- VERIFIED GAMEWEEK MATCH LEDGER (GROUND TRUTH) ---",
-      ...ledgerLines,
-      "-----------------------------------------------------",
-    ].join("\n");
+      const livePtsMap = new Map<number, number>();
+      if (squadLiveStats) {
+        for (const s of squadLiveStats) {
+          livePtsMap.set(s.player_id, s.live_points);
+        }
+      }
+
+      const squadStatsLines = squadPlayers.map((p) => {
+        const pts = livePtsMap.has(Number(p.id))
+          ? livePtsMap.get(Number(p.id))
+          : p.gameweekPoints || 0;
+        return `${p.webName}: ${pts} pts`;
+      });
+
+      squadLiveSection = [
+        "--- USER SQUAD LIVE GW STATS ---",
+        squadStatsLines.join(" | "),
+        "--------------------------------",
+      ].join("\n");
+    }
+
+    const sections: string[] = [];
+    if (ledgerLines.length > 0) {
+      sections.push(
+        [
+          "--- VERIFIED GAMEWEEK MATCH LEDGER (GROUND TRUTH) ---",
+          ...ledgerLines,
+          "-----------------------------------------------------",
+        ].join("\n")
+      );
+    }
+
+    if (squadLiveSection) {
+      sections.push(squadLiveSection);
+    }
+
+    return sections.join("\n\n");
   } catch (err: any) {
     console.warn("fetchVerifiedGameweekLedger error:", err);
     return "";
@@ -496,13 +596,27 @@ export async function POST(request: NextRequest) {
 
     const entityExtraction = await extractEntitiesAndIntent(combinedQuery, players);
     const targetGW = stats.currentGameweek || 1;
+
+    // Fetch verified ledger including Squad-Aware live stats (Task 1)
     const miniLedgerText = await fetchVerifiedGameweekLedger(
       entityExtraction.mentionedPlayerIds,
       entityExtraction.mentionedTeamIds,
+      players,
       targetGW
     );
 
     const hasVerifiedLedger = Boolean(miniLedgerText && miniLedgerText.trim().length > 0);
+
+    // Ghost Player Warning Handler (Task 2)
+    let ghostWarningBlock = "";
+    if (entityExtraction.ghostPlayers.length > 0) {
+      const ghostList = entityExtraction.ghostPlayers.join(", ");
+      ghostWarningBlock = [
+        "--- SYSTEM WARNING ---",
+        `The user asked about a player (${ghostList}) who is NO LONGER in the official FPL database. This player has likely transferred out of the Premier League. Inform the user they cannot be selected.`,
+        "----------------------",
+      ].join("\n");
+    }
 
     // Programmatic Tool Gating:
     // If IS_FACT_QUERY is true and we have verified data in the mini-ledger, set tools = [] to eliminate hallucinations
@@ -587,12 +701,14 @@ export async function POST(request: NextRequest) {
         .join("\n");
     }
 
-    // Overhauled System Prompt with Verified Ground Truth Ledger & Anti-Defaulting Directives
+    // Overhauled System Prompt with Verified Ground Truth Ledger, Squad-Aware Directives & Ghost Player Handler
     const systemInstruction = `You are "Touchline AI", an expert Fantasy Premier League (FPL) tactical assistant and data scientist.
 Your primary goal is to directly and conversationally answer the user's specific questions. If the user asks about a specific player's viability (e.g., rotation risk, clean sheet odds, transfer targets, form, tactical role), analyze the provided squad data, xP projections, FDR, and news RAG context to give a sharp, tactical answer. Do NOT default to listing their optimal starting XI unless specifically requested.
 Use the Google Search tool when enabled to verify recent match results, real-time injuries, and live FPL data. Always read the conversation history to understand pronoun references (e.g., 'he' or 'him') before answering.
+When evaluating a transfer target, you MUST compare the target's live stats against the user's active squad live stats. Do NOT suggest selling players who have high points or strong performances in the current gameweek.
 When a 'VERIFIED GAMEWEEK MATCH LEDGER' is provided, treat it as absolute mathematical truth for all player stats and scores. Never contradict this ledger or claim a player scored/assisted if the ledger shows 0.
 
+${ghostWarningBlock ? `\n${ghostWarningBlock}\n` : ""}
 ${miniLedgerText ? `\n${miniLedgerText}\n` : ""}
 
 === LIVE MANAGER & SQUAD CONTEXT ===
@@ -618,12 +734,14 @@ ${players
 ${newsContextText}
 
 === STRICT GUIDELINES FOR YOUR RESPONSE ===
-1. Direct Focus: Always answer the user's exact question or topic first. If they ask about a specific player (e.g., Szoboszlai, Palmer, Saka, Diaz, Elanga), analyze that specific player's expected minutes, fixture difficulty, attacking/defensive threat, price bracket competition, and rotation risk directly.
+1. Direct Focus: Always answer the user's exact question or topic first. If they ask about a specific player, analyze that specific player's expected minutes, fixture difficulty, attacking/defensive threat, price bracket competition, and rotation risk directly.
 2. Anti-Defaulting Rule: NEVER default to dumping the starting XI or full team layout unless the user explicitly asks for their starting XI or team optimization.
-3. Ground Truth Strictness: Never hallucinate match scores or player stats when the VERIFIED GAMEWEEK MATCH LEDGER contains the true numbers.
-4. Pronoun and Context Awareness: Evaluate the conversation history carefully when resolving references like "him", "he", "them", or "both".
-5. Tone: Authoritative, tactical, concise, and engaging FPL punditry with exact data points (FDR, xP, price, form).
-6. Formatting: Use clean Markdown with bolding on player names, clear headers (###), and bullet points where helpful. Keep it mobile-friendly (2-4 concise paragraphs/sections).`;
+3. Ghost Player Rule: If the user asked about a player mentioned in the SYSTEM WARNING (e.g., Salah, Kane, De Bruyne), state clearly that this player has left the Premier League and is no longer available in FPL. Recommend viable active Premier League alternatives.
+4. Squad Live Performance Awareness: When considering transfer moves or squad changes, never recommend transferring out a squad member who produced high live points in the current gameweek.
+5. Ground Truth Strictness: Never hallucinate match scores or player stats when the VERIFIED GAMEWEEK MATCH LEDGER contains the true numbers.
+6. Pronoun and Context Awareness: Evaluate the conversation history carefully when resolving references like "him", "he", "them", or "both".
+7. Tone: Authoritative, tactical, concise, and engaging FPL punditry with exact data points (FDR, xP, price, form).
+8. Formatting: Use clean Markdown with bolding on player names, clear headers (###), and bullet points where helpful. Keep it mobile-friendly (2-4 concise paragraphs/sections).`;
 
     let responseText = "";
 
@@ -695,7 +813,12 @@ ${newsContextText}
 
     // Dynamic Context-Aware Fallback (only used if Gemini API is unreachable or rate limited)
     if (!responseText) {
-      if (actionType === "OPTIMIZE_XI" || (!isFreeTextQuery && lowerQuery.includes("optimize"))) {
+      if (entityExtraction.ghostPlayers.length > 0) {
+        const ghostList = entityExtraction.ghostPlayers.join(", ");
+        responseText = `### ⚠️ Player Availability Notice: **${ghostList}**\n\n` +
+          `**${ghostList}** is **no longer in the official Fantasy Premier League database** (having transferred out of the Premier League) and **cannot be selected** for your squad.\n\n` +
+          `Would you like recommendations for active Premier League alternatives in that position and price bracket?`;
+      } else if (actionType === "OPTIMIZE_XI" || (!isFreeTextQuery && lowerQuery.includes("optimize"))) {
         responseText = `### ⚡ Mathematically Optimal Starting XI (GW${stats.nextGameweek})\n\n- **Formation**: **${optimalXI.formation}** (Total Projected: **${optimalXI.totalStartingXP} pts**)\n- **Captain**: **${optimalXI.captain.webName} (C)** (${optimalXI.captain.projectedPoints} xP)\n- **Vice-Captain**: **${optimalXI.viceCaptain.webName} (VC)** (${optimalXI.viceCaptain.projectedPoints} xP)\n- **Starting XI**: ${optimalXI.starters.map((p) => p.webName).join(", ")}\n- **Bench Priority**: ${optimalXI.bench.map((p, idx) => `B${idx + 1}: ${p.webName}`).join(" · ")}`;
       } else if (actionType === "CAPTAINCY_CHECK" || (!isFreeTextQuery && lowerQuery.includes("captain"))) {
         responseText = `### 👑 Gameweek ${stats.nextGameweek} Captaincy Recommendation\n\nOur LightGBM model projects **${topPlayerA.webName}** (${topPlayerA.teamShort}) as your premier armband pick with **${topPlayerA.projectedPoints} xP** (${topPlayerA.startProbability}% start probability) vs **${topPlayerA.currentFixture.opponent}** (${topPlayerA.currentFixture.isHome ? "H" : "A"}).\n\n**Vice-Captain Option**: **${topPlayerB.webName}** (${topPlayerB.teamShort}) with **${topPlayerB.projectedPoints} xP**.`;
