@@ -4,7 +4,9 @@ import React, { useState, useMemo } from "react";
 import Image from "next/image";
 import { Player, TeamStats } from "@/types/fpl";
 import { JerseyIcon } from "../fpl/JerseyIcon";
-import { TransferModal } from "../fpl/TransferModal";
+import { PlayerModal } from "../fpl/PlayerModal";
+import { PlannerActionSheet } from "./PlannerActionSheet";
+import { PlayerSelectionMarket } from "./PlayerSelectionMarket";
 import {
   SampleTier,
   SAMPLE_TIER_OPTIONS,
@@ -54,8 +56,14 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
       setInternalSampleTier(tier);
     }
   };
+
+  // Transfer & Action Sheet States
+  const [activePlayerSlot, setActivePlayerSlot] = useState<Player | null>(null);
+  const [isActionSheetOpen, setIsActionSheetOpen] = useState<boolean>(false);
+  const [isMarketOpen, setIsMarketOpen] = useState<boolean>(false);
+  const [detailPlayer, setDetailPlayer] = useState<Player | null>(null);
+
   const [swappingPlayerId, setSwappingPlayerId] = useState<string | null>(null);
-  const [transferOutPlayer, setTransferOutPlayer] = useState<Player | null>(null);
   const [showEOInfoModal, setShowEOInfoModal] = useState<boolean>(false);
   const [swapError, setSwapError] = useState<string | null>(null);
 
@@ -109,14 +117,15 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
     setCaptainId(initialCaptainId || initialPlayers[0]?.id || "");
     setViceCaptainId(initialViceCaptainId || initialPlayers[1]?.id || "");
     setSwappingPlayerId(null);
-    setTransferOutPlayer(null);
+    setActivePlayerSlot(null);
+    setIsActionSheetOpen(false);
+    setIsMarketOpen(false);
     setSwapError(null);
   };
 
   // Captaincy toggles
   const handleToggleCaptain = (playerId: string) => {
     if (captainId === playerId) {
-      // Toggle to vice
       setCaptainId(viceCaptainId);
       setViceCaptainId(playerId);
     } else {
@@ -128,6 +137,16 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
     }
   };
 
+  // Click on a Player Card
+  const handlePlayerCardClick = (player: Player) => {
+    if (swappingPlayerId) {
+      handleInitiateSwap(player);
+      return;
+    }
+    setActivePlayerSlot(player);
+    setIsActionSheetOpen(true);
+  };
+
   // Swap logic
   const handleInitiateSwap = (player: Player) => {
     setSwapError(null);
@@ -137,7 +156,6 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
     }
 
     if (swappingPlayerId === player.id) {
-      // Cancel swap
       setSwappingPlayerId(null);
       return;
     }
@@ -150,12 +168,10 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
       return;
     }
 
-    // Check if one is starting and one is bench
     const aIsBench = !!playerA.isBench;
     const bIsBench = !!playerB.isBench;
 
     if (aIsBench !== bIsBench) {
-      // Outfield / GKP legality check
       if (playerA.position === "GKP" && playerB.position !== "GKP") {
         setSwapError("Goalkeepers can only be swapped with a substitute Goalkeeper.");
         setSwappingPlayerId(null);
@@ -167,7 +183,6 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
         return;
       }
 
-      // Check resulting outfield formation legality (min 3 DEF, 2 MID, 1 FWD)
       const simulatedStarters = startingXI.map((p) =>
         p.id === (aIsBench ? playerB.id : playerA.id) ? (aIsBench ? playerA : playerB) : p
       );
@@ -184,7 +199,6 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
       }
     }
 
-    // Execute swap
     setPlannedSquad((prev) =>
       prev.map((p) => {
         if (p.id === playerA.id) {
@@ -208,45 +222,90 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
     setSwappingPlayerId(null);
   };
 
-  // Replacement selection
-  const handleSelectReplacement = (inPlayer: Player) => {
-    if (!transferOutPlayer) return;
+  // Replacement selection from market
+  const handleSelectMarketPlayer = (inPlayer: Player) => {
+    if (!activePlayerSlot) return;
+
+    const newBank = Number(
+      (calculatedBank + activePlayerSlot.price - inPlayer.price).toFixed(1)
+    );
+
+    if (newBank < 0) {
+      setSwapError(
+        `Cannot afford ${inPlayer.webName}. Requires an additional £${Math.abs(newBank).toFixed(1)}m in the bank.`
+      );
+      return;
+    }
 
     setPlannedSquad((prev) =>
       prev.map((p) => {
-        if (p.id === transferOutPlayer.id) {
+        if (p.id === activePlayerSlot.id) {
           return {
             ...inPlayer,
-            isBench: transferOutPlayer.isBench,
-            benchOrder: transferOutPlayer.benchOrder,
-            isCaptain: captainId === transferOutPlayer.id,
-            isViceCaptain: viceCaptainId === transferOutPlayer.id,
+            isBench: activePlayerSlot.isBench,
+            benchOrder: activePlayerSlot.benchOrder,
+            isCaptain: captainId === activePlayerSlot.id,
+            isViceCaptain: viceCaptainId === activePlayerSlot.id,
           };
         }
         return p;
       })
     );
 
-    if (captainId === transferOutPlayer.id) {
+    if (captainId === activePlayerSlot.id) {
       setCaptainId(inPlayer.id);
     }
-    if (viceCaptainId === transferOutPlayer.id) {
+    if (viceCaptainId === activePlayerSlot.id) {
       setViceCaptainId(inPlayer.id);
     }
 
-    setTransferOutPlayer(null);
+    setIsMarketOpen(false);
+    setActivePlayerSlot(null);
   };
 
   return (
     <div className="w-full space-y-3 pb-24 animate-fade-in select-none">
-      {/* Transfer Search Modal */}
-      {transferOutPlayer && (
-        <TransferModal
-          outPlayer={transferOutPlayer}
-          remainingBank={calculatedBank}
-          currentSquad={plannedSquad}
-          onSelect={handleSelectReplacement}
-          onClose={() => setTransferOutPlayer(null)}
+      {/* 1. Official FPL-Style Action Sheet */}
+      <PlannerActionSheet
+        player={activePlayerSlot}
+        isOpen={isActionSheetOpen}
+        onClose={() => setIsActionSheetOpen(false)}
+        onReplace={(player) => {
+          setActivePlayerSlot(player);
+          setIsActionSheetOpen(false);
+          setIsMarketOpen(true);
+        }}
+        onShowInfo={(player) => setDetailPlayer(player)}
+      />
+
+      {/* 2. Full-Screen Player Selection Market */}
+      <PlayerSelectionMarket
+        outPlayer={activePlayerSlot}
+        currentBank={calculatedBank}
+        freeTransfers={freeTransfers}
+        currentSquad={plannedSquad}
+        isOpen={isMarketOpen}
+        onClose={() => {
+          setIsMarketOpen(false);
+          setActivePlayerSlot(null);
+        }}
+        onSelect={handleSelectMarketPlayer}
+      />
+
+      {/* 3. Detailed Stats Modal */}
+      {detailPlayer && (
+        <PlayerModal
+          player={detailPlayer}
+          isOpen={!!detailPlayer}
+          onClose={() => setDetailPlayer(null)}
+          onDiscuss={(player) => {
+            setDetailPlayer(null);
+            if (onOpenChatWithPrompt) {
+              onOpenChatWithPrompt(
+                `Tell me about ${player.webName || player.fullName} (${player.teamShort || player.team}). How do their underlying stats look?`
+              );
+            }
+          }}
         />
       )}
 
@@ -289,7 +348,7 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
         </div>
       )}
 
-      {/* 1. Gameweek Navigation & Controls Bar */}
+      {/* Gameweek Navigation & Controls Bar */}
       <div className="bg-neutral-900/60 border border-white/[0.06] rounded-xl p-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <button
@@ -325,7 +384,7 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
         </button>
       </div>
 
-      {/* 2. Live Planning Metrics Summary Bar */}
+      {/* Live Planning Metrics Summary Bar */}
       <div className="grid grid-cols-4 gap-2 text-center">
         <div className="p-2.5 rounded-xl bg-neutral-900/40 border border-white/[0.06]">
           <span className="text-[9.5px] font-mono uppercase tracking-wider text-neutral-500 block">
@@ -372,7 +431,7 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
         </div>
       </div>
 
-      {/* 3. Sample Tier Selector */}
+      {/* Sample Tier Selector */}
       <div className="p-2.5 rounded-xl bg-neutral-900/50 border border-white/[0.06] flex items-center justify-between">
         <div className="flex items-center gap-1.5">
           <span className="text-[11px] font-mono text-neutral-400">Choose Sample:</span>
@@ -423,7 +482,7 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
         </div>
       )}
 
-      {/* 4. Interactive Tactical Pitch */}
+      {/* Interactive Tactical Pitch */}
       <div className="relative w-full rounded-2xl overflow-hidden border border-white/[0.06] bg-[#0d121c]">
         {/* Grid Background */}
         <div
@@ -448,7 +507,6 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
             fill="none"
             stroke="#ffffff"
             strokeWidth="1"
-            rx="2"
           />
           <line
             x1="12"
@@ -467,35 +525,6 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
             strokeWidth="1"
           />
         </svg>
-
-        {/* Top Symmetrical Pitchside Branding Banners */}
-        <div className="absolute top-2 inset-x-2 sm:inset-x-3 flex items-center justify-between pointer-events-none z-10">
-          {/* Left Pitchside Ad Board */}
-          <div className="relative w-[96px] sm:w-[112px] h-[28px] sm:h-[32px] rounded-md overflow-hidden bg-[#0B0E14]/90 border border-white/[0.14] shadow-sm flex items-center justify-center p-0.5">
-            <Image
-              src="/asset/image/tl-pitchside.jpeg"
-              alt="Touchline AI Pitchside Banner"
-              width={112}
-              height={32}
-              className="w-full h-full object-contain"
-              priority
-              unoptimized
-            />
-          </div>
-
-          {/* Right Pitchside Ad Board */}
-          <div className="relative w-[96px] sm:w-[112px] h-[28px] sm:h-[32px] rounded-md overflow-hidden bg-[#0B0E14]/90 border border-white/[0.14] shadow-sm flex items-center justify-center p-0.5">
-            <Image
-              src="/asset/image/tl-pitchside.jpeg"
-              alt="Touchline AI Pitchside Banner"
-              width={112}
-              height={32}
-              className="w-full h-full object-contain"
-              priority
-              unoptimized
-            />
-          </div>
-        </div>
 
         {/* Starting Formation Rows */}
         <div className="relative z-10 w-full flex flex-col justify-between py-3 h-[520px] sm:h-[560px]">
@@ -517,9 +546,13 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
                 isSwapping={swappingPlayerId === p.id}
                 sampleTier={sampleTier}
                 userRank={stats?.overallRank}
+                onCardClick={() => handlePlayerCardClick(p)}
                 onToggleCaptain={() => handleToggleCaptain(p.id)}
                 onSwap={() => handleInitiateSwap(p)}
-                onTransfer={() => setTransferOutPlayer(p)}
+                onReplace={() => {
+                  setActivePlayerSlot(p);
+                  setIsMarketOpen(true);
+                }}
               />
             ))}
           </div>
@@ -535,9 +568,13 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
                 isSwapping={swappingPlayerId === p.id}
                 sampleTier={sampleTier}
                 userRank={stats?.overallRank}
+                onCardClick={() => handlePlayerCardClick(p)}
                 onToggleCaptain={() => handleToggleCaptain(p.id)}
                 onSwap={() => handleInitiateSwap(p)}
-                onTransfer={() => setTransferOutPlayer(p)}
+                onReplace={() => {
+                  setActivePlayerSlot(p);
+                  setIsMarketOpen(true);
+                }}
               />
             ))}
           </div>
@@ -553,9 +590,13 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
                 isSwapping={swappingPlayerId === p.id}
                 sampleTier={sampleTier}
                 userRank={stats?.overallRank}
+                onCardClick={() => handlePlayerCardClick(p)}
                 onToggleCaptain={() => handleToggleCaptain(p.id)}
                 onSwap={() => handleInitiateSwap(p)}
-                onTransfer={() => setTransferOutPlayer(p)}
+                onReplace={() => {
+                  setActivePlayerSlot(p);
+                  setIsMarketOpen(true);
+                }}
               />
             ))}
           </div>
@@ -571,23 +612,27 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
                 isSwapping={swappingPlayerId === p.id}
                 sampleTier={sampleTier}
                 userRank={stats?.overallRank}
+                onCardClick={() => handlePlayerCardClick(p)}
                 onToggleCaptain={() => handleToggleCaptain(p.id)}
                 onSwap={() => handleInitiateSwap(p)}
-                onTransfer={() => setTransferOutPlayer(p)}
+                onReplace={() => {
+                  setActivePlayerSlot(p);
+                  setIsMarketOpen(true);
+                }}
               />
             ))}
           </div>
         </div>
       </div>
 
-      {/* 5. Substitutes Bench Area */}
+      {/* Substitutes Bench Area */}
       <div className="w-full bg-neutral-900/40 border border-white/[0.06] rounded-xl p-3 space-y-2">
         <div className="flex items-center justify-between">
           <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400">
             Substitutes Bench
           </span>
           <span className="text-[10px] font-mono text-neutral-500">
-            Tap ⇄ to swap with starter
+            Tap player for Action Sheet
           </span>
         </div>
 
@@ -603,9 +648,13 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
                 isSwapping={swappingPlayerId === p.id}
                 sampleTier={sampleTier}
                 userRank={stats?.overallRank}
+                onCardClick={() => handlePlayerCardClick(p)}
                 onToggleCaptain={() => handleToggleCaptain(p.id)}
                 onSwap={() => handleInitiateSwap(p)}
-                onTransfer={() => setTransferOutPlayer(p)}
+                onReplace={() => {
+                  setActivePlayerSlot(p);
+                  setIsMarketOpen(true);
+                }}
               />
             </div>
           ))}
@@ -653,9 +702,10 @@ interface PlannerPlayerCardProps {
   isSwapping?: boolean;
   sampleTier: SampleTier;
   userRank?: number;
+  onCardClick: () => void;
   onToggleCaptain: () => void;
   onSwap: () => void;
-  onTransfer: () => void;
+  onReplace: () => void;
 }
 
 const PlannerPlayerCard: React.FC<PlannerPlayerCardProps> = ({
@@ -667,22 +717,24 @@ const PlannerPlayerCard: React.FC<PlannerPlayerCardProps> = ({
   isSwapping = false,
   sampleTier,
   userRank,
+  onCardClick,
   onToggleCaptain,
   onSwap,
-  onTransfer,
+  onReplace,
 }) => {
   const eoResult = calculateXEO(player, sampleTier, userRank);
   const fixtureText = `${player.currentFixture?.opponent || "PL"} (${player.currentFixture?.isHome ? "H" : "A"})`;
 
   return (
     <div
-      className={`relative flex flex-col items-center justify-between select-none transition-all duration-150 ${
+      onClick={onCardClick}
+      className={`relative flex flex-col items-center justify-between select-none cursor-pointer transition-all duration-150 active:scale-95 ${
         isBench ? "w-[76px] sm:w-[84px]" : "w-[80px] sm:w-[88px]"
       } ${
         isSwapping ? "ring-2 ring-emerald-400 scale-105" : ""
       }`}
     >
-      {/* Top Action Header: C/V toggle on left, Swap and Remove on right */}
+      {/* Top Action Header: C/V toggle on left, Swap and Replace on right */}
       <div className="absolute -top-1.5 -left-1 z-20">
         <button
           onClick={(e) => {
@@ -702,7 +754,7 @@ const PlannerPlayerCard: React.FC<PlannerPlayerCardProps> = ({
         </button>
       </div>
 
-      {/* Top Right Actions: Swap & Remove */}
+      {/* Top Right Quick Actions */}
       <div className="absolute -top-1.5 -right-1 z-20 flex items-center gap-0.5">
         <button
           onClick={(e) => {
@@ -717,9 +769,9 @@ const PlannerPlayerCard: React.FC<PlannerPlayerCardProps> = ({
         <button
           onClick={(e) => {
             e.stopPropagation();
-            onTransfer();
+            onReplace();
           }}
-          title="Transfer out"
+          title="Replace Player (Market)"
           className="p-1 rounded-sm bg-neutral-900/90 text-rose-400 hover:text-rose-300 border border-white/[0.08] shadow-sm transition-transform active:scale-95"
         >
           <X className="w-2.5 h-2.5" />
@@ -736,18 +788,18 @@ const PlannerPlayerCard: React.FC<PlannerPlayerCardProps> = ({
         />
       </div>
 
-      {/* Understated Player Info Badge */}
-      <div className="w-full flex flex-col items-center mt-0.5 bg-neutral-950/85 border border-white/[0.08] rounded-md px-1 py-0.5 text-center backdrop-blur-sm">
+      {/* Player Info Badge */}
+      <div className="w-full flex flex-col items-center mt-0.5 bg-neutral-950/85 border border-white/[0.08] rounded-md px-1 py-0.5 text-center backdrop-blur-sm shadow-md">
         {/* Web Name */}
         <p className="text-[11px] font-medium text-neutral-200 truncate leading-tight w-full">
           {player.webName}
         </p>
 
-        {/* Fixture & Projected Points */}
+        {/* Fixture & Price */}
         <div className="flex items-center justify-center gap-1 text-[9px] font-mono text-neutral-400 mt-0.5 leading-none">
           <span>{fixtureText}</span>
           <span className="text-neutral-600">·</span>
-          <span className="text-emerald-400 font-medium">{player.projectedPoints}</span>
+          <span className="text-emerald-400 font-medium">£{player.price.toFixed(1)}m</span>
         </div>
 
         {/* xEO Badge */}
