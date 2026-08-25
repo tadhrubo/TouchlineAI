@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import Image from "next/image";
 
 interface LeaguePlayer {
@@ -26,6 +26,8 @@ interface LeaguePlayer {
   cleanSheet: number;
   kitUrl: string;
   played: boolean;
+  isSubbedIn?: boolean;
+  isSubbedOut?: boolean;
 }
 
 interface LeaguePitchViewProps {
@@ -40,12 +42,13 @@ interface LeaguePitchViewProps {
   starters: LeaguePlayer[];
   bench: LeaguePlayer[];
   layoutMode?: "list" | "pitch";
+  autosubsEnabled?: boolean;
 }
 
-const PlayerCompactCard: React.FC<{ player: LeaguePlayer; isBench: boolean }> = ({
-  player,
-  isBench,
-}) => {
+const PlayerCompactCard: React.FC<{
+  player: LeaguePlayer;
+  isBench: boolean;
+}> = ({ player, isBench }) => {
   const isGK = player.elementType === 1 || player.position === "GKP";
   const fallbackUrl = isGK
     ? "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_0_1-66.webp"
@@ -53,14 +56,19 @@ const PlayerCompactCard: React.FC<{ player: LeaguePlayer; isBench: boolean }> = 
 
   const pts = player.livePoints ?? player.rawPoints ?? 0;
   const hasPlayed = player.played || player.minutes > 0;
+  const isBenchDimmed = isBench && !player.isSubbedIn;
 
   return (
     <div
-      className={`flex flex-col w-[18%] min-w-[55px] max-w-[65px] items-center ${
-        isBench ? "opacity-70" : ""
+      className={`flex flex-col w-[18%] min-w-[55px] max-w-[65px] items-center transition-all ${
+        player.isSubbedOut
+          ? "opacity-40"
+          : isBenchDimmed
+          ? "opacity-50 mix-blend-luminosity hover:opacity-100"
+          : "opacity-100"
       }`}
     >
-      {/* Shirt & Captaincy */}
+      {/* Shirt & Badges */}
       <div className="relative mb-1 flex items-center justify-center">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -71,6 +79,20 @@ const PlayerCompactCard: React.FC<{ player: LeaguePlayer; isBench: boolean }> = 
             (e.currentTarget as HTMLImageElement).src = fallbackUrl;
           }}
         />
+
+        {/* Sub In / Sub Out Indicators */}
+        {player.isSubbedIn && (
+          <span className="absolute -top-1.5 -left-1.5 z-20 bg-emerald-500 text-black text-[8px] font-extrabold px-1 rounded shadow border border-emerald-400 leading-tight">
+            ▲ IN
+          </span>
+        )}
+        {player.isSubbedOut && (
+          <span className="absolute -top-1.5 -left-1.5 z-20 bg-rose-600 text-white text-[8px] font-extrabold px-1 rounded shadow border border-rose-500 leading-tight">
+            ▼ OUT
+          </span>
+        )}
+
+        {/* Captaincy / Vice Captaincy Badges */}
         {player.isCaptain && (
           <span className="absolute -bottom-1 -right-2 bg-amber-400 text-black text-[9px] font-bold px-1 rounded-full border border-amber-300 shadow">
             {player.multiplier === 3 ? "3C" : "C"}
@@ -91,7 +113,11 @@ const PlayerCompactCard: React.FC<{ player: LeaguePlayer; isBench: boolean }> = 
       {/* Points Bar */}
       <div
         className={`w-full text-center text-[10px] font-mono font-bold py-0.5 border border-t-0 rounded-b-sm ${
-          pts > 0
+          player.isSubbedOut
+            ? "bg-neutral-950 text-neutral-600 border-neutral-800 line-through"
+            : player.isSubbedIn
+            ? "bg-emerald-600 text-white border-emerald-500 shadow-sm"
+            : pts > 0
             ? "bg-emerald-500 text-white border-emerald-600 shadow-sm"
             : hasPlayed
             ? "bg-neutral-300 text-neutral-900 border-neutral-400"
@@ -116,7 +142,82 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
   starters,
   bench,
   layoutMode = "list",
+  autosubsEnabled = true,
 }) => {
+  // Autosub Simulation Logic
+  const { effectiveStarters, effectiveBench, effectiveLivePts, effectivePlayedCount } =
+    useMemo(() => {
+      if (!autosubsEnabled || activeChip === "BB") {
+        const totalPts = starters.reduce((acc, p) => acc + (p.livePoints || p.rawPoints || 0), 0);
+        return {
+          effectiveStarters: starters,
+          effectiveBench: bench,
+          effectiveLivePts: totalPts,
+          effectivePlayedCount: playedCount,
+        };
+      }
+
+      const modStarters = starters.map((p) => ({ ...p, isSubbedIn: false, isSubbedOut: false }));
+      const modBench = bench.map((p) => ({ ...p, isSubbedIn: false, isSubbedOut: false }));
+
+      // 1. Goalkeeper check
+      const startingGK = modStarters.find((p) => p.elementType === 1 || p.position === "GKP");
+      const benchGK = modBench.find((p) => p.elementType === 1 || p.position === "GKP");
+
+      if (
+        startingGK &&
+        benchGK &&
+        startingGK.minutes === 0 &&
+        (benchGK.minutes > 0 || benchGK.played)
+      ) {
+        startingGK.isSubbedOut = true;
+        benchGK.isSubbedIn = true;
+      }
+
+      // 2. Outfield players check
+      const unplayedStarters = modStarters.filter(
+        (p) => (p.elementType !== 1 && p.position !== "GKP") && p.minutes === 0
+      );
+
+      for (const starter of unplayedStarters) {
+        const availableBenchSub = modBench.find(
+          (b) =>
+            (b.elementType !== 1 && b.position !== "GKP") &&
+            (b.minutes > 0 || b.played) &&
+            !b.isSubbedIn
+        );
+
+        if (availableBenchSub) {
+          starter.isSubbedOut = true;
+          availableBenchSub.isSubbedIn = true;
+        }
+      }
+
+      // Compute total live points from active XI
+      let livePtsSum = 0;
+      let playedCountSum = 0;
+
+      for (const p of modStarters) {
+        if (!p.isSubbedOut) {
+          livePtsSum += p.livePoints || p.rawPoints || 0;
+          if (p.minutes > 0 || p.played) playedCountSum++;
+        }
+      }
+      for (const b of modBench) {
+        if (b.isSubbedIn) {
+          livePtsSum += b.livePoints || b.rawPoints || 0;
+          if (b.minutes > 0 || b.played) playedCountSum++;
+        }
+      }
+
+      return {
+        effectiveStarters: modStarters,
+        effectiveBench: modBench,
+        effectiveLivePts: livePtsSum,
+        effectivePlayedCount: playedCountSum,
+      };
+    }, [starters, bench, autosubsEnabled, activeChip, playedCount]);
+
   // LiveFPL Compact List View (Default)
   if (layoutMode === "list") {
     return (
@@ -143,42 +244,37 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
               </span>
             )}
             <span className="text-emerald-400 font-semibold font-mono">
-              Played: {playedCount}/{maxPlayedCount}
+              Played: {effectivePlayedCount}/{maxPlayedCount}
             </span>
           </div>
         </div>
 
-        {/* Compact Players Flex Layout */}
+        {/* Compact Players Flex Layout - Starters and Bench Flow Consecutively */}
         <div className="flex flex-wrap gap-1.5 justify-start">
-          {starters.map((player) => (
+          {effectiveStarters.map((player) => (
             <PlayerCompactCard
               key={`${player.id}-${player.pickPosition}`}
               player={player}
               isBench={false}
             />
           ))}
-          {bench.length > 0 && (
-            <>
-              <div className="w-full h-px bg-white/[0.06] my-1" />
-              {bench.map((player) => (
-                <PlayerCompactCard
-                  key={`${player.id}-${player.pickPosition}`}
-                  player={player}
-                  isBench={true}
-                />
-              ))}
-            </>
-          )}
+          {effectiveBench.map((player) => (
+            <PlayerCompactCard
+              key={`${player.id}-${player.pickPosition}`}
+              player={player}
+              isBench={true}
+            />
+          ))}
         </div>
       </div>
     );
   }
 
   // Pitch View
-  const gks = starters.filter((p) => p.elementType === 1 || p.position === "GKP");
-  const defs = starters.filter((p) => p.elementType === 2 || p.position === "DEF");
-  const mids = starters.filter((p) => p.elementType === 3 || p.position === "MID");
-  const fwds = starters.filter((p) => p.elementType === 4 || p.position === "FWD");
+  const gks = effectiveStarters.filter((p) => p.elementType === 1 || p.position === "GKP");
+  const defs = effectiveStarters.filter((p) => p.elementType === 2 || p.position === "DEF");
+  const mids = effectiveStarters.filter((p) => p.elementType === 3 || p.position === "MID");
+  const fwds = effectiveStarters.filter((p) => p.elementType === 4 || p.position === "FWD");
 
   const renderPlayer = (player: LeaguePlayer, isBench = false) => {
     const isGK = player.elementType === 1 || player.position === "GKP";
@@ -191,6 +287,18 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
         key={`${player.id}-${player.pickPosition}`}
         className="flex flex-col items-center justify-center relative flex-1 min-w-0 max-w-[76px] transition-transform duration-150 hover:scale-105"
       >
+        {/* Sub In / Sub Out Indicators */}
+        {player.isSubbedIn && (
+          <span className="absolute -top-1.5 -left-1.5 z-30 bg-emerald-500 text-black text-[8px] font-extrabold px-1 rounded shadow border border-emerald-400 leading-tight">
+            ▲ IN
+          </span>
+        )}
+        {player.isSubbedOut && (
+          <span className="absolute -top-1.5 -left-1.5 z-30 bg-rose-600 text-white text-[8px] font-extrabold px-1 rounded shadow border border-rose-500 leading-tight">
+            ▼ OUT
+          </span>
+        )}
+
         {/* Captaincy / Vice Captaincy / Chip Badge */}
         {player.isCaptain && (
           <div className="absolute -top-1 -right-0.5 z-20 flex items-center justify-center w-4 h-4 rounded-full bg-amber-400 text-black font-extrabold text-[9px] shadow-md border border-amber-200">
@@ -210,7 +318,9 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
             alt={player.webName}
             width={40}
             height={40}
-            className="w-9 h-9 object-contain drop-shadow-md"
+            className={`w-9 h-9 object-contain drop-shadow-md ${
+              player.isSubbedOut ? "opacity-40" : ""
+            }`}
             unoptimized
             onError={(e) => {
               const target = e.currentTarget as HTMLImageElement;
@@ -236,7 +346,11 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
         <div className="w-full mt-0.5 px-1 py-0.2 rounded bg-neutral-900/90 border border-white/[0.06] text-center flex items-center justify-center gap-1">
           <span
             className={`text-[10px] font-mono font-semibold ${
-              player.livePoints > 0
+              player.isSubbedOut
+                ? "text-neutral-600 line-through"
+                : player.isSubbedIn
+                ? "text-emerald-400 font-bold"
+                : player.livePoints > 0
                 ? "text-emerald-400"
                 : player.minutes > 0
                 ? "text-neutral-300"
@@ -274,7 +388,7 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
             </span>
           )}
           <span className="text-emerald-400 font-semibold">
-            Played: {playedCount}/{maxPlayedCount}
+            Played: {effectivePlayedCount}/{maxPlayedCount}
           </span>
         </div>
       </div>
@@ -308,7 +422,7 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
       </div>
 
       {/* Bench Row */}
-      {bench.length > 0 && (
+      {effectiveBench.length > 0 && (
         <div className="w-full p-2 rounded-lg bg-neutral-900/60 border border-white/[0.06] space-y-1">
           <div className="flex items-center justify-between text-[10px] font-mono text-neutral-400 px-1">
             <span>BENCH</span>
@@ -317,7 +431,7 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
             )}
           </div>
           <div className="flex justify-around items-center gap-1">
-            {bench.map((p, idx) => (
+            {effectiveBench.map((p, idx) => (
               <div key={`${p.id}-${p.pickPosition}`} className="relative flex flex-col items-center">
                 <span className="text-[9px] font-mono text-neutral-500 mb-0.5">
                   {idx === 0 ? "GK" : `B${idx}`}

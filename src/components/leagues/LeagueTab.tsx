@@ -69,6 +69,7 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
   const [totalManagersCount, setTotalManagersCount] = useState<number>(0);
   const [expandedIds, setExpandedIds] = useState<Set<number>>(new Set());
   const [layoutMode, setLayoutMode] = useState<"list" | "pitch">("list");
+  const [autosubsEnabled, setAutosubsEnabled] = useState<boolean>(true);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [customLeagueInput, setCustomLeagueInput] = useState<string>("");
   const [isLoadingLeagues, setIsLoadingLeagues] = useState<boolean>(false);
@@ -246,36 +247,69 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
         )}
       </div>
 
-      {/* 3. Layout Selector Bar */}
-      <div className="flex items-center justify-between px-1 text-xs">
-        <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-wider">
-          GW{gameweek} Standings ({filteredManagers.length})
+      {/* 3. Controls Bar: Layout & Autosubs Toggles */}
+      <div className="flex items-center justify-between px-1 text-xs gap-2">
+        <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-wider truncate">
+          GW{gameweek} ({filteredManagers.length})
         </span>
-        <div className="flex items-center gap-2">
-          <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider">
-            Layout:
-          </span>
-          <div className="flex bg-neutral-900 rounded-lg p-0.5 border border-white/[0.06]">
-            <button
-              onClick={() => setLayoutMode("list")}
-              className={`px-3 py-1 text-xs font-mono font-medium rounded-md transition-all ${
-                layoutMode === "list"
-                  ? "bg-neutral-800 text-emerald-400 shadow font-semibold"
-                  : "text-neutral-400 hover:text-neutral-200"
-              }`}
-            >
-              List
-            </button>
-            <button
-              onClick={() => setLayoutMode("pitch")}
-              className={`px-3 py-1 text-xs font-mono font-medium rounded-md transition-all ${
-                layoutMode === "pitch"
-                  ? "bg-neutral-800 text-emerald-400 shadow font-semibold"
-                  : "text-neutral-400 hover:text-neutral-200"
-              }`}
-            >
-              Pitch
-            </button>
+
+        <div className="flex items-center gap-3">
+          {/* Autosubs Toggle */}
+          <div className="flex items-center gap-1.5">
+            <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider font-semibold">
+              Autosubs:
+            </span>
+            <div className="flex bg-neutral-900 rounded-lg p-0.5 border border-white/[0.06]">
+              <button
+                onClick={() => setAutosubsEnabled(true)}
+                className={`px-2.5 py-1 text-xs font-mono font-medium rounded-md transition-all ${
+                  autosubsEnabled
+                    ? "bg-emerald-600 text-white shadow font-semibold"
+                    : "text-neutral-400 hover:text-neutral-200"
+                }`}
+              >
+                On
+              </button>
+              <button
+                onClick={() => setAutosubsEnabled(false)}
+                className={`px-2.5 py-1 text-xs font-mono font-medium rounded-md transition-all ${
+                  !autosubsEnabled
+                    ? "bg-neutral-800 text-white shadow font-semibold"
+                    : "text-neutral-400 hover:text-neutral-200"
+                }`}
+              >
+                Off
+              </button>
+            </div>
+          </div>
+
+          {/* Layout Toggle */}
+          <div className="flex items-center gap-1.5">
+            <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider font-semibold">
+              Layout:
+            </span>
+            <div className="flex bg-neutral-900 rounded-lg p-0.5 border border-white/[0.06]">
+              <button
+                onClick={() => setLayoutMode("list")}
+                className={`px-2.5 py-1 text-xs font-mono font-medium rounded-md transition-all ${
+                  layoutMode === "list"
+                    ? "bg-neutral-800 text-emerald-400 shadow font-semibold"
+                    : "text-neutral-400 hover:text-neutral-200"
+                }`}
+              >
+                List
+              </button>
+              <button
+                onClick={() => setLayoutMode("pitch")}
+                className={`px-2.5 py-1 text-xs font-mono font-medium rounded-md transition-all ${
+                  layoutMode === "pitch"
+                    ? "bg-neutral-800 text-emerald-400 shadow font-semibold"
+                    : "text-neutral-400 hover:text-neutral-200"
+                }`}
+              >
+                Pitch
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -440,6 +474,7 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
                       starters={mgr.starters}
                       bench={mgr.bench}
                       layoutMode={layoutMode}
+                      autosubsEnabled={autosubsEnabled}
                     />
                   </div>
                 )}
