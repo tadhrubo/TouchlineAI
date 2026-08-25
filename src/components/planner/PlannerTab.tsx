@@ -777,8 +777,13 @@ const PlannerPlayerCard: React.FC<PlannerPlayerCardProps> = ({
         </button>
       </div>
 
-      {/* Jersey Icon */}
+      {/* Jersey Icon with Performance Badge on Top-Left */}
       <div className="relative my-0.5 flex items-center justify-center mt-1">
+        {perfBadge && (
+          <div className="absolute -top-2 -left-3 z-20 bg-[#131722] rounded-full text-[11px] shadow-sm leading-none border border-gray-700 p-[3px]">
+            {perfBadge}
+          </div>
+        )}
         <JerseyIcon
           teamShort={player.teamShort}
           isGK={player.position === "GKP"}
@@ -789,20 +794,10 @@ const PlannerPlayerCard: React.FC<PlannerPlayerCardProps> = ({
 
       {/* Player Info Badge */}
       <div className="w-full flex flex-col items-center mt-0.5 bg-neutral-950/85 border border-white/[0.08] rounded-md px-1 py-0.5 text-center backdrop-blur-sm shadow-md">
-        {/* Web Name & Performance Badge */}
-        <div className="flex items-center justify-center gap-1 w-full px-0.5">
-          <p className="text-[11px] font-medium text-neutral-200 truncate leading-tight">
-            {player.webName}
-          </p>
-          {perfBadge && (
-            <span
-              title={perfBadge.description}
-              className="text-[9px] leading-none flex-shrink-0"
-            >
-              {perfBadge.emoji}
-            </span>
-          )}
-        </div>
+        {/* Web Name */}
+        <p className="text-[11px] font-medium text-neutral-200 truncate leading-tight w-full">
+          {player.webName}
+        </p>
 
         {/* Fixture & Price */}
         <div className="flex items-center justify-center gap-1 text-[9px] font-mono text-neutral-400 mt-0.5 leading-none">

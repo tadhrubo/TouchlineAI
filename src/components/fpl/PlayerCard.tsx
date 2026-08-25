@@ -67,23 +67,14 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
         </div>
       )}
 
-      {/* Bench Priority Tag or Performance Badge */}
-      {isBench && benchLabel ? (
+      {/* Bench Priority Tag */}
+      {isBench && benchLabel && (
         <div className="absolute -top-1 -right-0.5 z-20">
           <span className="px-1 py-0.2 text-[9px] font-mono font-medium rounded bg-neutral-900 text-neutral-400 border border-white/[0.08]">
             {benchLabel}
           </span>
         </div>
-      ) : perfBadge ? (
-        <div className="absolute -top-1 -right-0.5 z-20">
-          <span
-            title={perfBadge.description}
-            className={`px-1 py-0.2 text-[9px] font-mono rounded border shadow-sm backdrop-blur-sm ${perfBadge.colorClass}`}
-          >
-            {perfBadge.emoji}
-          </span>
-        </div>
-      ) : null}
+      )}
 
       {/* Injury / Status Alert Flag */}
       {player.status !== "available" && (
@@ -97,8 +88,13 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
         </div>
       )}
 
-      {/* Jersey Graphic */}
+      {/* Jersey Graphic with LiveFPL Performance Badge on Top-Left */}
       <div className="relative my-0.5 flex items-center justify-center">
+        {perfBadge && (
+          <div className="absolute -top-2 -left-3 z-20 bg-[#131722] rounded-full text-[11px] shadow-sm leading-none border border-gray-700 p-[3px]">
+            {perfBadge}
+          </div>
+        )}
         <JerseyIcon
           teamShort={player.teamShort}
           isGK={player.position === "GKP"}

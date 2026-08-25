@@ -1,93 +1,87 @@
 /**
- * Performance Badge Generator for Touchline AI / LiveFPL Experience
- * Generates dynamic badges and status indicators based on real-time Top 10k Effective Ownership (EO),
- * match minutes, and gameweek points.
+ * LiveFPL Performance Badge Utility
+ * Returns the exact LiveFPL status emoji or null based on match points, minutes, and EO.
  */
 
-export interface PerformanceBadge {
+export interface BadgeLegendItem {
   emoji: string;
-  label: string;
+  title: string;
   description: string;
-  type: "template" | "spy" | "differential_hero" | "differential_flop" | "differential" | "neutral";
-  colorClass: string;
 }
 
-/**
- * Evaluates player performance against Top 10k Effective Ownership (EO)
- * Prioritizes top10kEo if present; falls back to global ownershipPercent if missing or 0.
- *
- * @param points - Current gameweek points scored
- * @param minutes - Minutes played in current gameweek
- * @param ownershipPercent - Global ownership percentage
- * @param top10kEo - Top 10,000 Effective Ownership (EO) percentage
- * @param isCaptain - Whether the manager captained this player
- */
+export const BADGE_LEGEND_ITEMS: BadgeLegendItem[] = [
+  {
+    emoji: "🎲",
+    title: "Diff to play",
+    description: "Low EO (< 20%), yet to play",
+  },
+  {
+    emoji: "⭐",
+    title: "Diff hauled",
+    description: "Low EO (< 20%) + big points (8+ pts)",
+  },
+  {
+    emoji: "👎",
+    title: "Diff flopped",
+    description: "Low EO (< 20%) but low points (≤ 3 pts)",
+  },
+  {
+    emoji: "😴",
+    title: "Template",
+    description: "High EO (> 30%), small rank gain (4–7 pts)",
+  },
+  {
+    emoji: "🕵️‍♂️",
+    title: "Spy",
+    description: "> 100% Top 10k EO, hurts rank when blanking (≤ 3 pts)",
+  },
+  {
+    emoji: "🔥",
+    title: "10+ pts haul",
+    description: "Double-digit haul (non-differential)",
+  },
+  {
+    emoji: "🔃",
+    title: "Autosub",
+    description: "Player substituted in (▲) or out (▼)",
+  },
+];
+
 export const getPerformanceBadge = (
-  points: number,
-  minutes: number,
-  ownershipPercent: number = 0,
+  points: number, 
+  minutes: number, 
+  globalOwnership: number = 0, 
   top10kEo?: number,
-  isCaptain: boolean = false
-): PerformanceBadge | null => {
-  // Determine effective EO to evaluate: prioritize top10kEo if valid (>0)
-  const effectiveEo = top10kEo != null && top10kEo > 0 ? top10kEo : ownershipPercent;
+  isSubbedIn?: boolean, 
+  isSubbedOut?: boolean
+): string | null => {
+  // Use Top 10k EO if available, otherwise fallback to global ownership
+  const eo = top10kEo !== undefined && top10kEo > 0 ? top10kEo : globalOwnership;
+  
+  const hasPlayed = minutes > 0;
+  const isDifferential = eo < 20.0;
+  const isSpy = eo > 100.0;
 
-  // 1. Template Player (EO > 100%)
-  if (effectiveEo > 100) {
-    // Spy: High ownership template failure (scores <= 3 points after playing)
-    if (minutes > 0 && points <= 3) {
-      return {
-        emoji: "🕵️‍♂️",
-        label: "Spy",
-        description: `Template blanked (${points} pts with ${effectiveEo.toFixed(0)}% Top 10k EO)`,
-        type: "spy",
-        colorClass: "bg-amber-950/40 text-amber-300 border-amber-800/60",
-      };
-    }
+  // 🔃 Autosub: subbed in or out
+  if (isSubbedIn || isSubbedOut) return "🔃";
+  
+  // 🎲 Diff to play: low EO, yet to play
+  if (isDifferential && !hasPlayed) return "🎲";
+  
+  // ⭐ Diff hauled: low EO + big points (8+)
+  if (isDifferential && points >= 8) return "⭐";
+  
+  // 👎 Diff flopped: low EO but low pts (<= 3)
+  if (isDifferential && hasPlayed && points <= 3) return "👎";
+  
+  // 🔥 10+ pts haul (not differential)
+  if (!isDifferential && points >= 10) return "🔥";
+  
+  // 🕵️‍♂️ Spy: >100% EO, hurts rank (scored <= 3)
+  if (isSpy && hasPlayed && points <= 3) return "🕵️‍♂️";
 
-    // Standard Template Player
-    return {
-      emoji: "😴",
-      label: "Template",
-      description: `High Top 10k EO (${effectiveEo.toFixed(0)}%) - standard safety pick`,
-      type: "template",
-      colorClass: "bg-blue-950/40 text-blue-300 border-blue-800/60",
-    };
-  }
-
-  // 2. Differential Player (EO < 20%)
-  if (effectiveEo < 20) {
-    // Differential Hero: Low EO differential with strong return (>= 6 pts)
-    if (points >= 6) {
-      return {
-        emoji: "⭐",
-        label: "Diff Hero",
-        description: `Differential haul! ${points} pts with only ${effectiveEo.toFixed(1)}% Top 10k EO`,
-        type: "differential_hero",
-        colorClass: "bg-emerald-950/40 text-emerald-300 border-emerald-500/50 shadow-[0_0_10px_rgba(16,185,129,0.2)]",
-      };
-    }
-
-    // Differential Flop: Low EO differential who failed (<= 2 pts after playing >= 60 mins)
-    if (minutes >= 60 && points <= 2) {
-      return {
-        emoji: "👎",
-        label: "Diff Flop",
-        description: `Differential blank (${points} pts, ${effectiveEo.toFixed(1)}% Top 10k EO)`,
-        type: "differential_flop",
-        colorClass: "bg-rose-950/40 text-rose-300 border-rose-800/60",
-      };
-    }
-
-    // Standard Active Differential
-    return {
-      emoji: "🎲",
-      label: "Differential",
-      description: `Low Top 10k EO (${effectiveEo.toFixed(1)}%) - rank climber candidate`,
-      type: "differential",
-      colorClass: "bg-purple-950/40 text-purple-300 border-purple-800/60",
-    };
-  }
-
+  // 😴 Template: high EO, small gain (EO > 30%, pts between 4 and 7)
+  if (eo > 30.0 && points > 3 && points < 8) return "😴";
+  
   return null;
 };

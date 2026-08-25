@@ -62,11 +62,12 @@ const PlayerCompactCard: React.FC<{
   const isBenchDimmed = isBench && !player.isSubbedIn;
 
   const badge = getPerformanceBadge(
-    player.rawPoints ?? player.livePoints ?? 0,
+    player.livePoints ?? player.rawPoints ?? 0,
     player.minutes ?? 0,
     player.selectedByPercent ?? 0,
     player.top10kEo,
-    player.isCaptain
+    player.isSubbedIn,
+    player.isSubbedOut
   );
 
   return (
@@ -81,6 +82,13 @@ const PlayerCompactCard: React.FC<{
     >
       {/* Shirt & Badges */}
       <div className="relative mb-1 flex items-center justify-center">
+        {/* Performance Badge (Template, Spy, Differential Hero, etc.) */}
+        {badge && (
+          <div className="absolute -top-2 -left-3 z-10 bg-[#131722] rounded-full text-[11px] shadow-sm leading-none border border-gray-700 p-[3px]">
+            {badge}
+          </div>
+        )}
+
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={player.kitUrl || fallbackUrl}
@@ -100,16 +108,6 @@ const PlayerCompactCard: React.FC<{
         {player.isSubbedOut && (
           <span className="absolute -top-1.5 -left-1.5 z-20 bg-rose-600 text-white text-[8px] font-extrabold px-1 rounded shadow border border-rose-500 leading-tight">
             ▼ OUT
-          </span>
-        )}
-
-        {/* Performance Badge (Template, Spy, Differential Hero, etc.) */}
-        {badge && (
-          <span
-            title={badge.description}
-            className={`absolute -bottom-1.5 -left-1.5 z-20 text-[9px] px-1 py-0.2 rounded border shadow-sm backdrop-blur-sm ${badge.colorClass}`}
-          >
-            {badge.emoji}
           </span>
         )}
 
@@ -304,11 +302,12 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
       : "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_0-66.webp";
 
     const badge = getPerformanceBadge(
-      player.rawPoints ?? player.livePoints ?? 0,
+      player.livePoints ?? player.rawPoints ?? 0,
       player.minutes ?? 0,
       player.selectedByPercent ?? 0,
       player.top10kEo,
-      player.isCaptain
+      player.isSubbedIn,
+      player.isSubbedOut
     );
 
     return (
@@ -328,16 +327,6 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
           </span>
         )}
 
-        {/* Performance Badge (Template, Spy, Differential Hero, etc.) */}
-        {badge && (
-          <div
-            title={badge.description}
-            className={`absolute -top-1.5 -left-1.5 z-20 flex items-center justify-center text-[10px] px-1 py-0.2 rounded border shadow-sm backdrop-blur-sm ${badge.colorClass}`}
-          >
-            {badge.emoji}
-          </div>
-        )}
-
         {/* Captaincy / Vice Captaincy / Chip Badge */}
         {player.isCaptain && (
           <div className="absolute -top-1 -right-0.5 z-20 flex items-center justify-center w-4 h-4 rounded-full bg-amber-400 text-black font-extrabold text-[9px] shadow-md border border-amber-200">
@@ -352,6 +341,12 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
 
         {/* Kit Shirt Graphics with Fallback Handling */}
         <div className="relative w-10 h-10 flex items-center justify-center">
+          {/* Performance Badge on Top-Left */}
+          {badge && (
+            <div className="absolute -top-2 -left-3 z-20 bg-[#131722] rounded-full text-[11px] shadow-sm leading-none border border-gray-700 p-[3px]">
+              {badge}
+            </div>
+          )}
           <Image
             src={player.kitUrl || fallbackUrl}
             alt={player.webName}

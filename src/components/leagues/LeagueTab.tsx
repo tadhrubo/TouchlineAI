@@ -17,6 +17,7 @@ import {
   SlidersHorizontal,
 } from "lucide-react";
 import { LeaguePitchView } from "./LeaguePitchView";
+import { BadgeLegend } from "../fpl/BadgeLegend";
 
 interface ClassicLeague {
   id: number;
@@ -311,6 +312,9 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
               </button>
             </div>
           </div>
+
+          {/* Performance Badge Legend */}
+          <BadgeLegend />
         </div>
       </div>
 

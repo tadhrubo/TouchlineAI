@@ -13,6 +13,7 @@ import { PlayerModal } from "../fpl/PlayerModal";
 import { PlannerTab } from "../planner/PlannerTab";
 import { FixturesTab } from "../fixtures/FixturesTab";
 import { LeagueTab } from "../leagues/LeagueTab";
+import { BadgeLegend } from "../fpl/BadgeLegend";
 import { SampleTier, SAMPLE_TIER_OPTIONS } from "@/utils/eo";
 import {
   ArrowRight,
@@ -253,13 +254,16 @@ export const HomeTab: React.FC<HomeTabProps> = ({
                   </select>
                 </div>
 
-                <button
-                  onClick={() => setShowEOInfoModal(true)}
-                  className="p-1 text-neutral-400 hover:text-neutral-200 transition-colors"
-                  title="Explain EO / xEO"
-                >
-                  <HelpCircle className="w-4 h-4" />
-                </button>
+                <div className="flex items-center gap-2">
+                  <BadgeLegend />
+                  <button
+                    onClick={() => setShowEOInfoModal(true)}
+                    className="p-1 text-neutral-400 hover:text-neutral-200 transition-colors"
+                    title="Explain EO / xEO"
+                  >
+                    <HelpCircle className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
 
               {/* Pitch Component with Dynamic Formation & EO Support */}
