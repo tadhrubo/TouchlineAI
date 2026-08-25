@@ -2,17 +2,14 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import { createPortal } from "react-dom";
-import { Player, Position } from "@/types/fpl";
+import { Player } from "@/types/fpl";
 import { getFplKitUrl } from "@/utils/fpl";
 import {
   Search,
   X,
-  SlidersHorizontal,
   RefreshCw,
-  TrendingUp,
   AlertCircle,
   Check,
-  ChevronDown,
 } from "lucide-react";
 
 interface PlayerSelectionMarketProps {
@@ -117,14 +114,12 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
     setMounted(true);
   }, []);
 
-  // Update default position & max cost when outPlayer changes
+  // Update default position when outPlayer changes
   useEffect(() => {
     if (outPlayer) {
       setSelectedPosition(outPlayer.position);
-      const maxAffordable = (currentBank + outPlayer.price).toFixed(1);
-      setMaxCostInput(maxAffordable);
     }
-  }, [outPlayer, currentBank]);
+  }, [outPlayer]);
 
   // Fetch all players from /api/players
   useEffect(() => {
@@ -159,12 +154,6 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
     };
   }, [isOpen]);
 
-  // Max affordable budget
-  const maxAffordableBudget = useMemo(() => {
-    if (!outPlayer) return currentBank;
-    return Number((currentBank + outPlayer.price).toFixed(1));
-  }, [currentBank, outPlayer]);
-
   // Set of current squad IDs to exclude
   const currentSquadIds = useMemo(() => {
     return new Set(currentSquad.map((p) => String(p.id)));
@@ -189,7 +178,7 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
       }
 
       // Max cost filter
-      if (maxCostInput && !isNaN(Number(maxCostInput))) {
+      if (maxCostInput && !isNaN(Number(maxCostInput)) && Number(maxCostInput) > 0) {
         if (p.price > Number(maxCostInput)) {
           return false;
         }
@@ -276,6 +265,8 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
 
   if (!isOpen || !mounted || !outPlayer) return null;
 
+  const bankTextColor = currentBank < 0 ? "text-rose-500" : "text-emerald-400";
+
   const renderStatValue = (player: Player) => {
     switch (customStat) {
       case "totalPoints":
@@ -317,10 +308,12 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
         </div>
 
         <div className="flex items-center gap-2 flex-shrink-0">
-          {/* Bank & Transfers Badges */}
+          {/* Dynamic Bank & Transfers Badges with Red Negative Color */}
           <div className="flex items-center gap-1.5 bg-neutral-900 px-2.5 py-1.5 rounded-lg border border-white/[0.06] text-xs font-mono">
             <span className="text-neutral-400">Bank:</span>
-            <span className="font-bold text-emerald-400">£{currentBank.toFixed(1)}m</span>
+            <span className={`font-bold ${bankTextColor}`}>
+              £{currentBank.toFixed(1)}m
+            </span>
           </div>
 
           <div className="flex items-center gap-1.5 bg-neutral-900 px-2.5 py-1.5 rounded-lg border border-white/[0.06] text-xs font-mono">
@@ -338,96 +331,75 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
         </div>
       </div>
 
-      {/* 2. LiveFPL-Style Advanced Filter Panel */}
-      <div className="flex-shrink-0 bg-neutral-950/80 border-b border-white/[0.06] p-3 space-y-2">
-        {/* Row 1: Search input */}
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-neutral-900/90 border border-white/[0.08]">
-          <Search className="w-3.5 h-3.5 text-neutral-500 flex-shrink-0" />
+      {/* 2. Mobile-Responsive Advanced Filter Panel */}
+      <div className="flex-shrink-0 flex flex-col gap-2.5 p-3 bg-[#0E121A] border-b border-white/[0.08] shadow-sm">
+        {/* Search Row - Full width on mobile */}
+        <div className="w-full relative flex items-center">
+          <Search className="w-4 h-4 text-neutral-400 absolute left-3 pointer-events-none" />
           <input
             type="text"
             placeholder="Search by player or club..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="flex-1 bg-transparent text-xs text-neutral-100 placeholder-neutral-500 focus:outline-none font-sans"
+            className="w-full bg-neutral-900 border border-white/[0.08] rounded-xl pl-9 pr-8 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-500/50"
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery("")}
-              className="text-neutral-500 hover:text-neutral-300"
+              className="absolute right-2.5 text-neutral-400 hover:text-white"
             >
               <X className="w-3.5 h-3.5" />
             </button>
           )}
         </div>
 
-        {/* Row 2: LiveFPL Dropdowns Grid */}
-        <div className="grid grid-cols-4 gap-1.5 text-xs font-mono">
-          {/* Custom Stat (Sort By) */}
-          <div className="flex flex-col">
-            <label className="text-[9px] uppercase tracking-wider text-neutral-500 font-semibold mb-0.5">
-              Sort By
-            </label>
-            <select
-              value={customStat}
-              onChange={(e) => setCustomStat(e.target.value as CustomStatOption)}
-              className="w-full bg-neutral-900 border border-white/[0.08] text-[11px] text-neutral-200 rounded-lg px-2 py-1.5 focus:outline-none focus:border-emerald-500/50 truncate"
-            >
-              {Object.entries(CUSTOM_STAT_LABELS).map(([key, label]) => (
-                <option key={key} value={key}>
-                  {label}
-                </option>
-              ))}
-            </select>
-          </div>
+        {/* Filters Grid - 2 columns on mobile, row on desktop */}
+        <div className="grid grid-cols-2 md:flex md:flex-row gap-2 w-full font-mono text-xs">
+          <select
+            value={customStat}
+            onChange={(e) => setCustomStat(e.target.value as CustomStatOption)}
+            className="col-span-1 bg-neutral-900 border border-white/[0.08] rounded-lg px-2.5 py-2 text-[11px] text-neutral-200 focus:outline-none focus:border-emerald-500/50 truncate"
+          >
+            {Object.entries(CUSTOM_STAT_LABELS).map(([key, label]) => (
+              <option key={key} value={key}>
+                {label}
+              </option>
+            ))}
+          </select>
 
-          {/* Position Selector */}
-          <div className="flex flex-col">
-            <label className="text-[9px] uppercase tracking-wider text-neutral-500 font-semibold mb-0.5">
-              Position
-            </label>
-            <select
-              value={selectedPosition}
-              onChange={(e) => setSelectedPosition(e.target.value)}
-              className="w-full bg-neutral-900 border border-white/[0.08] text-[11px] text-neutral-200 rounded-lg px-2 py-1.5 focus:outline-none focus:border-emerald-500/50 truncate"
-            >
-              <option value="ALL">All Pos</option>
-              <option value="GKP">GKP</option>
-              <option value="DEF">DEF</option>
-              <option value="MID">MID</option>
-              <option value="FWD">FWD</option>
-            </select>
-          </div>
+          <select
+            value={selectedPosition}
+            onChange={(e) => setSelectedPosition(e.target.value)}
+            className="col-span-1 bg-neutral-900 border border-white/[0.08] rounded-lg px-2.5 py-2 text-[11px] text-neutral-200 focus:outline-none focus:border-emerald-500/50 truncate"
+          >
+            <option value="ALL">All Positions</option>
+            <option value="GKP">Goalkeepers</option>
+            <option value="DEF">Defenders</option>
+            <option value="MID">Midfielders</option>
+            <option value="FWD">Forwards</option>
+          </select>
 
-          {/* Team Selector */}
-          <div className="flex flex-col">
-            <label className="text-[9px] uppercase tracking-wider text-neutral-500 font-semibold mb-0.5">
-              Team
-            </label>
-            <select
-              value={selectedTeam}
-              onChange={(e) => setSelectedTeam(e.target.value)}
-              className="w-full bg-neutral-900 border border-white/[0.08] text-[11px] text-neutral-200 rounded-lg px-2 py-1.5 focus:outline-none focus:border-emerald-500/50 truncate"
-            >
-              {TEAMS_LIST.map((t) => (
-                <option key={t.short} value={t.short}>
-                  {t.name}
-                </option>
-              ))}
-            </select>
-          </div>
+          <select
+            value={selectedTeam}
+            onChange={(e) => setSelectedTeam(e.target.value)}
+            className="col-span-1 bg-neutral-900 border border-white/[0.08] rounded-lg px-2.5 py-2 text-[11px] text-neutral-200 focus:outline-none focus:border-emerald-500/50 truncate"
+          >
+            {TEAMS_LIST.map((t) => (
+              <option key={t.short} value={t.short}>
+                {t.name}
+              </option>
+            ))}
+          </select>
 
-          {/* Max Cost Input */}
-          <div className="flex flex-col">
-            <label className="text-[9px] uppercase tracking-wider text-neutral-500 font-semibold mb-0.5">
-              Max £m
-            </label>
+          <div className="col-span-1 flex items-center bg-neutral-900 border border-white/[0.08] rounded-lg px-2 text-[11px] text-neutral-200 overflow-hidden">
+            <span className="text-neutral-400 mr-1.5 whitespace-nowrap text-[10px]">Max £M:</span>
             <input
               type="number"
               step="0.1"
-              placeholder="Max £m"
+              placeholder="No limit"
               value={maxCostInput}
               onChange={(e) => setMaxCostInput(e.target.value)}
-              className="w-full bg-neutral-900 border border-white/[0.08] text-[11px] text-neutral-200 rounded-lg px-2 py-1.5 focus:outline-none focus:border-emerald-500/50 font-mono"
+              className="w-full bg-transparent text-neutral-100 focus:outline-none py-2 text-[11px] font-mono"
             />
           </div>
         </div>
@@ -449,7 +421,7 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
           <div className="p-8 text-center text-xs font-mono text-neutral-400 bg-neutral-900/30 rounded-xl border border-white/[0.04] space-y-1">
             <p>No players matched your filter criteria.</p>
             <p className="text-[11px] text-neutral-500">
-              Try increasing the Max Cost or resetting the Search filter.
+              Try resetting the Max Cost or adjusting the Search query.
             </p>
           </div>
         ) : (
@@ -460,20 +432,13 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
               ? "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_0_1-66.webp"
               : "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_0-66.webp";
 
-            const newBank = Number((maxAffordableBudget - player.price).toFixed(1));
-            const isAffordable = newBank >= 0;
             const nextFix = player.currentFixture || player.upcomingFixtures?.[0];
 
             return (
               <button
                 key={player.id}
-                disabled={!isAffordable}
                 onClick={() => onSelect(player)}
-                className={`w-full p-2.5 rounded-xl border text-left flex items-center justify-between transition-all duration-150 ${
-                  isAffordable
-                    ? "bg-[#0E121A] border-white/[0.06] hover:border-emerald-500/40 hover:bg-neutral-900 active:scale-[0.99]"
-                    : "bg-neutral-950/60 border-white/[0.02] opacity-40 cursor-not-allowed"
-                }`}
+                className="w-full p-2.5 rounded-xl border text-left flex items-center justify-between transition-all duration-150 bg-[#0E121A] border-white/[0.06] hover:border-emerald-500/40 hover:bg-neutral-900 active:scale-[0.99]"
               >
                 {/* Left: Shirt & Name & Fixture */}
                 <div className="flex items-center gap-2.5 min-w-0 flex-1 pr-2">
@@ -499,7 +464,7 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
                       <span className="text-xs font-semibold text-neutral-100 truncate">
                         {player.webName}
                       </span>
-                      <span className="text-[10px] font-mono text-neutral-400">
+                      <span className="text-[10px] font-mono text-neutral-400 flex-shrink-0">
                         {player.teamShort}
                       </span>
                     </div>
@@ -524,9 +489,9 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
                   </div>
                 </div>
 
-                {/* Right: Selected Custom Stat & Price */}
-                <div className="flex items-center gap-3 text-right flex-shrink-0 font-mono">
-                  {/* Custom Stat Pill */}
+                {/* Right: Selected Custom Stat & Price & Swap Button */}
+                <div className="flex items-center gap-2.5 text-right flex-shrink-0 font-mono">
+                  {/* Custom Stat & Price Pill */}
                   <div className="text-right">
                     <span className="text-xs font-bold text-emerald-400 block">
                       {renderStatValue(player)}
@@ -536,19 +501,9 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
                     </span>
                   </div>
 
-                  {/* Buy / Swap Indicator */}
-                  <div
-                    className={`w-7 h-7 rounded-lg flex items-center justify-center border ${
-                      isAffordable
-                        ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
-                        : "bg-rose-950/20 border-rose-900/40 text-rose-500"
-                    }`}
-                  >
-                    {isAffordable ? (
-                      <Check className="w-3.5 h-3.5" />
-                    ) : (
-                      <span className="text-[10px] font-bold">✕</span>
-                    )}
+                  {/* Buy / Swap Action Button with Comfortable Mobile Touch Target */}
+                  <div className="min-w-[32px] h-8 px-2 rounded-lg flex items-center justify-center border bg-emerald-500/15 border-emerald-500/35 text-emerald-400 hover:bg-emerald-500/25 transition">
+                    <Check className="w-4 h-4" />
                   </div>
                 </div>
               </button>
@@ -559,7 +514,7 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
 
       {/* 4. Footer info */}
       <div className="flex-shrink-0 p-2.5 border-t border-white/[0.06] bg-neutral-950/90 text-center font-mono text-[10px] text-neutral-500">
-        Showing {filteredPlayers.length} candidate players · Max Budget: £{maxAffordableBudget.toFixed(1)}m
+        Showing {filteredPlayers.length} candidate players · Budget flexible for draft planning
       </div>
     </div>,
     document.body

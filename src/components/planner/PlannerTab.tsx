@@ -225,17 +225,7 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
   // Replacement selection from market
   const handleSelectMarketPlayer = (inPlayer: Player) => {
     if (!activePlayerSlot) return;
-
-    const newBank = Number(
-      (calculatedBank + activePlayerSlot.price - inPlayer.price).toFixed(1)
-    );
-
-    if (newBank < 0) {
-      setSwapError(
-        `Cannot afford ${inPlayer.webName}. Requires an additional £${Math.abs(newBank).toFixed(1)}m in the bank.`
-      );
-      return;
-    }
+    setSwapError(null);
 
     setPlannedSquad((prev) =>
       prev.map((p) => {
