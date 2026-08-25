@@ -205,7 +205,7 @@ function generateDynamicInsights(
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { entryId = "1", message = "", actionType = "" } = body;
+    const { entryId = "1", message = "", messages = [], actionType = "" } = body;
 
     const apiKey = process.env.GEMINI_API_KEY || "";
     const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null;
@@ -238,6 +238,40 @@ export async function POST(request: NextRequest) {
       userPromptText = `Check injury flags, rotation risks, and press conference updates across my squad for Gameweek ${stats.nextGameweek}.`;
     } else {
       userPromptText = `Analyze my current squad for Gameweek ${stats.nextGameweek} and highlight key tactical priorities.`;
+    }
+
+    // Map full conversation history into Gemini Content format
+    let contents: Array<{ role: "user" | "model"; parts: Array<{ text: string }> }> = [];
+
+    if (Array.isArray(messages) && messages.length > 0) {
+      for (const msg of messages) {
+        if (!msg) continue;
+        const textContent = (msg.content || msg.text || "").trim();
+        if (!textContent) continue;
+        const role =
+          msg.role === "ai" || msg.role === "assistant" || msg.sender === "assistant"
+            ? ("model" as const)
+            : ("user" as const);
+
+        if (contents.length > 0 && contents[contents.length - 1].role === role) {
+          contents[contents.length - 1].parts[0].text += "\n\n" + textContent;
+        } else {
+          contents.push({ role, parts: [{ text: textContent }] });
+        }
+      }
+    }
+
+    if (contents.length === 0) {
+      contents = [{ role: "user", parts: [{ text: userPromptText }] }];
+    } else {
+      // Ensure first turn is from user
+      if (contents[0].role !== "user") {
+        contents.shift();
+      }
+      // Ensure the last message in contents is a user message
+      if (contents.length === 0 || contents[contents.length - 1].role !== "user") {
+        contents.push({ role: "user", parts: [{ text: userPromptText }] });
+      }
     }
 
     // Vector Similarity Search for Press Conference & Injury News
@@ -313,9 +347,10 @@ export async function POST(request: NextRequest) {
         .join("\n");
     }
 
-    // Overhauled System Prompt enforcing conversational focus & anti-defaulting
+    // Overhauled System Prompt with Google Search Grounding and Context Awareness
     const systemInstruction = `You are "Touchline AI", an expert Fantasy Premier League (FPL) tactical assistant and data scientist.
 Your primary goal is to directly and conversationally answer the user's specific questions. If the user asks about a specific player's viability (e.g., rotation risk, clean sheet odds, transfer targets, form, tactical role), analyze the provided squad data, xP projections, FDR, and news RAG context to give a sharp, tactical answer. Do NOT default to listing their optimal starting XI unless specifically requested.
+Use the Google Search tool to verify recent match results, real-time injuries, and live FPL data. Always read the conversation history to understand pronoun references (e.g., 'he' or 'him') before answering.
 
 === LIVE MANAGER & SQUAD CONTEXT ===
 - Manager: ${stats.managerName} | Team: "${stats.teamName}" (FPL ID: #${entryId})
@@ -342,12 +377,13 @@ ${newsContextText}
 === STRICT GUIDELINES FOR YOUR RESPONSE ===
 1. Direct Focus: Always answer the user's exact question or topic first. If they ask about a specific player (e.g., Szoboszlai, Palmer, Saka, Diaz), analyze that specific player's expected minutes, fixture difficulty, attacking/defensive threat, price bracket competition, and rotation risk directly.
 2. Anti-Defaulting Rule: NEVER default to dumping the starting XI or full team layout unless the user explicitly asks for their starting XI or team optimization.
-3. Tone: Authoritative, tactical, concise, and engaging FPL punditry with exact data points (FDR, xP, price, form).
-4. Formatting: Use clean Markdown with bolding on player names, clear headers (###), and bullet points where helpful. Keep it mobile-friendly (2-4 concise paragraphs/sections).`;
+3. Pronoun and Context Awareness: Evaluate the conversation history carefully when resolving references like "him", "he", "them", or "both".
+4. Tone: Authoritative, tactical, concise, and engaging FPL punditry with exact data points (FDR, xP, price, form).
+5. Formatting: Use clean Markdown with bolding on player names, clear headers (###), and bullet points where helpful. Keep it mobile-friendly (2-4 concise paragraphs/sections).`;
 
     let responseText = "";
 
-    // Call Google Gemini API with fallback across active fast models (12s timeout)
+    // Call Google Gemini API with Search Grounding tool enabled and graceful fallback
     if (genAI) {
       const candidateModels = [
         "gemini-3.5-flash",
@@ -360,12 +396,14 @@ ${newsContextText}
 
       for (const modelName of candidateModels) {
         try {
+          // Attempt with Google Search Grounding tool
           const model = genAI.getGenerativeModel({
             model: modelName,
             systemInstruction: systemInstruction,
+            tools: [{ googleSearch: {} }] as any,
           });
 
-          const geminiPromise = model.generateContent(userPromptText);
+          const geminiPromise = model.generateContent({ contents });
           const timeoutPromise = new Promise<null>((resolve) =>
             setTimeout(() => resolve(null), 12000)
           );
@@ -379,8 +417,29 @@ ${newsContextText}
             }
           }
         } catch (geminiError: any) {
-          console.warn(`Model ${modelName} attempt error:`, geminiError.message || geminiError);
-          continue;
+          console.warn(`Model ${modelName} with search tool error:`, geminiError.message || geminiError);
+
+          // Secondary attempt without tool in case search tool is quota restricted
+          try {
+            const fallbackModel = genAI.getGenerativeModel({
+              model: modelName,
+              systemInstruction: systemInstruction,
+            });
+            const fallbackPromise = fallbackModel.generateContent({ contents });
+            const timeoutPromise = new Promise<null>((resolve) =>
+              setTimeout(() => resolve(null), 8000)
+            );
+            const result: any = await Promise.race([fallbackPromise, timeoutPromise]);
+            if (result && result.response) {
+              const geminiText = result.response.text();
+              if (geminiText && geminiText.trim().length > 0) {
+                responseText = geminiText.trim();
+                break;
+              }
+            }
+          } catch {
+            continue;
+          }
         }
       }
     }

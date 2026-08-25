@@ -239,7 +239,8 @@ export const ChatTab: React.FC<ChatTabProps> = ({
       text: text || actionType || "Analyze Squad",
     };
 
-    setMessages((prev) => [...prev, userMsg]);
+    const updatedMessages = [...messages, userMsg];
+    setMessages(updatedMessages);
     setInputValue("");
     setIsThinking(true);
 
@@ -250,6 +251,10 @@ export const ChatTab: React.FC<ChatTabProps> = ({
         body: JSON.stringify({
           entryId: entryId,
           message: text,
+          messages: updatedMessages.map((m) => ({
+            role: m.sender === "assistant" ? "ai" : "user",
+            content: m.text || "",
+          })),
           actionType: actionType || "",
         }),
       });
