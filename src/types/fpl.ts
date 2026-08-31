@@ -57,6 +57,11 @@ export interface Player {
   photoUrl: string;
   top10kEo?: number;
   top_10k_eo?: number;
+  teamCode?: number;
+  team_code?: number;
+  elementType?: number;
+  element_type?: number;
+  kitUrl?: string;
   stats?: PlayerLiveStats;
   liveStats?: PlayerLiveStats;
   multiplier?: number;

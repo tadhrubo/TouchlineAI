@@ -197,7 +197,10 @@ export const PointsTab: React.FC<PointsTabProps> = ({
   const fwds = effectiveStarters.filter((p) => p.position === "FWD");
 
   const renderLivePlayerCard = (player: Player, isBench = false) => {
-    const isGK = player.position === "GKP";
+    const isGK = player.element_type === 1 || player.elementType === 1 || player.position === "GKP";
+    const baseCode = player.team_code || player.teamCode || 0;
+    const shirtCode = isGK ? `${baseCode}_1` : `${baseCode}`;
+    const shirtUrl = player.kitUrl || `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${shirtCode}-66.webp`;
     const fallbackUrl = isGK
       ? "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_0_1-66.webp"
       : "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_0-66.webp";
@@ -269,7 +272,7 @@ export const PointsTab: React.FC<PointsTabProps> = ({
           )}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={player.photoUrl || fallbackUrl}
+            src={shirtUrl}
             alt={player.webName}
             className="w-9 h-9 object-contain drop-shadow"
             onError={(e) => {

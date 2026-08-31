@@ -133,19 +133,45 @@ export async function fetchManagerSquad(
 
   const elementIds = rawPicks.map((p) => p.element);
 
-  // 3. Query Supabase to enrich player, team, and ML prediction details
+function getFplKitUrl(teamCode: number | undefined, isGoalkeeper: boolean = false): string {
+  if (!teamCode) {
+    return isGoalkeeper
+      ? "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_0_1-66.webp"
+      : "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_0-66.webp";
+  }
+  const shirtCode = isGoalkeeper ? `${teamCode}_1` : `${teamCode}`;
+  return `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${shirtCode}-66.webp`;
+}
+
+// 3. Query Supabase and FPL bootstrap-static to enrich player, team, and kit details
   let dbPlayers: any[] | null = null;
   let allTeams: any[] | null = null;
+  const bootstrapElementsMap = new Map<number, any>();
+  const bootstrapTeamsMap = new Map<number, any>();
+
   try {
-    const [playersResult, teamsResult] = await Promise.all([
+    const [playersResult, teamsResult, bootstrapRes] = await Promise.all([
       supabase
         .from("players")
         .select("*, teams(*), player_predictions(*)")
         .in("id", elementIds),
       supabase.from("teams").select("id, name, short_name"),
+      fetch("https://fantasy.premierleague.com/api/bootstrap-static/", {
+        headers: fplHeaders,
+        next: { revalidate: 300 },
+      }).catch(() => null),
     ]);
     dbPlayers = playersResult.data;
     allTeams = teamsResult.data;
+    if (bootstrapRes && bootstrapRes.ok) {
+      const bData = await bootstrapRes.json();
+      for (const t of bData.teams || []) {
+        bootstrapTeamsMap.set(t.id, t);
+      }
+      for (const el of bData.elements || []) {
+        bootstrapElementsMap.set(el.id, el);
+      }
+    }
     if (playersResult.error) console.warn("Supabase players query:", playersResult.error.message);
     if (teamsResult.error) console.warn("Supabase teams query:", teamsResult.error.message);
   } catch (err) {
@@ -303,19 +329,31 @@ export async function fetchManagerSquad(
     const isMatchStarted = teamFix ? teamFix.started : liveMins > 0;
     const isYetToPlay = !isMatchStarted && liveMins === 0;
 
+    const bEl = bootstrapElementsMap.get(pick.element);
+    const bTeam = bEl ? bootstrapTeamsMap.get(bEl.team) : null;
+    const elementTypeNum = bEl?.element_type || dbP?.element_type || (POSITION_MAP[dbP?.element_type || 3] === "GKP" ? 1 : 3);
+    const teamCodeNum = Number(bTeam?.code || bEl?.team_code || dbP?.team_code || dbP?.teams?.code || 0);
+    const isGK = elementTypeNum === 1 || positionType === "GKP";
+    const kitUrl = getFplKitUrl(teamCodeNum, isGK);
+
     const playerObj: Player = {
       id: playerId,
-      name: dbP?.web_name || `Player ${pick.element}`,
-      webName: dbP?.web_name || `Player ${pick.element}`,
-      fullName: `${dbP?.first_name || ""} ${dbP?.second_name || ""}`.trim() || dbP?.web_name || `Player ${pick.element}`,
+      name: dbP?.web_name || bEl?.web_name || `Player ${pick.element}`,
+      webName: dbP?.web_name || bEl?.web_name || `Player ${pick.element}`,
+      fullName: `${dbP?.first_name || bEl?.first_name || ""} ${dbP?.second_name || bEl?.second_name || ""}`.trim() || dbP?.web_name || `Player ${pick.element}`,
       team: teamName,
       teamShort: teamShort,
       teamColor: kitStyle.color,
       teamSecondaryColor: kitStyle.secondaryColor,
       teamPattern: kitStyle.pattern,
       position: positionType,
+      elementType: elementTypeNum,
+      element_type: elementTypeNum,
+      teamCode: teamCodeNum,
+      team_code: teamCodeNum,
+      kitUrl: kitUrl,
       price: priceVal,
-      selectedByPercent: Number(dbP?.selected_by_percent || "5.0"),
+      selectedByPercent: Number(dbP?.selected_by_percent || bEl?.selected_by_percent || "5.0"),
       totalPoints: totalPts,
       gameweekPoints: calculatedLivePts,
       gw_points: calculatedLivePts,
