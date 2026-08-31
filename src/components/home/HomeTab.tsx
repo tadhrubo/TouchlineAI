@@ -13,6 +13,7 @@ import { PlayerModal } from "../fpl/PlayerModal";
 import { PlannerTab } from "../planner/PlannerTab";
 import { FixturesTab } from "../fixtures/FixturesTab";
 import { LeagueTab } from "../leagues/LeagueTab";
+import { PointsTab } from "../points/PointsTab";
 import { BadgeLegend } from "../fpl/BadgeLegend";
 import { SampleTier, SAMPLE_TIER_OPTIONS } from "@/utils/eo";
 import {
@@ -160,6 +161,16 @@ export const HomeTab: React.FC<HomeTabProps> = ({
               My XI
             </button>
             <button
+              onClick={() => setSecondaryTab("points")}
+              className={`flex-1 py-1.5 px-2 rounded-md text-xs font-medium transition-colors whitespace-nowrap ${
+                secondaryTab === "points"
+                  ? "bg-neutral-800 text-emerald-400 shadow-sm font-semibold"
+                  : "text-neutral-400 hover:text-neutral-200"
+              }`}
+            >
+              Points (GW{stats.currentGameweek})
+            </button>
+            <button
               onClick={() => setSecondaryTab("leagues")}
               className={`flex-1 py-1.5 px-2 rounded-md text-xs font-medium transition-colors whitespace-nowrap ${
                 secondaryTab === "leagues"
@@ -188,16 +199,6 @@ export const HomeTab: React.FC<HomeTabProps> = ({
               }`}
             >
               Strategy
-            </button>
-            <button
-              onClick={() => setSecondaryTab("points")}
-              className={`flex-1 py-1.5 px-2 rounded-md text-xs font-medium transition-colors whitespace-nowrap ${
-                secondaryTab === "points"
-                  ? "bg-neutral-800 text-neutral-100 shadow-sm"
-                  : "text-neutral-400 hover:text-neutral-200"
-              }`}
-            >
-              Points (GW{stats.currentGameweek})
             </button>
             <button
               onClick={() => setSecondaryTab("fixtures")}
@@ -371,37 +372,13 @@ export const HomeTab: React.FC<HomeTabProps> = ({
           )}
 
           {secondaryTab === "points" && (
-            <div className="space-y-3 animate-fade-in">
-              <div className="p-4 rounded-xl bg-neutral-900/60 border border-white/[0.06] text-center space-y-1">
-                <p className="text-[10px] font-mono uppercase tracking-wider text-neutral-500">
-                  Live Matchday Score
-                </p>
-                <div className="text-3xl font-bold font-mono text-emerald-400">
-                  {stats.gameweekPoints} <span className="text-sm font-normal text-neutral-400">pts</span>
-                </div>
-                <p className="text-xs text-neutral-400">
-                  Gameweek {stats.currentGameweek} Total Points
-                </p>
-              </div>
-
-              {/* Pitch in Matchday Points Mode */}
-              <Pitch
-                players={players}
-                onPlayerClick={handlePlayerSelect}
-                captainId={captainId}
-                viceCaptainId={viceCaptainId}
-                formation={stats.formation}
-                sampleTier={sampleTier}
-                userRank={stats.overallRank}
-              />
-
-              <Bench
-                benchPlayers={players.filter((p) => p.isBench)}
-                onPlayerClick={handlePlayerSelect}
-                sampleTier={sampleTier}
-                userRank={stats.overallRank}
-              />
-            </div>
+            <PointsTab
+              stats={stats}
+              players={players}
+              captainId={captainId}
+              viceCaptainId={viceCaptainId}
+              onPlayerClick={handlePlayerSelect}
+            />
           )}
         </>
       )}

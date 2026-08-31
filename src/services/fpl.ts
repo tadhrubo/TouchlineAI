@@ -157,22 +157,50 @@ export async function fetchManagerSquad(
     allTeams.forEach((t) => teamMap.set(t.id, t));
   }
 
-  // Fetch active/upcoming Gameweek fixtures from FPL API
+  // Fetch active/upcoming Gameweek fixtures and live match telemetry from FPL API
   const targetEvent = currentEvent <= 38 ? currentEvent : 1;
   let upcomingFixturesData: any[] = [];
+  const teamFixtureMap = new Map<number, { started: boolean; finished: boolean; minutes: number }>();
   try {
     const fixRes = await fetch(
       `https://fantasy.premierleague.com/api/fixtures/?event=${targetEvent}`,
       {
         headers: fplHeaders,
-        next: { revalidate: 300 },
+        next: { revalidate: 60 },
       }
     );
     if (fixRes.ok) {
       upcomingFixturesData = await fixRes.json();
+      for (const fix of upcomingFixturesData || []) {
+        const isFinished = Boolean(fix.finished || fix.finished_provisional);
+        const isStarted = Boolean(fix.started || (fix.minutes && fix.minutes > 0) || isFinished);
+        const fixInfo = { started: isStarted, finished: isFinished, minutes: fix.minutes || 0 };
+        teamFixtureMap.set(fix.team_h, fixInfo);
+        teamFixtureMap.set(fix.team_a, fixInfo);
+      }
     }
   } catch (e) {
     console.warn("Could not fetch FPL upcoming fixtures:", e);
+  }
+
+  // Fetch Live Event Telemetry (Goals, Assists, Saves, Bonus, BPS, Yellow/Red cards)
+  let liveElementsMap = new Map<number, any>();
+  try {
+    const liveRes = await fetch(
+      `https://fantasy.premierleague.com/api/event/${targetEvent}/live/`,
+      {
+        headers: fplHeaders,
+        next: { revalidate: 60 },
+      }
+    );
+    if (liveRes.ok) {
+      const liveData = await liveRes.json();
+      for (const el of liveData.elements || []) {
+        liveElementsMap.set(el.id, el.stats);
+      }
+    }
+  } catch (e) {
+    console.warn("Could not fetch live matchday telemetry:", e);
   }
 
   const playerDbMap = new Map<number, any>();
@@ -191,6 +219,7 @@ export async function fetchManagerSquad(
     const pick = rawPicks[idx];
     const dbP = playerDbMap.get(pick.element);
     const pred = dbP?.player_predictions?.[0];
+    const liveStat = liveElementsMap.get(pick.element) || {};
 
     const teamShort = dbP?.teams?.short_name || "PL";
     const teamName = dbP?.teams?.name || "Premier League";
@@ -264,6 +293,16 @@ export async function fetchManagerSquad(
     }
     const xGIVal = Number((xGVal + xAVal).toFixed(2));
 
+    const teamFix = playerTeamId ? teamFixtureMap.get(playerTeamId) : undefined;
+    const liveMins = liveStat.minutes ?? 0;
+    const liveRawPts = liveStat.total_points ?? 0;
+    const mult = pick.multiplier || (pick.is_captain ? 2 : 1);
+    const calculatedLivePts = liveRawPts * mult;
+
+    const isMatchFinished = teamFix ? teamFix.finished : liveMins > 0;
+    const isMatchStarted = teamFix ? teamFix.started : liveMins > 0;
+    const isYetToPlay = !isMatchStarted && liveMins === 0;
+
     const playerObj: Player = {
       id: playerId,
       name: dbP?.web_name || `Player ${pick.element}`,
@@ -278,7 +317,9 @@ export async function fetchManagerSquad(
       price: priceVal,
       selectedByPercent: Number(dbP?.selected_by_percent || "5.0"),
       totalPoints: totalPts,
-      gameweekPoints: (picksData.entry_history?.points || 0) > 0 ? Math.round(totalPts / currentEvent) : 6,
+      gameweekPoints: calculatedLivePts,
+      gw_points: calculatedLivePts,
+      live_points: calculatedLivePts,
       projectedPoints: projectedPts,
       form: Number((totalPts / Math.max(1, currentEvent)).toFixed(1)),
       xG: xGVal,
@@ -303,8 +344,36 @@ export async function fetchManagerSquad(
         { opponent: "PL", isHome: !isHome, difficulty: 3, gameweek: targetEvent + 1 },
       ],
       photoUrl: `https://resources.premierleague.com/premierleague/photos/players/110x140/p${pick.element}.png`,
-      top10kEo: dbP?.top_10k_eo != null ? Number(dbP.top_10k_eo) : undefined,
-      top_10k_eo: dbP?.top_10k_eo != null ? Number(dbP.top_10k_eo) : undefined,
+      top10kEo: dbP?.top_10k_eo != null ? Number(dbP.top_10k_eo) : (dbP?.selected_by_percent ? Number(dbP.selected_by_percent) * 1.5 : undefined),
+      top_10k_eo: dbP?.top_10k_eo != null ? Number(dbP.top_10k_eo) : (dbP?.selected_by_percent ? Number(dbP.selected_by_percent) * 1.5 : undefined),
+      multiplier: mult,
+      matchFinished: isMatchFinished,
+      matchStarted: isMatchStarted,
+      yetToPlay: isYetToPlay,
+      stats: {
+        goals_scored: liveStat.goals_scored || 0,
+        assists: liveStat.assists || 0,
+        clean_sheets: liveStat.clean_sheets || 0,
+        bonus: liveStat.bonus || 0,
+        bps: liveStat.bps || 0,
+        yellow_cards: liveStat.yellow_cards || 0,
+        red_cards: liveStat.red_cards || 0,
+        saves: liveStat.saves || 0,
+        minutes: liveMins,
+        total_points: liveRawPts,
+      },
+      liveStats: {
+        goals_scored: liveStat.goals_scored || 0,
+        assists: liveStat.assists || 0,
+        clean_sheets: liveStat.clean_sheets || 0,
+        bonus: liveStat.bonus || 0,
+        bps: liveStat.bps || 0,
+        yellow_cards: liveStat.yellow_cards || 0,
+        red_cards: liveStat.red_cards || 0,
+        saves: liveStat.saves || 0,
+        minutes: liveMins,
+        total_points: liveRawPts,
+      },
     };
 
     if (isBench) {
@@ -330,13 +399,31 @@ export async function fetchManagerSquad(
 
   const allPlayers = [...startingXI, ...benchPlayers];
 
-  // 5. Construct TeamStats
+  // 5. Construct TeamStats & Live Matchday Metrics
   const entryHistory = picksData.entry_history || {};
   const teamValue = (entryHistory.value || entryData.last_deadline_value || 1000) / 10;
   const inTheBank = (entryHistory.bank || entryData.last_deadline_bank || 0) / 10;
   const overallRank = entryData.summary_overall_rank || entryHistory.overall_rank || 1;
   const totalPoints = entryData.summary_overall_points || entryHistory.total_points || 0;
-  const gwPoints = entryData.summary_event_points || entryHistory.points || 0;
+
+  // Calculate live squad points from active starting XI
+  const liveSquadPoints = startingXI.reduce(
+    (sum, p) => sum + (p.live_points || p.gameweekPoints || 0),
+    0
+  );
+  const gwPoints = liveSquadPoints > 0 ? liveSquadPoints : (entryData.summary_event_points || entryHistory.points || 0);
+
+  // Live Rank & Delta Calculations
+  const oldRank = entryHistory.overall_rank || entryData.summary_overall_rank || overallRank;
+  const gwRank = entryData.summary_event_rank || entryHistory.rank || Math.round(overallRank * 0.9);
+  
+  // Approximate Live Rank based on points performance relative to safety score (45)
+  const safetyScore = 42;
+  const scoreDiff = gwPoints - safetyScore;
+  const rankMovementFactor = scoreDiff * 0.006;
+  const liveRank = Math.max(1, Math.round(oldRank * (1 - rankMovementFactor)));
+  const rankDelta = oldRank - liveRank;
+  const rankPercentChange = Number(((rankDelta / Math.max(1, oldRank)) * 100).toFixed(1));
 
   const stats: TeamStats = {
     managerName: `${entryData.player_first_name || "FPL"} ${entryData.player_last_name || "Manager"}`,
@@ -347,7 +434,7 @@ export async function fetchManagerSquad(
     gameweekPoints: gwPoints,
     overallRank: overallRank,
     overallRankPercentile: entryHistory.percentile_rank ? 100 - entryHistory.percentile_rank : 1.5,
-    gameweekRank: entryData.summary_event_rank || entryHistory.rank || 0,
+    gameweekRank: gwRank,
     teamValue: teamValue,
     inTheBank: inTheBank,
     freeTransfers: 1,
@@ -359,6 +446,21 @@ export async function fetchManagerSquad(
         .reduce((sum, p) => sum + (p.id === captainId ? p.projectedPoints * 2 : p.projectedPoints), 0)
         .toFixed(1)
     ),
+    liveRank,
+    oldRank,
+    rankDelta,
+    rankPercentChange,
+    livePoints: gwPoints,
+    safetyScore,
+    liveData: {
+      gw_rank: gwRank,
+      live_rank: liveRank,
+      old_rank: oldRank,
+      live_points: gwPoints,
+      safety_score: safetyScore,
+      rank_delta: rankDelta,
+      rank_percent_change: rankPercentChange,
+    },
   };
 
   return {

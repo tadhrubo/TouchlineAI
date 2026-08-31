@@ -7,6 +7,19 @@ export interface FixtureInfo {
   gameweek: number;
 }
 
+export interface PlayerLiveStats {
+  goals_scored?: number;
+  assists?: number;
+  clean_sheets?: number;
+  bonus?: number;
+  bps?: number;
+  yellow_cards?: number;
+  red_cards?: number;
+  saves?: number;
+  minutes?: number;
+  total_points?: number;
+}
+
 export interface Player {
   id: string;
   name: string;
@@ -22,6 +35,8 @@ export interface Player {
   selectedByPercent: number;
   totalPoints: number;
   gameweekPoints: number;
+  gw_points?: number;
+  live_points?: number;
   projectedPoints: number;
   form: number;
   xG: number;
@@ -42,6 +57,24 @@ export interface Player {
   photoUrl: string;
   top10kEo?: number;
   top_10k_eo?: number;
+  stats?: PlayerLiveStats;
+  liveStats?: PlayerLiveStats;
+  multiplier?: number;
+  matchFinished?: boolean;
+  matchStarted?: boolean;
+  yetToPlay?: boolean;
+  isSubbedIn?: boolean;
+  isSubbedOut?: boolean;
+}
+
+export interface LiveDashboardData {
+  gw_rank?: number;
+  live_rank?: number;
+  old_rank?: number;
+  live_points?: number;
+  safety_score?: number;
+  rank_delta?: number;
+  rank_percent_change?: number;
 }
 
 export interface TeamStats {
@@ -61,6 +94,13 @@ export interface TeamStats {
   formation: string; // e.g. "3-4-3"
   deadline: string;
   projectedGWPoints: number;
+  liveRank?: number;
+  oldRank?: number;
+  rankDelta?: number;
+  rankPercentChange?: number;
+  livePoints?: number;
+  safetyScore?: number;
+  liveData?: LiveDashboardData;
 }
 
 export interface NewsItem {
