@@ -7,6 +7,7 @@ import { JerseyIcon } from "../fpl/JerseyIcon";
 import { PlayerModal } from "../fpl/PlayerModal";
 import { PlannerActionSheet } from "./PlannerActionSheet";
 import { PlayerSelectionMarket } from "./PlayerSelectionMarket";
+import { PitchBranding } from "../ui/PitchBranding";
 import {
   SampleTier,
   SAMPLE_TIER_OPTIONS,
@@ -516,6 +517,9 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
             strokeWidth="1"
           />
         </svg>
+
+        {/* Top Symmetrical Pitchside Branding */}
+        <PitchBranding />
 
         {/* Starting Formation Rows */}
         <div className="relative z-10 w-full flex flex-col justify-between py-3 h-[520px] sm:h-[560px]">

@@ -3,6 +3,7 @@
 import React, { useMemo } from "react";
 import Image from "next/image";
 import { getPerformanceBadge } from "@/utils/fplBadges";
+import { PitchBranding } from "../ui/PitchBranding";
 
 export interface LeagueTransfer {
   in: string;
@@ -555,11 +556,52 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
       )}
 
       {/* Mini Pitch Area */}
-      <div className="relative w-full rounded-lg overflow-hidden bg-gradient-to-b from-[#143823] via-[#0f2c1b] to-[#0c2416] border border-emerald-900/40 p-3 flex flex-col justify-between min-h-[320px] shadow-lg">
-        {/* Top pitch lines */}
-        <div className="absolute inset-x-0 top-0 h-14 border-b border-white/[0.07] pointer-events-none" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-10 border border-white/[0.07] rounded-b-md pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full border border-white/[0.07] pointer-events-none" />
+      <div className="relative w-full rounded-2xl overflow-hidden border border-white/[0.06] bg-[#0d121c] p-3 flex flex-col justify-between min-h-[340px] shadow-lg select-none">
+        {/* Subtle tactical grid lines background */}
+        <div
+          className="absolute inset-0 opacity-[0.03] pointer-events-none"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)",
+            backgroundSize: "32px 32px",
+          }}
+        />
+
+        {/* Vector Pitch Markings */}
+        <svg
+          className="absolute inset-0 w-full h-full pointer-events-none opacity-20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect
+            x="12"
+            y="12"
+            width="calc(100% - 24px)"
+            height="calc(100% - 24px)"
+            fill="none"
+            stroke="#ffffff"
+            strokeWidth="1"
+            rx="2"
+          />
+          <line
+            x1="12"
+            y1="50%"
+            x2="calc(100% - 12px)"
+            y2="50%"
+            stroke="#ffffff"
+            strokeWidth="1"
+          />
+          <circle
+            cx="50%"
+            cy="50%"
+            r="36"
+            fill="none"
+            stroke="#ffffff"
+            strokeWidth="1"
+          />
+        </svg>
+
+        {/* Top Symmetrical Pitchside Branding */}
+        <PitchBranding />
 
         {/* Goalkeeper Line */}
         <div className="relative z-10 flex justify-center items-center py-1">

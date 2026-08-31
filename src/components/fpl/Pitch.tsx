@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Player } from "@/types/fpl";
 import { PlayerCard } from "./PlayerCard";
 import { SampleTier } from "@/utils/eo";
+import { PitchBranding } from "../ui/PitchBranding";
 
 interface PitchProps {
   players: Player[];
@@ -133,33 +134,7 @@ export const Pitch: React.FC<PitchProps> = ({
         </svg>
 
         {/* Top Symmetrical Pitchside Branding Banners */}
-        <div className="absolute top-2 inset-x-2 sm:inset-x-3 flex items-center justify-between pointer-events-none z-10">
-          {/* Left Pitchside Ad Board */}
-          <div className="relative w-[96px] sm:w-[112px] h-[28px] sm:h-[32px] rounded-md overflow-hidden bg-[#0B0E14]/90 border border-white/[0.14] shadow-sm flex items-center justify-center p-0.5">
-            <Image
-              src="/asset/image/tl-pitchside.jpeg"
-              alt="Touchline AI Pitchside Banner"
-              width={112}
-              height={32}
-              className="w-full h-full object-contain"
-              priority
-              unoptimized
-            />
-          </div>
-
-          {/* Right Pitchside Ad Board */}
-          <div className="relative w-[96px] sm:w-[112px] h-[28px] sm:h-[32px] rounded-md overflow-hidden bg-[#0B0E14]/90 border border-white/[0.14] shadow-sm flex items-center justify-center p-0.5">
-            <Image
-              src="/asset/image/tl-pitchside.jpeg"
-              alt="Touchline AI Pitchside Banner"
-              width={112}
-              height={32}
-              className="w-full h-full object-contain"
-              priority
-              unoptimized
-            />
-          </div>
-        </div>
+        <PitchBranding />
 
         {/* Dynamic Formation Indicator (Bottom Right) */}
         <div className="absolute bottom-2 right-2.5 z-10">
