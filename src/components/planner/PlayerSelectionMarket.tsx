@@ -293,9 +293,10 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
   };
 
   return createPortal(
-    <div className="fixed inset-0 z-[9999] flex flex-col bg-[#0B0E14] text-neutral-100 overflow-hidden animate-fade-in">
-      {/* 1. Global Market Header */}
-      <div className="flex-shrink-0 bg-[#0E121A] border-b border-white/[0.08] px-4 py-3 flex items-center justify-between shadow-md">
+    <div className="fixed inset-0 z-[9999] flex justify-center bg-black/80 backdrop-blur-sm overflow-hidden animate-fade-in">
+      <div className="w-full max-w-3xl flex flex-col bg-[#0B0E14] text-neutral-100 overflow-hidden border-x border-white/[0.08] shadow-2xl h-full">
+        {/* 1. Global Market Header */}
+        <div className="flex-shrink-0 bg-[#0E121A] border-b border-white/[0.08] px-4 py-3 flex items-center justify-between shadow-md">
         <div className="min-w-0 pr-2">
           <p className="text-[10px] font-mono text-neutral-400 uppercase tracking-wider">
             Transfer Market
@@ -507,6 +508,7 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
       {/* 4. Footer info */}
       <div className="flex-shrink-0 p-2.5 border-t border-white/[0.06] bg-neutral-950/90 text-center font-mono text-[10px] text-neutral-500">
         Showing {filteredPlayers.length} candidate players · Budget flexible for draft planning
+      </div>
       </div>
     </div>,
     document.body

@@ -37,9 +37,9 @@ export const Pitch: React.FC<PitchProps> = ({
     formation || `${defs.length}-${mids.length}-${fwds.length}`;
 
   return (
-    <div className="relative w-full rounded-2xl overflow-hidden border border-white/[0.06] bg-[#0d121c] select-none">
+    <div className="relative w-full max-w-2xl mx-auto rounded-2xl overflow-hidden border border-white/[0.06] bg-[#0d121c] select-none shadow-xl">
       {/* Tactical Pitch Canvas with Minimalist Vector Pitch Markings */}
-      <div className="relative w-full h-[520px] sm:h-[560px] overflow-hidden flex flex-col justify-between py-2.5">
+      <div className="relative w-full h-[520px] sm:h-[560px] md:h-[580px] overflow-hidden flex flex-col justify-between py-2.5 md:py-3.5">
         {/* Subtle tactical grid lines background */}
         <div
           className="absolute inset-0 opacity-[0.03] pointer-events-none"
@@ -138,7 +138,7 @@ export const Pitch: React.FC<PitchProps> = ({
 
         {/* Dynamic Formation Indicator (Bottom Right) */}
         <div className="absolute bottom-2 right-2.5 z-10">
-          <span className="text-[10px] font-mono font-medium text-neutral-400 bg-neutral-900/80 border border-white/[0.06] rounded px-2 py-0.5">
+          <span className="text-[10px] md:text-xs font-mono font-medium text-neutral-400 bg-neutral-900/80 border border-white/[0.06] rounded px-2 py-0.5">
             {displayFormation}
           </span>
         </div>
@@ -159,13 +159,7 @@ export const Pitch: React.FC<PitchProps> = ({
         </div>
 
         {/* --- ROW 2: DEFENDERS --- */}
-        <div
-          className={`relative z-10 flex items-center ${
-            defs.length >= 4
-              ? "justify-between px-1 sm:px-2"
-              : "justify-around px-4"
-          }`}
-        >
+        <div className="relative z-10 flex items-center justify-around w-full gap-1.5 sm:gap-3 md:gap-6 px-2 md:px-4">
           {defs.map((player) => (
             <PlayerCard
               key={player.id}
@@ -180,13 +174,7 @@ export const Pitch: React.FC<PitchProps> = ({
         </div>
 
         {/* --- ROW 3: MIDFIELDERS --- */}
-        <div
-          className={`relative z-10 flex items-center ${
-            mids.length >= 4
-              ? "justify-between px-1 sm:px-2"
-              : "justify-around px-4"
-          }`}
-        >
+        <div className="relative z-10 flex items-center justify-around w-full gap-1.5 sm:gap-3 md:gap-6 px-2 md:px-4">
           {mids.map((player) => (
             <PlayerCard
               key={player.id}
@@ -201,7 +189,7 @@ export const Pitch: React.FC<PitchProps> = ({
         </div>
 
         {/* --- ROW 4: FORWARDS --- */}
-        <div className="relative z-10 flex justify-around items-center px-4 pb-1">
+        <div className="relative z-10 flex justify-around items-center w-full gap-2 md:gap-6 px-4 md:px-6 pb-1">
           {fwds.map((player) => (
             <PlayerCard
               key={player.id}

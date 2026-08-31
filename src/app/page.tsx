@@ -154,12 +154,12 @@ export default function App() {
   }
 
   return (
-    <div className="h-screen h-[100dvh] max-h-[100dvh] bg-black text-neutral-100 flex flex-col items-center font-sans antialiased overflow-hidden selection:bg-emerald-500/20 selection:text-emerald-300">
-      {/* Mobile Frame Container */}
-      <div className="w-full max-w-md h-full flex flex-col relative bg-black border-x border-white/[0.04] overflow-hidden">
+    <div className="w-full h-full flex flex-col relative bg-black font-sans antialiased overflow-hidden selection:bg-emerald-500/20 selection:text-emerald-300">
+      {/* App Container */}
+      <div className="w-full h-full flex flex-col relative bg-black overflow-hidden">
         
         {/* Top Global Header (Fixed at top) */}
-        <header className="flex-shrink-0 z-50 w-full bg-black/95 backdrop-blur-md border-b border-white/[0.06] px-4 py-2.5 flex items-center justify-between">
+        <header className="flex-shrink-0 z-50 w-full bg-black/95 backdrop-blur-md border-b border-white/[0.06] px-4 md:px-6 py-2.5 md:py-3 flex items-center justify-between">
           {/* Logo with /asset/image/tlai.png */}
           <div className="flex items-center gap-2">
             <Image

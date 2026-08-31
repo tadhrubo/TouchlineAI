@@ -316,7 +316,7 @@ export const ChatTab: React.FC<ChatTabProps> = ({
   return (
     <div className="w-full h-full flex flex-col min-h-0 bg-black">
       {/* 1. Scrollable Message & Context Container (Takes all remaining height) */}
-      <div className="flex-1 overflow-y-auto min-h-0 p-3.5 space-y-3">
+      <div className="flex-1 overflow-y-auto min-h-0 p-3.5 space-y-3 max-w-2xl mx-auto w-full">
         {/* Context Summary Bar */}
         <div className="w-full py-2 border-b border-white/[0.06] space-y-2">
           <div className="flex items-center justify-between text-xs text-neutral-400">
@@ -511,7 +511,7 @@ export const ChatTab: React.FC<ChatTabProps> = ({
 
       {/* 2. Anchored Bottom Input Container (Natural bottom flex child) */}
       <div className="flex-shrink-0 bg-black border-t border-white/[0.06] p-2.5">
-        <div className="w-full flex items-center gap-1.5">
+        <div className="w-full max-w-2xl mx-auto flex items-center gap-1.5">
           {/* Voice Mic Button */}
           <button
             onClick={handleMicToggle}

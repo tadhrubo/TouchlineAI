@@ -29,19 +29,19 @@ export const Bench: React.FC<BenchProps> = ({
   };
 
   return (
-    <div className="w-full bg-neutral-900/40 border border-white/[0.06] rounded-xl p-3">
+    <div className="w-full max-w-2xl mx-auto bg-neutral-900/40 border border-white/[0.06] rounded-xl p-3 md:p-4">
       {/* Bench Header */}
       <div className="flex items-center justify-between pb-2 border-b border-white/[0.06] mb-2 px-1 text-xs">
-        <span className="text-[10px] uppercase tracking-wider font-medium text-neutral-400">
+        <span className="text-[10px] md:text-xs uppercase tracking-wider font-medium text-neutral-400">
           Substitutes
         </span>
-        <span className="text-[10px] text-neutral-500 font-mono">
+        <span className="text-[10px] md:text-xs text-neutral-500 font-mono">
           Auto-sub order (B1 → B3)
         </span>
       </div>
 
       {/* Bench Cards Row */}
-      <div className="flex items-center justify-between px-1">
+      <div className="flex items-center justify-around px-1 gap-2 md:gap-6">
         {sortedSubs.map((player, idx) => (
           <div key={player.id} className="relative flex flex-col items-center">
             <PlayerCard

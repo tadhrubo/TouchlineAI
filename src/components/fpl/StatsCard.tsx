@@ -35,39 +35,39 @@ export const StatsCard: React.FC<StatsCardProps> = ({ stats }) => {
       <div className="grid grid-cols-3 gap-2 py-1 text-center">
         {/* Overall Points */}
         <div className="flex flex-col items-center">
-          <span className="text-[10px] uppercase tracking-wider font-medium text-neutral-500">
+          <span className="text-[10px] md:text-xs uppercase tracking-wider font-medium text-neutral-500">
             Points
           </span>
-          <span className="text-xl font-bold text-neutral-100 font-mono tracking-tight mt-0.5">
+          <span className="text-xl md:text-2xl font-bold text-neutral-100 font-mono tracking-tight mt-0.5">
             {stats.overallPoints.toLocaleString()}
           </span>
-          <span className="text-[10px] font-mono text-emerald-400 mt-0.5">
+          <span className="text-[10px] md:text-xs font-mono text-emerald-400 mt-0.5">
             +{stats.gameweekPoints} GW{stats.currentGameweek}
           </span>
         </div>
 
         {/* Overall Rank */}
         <div className="flex flex-col items-center border-x border-white/[0.06] px-1">
-          <span className="text-[10px] uppercase tracking-wider font-medium text-neutral-500">
+          <span className="text-[10px] md:text-xs uppercase tracking-wider font-medium text-neutral-500">
             Overall Rank
           </span>
-          <span className="text-xl font-bold text-neutral-100 font-mono tracking-tight mt-0.5">
+          <span className="text-xl md:text-2xl font-bold text-neutral-100 font-mono tracking-tight mt-0.5">
             #{stats.overallRank.toLocaleString()}
           </span>
-          <span className="text-[10px] text-neutral-500 mt-0.5">
+          <span className="text-[10px] md:text-xs text-neutral-500 mt-0.5">
             Top {stats.overallRankPercentile}%
           </span>
         </div>
 
         {/* Free Transfers */}
         <div className="flex flex-col items-center">
-          <span className="text-[10px] uppercase tracking-wider font-medium text-neutral-500">
+          <span className="text-[10px] md:text-xs uppercase tracking-wider font-medium text-neutral-500">
             Transfers
           </span>
-          <span className="text-xl font-bold text-emerald-400 font-mono tracking-tight mt-0.5">
+          <span className="text-xl md:text-2xl font-bold text-emerald-400 font-mono tracking-tight mt-0.5">
             {stats.freeTransfers} FT
           </span>
-          <span className="text-[10px] font-mono text-neutral-500 mt-0.5">
+          <span className="text-[10px] md:text-xs font-mono text-neutral-500 mt-0.5">
             £{stats.inTheBank.toFixed(1)}m ITB
           </span>
         </div>

@@ -63,11 +63,11 @@ export const PlannerActionSheet: React.FC<PlannerActionSheetProps> = ({
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[9999] flex items-end justify-center bg-black/80 backdrop-blur-sm animate-fade-in"
+      className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center bg-black/80 backdrop-blur-sm animate-fade-in p-0 sm:p-4"
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-md bg-[#0F141E] border-t border-white/[0.12] rounded-t-3xl p-5 shadow-2xl space-y-4 animate-slide-up"
+        className="relative w-full max-w-md bg-[#0F141E] border-t sm:border border-white/[0.12] rounded-t-3xl sm:rounded-2xl p-5 shadow-2xl space-y-4 animate-slide-up"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Handle Bar */}

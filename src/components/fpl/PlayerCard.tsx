@@ -49,7 +49,7 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
     <div
       onClick={() => onClick?.(player)}
       className={`group relative flex flex-col items-center justify-between cursor-pointer select-none transition-transform duration-150 hover:-translate-y-0.5 active:scale-95 ${
-        isBench ? "w-[76px] sm:w-[84px]" : "w-[80px] sm:w-[88px]"
+        isBench ? "w-[76px] sm:w-[84px] md:w-[90px]" : "w-[80px] sm:w-[88px] md:w-[96px]"
       }`}
     >
       {/* Minimalist Captain / Vice Captain Badge */}
@@ -70,7 +70,7 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
       {/* Bench Priority Tag */}
       {isBench && benchLabel && (
         <div className="absolute -top-1 -right-0.5 z-20">
-          <span className="px-1 py-0.2 text-[9px] font-mono font-medium rounded bg-neutral-900 text-neutral-400 border border-white/[0.08]">
+          <span className="px-1 py-0.2 text-[9px] md:text-[10px] font-mono font-medium rounded bg-neutral-900 text-neutral-400 border border-white/[0.08]">
             {benchLabel}
           </span>
         </div>
@@ -91,7 +91,7 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
       {/* Jersey Graphic with LiveFPL Performance Badge on Top-Left */}
       <div className="relative my-0.5 flex items-center justify-center">
         {perfBadge && (
-          <div className="absolute -top-2 -left-3 z-20 bg-[#131722] rounded-full text-[11px] shadow-sm leading-none border border-gray-700 p-[3px]">
+          <div className="absolute -top-2 -left-3 z-20 bg-[#131722] rounded-full text-[11px] md:text-xs shadow-sm leading-none border border-gray-700 p-[3px]">
             {perfBadge}
           </div>
         )}
@@ -106,12 +106,12 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
       {/* Understated Player Information Badge */}
       <div className="w-full flex flex-col items-center mt-0.5 bg-neutral-950/85 border border-white/[0.08] rounded-md px-1 py-0.5 text-center backdrop-blur-sm">
         {/* Name */}
-        <p className="text-[11px] sm:text-[11.5px] font-medium text-neutral-200 truncate leading-tight w-full">
+        <p className="text-[11px] sm:text-[11.5px] md:text-xs font-medium text-neutral-200 truncate leading-tight w-full">
           {player.webName}
         </p>
 
         {/* Fixture & Projected Points Badge */}
-        <div className="flex items-center justify-center gap-1 text-[9px] sm:text-[9.5px] font-mono text-neutral-400 mt-0.5 leading-none">
+        <div className="flex items-center justify-center gap-1 text-[9px] sm:text-[9.5px] md:text-[10px] font-mono text-neutral-400 mt-0.5 leading-none">
           <span>{fixtureText}</span>
           {showProjected && (
             <>

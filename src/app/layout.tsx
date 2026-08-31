@@ -55,11 +55,9 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/asset/image/apple-touch-icon.png" sizes="180x180" />
         <link rel="manifest" href="/asset/image/site.webmanifest" />
       </head>
-      <body className={`${lemonMilk.variable} bg-black text-neutral-100 min-h-screen antialiased selection:bg-emerald-500/20 selection:text-emerald-300`}>
-        <main className="min-h-screen flex flex-col items-center justify-start bg-black">
-          <div className="w-full max-w-md min-h-screen bg-black border-x border-white/[0.04] shadow-2xl relative flex flex-col">
-            {children}
-          </div>
+      <body className={`${lemonMilk.variable} bg-[#06080C] text-neutral-100 min-h-screen antialiased selection:bg-emerald-500/20 selection:text-emerald-300 flex justify-center`}>
+        <main className="w-full max-w-4xl mx-auto flex flex-col min-h-screen h-screen overflow-hidden bg-black relative border-x border-white/[0.06] shadow-2xl shadow-emerald-950/20">
+          {children}
         </main>
       </body>
     </html>

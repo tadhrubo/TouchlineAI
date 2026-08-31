@@ -232,7 +232,7 @@ export const PointsTab: React.FC<PointsTabProps> = ({
       <div
         key={player.id}
         onClick={() => onPlayerClick && onPlayerClick(player)}
-        className={`flex flex-col items-center justify-center relative flex-1 min-w-0 max-w-[80px] cursor-pointer transition-transform duration-150 hover:scale-105 ${
+        className={`flex flex-col items-center justify-center relative flex-1 min-w-0 max-w-[80px] md:max-w-[92px] cursor-pointer transition-transform duration-150 hover:scale-105 ${
           player.isSubbedOut
             ? "opacity-40"
             : isBenchDimmed
@@ -242,32 +242,32 @@ export const PointsTab: React.FC<PointsTabProps> = ({
       >
         {/* Sub In / Sub Out Indicators */}
         {player.isSubbedIn && (
-          <span className="absolute -top-1.5 -left-1.5 z-30 bg-emerald-500 text-black text-[8px] font-extrabold px-1 rounded shadow border border-emerald-400 leading-tight">
+          <span className="absolute -top-1.5 -left-1.5 z-30 bg-emerald-500 text-black text-[8px] md:text-[9px] font-extrabold px-1 rounded shadow border border-emerald-400 leading-tight">
             ▲ IN
           </span>
         )}
         {player.isSubbedOut && (
-          <span className="absolute -top-1.5 -left-1.5 z-30 bg-rose-600 text-white text-[8px] font-extrabold px-1 rounded shadow border border-rose-500 leading-tight">
+          <span className="absolute -top-1.5 -left-1.5 z-30 bg-rose-600 text-white text-[8px] md:text-[9px] font-extrabold px-1 rounded shadow border border-rose-500 leading-tight">
             ▼ OUT
           </span>
         )}
 
         {/* Captaincy / Vice Captaincy Badges */}
         {player.isCaptain && (
-          <div className="absolute -top-1 -right-0.5 z-20 flex items-center justify-center w-4 h-4 rounded-full bg-amber-400 text-black font-extrabold text-[9px] shadow-md border border-amber-200">
+          <div className="absolute -top-1 -right-0.5 z-20 flex items-center justify-center w-4 h-4 md:w-4.5 md:h-4.5 rounded-full bg-amber-400 text-black font-extrabold text-[9px] md:text-[10px] shadow-md border border-amber-200">
             {player.multiplier === 3 ? "3C" : "C"}
           </div>
         )}
         {!player.isCaptain && player.isViceCaptain && (
-          <div className="absolute -top-1 -right-0.5 z-20 flex items-center justify-center w-4 h-4 rounded-full bg-neutral-300 text-black font-extrabold text-[9px] shadow-md border border-neutral-100">
+          <div className="absolute -top-1 -right-0.5 z-20 flex items-center justify-center w-4 h-4 md:w-4.5 md:h-4.5 rounded-full bg-neutral-300 text-black font-extrabold text-[9px] md:text-[10px] shadow-md border border-neutral-100">
             V
           </div>
         )}
 
         {/* Shirt & Badge Container */}
-        <div className="relative w-10 h-10 flex items-center justify-center">
+        <div className="relative w-10 h-10 md:w-11 md:h-11 flex items-center justify-center">
           {badge && (
-            <div className="absolute -top-2 -left-3 z-20 bg-[#131722] rounded-full text-[11px] shadow-sm leading-none border border-gray-700 p-[3px]">
+            <div className="absolute -top-2 -left-3 z-20 bg-[#131722] rounded-full text-[11px] md:text-xs shadow-sm leading-none border border-gray-700 p-[3px]">
               {badge}
             </div>
           )}
@@ -275,7 +275,7 @@ export const PointsTab: React.FC<PointsTabProps> = ({
           <img
             src={shirtUrl}
             alt={player.webName}
-            className="w-9 h-9 object-contain drop-shadow"
+            className="w-9 h-9 md:w-10 md:h-10 object-contain drop-shadow"
             onError={(e) => {
               (e.currentTarget as HTMLImageElement).src = fallbackUrl;
             }}
@@ -287,7 +287,7 @@ export const PointsTab: React.FC<PointsTabProps> = ({
 
         {/* Line 1: Player Name */}
         <div className="w-full mt-0.5 px-0.5 py-0.5 rounded-t bg-black/90 border-t border-x border-white/[0.08] backdrop-blur-sm text-center shadow">
-          <p className="text-[10px] font-semibold text-neutral-200 truncate leading-tight">
+          <p className="text-[10px] md:text-[11px] font-semibold text-neutral-200 truncate leading-tight">
             {player.webName}
           </p>
         </div>
@@ -296,21 +296,21 @@ export const PointsTab: React.FC<PointsTabProps> = ({
         <div
           className={`w-full py-0.5 border-x text-center font-mono font-bold leading-tight ${
             player.isSubbedOut
-              ? "bg-neutral-950 text-neutral-600 border-neutral-800 line-through text-[11px]"
+              ? "bg-neutral-950 text-neutral-600 border-neutral-800 line-through text-[11px] md:text-xs"
               : player.isSubbedIn || pts > 0
-              ? "bg-emerald-500 text-white border-emerald-600 text-xs shadow-sm"
+              ? "bg-emerald-500 text-white border-emerald-600 text-xs md:text-sm shadow-sm"
               : isYetToPlay
-              ? "bg-gray-900 text-gray-300 border-gray-800 text-[11px]"
+              ? "bg-gray-900 text-gray-300 border-gray-800 text-[11px] md:text-xs"
               : isBlanked
-              ? "bg-gray-600 text-white border-gray-500 text-[11px]"
-              : "bg-gray-900 text-gray-400 border-gray-800 text-[11px]"
+              ? "bg-gray-600 text-white border-gray-500 text-[11px] md:text-xs"
+              : "bg-gray-900 text-gray-400 border-gray-800 text-[11px] md:text-xs"
           }`}
         >
           {pts}
         </div>
 
         {/* Line 3: Dual EO (Top 10k EO % and Global Ownership %) */}
-        <div className="w-full bg-black/95 text-center text-[9px] font-mono font-medium text-gray-300 py-0.5 border-x border-white/[0.08]">
+        <div className="w-full bg-black/95 text-center text-[9px] md:text-[10px] font-mono font-medium text-gray-300 py-0.5 border-x border-white/[0.08]">
           <span>{top10kEo}%</span> <span className="text-gray-500">·</span> <span>{globalOwnership}%</span>
         </div>
 
@@ -325,59 +325,59 @@ export const PointsTab: React.FC<PointsTabProps> = ({
   return (
     <div className="w-full space-y-3 animate-fade-in">
       {/* 1. LiveFPL-Style 3-Column Live Rank Dashboard Header */}
-      <div className="grid grid-cols-3 gap-2 bg-[#131722] border border-gray-800 rounded-xl p-3 text-center shadow-lg">
+      <div className="grid grid-cols-3 gap-2 bg-[#131722] border border-gray-800 rounded-xl p-3 md:p-5 text-center shadow-lg">
         {/* Column 1: GW Rank */}
         <div className="flex flex-col justify-center border-r border-gray-800 pr-1">
-          <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">
+          <span className="text-[10px] md:text-xs text-gray-500 font-bold uppercase tracking-wider">
             GW Rank
           </span>
-          <span className="text-base sm:text-lg font-bold font-mono text-white mt-0.5">
+          <span className="text-base sm:text-lg md:text-2xl font-bold font-mono text-white mt-0.5">
             {formatNumber(liveData.gw_rank)}
           </span>
         </div>
 
         {/* Column 2: Live Rank & Delta */}
         <div className="flex flex-col justify-center border-r border-gray-800 px-1">
-          <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">
+          <span className="text-[10px] md:text-xs text-gray-500 font-bold uppercase tracking-wider">
             Live Rank
           </span>
           <div className="flex items-center justify-center gap-1 mt-0.5">
-            <span className="text-base sm:text-lg font-bold font-mono text-white">
+            <span className="text-base sm:text-lg md:text-2xl font-bold font-mono text-white">
               {formatNumber(liveData.live_rank)}
             </span>
             {rankDelta > 0 ? (
-              <span className="text-emerald-500 font-bold text-xs">▲</span>
+              <span className="text-emerald-500 font-bold text-xs md:text-sm">▲</span>
             ) : rankDelta < 0 ? (
-              <span className="text-rose-500 font-bold text-xs">▼</span>
+              <span className="text-rose-500 font-bold text-xs md:text-sm">▼</span>
             ) : (
               <span className="text-neutral-500 text-xs">━</span>
             )}
           </div>
-          <span className="text-[9px] font-mono text-gray-400 truncate">
+          <span className="text-[9px] md:text-[11px] font-mono text-gray-400 truncate">
             Old: {formatNumber(liveData.old_rank)} ({rankPercentChange >= 0 ? `+${rankPercentChange}` : rankPercentChange}%)
           </span>
         </div>
 
         {/* Column 3: Points & Safety Score */}
         <div className="flex flex-col justify-center pl-1">
-          <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">
+          <span className="text-[10px] md:text-xs text-gray-500 font-bold uppercase tracking-wider">
             Points
           </span>
-          <span className="text-base sm:text-lg font-bold font-mono text-emerald-400 mt-0.5">
-            {livePoints} <span className="text-[10px] font-normal text-emerald-500">pts</span>
+          <span className="text-base sm:text-lg md:text-2xl font-bold font-mono text-emerald-400 mt-0.5">
+            {livePoints} <span className="text-[10px] md:text-xs font-normal text-emerald-500">pts</span>
           </span>
-          <span className="text-[9px] font-mono text-gray-400 truncate">
+          <span className="text-[9px] md:text-[11px] font-mono text-gray-400 truncate">
             Safety: {safetyScore} <span className={safetyDiff >= 0 ? "text-emerald-400" : "text-rose-400"}>Δ:{safetyDiff >= 0 ? `+${safetyDiff}` : safetyDiff}</span>
           </span>
         </div>
       </div>
 
       {/* 2. Controls Bar: Autosubs & Layout Mode */}
-      <div className="flex items-center justify-between px-3 py-2 rounded-xl bg-neutral-900/60 border border-white/[0.06] text-xs font-mono">
+      <div className="flex items-center justify-between px-3 py-2 md:py-2.5 rounded-xl bg-neutral-900/60 border border-white/[0.06] text-xs font-mono">
         <div className="flex items-center gap-2">
           <button
             onClick={() => setAutosubsEnabled(!autosubsEnabled)}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono transition-all border ${
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] md:text-xs font-mono transition-all border ${
               autosubsEnabled
                 ? "bg-emerald-500/10 text-emerald-300 border-emerald-500/30"
                 : "bg-neutral-900 text-neutral-400 border-white/[0.06] hover:text-neutral-200"
@@ -391,7 +391,7 @@ export const PointsTab: React.FC<PointsTabProps> = ({
             />
           </button>
 
-          <span className="text-neutral-400 text-[11px]">
+          <span className="text-neutral-400 text-[11px] md:text-xs">
             Played: <strong className="text-emerald-400">{effectivePlayedCount}/11</strong>
           </span>
         </div>
@@ -431,7 +431,7 @@ export const PointsTab: React.FC<PointsTabProps> = ({
       {layoutMode === "pitch" ? (
         <div className="w-full space-y-3">
           {/* Tactical Pitch Canvas */}
-          <div className="relative w-full rounded-2xl overflow-hidden border border-white/[0.06] bg-[#0d121c] select-none p-3 shadow-lg flex flex-col justify-between min-h-[480px] sm:min-h-[520px]">
+          <div className="relative w-full max-w-2xl mx-auto rounded-2xl overflow-hidden border border-white/[0.06] bg-[#0d121c] select-none p-3 md:p-4 shadow-lg flex flex-col justify-between min-h-[480px] sm:min-h-[520px] md:min-h-[560px]">
             {/* Subtle tactical grid lines background */}
             <div
               className="absolute inset-0 opacity-[0.03] pointer-events-none"
@@ -484,32 +484,32 @@ export const PointsTab: React.FC<PointsTabProps> = ({
             </div>
 
             {/* DEF Line */}
-            <div className="relative z-10 flex justify-around items-center py-1 gap-1">
+            <div className="relative z-10 flex justify-around items-center py-1 gap-1.5 sm:gap-3 md:gap-6 px-1 md:px-3">
               {defs.map((p) => renderLivePlayerCard(p))}
             </div>
 
             {/* MID Line */}
-            <div className="relative z-10 flex justify-around items-center py-1 gap-1">
+            <div className="relative z-10 flex justify-around items-center py-1 gap-1.5 sm:gap-3 md:gap-6 px-1 md:px-3">
               {mids.map((p) => renderLivePlayerCard(p))}
             </div>
 
             {/* FWD Line */}
-            <div className="relative z-10 flex justify-around items-center py-1 gap-1">
+            <div className="relative z-10 flex justify-around items-center py-1 gap-1.5 sm:gap-3 md:gap-6 px-2 md:px-4">
               {fwds.map((p) => renderLivePlayerCard(p))}
             </div>
           </div>
 
           {/* Bench Row */}
           {effectiveBench.length > 0 && (
-            <div className="w-full p-2.5 rounded-xl bg-neutral-900/40 border border-white/[0.06] space-y-1.5">
-              <div className="flex items-center justify-between text-[10px] font-mono text-neutral-400 px-1">
+            <div className="w-full max-w-2xl mx-auto p-2.5 md:p-3 rounded-xl bg-neutral-900/40 border border-white/[0.06] space-y-1.5">
+              <div className="flex items-center justify-between text-[10px] md:text-xs font-mono text-neutral-400 px-1">
                 <span>SUBSTITUTES BENCH</span>
-                <span className="text-[9px] text-neutral-500">Live Dual EO & Event Telemetry</span>
+                <span className="text-[9px] md:text-[10px] text-neutral-500">Live Dual EO & Event Telemetry</span>
               </div>
-              <div className="flex justify-around items-center gap-1">
+              <div className="flex justify-around items-center gap-2 md:gap-6">
                 {effectiveBench.map((p, idx) => (
-                  <div key={p.id} className="relative flex flex-col items-center flex-1 max-w-[80px]">
-                    <span className="text-[9px] font-mono text-neutral-500 mb-0.5">
+                  <div key={p.id} className="relative flex flex-col items-center flex-1 max-w-[80px] md:max-w-[92px]">
+                    <span className="text-[9px] md:text-[10px] font-mono text-neutral-500 mb-0.5">
                       {idx === 0 ? "GK" : `B${idx}`}
                     </span>
                     {renderLivePlayerCard(p, true)}

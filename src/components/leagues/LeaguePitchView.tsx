@@ -99,7 +99,7 @@ const PlayerCompactCard: React.FC<{
 
   return (
     <div
-      className={`flex flex-col w-[18%] min-w-[55px] max-w-[65px] items-center transition-all ${
+      className={`flex flex-col w-[18%] min-w-[55px] max-w-[65px] md:min-w-[70px] md:max-w-[80px] items-center transition-all ${
         player.isSubbedOut
           ? "opacity-40"
           : isBenchDimmed
@@ -111,7 +111,7 @@ const PlayerCompactCard: React.FC<{
       <div className="relative mb-1 flex items-center justify-center">
         {/* Performance Badge (Template, Spy, Differential Hero, etc.) */}
         {badge && (
-          <div className="absolute -top-2 -left-3 z-10 bg-[#131722] rounded-full text-[11px] shadow-sm leading-none border border-gray-700 p-[3px]">
+          <div className="absolute -top-2 -left-3 z-10 bg-[#131722] rounded-full text-[11px] md:text-xs shadow-sm leading-none border border-gray-700 p-[3px]">
             {badge}
           </div>
         )}
@@ -120,7 +120,7 @@ const PlayerCompactCard: React.FC<{
         <img
           src={player.kitUrl || fallbackUrl}
           alt={player.webName}
-          className="h-8 object-contain drop-shadow"
+          className="h-8 md:h-9 object-contain drop-shadow"
           onError={(e) => {
             (e.currentTarget as HTMLImageElement).src = fallbackUrl;
           }}
@@ -128,37 +128,37 @@ const PlayerCompactCard: React.FC<{
 
         {/* Sub In / Sub Out Indicators */}
         {player.isSubbedIn && (
-          <span className="absolute -top-1.5 -left-1.5 z-20 bg-emerald-500 text-black text-[8px] font-extrabold px-1 rounded shadow border border-emerald-400 leading-tight">
+          <span className="absolute -top-1.5 -left-1.5 z-20 bg-emerald-500 text-black text-[8px] md:text-[9px] font-extrabold px-1 rounded shadow border border-emerald-400 leading-tight">
             ▲ IN
           </span>
         )}
         {player.isSubbedOut && (
-          <span className="absolute -top-1.5 -left-1.5 z-20 bg-rose-600 text-white text-[8px] font-extrabold px-1 rounded shadow border border-rose-500 leading-tight">
+          <span className="absolute -top-1.5 -left-1.5 z-20 bg-rose-600 text-white text-[8px] md:text-[9px] font-extrabold px-1 rounded shadow border border-rose-500 leading-tight">
             ▼ OUT
           </span>
         )}
 
         {/* Captaincy / Vice Captaincy Badges */}
         {player.isCaptain && (
-          <span className="absolute -bottom-1 -right-2 bg-amber-400 text-black text-[9px] font-bold px-1 rounded-full border border-amber-300 shadow">
+          <span className="absolute -bottom-1 -right-2 bg-amber-400 text-black text-[9px] md:text-[10px] font-bold px-1 rounded-full border border-amber-300 shadow">
             {player.multiplier === 3 ? "3C" : "C"}
           </span>
         )}
         {!player.isCaptain && player.isViceCaptain && (
-          <span className="absolute -bottom-1 -right-2 bg-neutral-200 text-black text-[9px] font-bold px-1 rounded-full border border-neutral-400 shadow">
+          <span className="absolute -bottom-1 -right-2 bg-neutral-200 text-black text-[9px] md:text-[10px] font-bold px-1 rounded-full border border-neutral-400 shadow">
             V
           </span>
         )}
       </div>
 
       {/* Name Bar */}
-      <div className="w-full bg-neutral-900 text-white text-[9px] font-semibold truncate text-center px-0.5 py-0.5 border border-white/[0.08] rounded-t-sm">
+      <div className="w-full bg-neutral-900 text-white text-[9px] md:text-[11px] font-semibold truncate text-center px-0.5 py-0.5 border border-white/[0.08] rounded-t-sm">
         {player.webName}
       </div>
 
       {/* Points Bar */}
       <div
-        className={`w-full text-center text-[10px] font-mono font-bold py-0.5 border-x ${
+        className={`w-full text-center text-[10px] md:text-xs font-mono font-bold py-0.5 border-x ${
           player.isSubbedOut
             ? "bg-neutral-950 text-neutral-600 border-neutral-800 line-through"
             : player.isSubbedIn
@@ -176,7 +176,7 @@ const PlayerCompactCard: React.FC<{
       </div>
 
       {/* Mini-League Local Ownership % */}
-      <div className="w-full text-center text-[9px] font-medium bg-black text-gray-300 rounded-b-sm pb-0.5 border-x border-b border-white/[0.08]">
+      <div className="w-full text-center text-[9px] md:text-[10px] font-medium bg-black text-gray-300 rounded-b-sm pb-0.5 border-x border-b border-white/[0.08]">
         {leagueOwnership}%
       </div>
     </div>

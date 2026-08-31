@@ -378,21 +378,21 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
 
       {/* Live Planning Metrics Summary Bar */}
       <div className="grid grid-cols-4 gap-2 text-center">
-        <div className="p-2.5 rounded-xl bg-neutral-900/40 border border-white/[0.06]">
-          <span className="text-[9.5px] font-mono uppercase tracking-wider text-neutral-500 block">
+        <div className="p-2.5 md:p-3.5 rounded-xl bg-neutral-900/40 border border-white/[0.06]">
+          <span className="text-[9.5px] md:text-xs font-mono uppercase tracking-wider text-neutral-500 block">
             Transfers
           </span>
-          <div className="text-sm font-bold font-mono text-neutral-100 mt-0.5">
-            {transfersMade} <span className="text-neutral-500 font-normal">/ {freeTransfers} FT</span>
+          <div className="text-sm md:text-lg font-bold font-mono text-neutral-100 mt-0.5">
+            {transfersMade} <span className="text-neutral-500 font-normal text-xs">/ {freeTransfers} FT</span>
           </div>
         </div>
 
-        <div className="p-2.5 rounded-xl bg-neutral-900/40 border border-white/[0.06]">
-          <span className="text-[9.5px] font-mono uppercase tracking-wider text-neutral-500 block">
+        <div className="p-2.5 md:p-3.5 rounded-xl bg-neutral-900/40 border border-white/[0.06]">
+          <span className="text-[9.5px] md:text-xs font-mono uppercase tracking-wider text-neutral-500 block">
             Bank
           </span>
           <div
-            className={`text-sm font-bold font-mono mt-0.5 ${
+            className={`text-sm md:text-lg font-bold font-mono mt-0.5 ${
               calculatedBank < 0 ? "text-rose-400" : "text-emerald-400"
             }`}
           >
@@ -400,12 +400,12 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
           </div>
         </div>
 
-        <div className="p-2.5 rounded-xl bg-neutral-900/40 border border-white/[0.06]">
-          <span className="text-[9.5px] font-mono uppercase tracking-wider text-neutral-500 block">
+        <div className="p-2.5 md:p-3.5 rounded-xl bg-neutral-900/40 border border-white/[0.06]">
+          <span className="text-[9.5px] md:text-xs font-mono uppercase tracking-wider text-neutral-500 block">
             Cost / Hits
           </span>
           <div
-            className={`text-sm font-bold font-mono mt-0.5 ${
+            className={`text-sm md:text-lg font-bold font-mono mt-0.5 ${
               hitCost > 0 ? "text-amber-400" : "text-neutral-300"
             }`}
           >
@@ -413,20 +413,20 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
           </div>
         </div>
 
-        <div className="p-2.5 rounded-xl bg-neutral-900/40 border border-white/[0.06]">
-          <span className="text-[9.5px] font-mono uppercase tracking-wider text-neutral-500 block">
+        <div className="p-2.5 md:p-3.5 rounded-xl bg-neutral-900/40 border border-white/[0.06]">
+          <span className="text-[9.5px] md:text-xs font-mono uppercase tracking-wider text-neutral-500 block">
             Template
           </span>
-          <div className="text-sm font-bold font-mono text-neutral-100 mt-0.5">
+          <div className="text-sm md:text-lg font-bold font-mono text-neutral-100 mt-0.5">
             {templateScore}%
           </div>
         </div>
       </div>
 
       {/* Sample Tier Selector */}
-      <div className="p-2.5 rounded-xl bg-neutral-900/50 border border-white/[0.06] flex items-center justify-between">
+      <div className="p-2.5 md:p-3 rounded-xl bg-neutral-900/50 border border-white/[0.06] flex items-center justify-between">
         <div className="flex items-center gap-1.5">
-          <span className="text-[11px] font-mono text-neutral-400">Choose Sample:</span>
+          <span className="text-[11px] md:text-xs font-mono text-neutral-400">Choose Sample:</span>
           <select
             value={sampleTier}
             onChange={(e) => setSampleTier(e.target.value as SampleTier)}
@@ -475,7 +475,7 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
       )}
 
       {/* Interactive Tactical Pitch */}
-      <div className="relative w-full rounded-2xl overflow-hidden border border-white/[0.06] bg-[#0d121c]">
+      <div className="relative w-full max-w-2xl mx-auto rounded-2xl overflow-hidden border border-white/[0.06] bg-[#0d121c]">
         {/* Grid Background */}
         <div
           className="absolute inset-0 opacity-[0.03] pointer-events-none"
@@ -522,16 +522,16 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
         <PitchBranding />
 
         {/* Starting Formation Rows */}
-        <div className="relative z-10 w-full flex flex-col justify-between py-3 h-[520px] sm:h-[560px]">
+        <div className="relative z-10 w-full flex flex-col justify-between py-3 md:py-4 h-[520px] sm:h-[560px] md:h-[580px]">
           {/* Formation Label (Bottom Left) */}
           <div className="absolute bottom-2 left-3 z-20">
-            <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider bg-neutral-900/80 border border-white/[0.06] rounded px-1.5 py-0.5">
+            <span className="text-[10px] md:text-xs font-mono text-neutral-500 uppercase tracking-wider bg-neutral-900/80 border border-white/[0.06] rounded px-1.5 py-0.5">
               {defs.length}-{mids.length}-{fwds.length}
             </span>
           </div>
 
           {/* Goalkeepers Line */}
-          <div className="flex justify-around items-center px-4">
+          <div className="flex justify-around items-center px-4 gap-2 md:gap-6">
             {gkps.map((p) => (
               <PlannerPlayerCard
                 key={p.id}
@@ -553,7 +553,7 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
           </div>
 
           {/* Defenders Line */}
-          <div className="flex justify-around items-center px-2">
+          <div className="flex justify-around items-center px-2 md:px-4 gap-1.5 sm:gap-3 md:gap-6">
             {defs.map((p) => (
               <PlannerPlayerCard
                 key={p.id}
@@ -575,7 +575,7 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
           </div>
 
           {/* Midfielders Line */}
-          <div className="flex justify-around items-center px-2">
+          <div className="flex justify-around items-center px-2 md:px-4 gap-1.5 sm:gap-3 md:gap-6">
             {mids.map((p) => (
               <PlannerPlayerCard
                 key={p.id}
@@ -597,7 +597,7 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
           </div>
 
           {/* Forwards Line */}
-          <div className="flex justify-around items-center px-4">
+          <div className="flex justify-around items-center px-4 md:px-6 gap-2 md:gap-6">
             {fwds.map((p) => (
               <PlannerPlayerCard
                 key={p.id}
@@ -621,17 +621,17 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
       </div>
 
       {/* Substitutes Bench Area */}
-      <div className="w-full bg-neutral-900/40 border border-white/[0.06] rounded-xl p-3 space-y-2">
+      <div className="w-full max-w-2xl mx-auto bg-neutral-900/40 border border-white/[0.06] rounded-xl p-3 md:p-4 space-y-2">
         <div className="flex items-center justify-between">
-          <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400">
+          <span className="text-[10px] md:text-xs font-mono uppercase tracking-wider text-neutral-400">
             Substitutes Bench
           </span>
-          <span className="text-[10px] font-mono text-neutral-500">
+          <span className="text-[10px] md:text-xs font-mono text-neutral-500">
             Tap player for Action Sheet
           </span>
         </div>
 
-        <div className="grid grid-cols-4 gap-2 pt-1">
+        <div className="grid grid-cols-4 gap-2 md:gap-6 pt-1">
           {benchPlayers.map((p, idx) => (
             <div key={p.id} className="flex flex-col items-center">
               <PlannerPlayerCard
@@ -732,7 +732,7 @@ const PlannerPlayerCard: React.FC<PlannerPlayerCardProps> = ({
     <div
       onClick={onCardClick}
       className={`relative flex flex-col items-center justify-between select-none cursor-pointer transition-all duration-150 active:scale-95 ${
-        isBench ? "w-[76px] sm:w-[84px]" : "w-[80px] sm:w-[88px]"
+        isBench ? "w-[76px] sm:w-[84px] md:w-[90px]" : "w-[80px] sm:w-[88px] md:w-[96px]"
       } ${
         isSwapping ? "ring-2 ring-emerald-400 scale-105" : ""
       }`}
@@ -784,7 +784,7 @@ const PlannerPlayerCard: React.FC<PlannerPlayerCardProps> = ({
       {/* Jersey Icon with Performance Badge on Top-Left */}
       <div className="relative my-0.5 flex items-center justify-center mt-1">
         {perfBadge && (
-          <div className="absolute -top-2 -left-3 z-20 bg-[#131722] rounded-full text-[11px] shadow-sm leading-none border border-gray-700 p-[3px]">
+          <div className="absolute -top-2 -left-3 z-20 bg-[#131722] rounded-full text-[11px] md:text-xs shadow-sm leading-none border border-gray-700 p-[3px]">
             {perfBadge}
           </div>
         )}
@@ -799,12 +799,12 @@ const PlannerPlayerCard: React.FC<PlannerPlayerCardProps> = ({
       {/* Player Info Badge */}
       <div className="w-full flex flex-col items-center mt-0.5 bg-neutral-950/85 border border-white/[0.08] rounded-md px-1 py-0.5 text-center backdrop-blur-sm shadow-md">
         {/* Web Name */}
-        <p className="text-[11px] font-medium text-neutral-200 truncate leading-tight w-full">
+        <p className="text-[11px] md:text-xs font-medium text-neutral-200 truncate leading-tight w-full">
           {player.webName}
         </p>
 
         {/* Fixture & Price */}
-        <div className="flex items-center justify-center gap-1 text-[9px] font-mono text-neutral-400 mt-0.5 leading-none">
+        <div className="flex items-center justify-center gap-1 text-[9px] md:text-[10px] font-mono text-neutral-400 mt-0.5 leading-none">
           <span>{fixtureText}</span>
           <span className="text-neutral-600">·</span>
           <span className="text-emerald-400 font-medium">£{player.price.toFixed(1)}m</span>
@@ -814,7 +814,7 @@ const PlannerPlayerCard: React.FC<PlannerPlayerCardProps> = ({
         {eoResult && (
           <div className="w-full mt-0.5 pt-0.5 border-t border-white/[0.04]">
             {sampleTier === "TOP_10K_NEAR_U" && eoResult.top10k != null && eoResult.nearU != null ? (
-              <div className="flex w-full items-center justify-between px-0.5 text-[8.5px] sm:text-[9.5px] font-mono leading-none tracking-tight">
+              <div className="flex w-full items-center justify-between px-0.5 text-[8.5px] sm:text-[9.5px] md:text-[10px] font-mono leading-none tracking-tight">
                 <span className="text-neutral-200" title="Top 10k EO">
                   {eoResult.top10k}%
                 </span>
@@ -823,7 +823,7 @@ const PlannerPlayerCard: React.FC<PlannerPlayerCardProps> = ({
                 </span>
               </div>
             ) : (
-              <div className="w-full text-center text-[8.5px] sm:text-[9.5px] font-mono text-neutral-400 leading-none">
+              <div className="w-full text-center text-[8.5px] sm:text-[9.5px] md:text-[10px] font-mono text-neutral-400 leading-none">
                 {eoResult.displayText}
               </div>
             )}
