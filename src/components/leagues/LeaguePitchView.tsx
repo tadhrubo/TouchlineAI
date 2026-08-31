@@ -4,6 +4,14 @@ import React, { useMemo } from "react";
 import Image from "next/image";
 import { getPerformanceBadge } from "@/utils/fplBadges";
 
+export interface LeagueTransfer {
+  in: string;
+  out: string;
+  elementIn?: number;
+  elementOut?: number;
+  time?: string;
+}
+
 export interface LeaguePlayer {
   id: number;
   pickPosition: number;
@@ -43,11 +51,14 @@ interface LeaguePitchViewProps {
   managerName?: string;
   teamName?: string;
   transfers: number;
+  transfersCost?: number;
   teamValue: number;
   bank: number;
   playedCount: number;
   maxPlayedCount: number;
   activeChip: string | null;
+  ftLeft?: number;
+  activeTransfers?: LeagueTransfer[];
   starters: LeaguePlayer[];
   bench: LeaguePlayer[];
   layoutMode?: "list" | "pitch";
@@ -175,11 +186,14 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
   managerName,
   teamName,
   transfers,
+  transfersCost = 0,
   teamValue,
   bank,
   playedCount,
   maxPlayedCount,
   activeChip,
+  ftLeft = 1,
+  activeTransfers = [],
   starters,
   bench,
   layoutMode = "list",
@@ -298,7 +312,7 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
         <div className="flex items-center justify-between text-[11px] font-mono text-neutral-400 pb-2 border-b border-white/[0.06]">
           <div className="flex items-center gap-2">
             <span>
-              FT: <strong className="text-white">{transfers}</strong>
+              FT Left: <strong className="text-white font-bold">{ftLeft}</strong>
             </span>
             <span className="text-neutral-600">|</span>
             <span>
@@ -320,6 +334,28 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
             </span>
           </div>
         </div>
+
+        {/* LiveFPL GW Active Transfers Bar */}
+        {activeTransfers && activeTransfers.length > 0 && (
+          <div className="flex flex-wrap gap-2 items-center text-[10px] px-2.5 py-1.5 bg-neutral-900/70 rounded-lg border border-white/[0.06] shadow-sm">
+            <span className="text-neutral-400 font-mono text-[9px] uppercase tracking-wider font-semibold">
+              Transfers ({activeTransfers.length}):
+            </span>
+            {activeTransfers.map((t, idx) => (
+              <div key={idx} className="flex items-center gap-1 font-mono">
+                <span className="text-rose-400 line-through decoration-rose-900/60 font-medium">{t.out}</span>
+                <span className="text-neutral-500">→</span>
+                <span className="text-emerald-400 font-semibold">{t.in}</span>
+                {idx < activeTransfers.length - 1 && <span className="text-neutral-700 ml-1">·</span>}
+              </div>
+            ))}
+            {transfersCost > 0 && (
+              <span className="text-red-500 font-bold ml-1 font-mono text-[10px]">
+                (-{transfersCost})
+              </span>
+            )}
+          </div>
+        )}
 
         {/* Compact Players Flex Layout - Starters and Bench Flow Consecutively */}
         <div className="flex flex-wrap gap-1.5 justify-start">
@@ -473,7 +509,7 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
       <div className="flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-neutral-900/80 border border-white/[0.06] text-[11px] font-mono text-neutral-300">
         <div className="flex items-center gap-2">
           <span>
-            FT: <strong className="text-neutral-100">{transfers}</strong>
+            FT Left: <strong className="text-neutral-100 font-bold">{ftLeft}</strong>
           </span>
           <span className="text-neutral-600">|</span>
           <span>
@@ -495,6 +531,28 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
           </span>
         </div>
       </div>
+
+      {/* LiveFPL GW Active Transfers Bar */}
+      {activeTransfers && activeTransfers.length > 0 && (
+        <div className="flex flex-wrap gap-2 items-center text-[10px] px-2.5 py-1.5 bg-neutral-900/70 rounded-lg border border-white/[0.06] shadow-sm">
+          <span className="text-neutral-400 font-mono text-[9px] uppercase tracking-wider font-semibold">
+            Transfers ({activeTransfers.length}):
+          </span>
+          {activeTransfers.map((t, idx) => (
+            <div key={idx} className="flex items-center gap-1 font-mono">
+              <span className="text-rose-400 line-through decoration-rose-900/60 font-medium">{t.out}</span>
+              <span className="text-neutral-500">→</span>
+              <span className="text-emerald-400 font-semibold">{t.in}</span>
+              {idx < activeTransfers.length - 1 && <span className="text-neutral-700 ml-1">·</span>}
+            </div>
+          ))}
+          {transfersCost > 0 && (
+            <span className="text-red-500 font-bold ml-1 font-mono text-[10px]">
+              (-{transfersCost})
+            </span>
+          )}
+        </div>
+      )}
 
       {/* Mini Pitch Area */}
       <div className="relative w-full rounded-lg overflow-hidden bg-gradient-to-b from-[#143823] via-[#0f2c1b] to-[#0c2416] border border-emerald-900/40 p-3 flex flex-col justify-between min-h-[320px] shadow-lg">

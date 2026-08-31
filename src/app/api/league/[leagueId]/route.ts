@@ -35,6 +35,48 @@ function chunkArray<T>(items: T[], size: number): T[][] {
   return chunks;
 }
 
+/**
+ * Calculates Free Transfers remaining for the current gameweek based on 2024/25 FPL rules.
+ * Starting GW2, managers receive 1 FT per week and can bank up to 5 FTs max.
+ */
+function calculateFreeTransfersRemaining(historyData: any, currentEvent: number): number {
+  if (!historyData || !Array.isArray(historyData.current)) {
+    return 1;
+  }
+
+  const pastEvents = historyData.current.filter((e: any) => e.event <= currentEvent);
+  if (pastEvents.length === 0) return 1;
+  if (currentEvent <= 1) return 1;
+
+  const chipsUsed = historyData.chips || [];
+  const chipByEvent = new Map<number, string>();
+  for (const c of chipsUsed) {
+    chipByEvent.set(c.event, c.name);
+  }
+
+  let ft = 1; // Starting GW2 with 1 free transfer
+
+  for (let eventNum = 2; eventNum <= currentEvent; eventNum++) {
+    const gwData = pastEvents.find((e: any) => e.event === eventNum);
+    const chip = chipByEvent.get(eventNum);
+    const isFreeHitOrWildcard = chip === "freehit" || chip === "wildcard";
+
+    const transfersMade = gwData ? (gwData.event_transfers ?? 0) : 0;
+
+    if (!isFreeHitOrWildcard) {
+      const ftUsed = Math.min(ft, transfersMade);
+      ft = ft - ftUsed;
+    }
+
+    if (eventNum < currentEvent) {
+      // Roll over to next week: add 1 FT, capped at 5 max
+      ft = Math.min(5, ft + 1);
+    }
+  }
+
+  return Math.max(0, Math.min(5, ft));
+}
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ leagueId: string }> }
@@ -158,42 +200,63 @@ export async function GET(
       console.warn("Could not fetch fixtures for gameweek:", err);
     }
 
-    // 5. Rate-Limit Safe Batched Fetch of Manager Picks
+    // 5. Rate-Limit Safe Batched Fetch of Manager Picks, History, and Transfers
     const managerChunks = chunkArray(topManagers, 10);
-    const allChunkResults: Array<{ mgr: any; picksData: any }> = [];
+    const allChunkResults: Array<{
+      mgr: any;
+      picksData: any;
+      historyData: any;
+      transfersData: any;
+    }> = [];
 
     for (const chunk of managerChunks) {
-      const picksPromises = chunk.map(async (mgr: any) => {
+      const chunkPromises = chunk.map(async (mgr: any) => {
         try {
-          const picksRes = await fetch(
-            `https://fantasy.premierleague.com/api/entry/${mgr.entry}/event/${currentEvent}/picks/`,
-            {
-              headers: fplHeaders,
-              next: { revalidate: 60 },
-            }
-          );
+          const [picksRes, historyRes, transfersRes] = await Promise.all([
+            fetch(
+              `https://fantasy.premierleague.com/api/entry/${mgr.entry}/event/${currentEvent}/picks/`,
+              {
+                headers: fplHeaders,
+                next: { revalidate: 60 },
+              }
+            ).catch(() => null),
+            fetch(
+              `https://fantasy.premierleague.com/api/entry/${mgr.entry}/history/`,
+              {
+                headers: fplHeaders,
+                next: { revalidate: 60 },
+              }
+            ).catch(() => null),
+            fetch(
+              `https://fantasy.premierleague.com/api/entry/${mgr.entry}/transfers/`,
+              {
+                headers: fplHeaders,
+                next: { revalidate: 60 },
+              }
+            ).catch(() => null),
+          ]);
 
-          if (!picksRes.ok) {
-            return {
-              mgr,
-              picksData: null,
-            };
-          }
+          const picksData = picksRes && picksRes.ok ? await picksRes.json() : null;
+          const historyData = historyRes && historyRes.ok ? await historyRes.json() : null;
+          const transfersData = transfersRes && transfersRes.ok ? await transfersRes.json() : null;
 
-          const picksData = await picksRes.json();
           return {
             mgr,
             picksData,
+            historyData,
+            transfersData,
           };
         } catch {
           return {
             mgr,
             picksData: null,
+            historyData: null,
+            transfersData: null,
           };
         }
       });
 
-      const chunkResults = await Promise.all(picksPromises);
+      const chunkResults = await Promise.all(chunkPromises);
       allChunkResults.push(...chunkResults);
     }
 
@@ -211,10 +274,30 @@ export async function GET(
       }
     }
 
-    // 7. Enrich managers with squad picks and contextual metrics
+    // 7. Enrich managers with squad picks, transfer strings, FT remaining, and contextual metrics
     const enrichedManagers: any[] = [];
 
-    for (const { mgr, picksData } of allChunkResults) {
+    for (const { mgr, picksData, historyData, transfersData } of allChunkResults) {
+      // Calculate true FT remaining (up to 5 max)
+      const ftLeft = calculateFreeTransfersRemaining(historyData, currentEvent);
+
+      // Extract current GW transfers made
+      const currentGwTransfers = Array.isArray(transfersData)
+        ? transfersData.filter((t: any) => t.event === currentEvent)
+        : [];
+
+      const activeTransfers = currentGwTransfers.map((t: any) => {
+        const elIn = elementsMap.get(t.element_in);
+        const elOut = elementsMap.get(t.element_out);
+        return {
+          in: elIn ? elIn.web_name : `Player ${t.element_in}`,
+          out: elOut ? elOut.web_name : `Player ${t.element_out}`,
+          elementIn: t.element_in,
+          elementOut: t.element_out,
+          time: t.time,
+        };
+      });
+
       if (!picksData || !picksData.picks) {
         enrichedManagers.push({
           id: mgr.entry,
@@ -232,6 +315,10 @@ export async function GET(
           transfers: 0,
           transfersCost: 0,
           eventTransfersCost: 0,
+          ft_left: ftLeft,
+          ftLeft: ftLeft,
+          active_transfers: activeTransfers,
+          activeTransfers: activeTransfers,
           teamValue: 100,
           bank: 0,
           playedCount: 0,
@@ -368,6 +455,10 @@ export async function GET(
         transfers,
         transfersCost,
         eventTransfersCost: transfersCost,
+        ft_left: ftLeft,
+        ftLeft: ftLeft,
+        active_transfers: activeTransfers,
+        activeTransfers: activeTransfers,
         teamValue: teamVal,
         bank: bankVal,
         playedCount: playedStarters,

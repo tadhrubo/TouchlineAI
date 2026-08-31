@@ -46,6 +46,10 @@ interface ManagerRow {
   transfers: number;
   transfersCost?: number;
   eventTransfersCost?: number;
+  ft_left?: number;
+  ftLeft?: number;
+  active_transfers?: Array<{ in: string; out: string }>;
+  activeTransfers?: Array<{ in: string; out: string }>;
   teamValue: number;
   bank: number;
   playedCount: number;
@@ -438,11 +442,22 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
                       <p className="text-[11px] text-neutral-400 truncate">
                         {mgr.name} · <span className="text-neutral-300 font-mono">C: {mgr.captainName}</span>
                       </p>
-                      {/* FT & TV Subline */}
+                      {/* FT Left & TV Subline */}
                       <div className="flex items-center gap-1.5 text-[10px] font-mono text-neutral-400 mt-0.5">
-                        <span>FT {mgr.transfers ?? 0}</span>
+                        <span>
+                          <span className="text-neutral-400">FT </span>
+                          <strong className="text-white font-bold">{mgr.ft_left ?? mgr.ftLeft ?? 1}</strong>
+                        </span>
                         <span className="text-neutral-600">·</span>
                         <span>TV £{Number(mgr.teamValue || 100).toFixed(1)}m</span>
+                        {mgr.transfers > 0 && (
+                          <>
+                            <span className="text-neutral-600">·</span>
+                            <span className="text-neutral-300 font-medium">
+                              {mgr.transfers} {mgr.transfers === 1 ? "transfer" : "transfers"}
+                            </span>
+                          </>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -486,11 +501,14 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
                       managerName={mgr.name}
                       teamName={mgr.teamName}
                       transfers={mgr.transfers}
+                      transfersCost={cost}
                       teamValue={mgr.teamValue}
                       bank={mgr.bank}
                       playedCount={mgr.playedCount}
                       maxPlayedCount={mgr.maxPlayedCount}
                       activeChip={mgr.activeChip}
+                      ftLeft={mgr.ft_left ?? mgr.ftLeft ?? 1}
+                      activeTransfers={mgr.active_transfers ?? mgr.activeTransfers ?? []}
                       starters={mgr.starters}
                       bench={mgr.bench}
                       layoutMode={layoutMode}
