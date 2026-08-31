@@ -36,45 +36,31 @@ function chunkArray<T>(items: T[], size: number): T[][] {
 }
 
 /**
- * Calculates Free Transfers remaining for the current gameweek based on 2024/25 FPL rules.
- * Starting GW2, managers receive 1 FT per week and can bank up to 5 FTs max.
+ * Calculates Free Transfers Available going into the current gameweek based on 2024/25 FPL rules.
+ * Everyone starts with 1 FT going into GW2, rolling over up to a maximum of 5 banked transfers.
  */
-function calculateFreeTransfersRemaining(historyData: any, currentEvent: number): number {
+function calculateFreeTransfersAvailable(historyData: any, currentEvent: number): number {
   if (!historyData || !Array.isArray(historyData.current)) {
     return 1;
   }
 
-  const pastEvents = historyData.current.filter((e: any) => e.event <= currentEvent);
-  if (pastEvents.length === 0) return 1;
-  if (currentEvent <= 1) return 1;
+  const history = historyData.current;
+  let available_ft = 1; // Everyone gets 1 FT going into GW2
 
-  const chipsUsed = historyData.chips || [];
-  const chipByEvent = new Map<number, string>();
-  for (const c of chipsUsed) {
-    chipByEvent.set(c.event, c.name);
-  }
+  // Loop through past gameweeks to calculate rolled transfers up to current event
+  for (let gw = 2; gw < currentEvent; gw++) {
+    const past_gw = history.find((h: any) => h.event === gw);
+    if (past_gw) {
+      const transfers_made = past_gw.event_transfers || 0;
+      const hits_taken = (past_gw.event_transfers_cost || 0) / 4;
+      const free_transfers_used = Math.max(0, transfers_made - hits_taken);
 
-  let ft = 1; // Starting GW2 with 1 free transfer
-
-  for (let eventNum = 2; eventNum <= currentEvent; eventNum++) {
-    const gwData = pastEvents.find((e: any) => e.event === eventNum);
-    const chip = chipByEvent.get(eventNum);
-    const isFreeHitOrWildcard = chip === "freehit" || chip === "wildcard";
-
-    const transfersMade = gwData ? (gwData.event_transfers ?? 0) : 0;
-
-    if (!isFreeHitOrWildcard) {
-      const ftUsed = Math.min(ft, transfersMade);
-      ft = ft - ftUsed;
-    }
-
-    if (eventNum < currentEvent) {
-      // Roll over to next week: add 1 FT, capped at 5 max
-      ft = Math.min(5, ft + 1);
+      // FPL 24/25 Rule: Max 5 banked transfers
+      available_ft = Math.min(5, Math.max(0, available_ft - free_transfers_used) + 1);
     }
   }
 
-  return Math.max(0, Math.min(5, ft));
+  return Math.max(0, Math.min(5, available_ft));
 }
 
 export async function GET(
@@ -278,8 +264,8 @@ export async function GET(
     const enrichedManagers: any[] = [];
 
     for (const { mgr, picksData, historyData, transfersData } of allChunkResults) {
-      // Calculate true FT remaining (up to 5 max)
-      const ftLeft = calculateFreeTransfersRemaining(historyData, currentEvent);
+      // Calculate true FT Available going into the gameweek (24/25 rules, max 5 banked)
+      const ftAvailable = calculateFreeTransfersAvailable(historyData, currentEvent);
 
       // Extract current GW transfers made
       const currentGwTransfers = Array.isArray(transfersData)
@@ -315,8 +301,10 @@ export async function GET(
           transfers: 0,
           transfersCost: 0,
           eventTransfersCost: 0,
-          ft_left: ftLeft,
-          ftLeft: ftLeft,
+          ft_available: ftAvailable,
+          ftAvailable: ftAvailable,
+          ft_left: ftAvailable,
+          ftLeft: ftAvailable,
           active_transfers: activeTransfers,
           activeTransfers: activeTransfers,
           teamValue: 100,
@@ -455,8 +443,10 @@ export async function GET(
         transfers,
         transfersCost,
         eventTransfersCost: transfersCost,
-        ft_left: ftLeft,
-        ftLeft: ftLeft,
+        ft_available: ftAvailable,
+        ftAvailable: ftAvailable,
+        ft_left: ftAvailable,
+        ftLeft: ftAvailable,
         active_transfers: activeTransfers,
         activeTransfers: activeTransfers,
         teamValue: teamVal,

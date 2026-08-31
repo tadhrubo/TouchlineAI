@@ -46,6 +46,8 @@ interface ManagerRow {
   transfers: number;
   transfersCost?: number;
   eventTransfersCost?: number;
+  ft_available?: number;
+  ftAvailable?: number;
   ft_left?: number;
   ftLeft?: number;
   active_transfers?: Array<{ in: string; out: string }>;
@@ -394,104 +396,120 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
                 {/* Clickable Header Row */}
                 <button
                   onClick={() => toggleManager(mgr.entry)}
-                  className="w-full p-2.5 flex items-center justify-between text-left transition-colors active:bg-neutral-800/40"
+                  className="w-full p-2.5 flex flex-col text-left transition-colors active:bg-neutral-800/40"
                 >
-                  {/* Left: Rank & Manager Info */}
-                  <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                    {/* Rank Badge + Movement */}
-                    <div className="flex flex-col items-center justify-center w-8 flex-shrink-0">
-                      <span className="text-xs font-mono font-bold text-neutral-100">
-                        {mgr.rank}
-                      </span>
-                      <div className="flex items-center text-[9px] font-mono leading-none mt-0.5">
-                        {mgr.rankChange > 0 ? (
-                          <span className="text-emerald-400 flex items-center">
-                            <ArrowUp className="w-2.5 h-2.5 inline" />
-                            {mgr.rankChange}
+                  {/* Main Row Content (Name, Points, TV, etc.) */}
+                  <div className="flex justify-between items-center w-full">
+                    {/* Left: Rank & Manager Info */}
+                    <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                      {/* Rank Badge + Movement */}
+                      <div className="flex flex-col items-center justify-center w-8 flex-shrink-0">
+                        <span className="text-xs font-mono font-bold text-neutral-100">
+                          {mgr.rank}
+                        </span>
+                        <div className="flex items-center text-[9px] font-mono leading-none mt-0.5">
+                          {mgr.rankChange > 0 ? (
+                            <span className="text-emerald-400 flex items-center">
+                              <ArrowUp className="w-2.5 h-2.5 inline" />
+                              {mgr.rankChange}
+                            </span>
+                          ) : mgr.rankChange < 0 ? (
+                            <span className="text-rose-400 flex items-center">
+                              <ArrowDown className="w-2.5 h-2.5 inline" />
+                              {Math.abs(mgr.rankChange)}
+                            </span>
+                          ) : (
+                            <span className="text-neutral-500 flex items-center">
+                              <Minus className="w-2.5 h-2.5 inline" />
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Team & Manager Details */}
+                      <div className="min-w-0 flex-1 pr-2">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-xs font-semibold text-neutral-100 truncate">
+                            {mgr.teamName}
                           </span>
-                        ) : mgr.rankChange < 0 ? (
-                          <span className="text-rose-400 flex items-center">
-                            <ArrowDown className="w-2.5 h-2.5 inline" />
-                            {Math.abs(mgr.rankChange)}
+                          {isUserTeam && (
+                            <span className="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                              YOU
+                            </span>
+                          )}
+                          {mgr.activeChip && (
+                            <span className="px-1.5 py-0.2 rounded text-[9px] font-mono font-extrabold bg-purple-950 text-purple-300 border border-purple-800">
+                              {mgr.activeChip}
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-[11px] text-neutral-400 truncate">
+                          {mgr.name} · <span className="text-neutral-300 font-mono">C: {mgr.captainName}</span>
+                        </p>
+                        {/* FT Available & TV Subline */}
+                        <div className="flex items-center gap-1.5 text-[10px] font-mono text-neutral-400 mt-0.5">
+                          <span>
+                            <span className="text-neutral-400">FT</span>
+                            <span className="font-bold text-white ml-1">{mgr.ft_available ?? mgr.ftAvailable ?? mgr.ft_left ?? 1}</span>
                           </span>
-                        ) : (
-                          <span className="text-neutral-500 flex items-center">
-                            <Minus className="w-2.5 h-2.5 inline" />
-                          </span>
-                        )}
+                          <span className="text-neutral-600">·</span>
+                          <span>TV £{Number(mgr.teamValue || 100).toFixed(1)}m</span>
+                        </div>
                       </div>
                     </div>
 
-                    {/* Team & Manager Details */}
-                    <div className="min-w-0 flex-1 pr-2">
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-xs font-semibold text-neutral-100 truncate">
-                          {mgr.teamName}
-                        </span>
-                        {isUserTeam && (
-                          <span className="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
-                            YOU
-                          </span>
-                        )}
-                        {mgr.activeChip && (
-                          <span className="px-1.5 py-0.2 rounded text-[9px] font-mono font-extrabold bg-purple-950 text-purple-300 border border-purple-800">
-                            {mgr.activeChip}
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-[11px] text-neutral-400 truncate">
-                        {mgr.name} · <span className="text-neutral-300 font-mono">C: {mgr.captainName}</span>
-                      </p>
-                      {/* FT Left & TV Subline */}
-                      <div className="flex items-center gap-1.5 text-[10px] font-mono text-neutral-400 mt-0.5">
-                        <span>
-                          <span className="text-neutral-400">FT </span>
-                          <strong className="text-white font-bold">{mgr.ft_left ?? mgr.ftLeft ?? 1}</strong>
-                        </span>
-                        <span className="text-neutral-600">·</span>
-                        <span>TV £{Number(mgr.teamValue || 100).toFixed(1)}m</span>
-                        {mgr.transfers > 0 && (
-                          <>
-                            <span className="text-neutral-600">·</span>
-                            <span className="text-neutral-300 font-medium">
-                              {mgr.transfers} {mgr.transfers === 1 ? "transfer" : "transfers"}
+                    {/* Right: Points, Hits & Yet to Play */}
+                    <div className="flex items-center gap-3 flex-shrink-0 text-right">
+                      {/* Live GW & Total Points + Hits + Yet */}
+                      <div className="font-mono text-right min-w-[76px]">
+                        <div className="flex items-center justify-end gap-1 text-xs font-bold text-emerald-400">
+                          <span>{mgr.liveGwPoints} pts</span>
+                          {cost > 0 && (
+                            <span className="text-red-500 text-[10px] font-bold">
+                              (-{cost})
                             </span>
-                          </>
+                          )}
+                        </div>
+                        <div className="text-[10px] text-neutral-400 flex items-center justify-end gap-1 mt-0.5">
+                          <span>{mgr.totalPoints} tot</span>
+                          <span className="text-neutral-600">·</span>
+                          <span className={yetCount > 0 ? "text-amber-400 font-medium" : "text-neutral-500"}>
+                            Yet {yetCount}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Expand Chevron */}
+                      <div className="text-neutral-500 pl-0.5">
+                        {isExpanded ? (
+                          <ChevronUp className="w-4 h-4 text-emerald-400" />
+                        ) : (
+                          <ChevronDown className="w-4 h-4" />
                         )}
                       </div>
                     </div>
                   </div>
 
-                  {/* Right: Points, Hits & Yet to Play */}
-                  <div className="flex items-center gap-3 flex-shrink-0 text-right">
-                    {/* Live GW & Total Points + Hits + Yet */}
-                    <div className="font-mono text-right min-w-[76px]">
-                      <div className="flex items-center justify-end gap-1 text-xs font-bold text-emerald-400">
-                        <span>{mgr.liveGwPoints} pts</span>
-                        {cost > 0 && (
-                          <span className="text-red-500 text-[10px] font-bold">
-                            (-{cost})
-                          </span>
-                        )}
-                      </div>
-                      <div className="text-[10px] text-neutral-400 flex items-center justify-end gap-1 mt-0.5">
-                        <span>{mgr.totalPoints} tot</span>
-                        <span className="text-neutral-600">·</span>
-                        <span className={yetCount > 0 ? "text-amber-400 font-medium" : "text-neutral-500"}>
-                          Yet {yetCount}
+                  {/* Transfer String - Now in the preview! */}
+                  {mgr.active_transfers && mgr.active_transfers.length > 0 && (
+                    <div className="flex flex-wrap gap-2 items-center text-[10px] mt-2 pt-2 border-t border-gray-800/50 w-full font-mono">
+                      {mgr.active_transfers.map((t: any, idx: number) => (
+                        <div key={idx} className="flex items-center gap-1">
+                          <span className="text-red-400 line-through decoration-red-900/50">{t.out}</span>
+                          <span className="text-gray-500">→</span>
+                          <span className="text-emerald-400 font-semibold">{t.in}</span>
+                          {idx < mgr.active_transfers!.length - 1 && (
+                            <span className="text-neutral-700 ml-1">·</span>
+                          )}
+                        </div>
+                      ))}
+                      {cost > 0 && (
+                        <span className="text-red-500 font-bold ml-1">
+                          (-{cost})
                         </span>
-                      </div>
-                    </div>
-
-                    {/* Expand Chevron */}
-                    <div className="text-neutral-500 pl-0.5">
-                      {isExpanded ? (
-                        <ChevronUp className="w-4 h-4 text-emerald-400" />
-                      ) : (
-                        <ChevronDown className="w-4 h-4" />
                       )}
                     </div>
-                  </div>
+                  )}
                 </button>
 
                 {/* Expanded Manager View (Compact List or Pitch) */}
@@ -507,7 +525,7 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
                       playedCount={mgr.playedCount}
                       maxPlayedCount={mgr.maxPlayedCount}
                       activeChip={mgr.activeChip}
-                      ftLeft={mgr.ft_left ?? mgr.ftLeft ?? 1}
+                      ftLeft={mgr.ft_available ?? mgr.ftAvailable ?? mgr.ft_left ?? 1}
                       activeTransfers={mgr.active_transfers ?? mgr.activeTransfers ?? []}
                       starters={mgr.starters}
                       bench={mgr.bench}
