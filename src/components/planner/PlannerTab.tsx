@@ -92,7 +92,8 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
     return plannedSquad.filter((p) => !initialPlayerIds.has(p.id)).length;
   }, [plannedSquad, initialPlayerIds]);
 
-  const freeTransfers = stats?.freeTransfers || 1;
+  const freeTransfers =
+    stats?.ft_available ?? stats?.ftAvailable ?? stats?.freeTransfers ?? 1;
   const hitCost = Math.max(0, transfersMade - freeTransfers) * 4;
 
   // Starting XI and Bench split

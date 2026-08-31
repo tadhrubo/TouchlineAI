@@ -10,6 +10,9 @@ interface StatsCardProps {
 }
 
 export const StatsCard: React.FC<StatsCardProps> = ({ stats }) => {
+  const ftAvailable =
+    stats.ft_available ?? stats.ftAvailable ?? stats.freeTransfers ?? 1;
+
   return (
     <div className="w-full py-2 space-y-3">
       {/* Top Metadata Row: Gameweek & Team context */}
@@ -65,7 +68,7 @@ export const StatsCard: React.FC<StatsCardProps> = ({ stats }) => {
             Transfers
           </span>
           <span className="text-xl md:text-2xl font-bold text-emerald-400 font-mono tracking-tight mt-0.5">
-            {stats.freeTransfers} FT
+            {ftAvailable} <span className="text-sm font-normal">FT</span>
           </span>
           <span className="text-[10px] md:text-xs font-mono text-neutral-500 mt-0.5">
             £{stats.inTheBank.toFixed(1)}m ITB

@@ -43,12 +43,59 @@ const POSITION_MAP: Record<number, Position> = {
   4: "FWD",
 };
 
+/**
+ * Calculates Free Transfers Available going into the current gameweek based on 2024/25 FPL rules.
+ * - Everyone starts with 1 FT going into GW2.
+ * - Rolls over up to a maximum of 5 banked transfers.
+ * - 24/25 Chip Rule: Wildcards & Free Hits do NOT reset banked transfers.
+ */
+export function calculateFreeTransfersAvailable(historyData: any): number {
+  if (!historyData || !Array.isArray(historyData.current)) {
+    return 1;
+  }
+
+  let available_ft = 1; // Base 1 FT going into GW2
+
+  // Sort history to ensure chronological calculation
+  const past_gws = [...(historyData.current || [])].sort(
+    (a: any, b: any) => a.event - b.event
+  );
+
+  for (const gw of past_gws) {
+    if (gw.event >= 2) {
+      // Check if a chip was played this GW
+      const chip_played = historyData.chips?.find((c: any) => c.event === gw.event);
+      const is_wc_or_fh =
+        chip_played &&
+        (chip_played.name === "wildcard" || chip_played.name === "freehit");
+
+      if (is_wc_or_fh) {
+        // 24/25 Rule: Chips do not reset banked transfers.
+        available_ft = Math.min(5, available_ft + 1);
+      } else {
+        const transfers_made = gw.event_transfers || 0;
+        const hits_taken = (gw.event_transfers_cost || 0) / 4;
+        const free_transfers_used = transfers_made - hits_taken;
+
+        available_ft = Math.min(
+          5,
+          Math.max(0, available_ft - free_transfers_used) + 1
+        );
+      }
+    }
+  }
+
+  return Math.max(1, Math.min(5, available_ft));
+}
+
 export interface ManagerSquadResponse {
   stats: TeamStats;
   players: Player[];
   captainId: string;
   viceCaptainId: string;
   formation: string;
+  ft_available?: number;
+  ftAvailable?: number;
 }
 
 export async function fetchManagerSquad(
@@ -65,18 +112,30 @@ export async function fetchManagerSquad(
     Accept: "application/json",
   };
 
-  // 1. Fetch Manager Overview
+  // 1. Fetch Manager Overview & History in Parallel
   let entryRes: Response;
+  let historyData: any = null;
   try {
-    entryRes = await fetch(
-      `https://fantasy.premierleague.com/api/entry/${cleanId}/`,
-      {
+    const [eRes, hRes] = await Promise.all([
+      fetch(`https://fantasy.premierleague.com/api/entry/${cleanId}/`, {
         headers: fplHeaders,
         next: { revalidate: 60 },
-      }
-    );
+      }),
+      fetch(`https://fantasy.premierleague.com/api/entry/${cleanId}/history/`, {
+        headers: fplHeaders,
+        next: { revalidate: 60 },
+      }).catch(() => null),
+    ]);
+    entryRes = eRes;
+    if (hRes && hRes.ok) {
+      historyData = await hRes.json().catch(() => null);
+    }
   } catch (err: any) {
-    throw new Error(`Failed to reach FPL API for Entry ${cleanId}: ${err?.message || "Network error"}`);
+    throw new Error(
+      `Failed to reach FPL API for Entry ${cleanId}: ${
+        err?.message || "Network error"
+      }`
+    );
   }
 
   if (!entryRes.ok) {
@@ -463,6 +522,9 @@ function getFplKitUrl(teamCode: number | undefined, isGoalkeeper: boolean = fals
   const rankDelta = oldRank - liveRank;
   const rankPercentChange = Number(((rankDelta / Math.max(1, oldRank)) * 100).toFixed(1));
 
+  // Calculate Free Transfers Available (24/25 rules, rolling up to 5, chip preservation)
+  const ftAvailable = calculateFreeTransfersAvailable(historyData);
+
   const stats: TeamStats = {
     managerName: `${entryData.player_first_name || "FPL"} ${entryData.player_last_name || "Manager"}`,
     teamName: entryData.name || `Team ${cleanId}`,
@@ -475,7 +537,11 @@ function getFplKitUrl(teamCode: number | undefined, isGoalkeeper: boolean = fals
     gameweekRank: gwRank,
     teamValue: teamValue,
     inTheBank: inTheBank,
-    freeTransfers: 1,
+    freeTransfers: ftAvailable,
+    ft_available: ftAvailable,
+    ftAvailable: ftAvailable,
+    ft_left: ftAvailable,
+    ftLeft: ftAvailable,
     activeChip: picksData.active_chip || null,
     formation: formation,
     deadline: `GW${currentEvent + 1} Deadline Soon`,
@@ -507,5 +573,7 @@ function getFplKitUrl(teamCode: number | undefined, isGoalkeeper: boolean = fals
     captainId,
     viceCaptainId,
     formation,
+    ft_available: ftAvailable,
+    ftAvailable: ftAvailable,
   };
 }

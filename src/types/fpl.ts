@@ -95,6 +95,10 @@ export interface TeamStats {
   teamValue: number;
   inTheBank: number;
   freeTransfers: number;
+  ft_available?: number;
+  ftAvailable?: number;
+  ft_left?: number;
+  ftLeft?: number;
   activeChip?: "Wildcard" | "Free Hit" | "Bench Boost" | "Triple Captain" | null;
   formation: string; // e.g. "3-4-3"
   deadline: string;

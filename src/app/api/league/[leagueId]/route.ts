@@ -38,6 +38,7 @@ function chunkArray<T>(items: T[], size: number): T[][] {
 /**
  * Calculates Free Transfers Available going into the current gameweek based on 2024/25 FPL rules.
  * Everyone starts with 1 FT going into GW2, rolling over up to a maximum of 5 banked transfers.
+ * 24/25 Chip Rule: Wildcards & Free Hits do NOT reset banked transfers.
  */
 function calculateFreeTransfersAvailable(historyData: any): number {
   if (!historyData || !Array.isArray(historyData.current)) {
@@ -53,13 +54,24 @@ function calculateFreeTransfersAvailable(historyData: any): number {
     // Rollover math only applies to actions taken from GW2 onwards.
     // GW1 transfers are unlimited and don't affect rolling FTs.
     if (past_gw.event >= 2) {
-      const transfers_made = past_gw.event_transfers || 0;
-      const hits_taken = (past_gw.event_transfers_cost || 0) / 4;
-      const free_transfers_used = transfers_made - hits_taken;
+      // Check if a chip was played this GW
+      const chip_played = historyData.chips?.find((c: any) => c.event === past_gw.event);
+      const is_wc_or_fh =
+        chip_played &&
+        (chip_played.name === "wildcard" || chip_played.name === "freehit");
 
-      // FPL 24/25 Rule: Max 5 banked transfers.
-      // Subtract used transfers (bottoming out at 0), then grant 1 FT for the next GW.
-      available_ft = Math.min(5, Math.max(0, available_ft - free_transfers_used) + 1);
+      if (is_wc_or_fh) {
+        // 24/25 Rule: Chips do not reset banked transfers.
+        available_ft = Math.min(5, available_ft + 1);
+      } else {
+        const transfers_made = past_gw.event_transfers || 0;
+        const hits_taken = (past_gw.event_transfers_cost || 0) / 4;
+        const free_transfers_used = transfers_made - hits_taken;
+
+        // FPL 24/25 Rule: Max 5 banked transfers.
+        // Subtract used transfers (bottoming out at 0), then grant 1 FT for the next GW.
+        available_ft = Math.min(5, Math.max(0, available_ft - free_transfers_used) + 1);
+      }
     }
   }
 
