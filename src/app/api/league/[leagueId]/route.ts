@@ -39,28 +39,31 @@ function chunkArray<T>(items: T[], size: number): T[][] {
  * Calculates Free Transfers Available going into the current gameweek based on 2024/25 FPL rules.
  * Everyone starts with 1 FT going into GW2, rolling over up to a maximum of 5 banked transfers.
  */
-function calculateFreeTransfersAvailable(historyData: any, currentEvent: number): number {
+function calculateFreeTransfersAvailable(historyData: any): number {
   if (!historyData || !Array.isArray(historyData.current)) {
     return 1;
   }
 
-  const history = historyData.current;
-  let available_ft = 1; // Everyone gets 1 FT going into GW2
+  let available_ft = 1; // Everyone starts with 1 FT going into GW2
 
-  // Loop through past gameweeks to calculate rolled transfers up to current event
-  for (let gw = 2; gw < currentEvent; gw++) {
-    const past_gw = history.find((h: any) => h.event === gw);
-    if (past_gw) {
+  // Sort history to ensure chronological calculation
+  const past_gws = [...(historyData.current || [])].sort((a: any, b: any) => a.event - b.event);
+
+  for (const past_gw of past_gws) {
+    // Rollover math only applies to actions taken from GW2 onwards.
+    // GW1 transfers are unlimited and don't affect rolling FTs.
+    if (past_gw.event >= 2) {
       const transfers_made = past_gw.event_transfers || 0;
       const hits_taken = (past_gw.event_transfers_cost || 0) / 4;
-      const free_transfers_used = Math.max(0, transfers_made - hits_taken);
+      const free_transfers_used = transfers_made - hits_taken;
 
-      // FPL 24/25 Rule: Max 5 banked transfers
+      // FPL 24/25 Rule: Max 5 banked transfers.
+      // Subtract used transfers (bottoming out at 0), then grant 1 FT for the next GW.
       available_ft = Math.min(5, Math.max(0, available_ft - free_transfers_used) + 1);
     }
   }
 
-  return Math.max(0, Math.min(5, available_ft));
+  return Math.max(1, Math.min(5, available_ft));
 }
 
 export async function GET(
@@ -265,7 +268,7 @@ export async function GET(
 
     for (const { mgr, picksData, historyData, transfersData } of allChunkResults) {
       // Calculate true FT Available going into the gameweek (24/25 rules, max 5 banked)
-      const ftAvailable = calculateFreeTransfersAvailable(historyData, currentEvent);
+      const ftAvailable = calculateFreeTransfersAvailable(historyData);
 
       // Extract current GW transfers made
       const currentGwTransfers = Array.isArray(transfersData)
