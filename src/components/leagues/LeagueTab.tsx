@@ -44,9 +44,12 @@ interface ManagerRow {
   viceCaptainName: string;
   activeChip: string | null;
   transfers: number;
+  transfersCost?: number;
+  eventTransfersCost?: number;
   teamValue: number;
   bank: number;
   playedCount: number;
+  yetCount?: number;
   maxPlayedCount: number;
   starters: any[];
   bench: any[];
@@ -358,8 +361,7 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
               <span>Team & Manager</span>
             </div>
             <div className="flex items-center gap-4">
-              <span>Played</span>
-              <span className="w-16 text-right">GW / Total</span>
+              <span className="text-right">GW Points / Yet</span>
             </div>
           </div>
 
@@ -367,6 +369,12 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
           {filteredManagers.map((mgr) => {
             const isExpanded = expandedIds.has(mgr.entry);
             const isUserTeam = String(mgr.entry) === String(activeEntryId);
+            const cost = mgr.transfersCost ?? mgr.eventTransfersCost ?? 0;
+            const yetCount =
+              mgr.yetCount ??
+              mgr.starters.filter(
+                (p) => (!p.matchFinished && p.minutes === 0) || p.yetToPlay
+              ).length;
 
             return (
               <div
@@ -430,30 +438,38 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
                       <p className="text-[11px] text-neutral-400 truncate">
                         {mgr.name} · <span className="text-neutral-300 font-mono">C: {mgr.captainName}</span>
                       </p>
+                      {/* FT & TV Subline */}
+                      <div className="flex items-center gap-1.5 text-[10px] font-mono text-neutral-400 mt-0.5">
+                        <span>FT {mgr.transfers ?? 0}</span>
+                        <span className="text-neutral-600">·</span>
+                        <span>TV £{Number(mgr.teamValue || 100).toFixed(1)}m</span>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Right: Played Count & Points */}
-                  <div className="flex items-center gap-3.5 flex-shrink-0 text-right">
-                    {/* Played Counter */}
-                    <div className="text-center font-mono">
-                      <span className="text-[11px] text-neutral-300">
-                        {mgr.playedCount}/{mgr.maxPlayedCount}
-                      </span>
-                    </div>
-
-                    {/* Live GW & Total Points */}
-                    <div className="w-16 font-mono text-right">
-                      <div className="text-xs font-bold text-emerald-400">
-                        {mgr.liveGwPoints} <span className="text-[10px] font-normal text-emerald-500">pts</span>
+                  {/* Right: Points, Hits & Yet to Play */}
+                  <div className="flex items-center gap-3 flex-shrink-0 text-right">
+                    {/* Live GW & Total Points + Hits + Yet */}
+                    <div className="font-mono text-right min-w-[76px]">
+                      <div className="flex items-center justify-end gap-1 text-xs font-bold text-emerald-400">
+                        <span>{mgr.liveGwPoints} pts</span>
+                        {cost > 0 && (
+                          <span className="text-red-500 text-[10px] font-bold">
+                            (-{cost})
+                          </span>
+                        )}
                       </div>
-                      <div className="text-[10px] text-neutral-400">
-                        {mgr.totalPoints} tot
+                      <div className="text-[10px] text-neutral-400 flex items-center justify-end gap-1 mt-0.5">
+                        <span>{mgr.totalPoints} tot</span>
+                        <span className="text-neutral-600">·</span>
+                        <span className={yetCount > 0 ? "text-amber-400 font-medium" : "text-neutral-500"}>
+                          Yet {yetCount}
+                        </span>
                       </div>
                     </div>
 
                     {/* Expand Chevron */}
-                    <div className="text-neutral-500">
+                    <div className="text-neutral-500 pl-0.5">
                       {isExpanded ? (
                         <ChevronUp className="w-4 h-4 text-emerald-400" />
                       ) : (

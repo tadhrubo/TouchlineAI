@@ -4,7 +4,7 @@ import React, { useMemo } from "react";
 import Image from "next/image";
 import { getPerformanceBadge } from "@/utils/fplBadges";
 
-interface LeaguePlayer {
+export interface LeaguePlayer {
   id: number;
   pickPosition: number;
   webName: string;
@@ -29,6 +29,12 @@ interface LeaguePlayer {
   played: boolean;
   selectedByPercent?: number;
   top10kEo?: number;
+  top_10k_eo?: number;
+  leagueOwnershipPercent?: number;
+  league_ownership_percent?: number;
+  matchFinished?: boolean;
+  matchStarted?: boolean;
+  yetToPlay?: boolean;
   isSubbedIn?: boolean;
   isSubbedOut?: boolean;
 }
@@ -58,16 +64,25 @@ const PlayerCompactCard: React.FC<{
     : "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_0-66.webp";
 
   const pts = player.livePoints ?? player.rawPoints ?? 0;
-  const hasPlayed = player.played || player.minutes > 0;
+  const hasPlayed = (player.played && player.minutes > 0) || player.minutes > 0;
+  const isFinished = Boolean(player.matchFinished || (hasPlayed && !player.yetToPlay));
+  const isYetToPlay = Boolean(player.yetToPlay || (!hasPlayed && !player.matchFinished));
+  const isBlanked = (isFinished && pts <= 0) || (hasPlayed && pts <= 0);
   const isBenchDimmed = isBench && !player.isSubbedIn;
 
+  // Use local mini-league ownership percent as primary EO for contextual mini-league performance badges
+  const localEo = player.league_ownership_percent ?? player.leagueOwnershipPercent;
   const badge = getPerformanceBadge(
-    player.livePoints ?? player.rawPoints ?? 0,
+    pts,
     player.minutes ?? 0,
     player.selectedByPercent ?? 0,
-    player.top10kEo,
+    localEo ?? player.top10kEo,
     player.isSubbedIn,
     player.isSubbedOut
+  );
+
+  const leagueOwnership = Math.round(
+    player.league_ownership_percent ?? player.leagueOwnershipPercent ?? 0
   );
 
   return (
@@ -131,19 +146,26 @@ const PlayerCompactCard: React.FC<{
 
       {/* Points Bar */}
       <div
-        className={`w-full text-center text-[10px] font-mono font-bold py-0.5 border border-t-0 rounded-b-sm ${
+        className={`w-full text-center text-[10px] font-mono font-bold py-0.5 border-x ${
           player.isSubbedOut
             ? "bg-neutral-950 text-neutral-600 border-neutral-800 line-through"
             : player.isSubbedIn
             ? "bg-emerald-600 text-white border-emerald-500 shadow-sm"
             : pts > 0
             ? "bg-emerald-500 text-white border-emerald-600 shadow-sm"
-            : hasPlayed
-            ? "bg-neutral-300 text-neutral-900 border-neutral-400"
-            : "bg-neutral-900 text-neutral-500 border-neutral-800"
+            : isYetToPlay
+            ? "bg-gray-900 text-gray-300 border-gray-800"
+            : isBlanked
+            ? "bg-gray-600 text-white border-gray-500"
+            : "bg-gray-900 text-gray-400 border-gray-800"
         }`}
       >
         {pts}
+      </div>
+
+      {/* Mini-League Local Ownership % */}
+      <div className="w-full text-center text-[9px] font-medium bg-black text-gray-300 rounded-b-sm pb-0.5 border-x border-b border-white/[0.08]">
+        {leagueOwnership}%
       </div>
     </div>
   );
@@ -163,7 +185,7 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
   layoutMode = "list",
   autosubsEnabled = true,
 }) => {
-  // Autosub Simulation Logic
+  // Autosub Simulation Logic: ONLY substitute starters out if their match is finished with 0 minutes
   const { effectiveStarters, effectiveBench, effectiveLivePts, effectivePlayedCount } =
     useMemo(() => {
       if (!autosubsEnabled || activeChip === "BB") {
@@ -179,34 +201,65 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
       const modStarters = starters.map((p) => ({ ...p, isSubbedIn: false, isSubbedOut: false }));
       const modBench = bench.map((p) => ({ ...p, isSubbedIn: false, isSubbedOut: false }));
 
-      // 1. Goalkeeper check
+      // 1. Goalkeeper check: ONLY sub out if starter's match is finished AND starter played 0 minutes
       const startingGK = modStarters.find((p) => p.elementType === 1 || p.position === "GKP");
       const benchGK = modBench.find((p) => p.elementType === 1 || p.position === "GKP");
 
       if (
         startingGK &&
         benchGK &&
+        startingGK.matchFinished &&
         startingGK.minutes === 0 &&
-        (benchGK.minutes > 0 || benchGK.played)
+        (benchGK.minutes > 0 || benchGK.played || benchGK.matchFinished)
       ) {
         startingGK.isSubbedOut = true;
         benchGK.isSubbedIn = true;
       }
 
-      // 2. Outfield players check
-      const unplayedStarters = modStarters.filter(
-        (p) => (p.elementType !== 1 && p.position !== "GKP") && p.minutes === 0
+      // 2. Outfield players check: ONLY sub out starters whose match has completely finished with 0 minutes
+      const finishedZeroMinsStarters = modStarters.filter(
+        (p) =>
+          p.elementType !== 1 &&
+          p.position !== "GKP" &&
+          p.matchFinished &&
+          p.minutes === 0
       );
 
-      for (const starter of unplayedStarters) {
+      for (const starter of finishedZeroMinsStarters) {
+        // Find first eligible outfield bench player in bench order
         const availableBenchSub = modBench.find(
           (b) =>
-            (b.elementType !== 1 && b.position !== "GKP") &&
-            (b.minutes > 0 || b.played) &&
-            !b.isSubbedIn
+            b.elementType !== 1 &&
+            b.position !== "GKP" &&
+            !b.isSubbedIn &&
+            (b.minutes > 0 || b.played || !b.matchFinished)
         );
 
         if (availableBenchSub) {
+          // Check formation constraints before subbing
+          // Minimum starting: 3 DEF, 2 MID, 1 FWD
+          const defCount = modStarters.filter(
+            (p) => (p.elementType === 2 || p.position === "DEF") && !p.isSubbedOut
+          ).length;
+
+          const isStarterDef = starter.elementType === 2 || starter.position === "DEF";
+          const isSubDef = availableBenchSub.elementType === 2 || availableBenchSub.position === "DEF";
+
+          if (isStarterDef && defCount <= 3 && !isSubDef) {
+            // Find a defender on bench instead
+            const benchDef = modBench.find(
+              (b) =>
+                (b.elementType === 2 || b.position === "DEF") &&
+                !b.isSubbedIn &&
+                (b.minutes > 0 || b.played || !b.matchFinished)
+            );
+            if (benchDef) {
+              starter.isSubbedOut = true;
+              benchDef.isSubbedIn = true;
+            }
+            continue;
+          }
+
           starter.isSubbedOut = true;
           availableBenchSub.isSubbedIn = true;
         }
@@ -301,13 +354,24 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
       ? "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_0_1-66.webp"
       : "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_0-66.webp";
 
+    const pts = player.livePoints ?? player.rawPoints ?? 0;
+    const hasPlayed = (player.played && player.minutes > 0) || player.minutes > 0;
+    const isFinished = Boolean(player.matchFinished || (hasPlayed && !player.yetToPlay));
+    const isYetToPlay = Boolean(player.yetToPlay || (!hasPlayed && !player.matchFinished));
+    const isBlanked = (isFinished && pts <= 0) || (hasPlayed && pts <= 0);
+
+    const localEo = player.league_ownership_percent ?? player.leagueOwnershipPercent;
     const badge = getPerformanceBadge(
-      player.livePoints ?? player.rawPoints ?? 0,
+      pts,
       player.minutes ?? 0,
       player.selectedByPercent ?? 0,
-      player.top10kEo,
+      localEo ?? player.top10kEo,
       player.isSubbedIn,
       player.isSubbedOut
+    );
+
+    const leagueOwnership = Math.round(
+      player.league_ownership_percent ?? player.leagueOwnershipPercent ?? 0
     );
 
     return (
@@ -376,22 +440,27 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
           </p>
         </div>
 
-        {/* Live Points Badge */}
-        <div className="w-full mt-0.5 px-1 py-0.2 rounded bg-neutral-900/90 border border-white/[0.06] text-center flex items-center justify-center gap-1">
+        {/* Live Points & Ownership Badge */}
+        <div className="w-full mt-0.5 px-1 py-0.2 rounded bg-neutral-900/90 border border-white/[0.06] text-center flex flex-col items-center justify-center">
           <span
-            className={`text-[10px] font-mono font-semibold ${
+            className={`text-[10px] font-mono font-bold leading-tight ${
               player.isSubbedOut
                 ? "text-neutral-600 line-through"
                 : player.isSubbedIn
                 ? "text-emerald-400 font-bold"
-                : player.livePoints > 0
-                ? "text-emerald-400"
-                : player.minutes > 0
-                ? "text-neutral-300"
+                : pts > 0
+                ? "text-emerald-400 font-bold"
+                : isYetToPlay
+                ? "text-neutral-400"
+                : isBlanked
+                ? "text-neutral-300 font-semibold"
                 : "text-neutral-500"
             }`}
           >
-            {player.livePoints} pts
+            {pts} pts
+          </span>
+          <span className="text-[8px] font-mono text-neutral-400 leading-none">
+            {leagueOwnership}%
           </span>
         </div>
       </div>
