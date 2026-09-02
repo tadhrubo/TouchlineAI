@@ -9,9 +9,35 @@ const lemonMilk = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Touchline AI | FPL Assistant & Captaincy Advisor",
+  metadataBase: new URL("https://touchlineai.site"),
+  title: {
+    default: "Touchline AI | FPL Assistant & Live Matchday Tracker",
+    template: "%s | Touchline AI",
+  },
   description:
-    "Next-generation Fantasy Premier League AI companion with live pitch tracker, deep RAG statistical models, and captaincy simulations.",
+    "Advanced Fantasy Premier League companion app featuring live matchday rank deltas, Top 10k EO badges, transfer planner, and mini-league tracking.",
+  keywords: [
+    "FPL",
+    "Fantasy Premier League",
+    "LiveFPL",
+    "FPL Planner",
+    "Top 10k EO",
+    "Touchline AI",
+  ],
+  openGraph: {
+    title: "Touchline AI | Smarter FPL Matchday & Transfer Planner",
+    description:
+      "Track live rank deltas, mini-league differentials, and model-driven transfer plans in real-time.",
+    url: "https://touchlineai.site",
+    siteName: "Touchline AI",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Touchline AI | FPL Assistant",
+    description:
+      "Track live rank deltas and plan FPL transfers with real-time stats.",
+  },
   appleWebApp: {
     capable: true,
     title: "Touchline AI",
