@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
+import { calculateNetTransfers } from "@/utils/fplTransfers";
 
 const fplHeaders = {
   "User-Agent":
@@ -282,22 +283,12 @@ export async function GET(
       // Calculate true FT Available going into the gameweek (24/25 rules, max 5 banked)
       const ftAvailable = calculateFreeTransfersAvailable(historyData);
 
-      // Extract current GW transfers made
+      // Extract current GW transfers made and calculate net transfers (excluding Wildcard tinkering)
       const currentGwTransfers = Array.isArray(transfersData)
         ? transfersData.filter((t: any) => t.event === currentEvent)
         : [];
 
-      const activeTransfers = currentGwTransfers.map((t: any) => {
-        const elIn = elementsMap.get(t.element_in);
-        const elOut = elementsMap.get(t.element_out);
-        return {
-          in: elIn ? elIn.web_name : `Player ${t.element_in}`,
-          out: elOut ? elOut.web_name : `Player ${t.element_out}`,
-          elementIn: t.element_in,
-          elementOut: t.element_out,
-          time: t.time,
-        };
-      });
+      const activeTransfers = calculateNetTransfers(currentGwTransfers, elementsMap);
 
       if (!picksData || !picksData.picks) {
         enrichedManagers.push({
@@ -438,7 +429,10 @@ export async function GET(
       const entryHist = picksData.entry_history || {};
       const teamVal = entryHist.value ? entryHist.value / 10 : 100;
       const bankVal = entryHist.bank ? entryHist.bank / 10 : 0;
-      const transfers = entryHist.event_transfers ?? 0;
+      const transfers =
+        activeChipFormatted === "WC"
+          ? activeTransfers.length
+          : entryHist.event_transfers ?? activeTransfers.length;
       const transfersCost = entryHist.event_transfers_cost ?? 0;
       const totalOverallPts = mgr.total ?? 0;
 

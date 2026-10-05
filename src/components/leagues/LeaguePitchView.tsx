@@ -4,6 +4,7 @@ import React, { useMemo } from "react";
 import Image from "next/image";
 import { getPerformanceBadge } from "@/utils/fplBadges";
 import { PitchBranding } from "../ui/PitchBranding";
+import { calculateNetTransfers } from "@/utils/fplTransfers";
 
 export interface LeagueTransfer {
   in: string;
@@ -200,6 +201,9 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
   layoutMode = "list",
   autosubsEnabled = true,
 }) => {
+  // Filter out any intermediate wildcard tinkering to only display true net transfers
+  const netTransfers = useMemo(() => calculateNetTransfers(activeTransfers), [activeTransfers]);
+
   // Autosub Simulation Logic: ONLY substitute starters out if their match is finished with 0 minutes
   const { effectiveStarters, effectiveBench, effectiveLivePts, effectivePlayedCount } =
     useMemo(() => {
@@ -336,18 +340,18 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
           </div>
         </div>
 
-        {/* LiveFPL GW Active Transfers Bar */}
-        {activeTransfers && activeTransfers.length > 0 && (
+        {/* LiveFPL GW Active Transfers Bar (Net Transfers Only) */}
+        {netTransfers && netTransfers.length > 0 && (
           <div className="flex flex-wrap gap-2 items-center text-[10px] px-2.5 py-1.5 bg-neutral-900/70 rounded-lg border border-white/[0.06] shadow-sm">
             <span className="text-neutral-400 font-mono text-[9px] uppercase tracking-wider font-semibold">
-              Transfers ({activeTransfers.length}):
+              Transfers ({netTransfers.length}):
             </span>
-            {activeTransfers.map((t, idx) => (
+            {netTransfers.map((t, idx) => (
               <div key={idx} className="flex items-center gap-1 font-mono">
                 <span className="text-rose-400 line-through decoration-rose-900/60 font-medium">{t.out}</span>
                 <span className="text-neutral-500">→</span>
                 <span className="text-emerald-400 font-semibold">{t.in}</span>
-                {idx < activeTransfers.length - 1 && <span className="text-neutral-700 ml-1">·</span>}
+                {idx < netTransfers.length - 1 && <span className="text-neutral-700 ml-1">·</span>}
               </div>
             ))}
             {transfersCost > 0 && (
@@ -533,18 +537,18 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
         </div>
       </div>
 
-      {/* LiveFPL GW Active Transfers Bar */}
-      {activeTransfers && activeTransfers.length > 0 && (
+      {/* LiveFPL GW Active Transfers Bar (Net Transfers Only) */}
+      {netTransfers && netTransfers.length > 0 && (
         <div className="flex flex-wrap gap-2 items-center text-[10px] px-2.5 py-1.5 bg-neutral-900/70 rounded-lg border border-white/[0.06] shadow-sm">
           <span className="text-neutral-400 font-mono text-[9px] uppercase tracking-wider font-semibold">
-            Transfers ({activeTransfers.length}):
+            Transfers ({netTransfers.length}):
           </span>
-          {activeTransfers.map((t, idx) => (
+          {netTransfers.map((t, idx) => (
             <div key={idx} className="flex items-center gap-1 font-mono">
               <span className="text-rose-400 line-through decoration-rose-900/60 font-medium">{t.out}</span>
               <span className="text-neutral-500">→</span>
               <span className="text-emerald-400 font-semibold">{t.in}</span>
-              {idx < activeTransfers.length - 1 && <span className="text-neutral-700 ml-1">·</span>}
+              {idx < netTransfers.length - 1 && <span className="text-neutral-700 ml-1">·</span>}
             </div>
           ))}
           {transfersCost > 0 && (

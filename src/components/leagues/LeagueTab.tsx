@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { LeaguePitchView } from "./LeaguePitchView";
 import { BadgeLegend } from "../fpl/BadgeLegend";
+import { calculateNetTransfers } from "@/utils/fplTransfers";
 
 interface ClassicLeague {
   id: number;
@@ -376,6 +377,9 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
             const isExpanded = expandedIds.has(mgr.entry);
             const isUserTeam = String(mgr.entry) === String(activeEntryId);
             const cost = mgr.transfersCost ?? mgr.eventTransfersCost ?? 0;
+            const netTransfers = calculateNetTransfers(
+              mgr.active_transfers ?? mgr.activeTransfers ?? []
+            );
             const yetCount =
               mgr.yetCount ??
               mgr.starters.filter(
@@ -489,27 +493,6 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
                       </div>
                     </div>
                   </div>
-
-                  {/* Transfer String - Now in the preview! */}
-                  {mgr.active_transfers && mgr.active_transfers.length > 0 && (
-                    <div className="flex flex-wrap gap-2 items-center text-[10px] mt-2 pt-2 border-t border-gray-800/50 w-full font-mono">
-                      {mgr.active_transfers.map((t: any, idx: number) => (
-                        <div key={idx} className="flex items-center gap-1">
-                          <span className="text-red-400 line-through decoration-red-900/50">{t.out}</span>
-                          <span className="text-gray-500">→</span>
-                          <span className="text-emerald-400 font-semibold">{t.in}</span>
-                          {idx < mgr.active_transfers!.length - 1 && (
-                            <span className="text-neutral-700 ml-1">·</span>
-                          )}
-                        </div>
-                      ))}
-                      {cost > 0 && (
-                        <span className="text-red-500 font-bold ml-1">
-                          (-{cost})
-                        </span>
-                      )}
-                    </div>
-                  )}
                 </button>
 
                 {/* Expanded Manager View (Compact List or Pitch) */}
@@ -526,7 +509,7 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
                       maxPlayedCount={mgr.maxPlayedCount}
                       activeChip={mgr.activeChip}
                       ftLeft={mgr.ft_available ?? mgr.ftAvailable ?? mgr.ft_left ?? 1}
-                      activeTransfers={mgr.active_transfers ?? mgr.activeTransfers ?? []}
+                      activeTransfers={netTransfers}
                       starters={mgr.starters}
                       bench={mgr.bench}
                       layoutMode={layoutMode}

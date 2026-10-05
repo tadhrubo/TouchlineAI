@@ -30,6 +30,14 @@ export const metadata: Metadata = {
       "Track live rank deltas, mini-league differentials, and model-driven transfer plans in real-time.",
     url: "https://touchlineai.site",
     siteName: "Touchline AI",
+    images: [
+      {
+        url: "/asset/image/TAI_preview.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Touchline AI - FPL Assistant & Live Matchday Tracker",
+      },
+    ],
     type: "website",
   },
   twitter: {
@@ -37,6 +45,7 @@ export const metadata: Metadata = {
     title: "Touchline AI | FPL Assistant",
     description:
       "Track live rank deltas and plan FPL transfers with real-time stats.",
+    images: ["/asset/image/TAI_preview.jpg"],
   },
   appleWebApp: {
     capable: true,
