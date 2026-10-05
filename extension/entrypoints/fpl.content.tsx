@@ -75,15 +75,32 @@ async function handleSync() {
     const statusText = document.getElementById('touchline-sync-text');
     if (statusText) statusText.innerText = 'Syncing...';
 
-    // 1. Fetch the logged-in user's profile to get their Manager ID
-    const meRes = await fetch('https://fantasy.premierleague.com/api/me/');
-    const meData = await meRes.json();
-    const managerId = meData.player?.entry || meData.entry;
+    // 1. Bulletproof DOM Fallback: FPL puts the Manager ID in the "Points" nav link
+    let managerId: string | number | null = null;
+    const pointsLink = document.querySelector('a[href*="/entry/"]');
+    if (pointsLink) {
+      const match = pointsLink.getAttribute('href')?.match(/\/entry\/(\d+)/);
+      if (match) managerId = match[1];
+    }
 
-    if (!managerId) throw new Error('Could not find Manager ID. Are you logged in?');
+    // 2. API Fallback with explicit cookie credentials
+    if (!managerId) {
+      const meRes = await fetch('https://fantasy.premierleague.com/api/me/', { 
+        credentials: 'include' 
+      });
+      if (meRes.ok) {
+        const meData = await meRes.json();
+        managerId = meData.player?.entry || meData.entry;
+      }
+    }
 
-    // 2. Fetch their active draft / picks using the Manager ID
-    const teamRes = await fetch(`https://fantasy.premierleague.com/api/my-team/${managerId}/`);
+    if (!managerId) throw new Error('Could not find Manager ID.');
+
+    // 3. Fetch the active team using the explicit credentials flag
+    const teamRes = await fetch(`https://fantasy.premierleague.com/api/my-team/${managerId}/`, {
+      credentials: 'include'
+    });
+    if (!teamRes.ok) throw new Error('Could not fetch team data.');
     const teamData = await teamRes.json();
 
     // 3. POST the payload to the Touchline AI backend
