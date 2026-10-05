@@ -3,45 +3,70 @@ import { createRoot } from 'react-dom/client';
 
 export default defineContentScript({
   matches: ['*://*.premierleague.com/*'],
-  main(ctx) {
+  main() {
+    console.log('⚡ Touchline AI Content Script Running');
+
+    const ensureWidgetExists = () => {
+      // If the body doesn't exist yet, wait.
+      if (!document.body) return;
+
+      // If our widget is already there, do nothing.
+      if (document.getElementById('touchline-floating-root')) return;
+
+      // Otherwise, (re)create and inject it
+      const host = document.createElement('div');
+      host.id = 'touchline-floating-root';
+      document.body.appendChild(host);
+
+      const root = createRoot(host);
+      root.render(<SyncWidget />);
+    };
+
+    // 1. Try to inject immediately
+    ensureWidgetExists();
+
+    // 2. Set up an observer to stubbornly keep it alive against React hydration
     const observer = new MutationObserver(() => {
-      // Look for the primary navigation header on the FPL site
-      const header = document.querySelector('.ism-header') || document.querySelector('header');
-      
-      if (header && !document.getElementById('touchline-sync-wrapper')) {
-        injectSyncButton(header);
-      }
+      ensureWidgetExists();
     });
-    
-    // Observe DOM changes (since FPL is a React SPA)
-    observer.observe(document.body, { childList: true, subtree: true });
+
+    // 3. Observe the whole document for changes
+    observer.observe(document.documentElement, { childList: true, subtree: true });
   },
 });
 
-function injectSyncButton(container: Element) {
-  const wrapper = document.createElement('div');
-  wrapper.id = 'touchline-sync-wrapper';
-  wrapper.style.cssText = 'margin-left: auto; padding: 10px 20px; display: flex; z-index: 9999;';
-  
-  container.appendChild(wrapper);
-
-  const root = createRoot(wrapper);
-  root.render(
-    <button 
-      onClick={handleSync}
-      style={{ 
-        background: '#00ff87', // FPL's vibrant green
-        color: '#37003c', // FPL's deep purple
-        padding: '8px 16px', 
-        borderRadius: '8px', 
-        fontWeight: 'bold', 
-        cursor: 'pointer',
-        border: 'none',
-        boxShadow: '0 4px 6px rgba(0,0,0,0.2)'
+function SyncWidget() {
+  return (
+    <div
+      id="touchline-sync-wrapper"
+      style={{
+        position: 'fixed',
+        bottom: '24px',
+        right: '24px',
+        zIndex: 999999,
       }}
     >
-      <span id="touchline-sync-text">⚡ Sync to Touchline Planner</span>
-    </button>
+      <button
+        onClick={handleSync}
+        style={{
+          background: '#00ff87', // FPL's vibrant green
+          color: '#37003c', // FPL's deep purple
+          padding: '10px 18px',
+          borderRadius: '24px',
+          fontWeight: 'bold',
+          fontSize: '14px',
+          cursor: 'pointer',
+          border: 'none',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.25)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          fontFamily: 'system-ui, -apple-system, sans-serif',
+        }}
+      >
+        <span id="touchline-sync-text">⚡ Sync to Touchline Planner</span>
+      </button>
+    </div>
   );
 }
 
