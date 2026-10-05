@@ -18,82 +18,134 @@ interface PointEvent {
   pts: string;
 }
 
+/**
+ * Deterministic GW points breakdown using real FPL live stats from player.stats.
+ * Reads goals, assists, bonus, minutes etc. directly — no reverse-engineering from total.
+ * Position-aware scoring per official FPL rules (24/25 season).
+ */
 function getGameweekBreakdown(player: Player): PointEvent[] {
-  const total = player.gameweekPoints || 0;
-  if (total <= 0) {
-    return [];
-  }
+  const s = player.stats;
+  // If no stats at all (pre-match or no data), return empty
+  if (!s) return [];
+  const mins = s.minutes ?? 0;
+  const basePts = s.total_points ?? 0;
+  // If player hasn't played and has 0 base points, nothing to show
+  if (mins === 0 && basePts === 0) return [];
 
   const events: PointEvent[] = [];
-  let remaining = total;
 
-  // Base minutes played (>= 60 mins is +2 pts, <60 is +1 pt)
-  const minsVal = total >= 2 ? 2 : 1;
-  events.push({
-    name: "Minutes Played",
-    count: minsVal === 2 ? "90'" : "45'",
-    pts: `+${minsVal} pts`,
-  });
-  remaining -= minsVal;
-
-  const isDef = player.position === "DEF" || player.position === "GKP";
+  const isGK  = player.position === "GKP";
+  const isDef = player.position === "DEF";
   const isMid = player.position === "MID";
+  // FWD is the default (element_type 4)
 
-  const goalPts = isDef ? 6 : isMid ? 5 : 4;
-  const csPts = isDef ? 4 : isMid ? 1 : 0;
-
-  let goals = 0;
-  let assists = 0;
-  let cleanSheets = 0;
-  let bonus = 0;
-  let saves = 0;
-
-  // Clean sheet attribution
-  if (isDef && remaining >= 4 && (remaining % 4 === 0 || remaining === 4 || remaining === 7)) {
-    cleanSheets = 1;
-    remaining -= 4;
-  } else if (remaining >= goalPts) {
-    goals = Math.floor(remaining / goalPts);
-    remaining -= goals * goalPts;
+  // ── 1. Minutes played ────────────────────────────────────────────────────────
+  if (mins > 0) {
+    const minsPoints = mins >= 60 ? 2 : 1;
+    events.push({
+      name: "Minutes Played",
+      count: `${mins}'`,
+      pts: `+${minsPoints} pts`,
+    });
   }
 
-  // Assists attribution
-  if (remaining >= 3) {
-    assists = Math.floor(remaining / 3);
-    remaining -= assists * 3;
-  }
-
-  // Bonus attribution
-  if (remaining >= 1 && remaining <= 3) {
-    bonus = remaining;
-    remaining = 0;
-  } else if (isDef && remaining === 4 && cleanSheets === 0) {
-    cleanSheets = 1;
-    remaining = 0;
-  } else if (player.position === "GKP" && remaining >= 1) {
-    saves = remaining * 3;
-    remaining = 0;
-  }
-
-  if (cleanSheets > 0 && csPts > 0) {
-    events.push({ name: "Clean Sheet", count: "1", pts: `+${csPts} pts` });
-  }
+  // ── 2. Goals scored (position-aware) ────────────────────────────────────────
+  //   GKP/DEF: 6 pts · MID: 5 pts · FWD: 4 pts
+  const goalPts = isGK || isDef ? 6 : isMid ? 5 : 4;
+  const goals = s.goals_scored ?? 0;
   if (goals > 0) {
-    events.push({ name: "Goals Scored", count: `${goals}`, pts: `+${goals * goalPts} pts` });
-  }
-  if (assists > 0) {
-    events.push({ name: "Goal Assists", count: `${assists}`, pts: `+${assists * 3} pts` });
-  }
-  if (saves > 0) {
-    events.push({ name: "Saves Made", count: `${saves}`, pts: `+${Math.floor(saves / 3)} pts` });
-  }
-  if (bonus > 0) {
-    events.push({ name: "Bonus Points (BPS)", count: `${bonus}`, pts: `+${bonus} pts` });
+    events.push({
+      name: "Goals Scored",
+      count: `${goals}`,
+      pts: `+${goals * goalPts} pts`,
+    });
   }
 
-  // Any remaining fractional contribution
-  if (remaining > 0) {
-    events.push({ name: "Match Contribution", count: "1", pts: `+${remaining} pts` });
+  // ── 3. Assists (+3 each, all positions) ─────────────────────────────────────
+  const assists = s.assists ?? 0;
+  if (assists > 0) {
+    events.push({
+      name: "Assists",
+      count: `${assists}`,
+      pts: `+${assists * 3} pts`,
+    });
+  }
+
+  // ── 4. Clean sheet (GKP/DEF: +4, MID: +1, FWD: none) ───────────────────────
+  const csPts = isGK || isDef ? 4 : isMid ? 1 : 0;
+  if (csPts > 0 && (s.clean_sheets ?? 0) > 0) {
+    events.push({
+      name: "Clean Sheet",
+      count: "1",
+      pts: `+${csPts} pts`,
+    });
+  }
+
+  // ── 5. Goals conceded penalty (GKP/DEF only: -1 per every 2 GC) ─────────────
+  //   Only applies when the player did NOT keep a clean sheet.
+  if ((isGK || isDef) && (s.clean_sheets ?? 0) === 0) {
+    const gc = s.goals_conceded ?? 0;
+    if (gc >= 2) {
+      const gcPenalty = -Math.floor(gc / 2);
+      events.push({
+        name: "Goals Conceded",
+        count: `${gc}`,
+        pts: `${gcPenalty} pts`,
+      });
+    }
+  }
+
+  // ── 6. Saves (GKP only: +1 per 3 saves) ─────────────────────────────────────
+  const saves = s.saves ?? 0;
+  if (isGK && saves >= 3) {
+    const savePts = Math.floor(saves / 3);
+    events.push({
+      name: "Saves",
+      count: `${saves}`,
+      pts: `+${savePts} pts`,
+    });
+  }
+
+  // ── 7. Penalty save (GKP: +5) ────────────────────────────────────────────────
+  // Not in current PlayerLiveStats type; can be added later
+
+  // ── 8. Actual bonus points awarded (0–3, NOT the raw BPS score) ──────────────
+  const bonusPts = s.bonus ?? 0;
+  if (bonusPts > 0) {
+    events.push({
+      name: "Bonus Points",
+      count: `${bonusPts}`,
+      pts: `+${bonusPts} pts`,
+    });
+  }
+
+  // ── 9. Yellow card (-1) ───────────────────────────────────────────────────────
+  if ((s.yellow_cards ?? 0) > 0) {
+    events.push({ name: "Yellow Card", count: "1", pts: "-1 pts" });
+  }
+
+  // ── 10. Red card (-3) ────────────────────────────────────────────────────────
+  if ((s.red_cards ?? 0) > 0) {
+    events.push({ name: "Red Card", count: "1", pts: "-3 pts" });
+  }
+
+  // ── 11. Own goals (-2 each) ───────────────────────────────────────────────────
+  const ownGoals = s.own_goals ?? 0;
+  if (ownGoals > 0) {
+    events.push({
+      name: "Own Goals",
+      count: `${ownGoals}`,
+      pts: `-${ownGoals * 2} pts`,
+    });
+  }
+
+  // ── 12. Captain / Triple Captain multiplier row ───────────────────────────────
+  //   Appended last so the user sees: base events → then the multiplier applied.
+  const mult = player.multiplier ?? 1;
+  if (mult === 3) {
+    events.push({ name: "Triple Captain", count: "×3", pts: "" });
+  } else if (mult === 2) {
+    events.push({ name: "Captain Multiplier", count: "×2", pts: "" });
   }
 
   return events;
@@ -251,13 +303,45 @@ export const PlayerModal: React.FC<PlayerModalProps> = ({
                 {gwEvents.map((row, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center justify-between py-2 px-1"
+                    className={`flex items-center justify-between py-2 px-1 ${
+                      row.pts === ""
+                        ? "border-t border-white/[0.08] mt-1"
+                        : ""
+                    }`}
                   >
-                    <span className="text-neutral-300 font-medium">{row.name}</span>
+                    <span
+                      className={`font-medium ${
+                        row.pts === ""
+                          ? "text-amber-400 text-[10px] uppercase tracking-widest"
+                          : "text-neutral-300"
+                      }`}
+                    >
+                      {row.name}
+                    </span>
                     <div className="flex items-center gap-2 font-mono">
-                      <span className="text-neutral-400">{row.count}</span>
-                      <span className="text-neutral-600">•</span>
-                      <span className="text-neutral-200 font-medium">{row.pts}</span>
+                      <span
+                        className={`font-bold ${
+                          row.pts === ""
+                            ? "text-amber-400 text-sm"
+                            : "text-neutral-400"
+                        }`}
+                      >
+                        {row.count}
+                      </span>
+                      {row.pts !== "" && (
+                        <>
+                          <span className="text-neutral-600">•</span>
+                          <span
+                            className={`font-medium ${
+                              row.pts.startsWith("-")
+                                ? "text-rose-400"
+                                : "text-neutral-200"
+                            }`}
+                          >
+                            {row.pts}
+                          </span>
+                        </>
+                      )}
                     </div>
                   </div>
                 ))}

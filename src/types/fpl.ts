@@ -11,6 +11,8 @@ export interface PlayerLiveStats {
   goals_scored?: number;
   assists?: number;
   clean_sheets?: number;
+  goals_conceded?: number;
+  own_goals?: number;
   bonus?: number;
   bps?: number;
   yellow_cards?: number;
