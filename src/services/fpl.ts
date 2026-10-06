@@ -98,6 +98,39 @@ export interface ManagerSquadResponse {
   ftAvailable?: number;
 }
 
+export const fplHeaders = {
+  'User-Agent':
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+  'Accept': 'application/json',
+  'Accept-Language': 'en-US,en;q=0.9',
+};
+
+export async function fetchBootstrapStatic(): Promise<any> {
+  let res: Response;
+  try {
+    res = await fetch("https://fantasy.premierleague.com/api/bootstrap-static/", {
+      headers: fplHeaders,
+      next: { revalidate: 300 },
+    });
+  } catch (err: any) {
+    console.error("FPL bootstrap-static network error:", err);
+    throw new Error(`Failed to reach FPL API for bootstrap-static: ${err?.message || "Network error"}`);
+  }
+
+  if (!res.ok) {
+    const errText = await res.text().catch(() => "");
+    console.error("FPL API Error (bootstrap-static):", res.status, errText);
+    throw new Error(`FPL API returned ${res.status}: Failed to fetch player database`);
+  }
+
+  try {
+    return await res.json();
+  } catch (parseErr) {
+    console.error("FPL API Error (bootstrap-static JSON parse):", parseErr);
+    throw new Error("FPL API returned non-JSON response (Cloudflare block)");
+  }
+}
+
 export async function fetchManagerSquad(
   entryId: number | string
 ): Promise<ManagerSquadResponse> {
@@ -105,13 +138,6 @@ export async function fetchManagerSquad(
   if (!cleanId || isNaN(Number(cleanId))) {
     throw new Error("Invalid FPL Entry ID");
   }
-
-  const fplHeaders = {
-    'User-Agent':
-      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-    'Accept': 'application/json',
-    'Accept-Language': 'en-US,en;q=0.9',
-  };
 
   // 1. Fetch Manager Overview & History in Parallel
   let entryRes: Response;

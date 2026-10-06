@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import { NextRequest, NextResponse } from "next/server";
-import { fetchManagerSquad } from "@/services/fpl";
+import { fetchManagerSquad, fetchBootstrapStatic } from "@/services/fpl";
 
 export async function GET(
   request: NextRequest,
@@ -9,6 +9,11 @@ export async function GET(
 ) {
   try {
     const { entryId } = await params;
+
+    if (entryId === "bootstrap") {
+      const data = await fetchBootstrapStatic();
+      return NextResponse.json(data);
+    }
 
     if (!entryId || isNaN(Number(entryId))) {
       return NextResponse.json(
