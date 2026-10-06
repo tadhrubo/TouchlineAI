@@ -4,9 +4,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { ChipStrategyResponse, GameweekStrategy, ChipStatus } from "@/types/fpl";
 
 const FPL_HEADERS = {
-  "User-Agent":
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-  Accept: "application/json",
+  'User-Agent':
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+  'Accept': 'application/json',
+  'Accept-Language': 'en-US,en;q=0.9',
 };
 
 // Strategic blueprint definition for all 38 Gameweeks
@@ -107,12 +108,23 @@ export async function GET(
     );
 
     if (!entryRes.ok) {
+      const text = await entryRes.text().catch(() => "");
+      console.error("FPL API Error:", text);
       return NextResponse.json(
-        { error: `FPL Manager #${cleanId} not found` },
-        { status: entryRes.status }
+        { error: `FPL Manager #${cleanId} not found or request blocked` },
+        { status: 500 }
       );
     }
-    const entryData = await entryRes.json();
+    let entryData: any;
+    try {
+      entryData = await entryRes.json();
+    } catch (parseErr) {
+      console.error("FPL API Error (non-JSON):", parseErr);
+      return NextResponse.json(
+        { error: "Failed to parse FPL API response as JSON (Cloudflare block)" },
+        { status: 500 }
+      );
+    }
     const managerName = `${entryData.player_first_name || ""} ${entryData.player_last_name || ""}`.trim() || "FPL Manager";
     const teamName = entryData.name || "My Team";
     const currentGW = entryData.current_event || 1;
@@ -122,7 +134,17 @@ export async function GET(
       `https://fantasy.premierleague.com/api/entry/${cleanId}/history/`,
       { headers: FPL_HEADERS, next: { revalidate: 120 } }
     );
-    const historyData = historyRes.ok ? await historyRes.json() : { chips: [] };
+    let historyData = { chips: [] };
+    if (historyRes.ok) {
+      try {
+        historyData = await historyRes.json();
+      } catch (err) {
+        console.error("FPL API Error (history JSON parse):", err);
+      }
+    } else {
+      const hText = await historyRes.text().catch(() => "");
+      console.error("FPL API Error (history):", hText);
+    }
     const usedChipsList: Array<{ name: string; time: string; event: number }> =
       historyData.chips || [];
 

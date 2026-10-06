@@ -107,9 +107,10 @@ export async function fetchManagerSquad(
   }
 
   const fplHeaders = {
-    "User-Agent":
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-    Accept: "application/json",
+    'User-Agent':
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Accept': 'application/json',
+    'Accept-Language': 'en-US,en;q=0.9',
   };
 
   // 1. Fetch Manager Overview & History in Parallel
@@ -129,8 +130,12 @@ export async function fetchManagerSquad(
     entryRes = eRes;
     if (hRes && hRes.ok) {
       historyData = await hRes.json().catch(() => null);
+    } else if (hRes) {
+      const hText = await hRes.text().catch(() => "");
+      console.error("FPL API Error (history):", hText);
     }
   } catch (err: any) {
+    console.error("FPL API Error (network):", err);
     throw new Error(
       `Failed to reach FPL API for Entry ${cleanId}: ${
         err?.message || "Network error"
@@ -139,10 +144,18 @@ export async function fetchManagerSquad(
   }
 
   if (!entryRes.ok) {
-    throw new Error(`FPL Entry ${cleanId} not found (${entryRes.status})`);
+    const text = await entryRes.text().catch(() => "");
+    console.error("FPL API Error:", text);
+    throw new Error(`FPL Entry ${cleanId} request failed (${entryRes.status})`);
   }
 
-  const entryData = await entryRes.json().catch(() => ({}));
+  let entryData: any;
+  try {
+    entryData = await entryRes.json();
+  } catch (parseErr) {
+    console.error("FPL API Error (entry JSON parse):", parseErr);
+    throw new Error("FPL API returned non-JSON response (Cloudflare block)");
+  }
   const currentEvent = entryData?.current_event || 1;
 
   // 2. Fetch Gameweek Squad Picks
@@ -159,6 +172,9 @@ export async function fetchManagerSquad(
     if (picksRes.ok) {
       picksData = await picksRes.json().catch(() => null);
     } else {
+      const pText = await picksRes.text().catch(() => "");
+      console.error("FPL API Error (picks):", pText);
+
       // If current event picks aren't live yet, fallback to event 1
       const fallbackPicksRes = await fetch(
         `https://fantasy.premierleague.com/api/entry/${cleanId}/event/1/picks/`,
@@ -169,6 +185,9 @@ export async function fetchManagerSquad(
       );
       if (fallbackPicksRes.ok) {
         picksData = await fallbackPicksRes.json().catch(() => null);
+      } else {
+        const fbText = await fallbackPicksRes.text().catch(() => "");
+        console.error("FPL API Error (fallback picks):", fbText);
       }
     }
   } catch (err) {
@@ -222,13 +241,22 @@ function getFplKitUrl(teamCode: number | undefined, isGoalkeeper: boolean = fals
     ]);
     dbPlayers = playersResult.data;
     allTeams = teamsResult.data;
-    if (bootstrapRes && bootstrapRes.ok) {
-      const bData = await bootstrapRes.json();
-      for (const t of bData.teams || []) {
-        bootstrapTeamsMap.set(t.id, t);
-      }
-      for (const el of bData.elements || []) {
-        bootstrapElementsMap.set(el.id, el);
+    if (bootstrapRes) {
+      if (bootstrapRes.ok) {
+        try {
+          const bData = await bootstrapRes.json();
+          for (const t of bData.teams || []) {
+            bootstrapTeamsMap.set(t.id, t);
+          }
+          for (const el of bData.elements || []) {
+            bootstrapElementsMap.set(el.id, el);
+          }
+        } catch (err) {
+          console.error("FPL API Error (bootstrap-static JSON parse):", err);
+        }
+      } else {
+        const bText = await bootstrapRes.text().catch(() => "");
+        console.error("FPL API Error (bootstrap-static):", bText);
       }
     }
     if (playersResult.error) console.warn("Supabase players query:", playersResult.error.message);
@@ -255,14 +283,21 @@ function getFplKitUrl(teamCode: number | undefined, isGoalkeeper: boolean = fals
       }
     );
     if (fixRes.ok) {
-      upcomingFixturesData = await fixRes.json();
-      for (const fix of upcomingFixturesData || []) {
-        const isFinished = Boolean(fix.finished || fix.finished_provisional);
-        const isStarted = Boolean(fix.started || (fix.minutes && fix.minutes > 0) || isFinished);
-        const fixInfo = { started: isStarted, finished: isFinished, minutes: fix.minutes || 0 };
-        teamFixtureMap.set(fix.team_h, fixInfo);
-        teamFixtureMap.set(fix.team_a, fixInfo);
+      try {
+        upcomingFixturesData = await fixRes.json();
+        for (const fix of upcomingFixturesData || []) {
+          const isFinished = Boolean(fix.finished || fix.finished_provisional);
+          const isStarted = Boolean(fix.started || (fix.minutes && fix.minutes > 0) || isFinished);
+          const fixInfo = { started: isStarted, finished: isFinished, minutes: fix.minutes || 0 };
+          teamFixtureMap.set(fix.team_h, fixInfo);
+          teamFixtureMap.set(fix.team_a, fixInfo);
+        }
+      } catch (err) {
+        console.error("FPL API Error (fixtures JSON parse):", err);
       }
+    } else {
+      const fixText = await fixRes.text().catch(() => "");
+      console.error("FPL API Error (fixtures):", fixText);
     }
   } catch (e) {
     console.warn("Could not fetch FPL upcoming fixtures:", e);
@@ -279,10 +314,17 @@ function getFplKitUrl(teamCode: number | undefined, isGoalkeeper: boolean = fals
       }
     );
     if (liveRes.ok) {
-      const liveData = await liveRes.json();
-      for (const el of liveData.elements || []) {
-        liveElementsMap.set(el.id, el.stats);
+      try {
+        const liveData = await liveRes.json();
+        for (const el of liveData.elements || []) {
+          liveElementsMap.set(el.id, el.stats);
+        }
+      } catch (err) {
+        console.error("FPL API Error (live telemetry JSON parse):", err);
       }
+    } else {
+      const liveText = await liveRes.text().catch(() => "");
+      console.error("FPL API Error (live telemetry):", liveText);
     }
   } catch (e) {
     console.warn("Could not fetch live matchday telemetry:", e);

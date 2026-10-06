@@ -3,9 +3,9 @@ export const dynamic = "force-dynamic";
 import { NextRequest, NextResponse } from "next/server";
 
 const fplHeaders = {
-  "User-Agent":
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-  Accept: "application/json",
+  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+  'Accept': 'application/json',
+  'Accept-Language': 'en-US,en;q=0.9',
 };
 
 export async function GET(
@@ -27,13 +27,25 @@ export async function GET(
     );
 
     if (!entryRes.ok) {
+      const text = await entryRes.text().catch(() => "");
+      console.error("FPL API Error:", text);
       return NextResponse.json(
-        { error: `FPL API returned ${entryRes.status}` },
-        { status: entryRes.status }
+        { error: `FPL API returned ${entryRes.status}: Unable to fetch user entry` },
+        { status: 500 }
       );
     }
 
-    const entryData = await entryRes.json();
+    let entryData: any;
+    try {
+      entryData = await entryRes.json();
+    } catch (parseErr) {
+      console.error("FPL API Error (non-JSON):", parseErr);
+      return NextResponse.json(
+        { error: "FPL API returned non-JSON response (Cloudflare block)" },
+        { status: 500 }
+      );
+    }
+
     const classicLeagues = (entryData.leagues?.classic || []).map((l: any) => ({
       id: l.id,
       name: l.name,

@@ -5,9 +5,10 @@ import { supabase } from "@/lib/supabase";
 import { calculateNetTransfers } from "@/utils/fplTransfers";
 
 const fplHeaders = {
-  "User-Agent":
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-  Accept: "application/json",
+  'User-Agent':
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+  'Accept': 'application/json',
+  'Accept-Language': 'en-US,en;q=0.9',
 };
 
 const POSITION_MAP: Record<number, string> = {
@@ -102,13 +103,24 @@ export async function GET(
     );
 
     if (!standingsRes.ok) {
+      const text = await standingsRes.text().catch(() => "");
+      console.error("FPL API Error:", text);
       return NextResponse.json(
         { error: `Failed to fetch league standings (Status ${standingsRes.status})` },
-        { status: standingsRes.status }
+        { status: 500 }
       );
     }
 
-    const standingsData = await standingsRes.json();
+    let standingsData: any;
+    try {
+      standingsData = await standingsRes.json();
+    } catch (parseErr) {
+      console.error("FPL API Error (standings parse):", parseErr);
+      return NextResponse.json(
+        { error: "Failed to parse league standings JSON (Cloudflare block)" },
+        { status: 500 }
+      );
+    }
     const rawResults = standingsData.standings?.results || [];
     const topManagers = rawResults.slice(0, 50);
 
@@ -122,10 +134,24 @@ export async function GET(
     );
 
     if (!bootstrapRes.ok) {
-      throw new Error(`Failed to fetch bootstrap data (Status ${bootstrapRes.status})`);
+      const bText = await bootstrapRes.text().catch(() => "");
+      console.error("FPL API Error:", bText);
+      return NextResponse.json(
+        { error: `Failed to fetch bootstrap data (Status ${bootstrapRes.status})` },
+        { status: 500 }
+      );
     }
 
-    const bootstrapData = await bootstrapRes.json();
+    let bootstrapData: any;
+    try {
+      bootstrapData = await bootstrapRes.json();
+    } catch (bErr) {
+      console.error("FPL API Error (bootstrap parse):", bErr);
+      return NextResponse.json(
+        { error: "Failed to parse bootstrap data JSON (Cloudflare block)" },
+        { status: 500 }
+      );
+    }
     const currentEvent =
       requestedEvent && !isNaN(Number(requestedEvent))
         ? Number(requestedEvent)

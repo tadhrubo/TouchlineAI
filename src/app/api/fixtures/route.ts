@@ -4,9 +4,10 @@ import { supabase } from "@/lib/supabase";
 export const dynamic = "force-dynamic";
 
 const fplHeaders = {
-  "User-Agent":
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-  Accept: "application/json",
+  'User-Agent':
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+  'Accept': 'application/json',
+  'Accept-Language': 'en-US,en;q=0.9',
 };
 
 export interface MatchFixture {
@@ -94,7 +95,10 @@ export async function GET(request: Request) {
         next: { revalidate: 300 },
       });
       if (bsRes.ok) {
-        bootstrapData = await bsRes.json();
+        bootstrapData = await bsRes.json().catch(() => null);
+      } else {
+        const bsText = await bsRes.text().catch(() => "");
+        console.error("FPL API Error (fixtures bootstrap):", bsText);
       }
     } catch (e) {
       console.warn("FPL bootstrap-static fetch fallback:", e);
@@ -127,7 +131,10 @@ export async function GET(request: Request) {
         next: { revalidate: 300 },
       });
       if (fixRes.ok) {
-        rawFixtures = await fixRes.json();
+        rawFixtures = await fixRes.json().catch(() => []);
+      } else {
+        const fixText = await fixRes.text().catch(() => "");
+        console.error("FPL API Error (all fixtures):", fixText);
       }
     } catch (e) {
       console.warn("FPL fixtures fetch error:", e);
