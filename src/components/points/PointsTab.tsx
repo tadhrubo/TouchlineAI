@@ -325,74 +325,69 @@ export const PointsTab: React.FC<PointsTabProps> = ({
   return (
     <div className="w-full space-y-3 animate-fade-in">
       {/* 1. LiveFPL-Style 3-Column Live Rank Dashboard Header */}
-      <div className="grid grid-cols-3 gap-2 bg-[#131722] border border-gray-800 rounded-xl p-3 md:p-5 text-center shadow-lg">
+      <div className="grid grid-cols-3 gap-2 bg-gray-900/90 backdrop-blur-md border border-white/10 rounded-xl p-3 md:p-5 text-center shadow-xl">
         {/* Column 1: GW Rank */}
-        <div className="flex flex-col justify-center border-r border-gray-800 pr-1">
-          <span className="text-[10px] md:text-xs text-gray-500 font-bold uppercase tracking-wider">
+        <div className="flex flex-col justify-center border-r border-white/10 pr-1">
+          <span className="text-[10px] md:text-xs text-gray-400 font-semibold uppercase tracking-wider">
             GW Rank
           </span>
-          <span className="text-base sm:text-lg md:text-2xl font-bold font-mono text-white mt-0.5">
+          <span className="text-base sm:text-lg md:text-2xl font-bold font-mono tabular-nums text-white mt-0.5">
             {formatNumber(liveData.gw_rank)}
           </span>
         </div>
 
         {/* Column 2: Live Rank & Delta */}
-        <div className="flex flex-col justify-center border-r border-gray-800 px-1">
-          <span className="text-[10px] md:text-xs text-gray-500 font-bold uppercase tracking-wider">
+        <div className="flex flex-col justify-center border-r border-white/10 px-1">
+          <span className="text-[10px] md:text-xs text-gray-400 font-semibold uppercase tracking-wider">
             Live Rank
           </span>
           <div className="flex items-center justify-center gap-1 mt-0.5">
-            <span className="text-base sm:text-lg md:text-2xl font-bold font-mono text-white">
+            <span className="text-base sm:text-lg md:text-2xl font-bold font-mono tabular-nums text-white">
               {formatNumber(liveData.live_rank)}
             </span>
             {rankDelta > 0 ? (
-              <span className="text-emerald-500 font-bold text-xs md:text-sm">▲</span>
+              <span className="text-emerald-400 font-bold text-xs md:text-sm">▲</span>
             ) : rankDelta < 0 ? (
-              <span className="text-rose-500 font-bold text-xs md:text-sm">▼</span>
+              <span className="text-rose-400 font-bold text-xs md:text-sm">▼</span>
             ) : (
-              <span className="text-neutral-500 text-xs">━</span>
+              <span className="text-gray-400 text-xs">━</span>
             )}
           </div>
-          <span className="text-[9px] md:text-[11px] font-mono text-gray-400 truncate">
+          <span className="text-[9px] md:text-[11px] font-mono tabular-nums text-gray-400 truncate">
             Old: {formatNumber(liveData.old_rank)} ({rankPercentChange >= 0 ? `+${rankPercentChange}` : rankPercentChange}%)
           </span>
         </div>
 
         {/* Column 3: Points & Safety Score */}
         <div className="flex flex-col justify-center pl-1">
-          <span className="text-[10px] md:text-xs text-gray-500 font-bold uppercase tracking-wider">
+          <span className="text-[10px] md:text-xs text-gray-400 font-semibold uppercase tracking-wider">
             Points
           </span>
-          <span className="text-base sm:text-lg md:text-2xl font-bold font-mono text-emerald-400 mt-0.5">
+          <span className="text-base sm:text-lg md:text-2xl font-bold font-mono tabular-nums text-emerald-400 mt-0.5">
             {livePoints} <span className="text-[10px] md:text-xs font-normal text-emerald-500">pts</span>
           </span>
-          <span className="text-[9px] md:text-[11px] font-mono text-gray-400 truncate">
+          <span className="text-[9px] md:text-[11px] font-mono tabular-nums text-gray-400 truncate">
             Safety: {safetyScore} <span className={safetyDiff >= 0 ? "text-emerald-400" : "text-rose-400"}>Δ:{safetyDiff >= 0 ? `+${safetyDiff}` : safetyDiff}</span>
           </span>
         </div>
       </div>
 
-      {/* 2. Controls Bar: Autosubs & Layout Mode */}
-      <div className="flex items-center justify-between px-3 py-2 md:py-2.5 rounded-xl bg-neutral-900/60 border border-white/[0.06] text-xs font-mono">
-        <div className="flex items-center gap-2">
+      {/* 2. Controls Bar: Neutral Autosubs & Layout Mode */}
+      <div className="flex items-center justify-between px-3 py-2 md:py-2.5 rounded-lg bg-white/[0.03] border border-white/10 text-xs font-mono">
+        <div className="flex items-center gap-3">
           <button
             onClick={() => setAutosubsEnabled(!autosubsEnabled)}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] md:text-xs font-mono transition-all border ${
+            className={`px-2.5 py-1 rounded-md text-xs font-mono transition-all border ${
               autosubsEnabled
-                ? "bg-emerald-500/10 text-emerald-300 border-emerald-500/30"
-                : "bg-neutral-900 text-neutral-400 border-white/[0.06] hover:text-neutral-200"
+                ? "bg-white/10 text-white border-white/20 font-semibold shadow-sm"
+                : "bg-transparent text-gray-400 border-white/5 hover:text-gray-200"
             }`}
           >
-            <span>Autosubs</span>
-            <span
-              className={`w-1.5 h-1.5 rounded-full ${
-                autosubsEnabled ? "bg-emerald-400" : "bg-neutral-600"
-              }`}
-            />
+            Autosubs {autosubsEnabled ? "ON" : "OFF"}
           </button>
 
-          <span className="text-neutral-400 text-[11px] md:text-xs">
-            Played: <strong className="text-emerald-400">{effectivePlayedCount}/11</strong>
+          <span className="text-gray-300 text-xs font-mono">
+            Played: <strong className="text-emerald-400 font-semibold tabular-nums">{effectivePlayedCount}/11</strong>
           </span>
         </div>
 
@@ -400,28 +395,30 @@ export const PointsTab: React.FC<PointsTabProps> = ({
           <BadgeLegend />
 
           {/* Layout Toggle */}
-          <div className="flex items-center bg-black/40 rounded-lg p-0.5 border border-white/[0.08]">
+          <div className="flex items-center bg-white/[0.03] rounded-lg p-0.5 border border-white/10">
             <button
               onClick={() => setLayoutMode("pitch")}
-              className={`p-1 rounded transition-colors ${
+              aria-label="Pitch view"
+              className={`p-1.5 rounded-md transition-colors ${
                 layoutMode === "pitch"
-                  ? "bg-neutral-800 text-emerald-400"
-                  : "text-neutral-500 hover:text-neutral-300"
+                  ? "bg-white/10 text-white shadow-sm"
+                  : "text-gray-400 hover:text-white"
               }`}
               title="Pitch View"
             >
-              <Grid className="w-3.5 h-3.5" />
+              <Grid className="w-3.5 h-3.5" aria-hidden="true" />
             </button>
             <button
               onClick={() => setLayoutMode("list")}
-              className={`p-1 rounded transition-colors ${
+              aria-label="List view"
+              className={`p-1.5 rounded-md transition-colors ${
                 layoutMode === "list"
-                  ? "bg-neutral-800 text-emerald-400"
-                  : "text-neutral-500 hover:text-neutral-300"
+                  ? "bg-white/10 text-white shadow-sm"
+                  : "text-gray-400 hover:text-white"
               }`}
               title="Compact List View"
             >
-              <List className="w-3.5 h-3.5" />
+              <List className="w-3.5 h-3.5" aria-hidden="true" />
             </button>
           </div>
         </div>

@@ -18,8 +18,7 @@ export const StatsCard: React.FC<StatsCardProps> = ({ stats }) => {
       {/* Top Metadata Row: Gameweek & Team context */}
       <div className="flex items-center justify-between text-xs text-gray-400 pb-2.5 border-b border-white/10">
         <div className="flex items-center gap-2">
-          <span className="flex items-center gap-1.5 font-medium text-white">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+          <span className="font-semibold text-white font-mono uppercase tracking-wider text-xs">
             GW {stats.nextGameweek}
           </span>
           <span className="text-gray-600 select-none">/</span>

@@ -267,16 +267,16 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
         <div className="flex items-center gap-3">
           {/* Autosubs Toggle */}
           <div className="flex items-center gap-1.5">
-            <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider font-semibold">
+            <span className="text-[10px] font-mono text-gray-400 uppercase tracking-wider font-semibold">
               Autosubs:
             </span>
-            <div className="flex bg-neutral-900 rounded-lg p-0.5 border border-white/[0.06]">
+            <div className="flex bg-white/[0.03] rounded-lg p-0.5 border border-white/10">
               <button
                 onClick={() => setAutosubsEnabled(true)}
                 className={`px-2.5 py-1 text-xs font-mono font-medium rounded-md transition-all ${
                   autosubsEnabled
-                    ? "bg-emerald-600 text-white shadow font-semibold"
-                    : "text-neutral-400 hover:text-neutral-200"
+                    ? "bg-white/10 text-white font-semibold shadow-sm"
+                    : "text-gray-400 hover:text-white"
                 }`}
               >
                 On
@@ -285,8 +285,8 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
                 onClick={() => setAutosubsEnabled(false)}
                 className={`px-2.5 py-1 text-xs font-mono font-medium rounded-md transition-all ${
                   !autosubsEnabled
-                    ? "bg-neutral-800 text-white shadow font-semibold"
-                    : "text-neutral-400 hover:text-neutral-200"
+                    ? "bg-white/10 text-white font-semibold shadow-sm"
+                    : "text-gray-400 hover:text-white"
                 }`}
               >
                 Off
@@ -296,16 +296,16 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
 
           {/* Layout Toggle */}
           <div className="flex items-center gap-1.5">
-            <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider font-semibold">
+            <span className="text-[10px] font-mono text-gray-400 uppercase tracking-wider font-semibold">
               Layout:
             </span>
-            <div className="flex bg-neutral-900 rounded-lg p-0.5 border border-white/[0.06]">
+            <div className="flex bg-white/[0.03] rounded-lg p-0.5 border border-white/10">
               <button
                 onClick={() => setLayoutMode("list")}
                 className={`px-2.5 py-1 text-xs font-mono font-medium rounded-md transition-all ${
                   layoutMode === "list"
-                    ? "bg-neutral-800 text-emerald-400 shadow font-semibold"
-                    : "text-neutral-400 hover:text-neutral-200"
+                    ? "bg-white/10 text-white font-semibold shadow-sm"
+                    : "text-gray-400 hover:text-white"
                 }`}
               >
                 List
@@ -314,8 +314,8 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
                 onClick={() => setLayoutMode("pitch")}
                 className={`px-2.5 py-1 text-xs font-mono font-medium rounded-md transition-all ${
                   layoutMode === "pitch"
-                    ? "bg-neutral-800 text-emerald-400 shadow font-semibold"
-                    : "text-neutral-400 hover:text-neutral-200"
+                    ? "bg-white/10 text-white font-semibold shadow-sm"
+                    : "text-gray-400 hover:text-white"
                 }`}
               >
                 Pitch
@@ -442,7 +442,7 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
                             </span>
                           )}
                           {mgr.activeChip && (
-                            <span className="px-1.5 py-0.2 rounded text-[9px] font-mono font-extrabold bg-purple-950 text-purple-300 border border-purple-800">
+                            <span className="bg-white/10 border border-white/20 text-gray-300 px-2 py-0.5 rounded text-[10px] font-mono tracking-wider font-semibold">
                               {mgr.activeChip}
                             </span>
                           )}

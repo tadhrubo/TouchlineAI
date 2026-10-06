@@ -123,16 +123,12 @@ export const HomeTab: React.FC<HomeTabProps> = ({
           isLoading={isLoading}
         />
         
-        {/* Subtle Live Sync Polling Indicator */}
-        <div className="flex items-center justify-between px-2 text-[10px] font-mono text-neutral-500">
-          <div className="flex items-center gap-1.5">
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
-            </span>
-            <span className="text-neutral-400">Live Matchday Polling (2m)</span>
-          </div>
-          <span className="text-neutral-500">Updated: {lastLivePollTime}</span>
+        {/* Sleek Terminal Status Indicator */}
+        <div className="flex items-center justify-between px-2 text-xs font-mono">
+          <span className="text-emerald-400 font-mono text-xs uppercase tracking-widest font-semibold">
+            Live Matchday Polling (2m)
+          </span>
+          <span className="text-gray-400 font-mono text-xs tabular-nums">Updated: {lastLivePollTime}</span>
         </div>
       </div>
 
@@ -389,8 +385,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({
           <div className="w-full max-w-sm rounded-2xl bg-[#0E121A] border border-white/[0.1] shadow-2xl p-4 space-y-3.5 animate-scale-in">
             <div className="flex items-center justify-between border-b border-white/[0.06] pb-2.5">
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-emerald-400" />
-                <h3 className="text-sm font-semibold text-neutral-100">
+                <h3 className="text-sm font-semibold text-white">
                   Effective Ownership (EO)
                 </h3>
               </div>

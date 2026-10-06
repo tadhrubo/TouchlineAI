@@ -314,28 +314,28 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
     return (
       <div className="p-3 bg-[#0B0E14] border-t border-white/[0.06] rounded-b-xl space-y-2.5">
         {/* Status Bar */}
-        <div className="flex items-center justify-between text-[11px] font-mono text-neutral-400 pb-2 border-b border-white/[0.06]">
+        <div className="flex items-center justify-between text-xs font-mono text-gray-300 pb-2 border-b border-white/10">
           <div className="flex items-center gap-2">
             <span>
-              FT Left: <strong className="text-white font-bold">{ftLeft}</strong>
+              FT Left: <strong className="text-white font-bold tabular-nums">{ftLeft}</strong>
             </span>
-            <span className="text-neutral-600">|</span>
+            <span className="text-gray-600 select-none">|</span>
             <span>
-              TV: <strong className="text-white">£{teamValue.toFixed(1)}m</strong>
+              TV: <strong className="text-white tabular-nums">£{teamValue.toFixed(1)}m</strong>
             </span>
-            <span className="text-neutral-600">|</span>
+            <span className="text-gray-600 select-none">|</span>
             <span>
-              Bank: <strong className="text-white">£{bank.toFixed(1)}m</strong>
+              Bank: <strong className="text-white tabular-nums">£{bank.toFixed(1)}m</strong>
             </span>
           </div>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-2">
             {activeChip && (
-              <span className="px-1.5 py-0.2 rounded text-[9px] font-extrabold bg-purple-950 text-purple-300 border border-purple-800 font-mono">
+              <span className="bg-white/10 border border-white/20 text-gray-300 px-2 py-0.5 rounded text-[10px] font-mono tracking-wider font-semibold">
                 {activeChip}
               </span>
             )}
-            <span className="text-emerald-400 font-semibold font-mono">
-              Played: {effectivePlayedCount}/{maxPlayedCount}
+            <span className="text-gray-300 font-mono">
+              Played: <strong className="text-emerald-400 font-semibold tabular-nums">{effectivePlayedCount}/{maxPlayedCount}</strong>
             </span>
           </div>
         </div>
@@ -511,28 +511,28 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
   return (
     <div className="w-full p-2.5 rounded-xl bg-[#0B0E14] border border-white/[0.08] space-y-2.5 shadow-inner">
       {/* Quick Status Bar */}
-      <div className="flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-neutral-900/80 border border-white/[0.06] text-[11px] font-mono text-neutral-300">
+      <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-white/[0.03] border border-white/10 text-xs font-mono text-gray-300">
         <div className="flex items-center gap-2">
           <span>
-            FT Left: <strong className="text-neutral-100 font-bold">{ftLeft}</strong>
+            FT Left: <strong className="text-white font-bold tabular-nums">{ftLeft}</strong>
           </span>
-          <span className="text-neutral-600">|</span>
+          <span className="text-gray-600 select-none">|</span>
           <span>
-            TV: <strong className="text-neutral-100">£{teamValue.toFixed(1)}m</strong>
+            TV: <strong className="text-white tabular-nums">£{teamValue.toFixed(1)}m</strong>
           </span>
-          <span className="text-neutral-600">|</span>
+          <span className="text-gray-600 select-none">|</span>
           <span>
-            Bank: <strong className="text-neutral-100">£{bank.toFixed(1)}m</strong>
+            Bank: <strong className="text-white tabular-nums">£{bank.toFixed(1)}m</strong>
           </span>
         </div>
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-2">
           {activeChip && (
-            <span className="px-1.5 py-0.5 rounded text-[10px] font-extrabold bg-purple-950/80 text-purple-300 border border-purple-800">
+            <span className="bg-white/10 border border-white/20 text-gray-300 px-2 py-0.5 rounded text-[10px] font-mono tracking-wider font-semibold">
               {activeChip}
             </span>
           )}
-          <span className="text-emerald-400 font-semibold">
-            Played: {effectivePlayedCount}/{maxPlayedCount}
+          <span className="text-gray-300 font-mono">
+            Played: <strong className="text-emerald-400 font-semibold tabular-nums">{effectivePlayedCount}/{maxPlayedCount}</strong>
           </span>
         </div>
       </div>
@@ -634,7 +634,9 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
           <div className="flex items-center justify-between text-[10px] font-mono text-neutral-400 px-1">
             <span>BENCH</span>
             {activeChip === "BB" && (
-              <span className="text-purple-400 font-bold">BENCH BOOST ACTIVE</span>
+              <span className="bg-white/10 border border-white/20 text-gray-300 px-2 py-0.5 rounded text-[10px] font-mono tracking-wider font-semibold">
+                BENCH BOOST ACTIVE
+              </span>
             )}
           </div>
           <div className="flex justify-around items-center gap-1">

@@ -61,7 +61,7 @@ export const Header: React.FC<HeaderProps> = ({
           >
             <Bell className="w-3.5 h-3.5" />
             {notificationCount > 0 && (
-              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500 text-[9px] font-bold text-slate-950 shadow-[0_0_8px_rgba(16,185,129,0.8)]">
+              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-400 text-[10px] font-bold font-mono tabular-nums text-gray-950 shadow-sm">
                 {notificationCount}
               </span>
             )}
