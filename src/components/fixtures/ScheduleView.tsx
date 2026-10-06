@@ -44,16 +44,17 @@ export const ScheduleView: React.FC<ScheduleViewProps> = ({
   const getFdrPillClass = (fdr: number) => {
     switch (fdr) {
       case 1:
+        return "bg-emerald-700 text-white font-semibold font-mono";
       case 2:
-        return "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-medium";
+        return "bg-emerald-500 text-white font-semibold font-mono";
       case 3:
-        return "bg-white/[0.06] text-neutral-300 border border-white/10 font-medium";
+        return "bg-slate-600 text-white font-semibold font-mono";
       case 4:
-        return "bg-amber-500/15 text-amber-400 border border-amber-500/30 font-medium";
+        return "bg-rose-600 text-white font-semibold font-mono";
       case 5:
-        return "bg-rose-500/15 text-rose-400 border border-rose-500/30 font-semibold";
+        return "bg-rose-800 text-white font-semibold font-mono";
       default:
-        return "bg-white/[0.04] text-neutral-400 border border-white/10";
+        return "bg-slate-700 text-white font-semibold font-mono";
     }
   };
 

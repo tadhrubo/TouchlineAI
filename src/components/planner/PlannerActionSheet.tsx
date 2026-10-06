@@ -24,16 +24,17 @@ interface PlannerActionSheetProps {
 function getFdrColor(difficulty: number = 3): string {
   switch (difficulty) {
     case 1:
+      return "bg-emerald-700 text-white font-semibold font-mono";
     case 2:
-      return "bg-emerald-500/15 text-emerald-400 border-emerald-500/30";
+      return "bg-emerald-500 text-white font-semibold font-mono";
     case 3:
-      return "bg-white/[0.04] text-neutral-300 border-white/10";
+      return "bg-slate-600 text-white font-semibold font-mono";
     case 4:
-      return "bg-amber-500/15 text-amber-400 border-amber-500/30";
+      return "bg-rose-600 text-white font-semibold font-mono";
     case 5:
-      return "bg-rose-500/15 text-rose-400 border-rose-500/30";
+      return "bg-rose-800 text-white font-semibold font-mono";
     default:
-      return "bg-white/[0.04] text-neutral-300 border-white/10";
+      return "bg-slate-700 text-white font-semibold font-mono";
   }
 }
 
@@ -123,7 +124,7 @@ export const PlannerActionSheet: React.FC<PlannerActionSheetProps> = ({
               nextFixtures.map((fix, idx) => (
                 <div
                   key={idx}
-                  className={`p-2.5 rounded-xl border text-center font-mono flex flex-col items-center justify-center ${getFdrColor(
+                  className={`p-2.5 rounded-xl text-center font-mono flex flex-col items-center justify-center ${getFdrColor(
                     fix.difficulty
                   )}`}
                 >
