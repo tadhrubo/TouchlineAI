@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Home, MessageSquareText, Sparkles } from "lucide-react";
+import { Home, MessageSquareText } from "lucide-react";
 
 interface BottomNavProps {
   activeTab: "home" | "chat";
@@ -17,66 +17,50 @@ export const BottomNav: React.FC<BottomNavProps> = ({
   return (
     <nav
       aria-label="Bottom Navigation"
-      className="fixed bottom-0 left-0 right-0 z-40 bg-gray-950/90 border-t border-white/10 backdrop-blur-xl px-4 py-2 flex justify-center shadow-2xl"
+      className="fixed bottom-0 left-0 right-0 z-40 bg-[#070908] border-t border-[#1E2421] px-4 py-2 flex justify-center"
     >
       <div className="flex items-center justify-around w-full max-w-sm">
         {/* Home Tab Button */}
         <button
           onClick={() => onChangeTab("home")}
           aria-label="Home Tab"
-          className={`relative flex flex-col items-center justify-center w-28 py-1.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-xl ${
+          className={`relative flex flex-col items-center justify-center w-28 py-1.5 transition-colors rounded-sm ${
             activeTab === "home"
-              ? "text-emerald-400"
-              : "text-gray-400 hover:text-white"
+              ? "text-[#16C784]"
+              : "text-[#7F8983] hover:text-[#F1F3EF]"
           }`}
         >
-          {/* Active indicator bar */}
           {activeTab === "home" && (
-            <div className="absolute -top-2 w-10 h-0.5 bg-emerald-400 rounded-full animate-fade-in" />
+            <div className="absolute -top-2 w-10 h-0.5 bg-[#16C784]" />
           )}
-          <div
-            className={`p-1 rounded-xl transition-all duration-200 ${
-              activeTab === "home"
-                ? "bg-emerald-500/10"
-                : ""
-            }`}
-          >
-            <Home className="w-5 h-5 transition-transform duration-200" aria-hidden="true" />
+          <div className="p-1">
+            <Home className="w-4 h-4" aria-hidden="true" />
           </div>
-          <span className="text-[11px] font-semibold tracking-wide mt-0.5">
-            Home
+          <span className="text-[10px] font-mono font-semibold tracking-wider uppercase mt-0.5">
+            MATCHDAY
           </span>
         </button>
 
         {/* Chat Tab Button */}
         <button
           onClick={() => onChangeTab("chat")}
-          aria-label="Chat Tab"
-          className={`relative flex flex-col items-center justify-center w-28 py-1.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-xl ${
+          aria-label="Analyst Desk"
+          className={`relative flex flex-col items-center justify-center w-28 py-1.5 transition-colors rounded-sm ${
             activeTab === "chat"
-              ? "text-emerald-400"
-              : "text-gray-400 hover:text-white"
+              ? "text-[#16C784]"
+              : "text-[#7F8983] hover:text-[#F1F3EF]"
           }`}
         >
-          {/* Active indicator bar */}
           {activeTab === "chat" && (
-            <div className="absolute -top-2 w-10 h-0.5 bg-emerald-400 rounded-full animate-fade-in" />
+            <div className="absolute -top-2 w-10 h-0.5 bg-[#16C784]" />
           )}
-          <div
-            className={`relative p-1 rounded-xl transition-all duration-200 ${
-              activeTab === "chat"
-                ? "bg-emerald-500/10"
-                : ""
-            }`}
-          >
-            <MessageSquareText className="w-5 h-5 transition-transform duration-200" aria-hidden="true" />
-            {/* Sparkle micro badge */}
-            <Sparkles className="w-2.5 h-2.5 text-emerald-400 absolute -top-0.5 -right-0.5" aria-hidden="true" />
+          <div className="p-1">
+            <MessageSquareText className="w-4 h-4" aria-hidden="true" />
           </div>
-          <span className="text-[11px] font-semibold tracking-wide mt-0.5 flex items-center gap-1">
-            Chat
+          <span className="text-[10px] font-mono font-semibold tracking-wider uppercase mt-0.5 flex items-center gap-1">
+            ANALYST
             {unreadChatCount > 0 && activeTab !== "chat" && (
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+              <span className="w-1.5 h-1.5 rounded-sm bg-[#16C784]" />
             )}
           </span>
         </button>

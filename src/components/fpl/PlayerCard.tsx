@@ -4,7 +4,6 @@ import React from "react";
 import { Player } from "@/types/fpl";
 import { JerseyIcon } from "./JerseyIcon";
 import { SampleTier, calculateXEO } from "@/utils/eo";
-import { getPerformanceBadge } from "@/utils/fplBadges";
 
 interface PlayerCardProps {
   player: Player;
@@ -37,14 +36,6 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
     ? calculateXEO(player, sampleTier, userRank)
     : null;
 
-  const perfBadge = getPerformanceBadge(
-    player.gameweekPoints ?? 0,
-    player.minutesExpected ?? 90,
-    player.selectedByPercent ?? 0,
-    player.top10kEo ?? player.top_10k_eo,
-    isCap
-  );
-
   return (
     <div
       role="button"
@@ -57,19 +48,19 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
           onClick?.(player);
         }
       }}
-      className={`group relative flex flex-col items-center justify-between cursor-pointer select-none transition-transform duration-150 hover:-translate-y-0.5 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded-lg ${
+      className={`group relative flex flex-col items-center justify-between cursor-pointer select-none transition-transform duration-100 hover:-translate-y-0.5 active:scale-95 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#16C784] rounded-sm ${
         isBench ? "w-[76px] sm:w-[84px] md:w-[90px]" : "w-[80px] sm:w-[88px] md:w-[96px]"
       }`}
     >
-      {/* Minimalist Captain / Vice Captain Badge */}
+      {/* Restrained Captain / Vice Captain Indicator */}
       {(isCap || isVice) && (
         <div className="absolute -top-1 -left-0.5 z-20">
           {isCap ? (
-            <span className="flex items-center justify-center min-w-[16px] h-4 rounded-sm bg-neutral-100 text-neutral-950 font-black text-[9px] font-mono px-1 shadow-sm">
+            <span className="flex items-center justify-center min-w-[15px] h-3.5 rounded-sm bg-[#16C784] text-[#070908] font-black text-[9px] font-mono px-1">
               C
             </span>
           ) : (
-            <span className="flex items-center justify-center min-w-[16px] h-4 rounded-sm bg-neutral-800 text-neutral-300 border border-white/[0.15] font-bold text-[9px] font-mono px-1 shadow-sm">
+            <span className="flex items-center justify-center min-w-[15px] h-3.5 rounded-sm bg-[#111614] text-[#F1F3EF] border border-[#1E2421] font-bold text-[9px] font-mono px-1">
               V
             </span>
           )}
@@ -79,31 +70,26 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
       {/* Bench Priority Tag */}
       {isBench && benchLabel && (
         <div className="absolute -top-1 -right-0.5 z-20">
-          <span className="px-1 py-0.2 text-[9px] md:text-[10px] font-mono font-medium rounded bg-neutral-900 text-neutral-300 border border-white/10">
+          <span className="px-1 py-0.2 text-[9px] font-mono font-medium rounded-sm bg-[#0D1110] text-[#7F8983] border border-[#1E2421]">
             {benchLabel}
           </span>
         </div>
       )}
 
-      {/* Injury / Status Alert Flag */}
+      {/* Status Warning Tag if flagged */}
       {player.status !== "available" && (
         <div className="absolute top-0 right-0 z-20">
           <span
             title={player.news || "Status alert"}
-            className="flex items-center justify-center w-3.5 h-3.5 rounded-full bg-amber-400 text-neutral-950 font-bold font-mono text-[9px]"
+            className="flex items-center justify-center w-3 h-3 rounded-sm bg-[#D6A83D] text-[#070908] font-bold font-mono text-[8px]"
           >
             !
           </span>
         </div>
       )}
 
-      {/* Jersey Graphic with LiveFPL Performance Badge on Top-Left */}
+      {/* Jersey Graphic (Clean sports representation) */}
       <div className="relative my-0.5 flex items-center justify-center">
-        {perfBadge && (
-          <div className="absolute -top-2 -left-3 z-20 bg-[#131722] rounded-full text-[11px] md:text-xs shadow-sm leading-none border border-gray-700 p-[3px]">
-            {perfBadge}
-          </div>
-        )}
         <JerseyIcon
           teamShort={player.teamShort}
           isGK={player.position === "GKP"}
@@ -113,39 +99,41 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
       </div>
 
       {/* Understated Player Information Badge */}
-      <div className="w-full flex flex-col items-center mt-0.5 bg-neutral-950/90 border border-white/10 rounded-md px-1 py-0.5 text-center backdrop-blur-sm">
-        {/* Name */}
-        <p className="text-[11px] sm:text-[11.5px] md:text-xs font-medium text-neutral-200 truncate leading-tight w-full">
+      <div className="w-full flex flex-col items-center mt-0.5 bg-[#0D1110] border border-[#1E2421] rounded-sm px-1 py-0.5 text-center">
+        {/* Line 1: Player Name */}
+        <p className="text-[11px] sm:text-[11.5px] font-semibold text-[#F1F3EF] truncate leading-tight w-full">
           {player.webName}
         </p>
 
-        {/* Fixture & Projected Points Badge */}
-        <div className="flex items-center justify-center gap-1 text-[9px] sm:text-[9.5px] md:text-[10px] font-mono text-neutral-400 mt-0.5 leading-none">
+        {/* Line 2: Position / Fixture & Points */}
+        <div className="flex items-center justify-center gap-1 text-[9.5px] font-mono text-[#7F8983] mt-0.5 leading-none">
+          <span className="text-[#7F8983]">{player.position}</span>
+          <span className="text-[#1E2421]">·</span>
           <span>{fixtureText}</span>
           {showProjected && (
             <>
-              <span className="text-neutral-600">·</span>
-              <span className="text-emerald-400 font-medium tabular-nums">
+              <span className="text-[#1E2421]">·</span>
+              <span className="text-[#16C784] font-semibold tabular-nums">
                 {player.projectedPoints}
               </span>
             </>
           )}
         </div>
 
-        {/* xEO Badge */}
+        {/* Line 3: Progressive EO data row if enabled */}
         {eoResult && (
-          <div className="w-full mt-0.5 pt-0.5 border-t border-white/[0.04]">
+          <div className="w-full mt-0.5 pt-0.5 border-t border-[#1E2421]/60">
             {sampleTier === "TOP_10K_NEAR_U" && eoResult.top10k != null && eoResult.nearU != null ? (
-              <div className="flex w-full items-center justify-between px-0.5 text-[8.5px] sm:text-[9.5px] font-mono leading-none tracking-tight">
-                <span className="text-neutral-200 tabular-nums" title="Top 10k EO">
+              <div className="flex w-full items-center justify-between px-0.5 text-[8.5px] font-mono leading-none tracking-tight">
+                <span className="text-[#F1F3EF] tabular-nums" title="Top 10k EO">
                   {eoResult.top10k}%
                 </span>
-                <span className="text-neutral-400 tabular-nums" title="Near You EO">
+                <span className="text-[#7F8983] tabular-nums" title="Near You EO">
                   {eoResult.nearU}%
                 </span>
               </div>
             ) : (
-              <div className="w-full text-center text-[8.5px] sm:text-[9.5px] font-mono text-neutral-400 leading-none tabular-nums">
+              <div className="w-full text-center text-[8.5px] font-mono text-[#7F8983] leading-none tabular-nums">
                 {eoResult.displayText}
               </div>
             )}

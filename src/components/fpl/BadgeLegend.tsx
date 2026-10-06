@@ -24,56 +24,54 @@ export const BadgeLegend: React.FC<BadgeLegendProps> = ({ buttonClassName }) => 
         onClick={() => setIsOpen(true)}
         className={
           buttonClassName ||
-          "flex items-center gap-1.5 px-2 py-1 rounded-lg bg-neutral-900/90 border border-white/[0.08] text-[11px] font-mono text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 transition shadow-sm active:scale-95"
+          "flex items-center gap-1.5 px-2 py-1 rounded-sm bg-[#070908] border border-[#1E2421] text-[11px] font-mono text-[#7F8983] hover:text-[#F1F3EF] hover:border-neutral-600 transition"
         }
         title="LiveFPL Performance Badges Legend"
       >
-        <Info className="w-3.5 h-3.5 text-emerald-400" />
-        <span>Legend</span>
+        <Info className="w-3.5 h-3.5 text-[#16C784]" />
+        <span>LEGEND</span>
       </button>
 
-      {/* Legend Modal / Bottom Sheet */}
+      {/* Legend Modal */}
       {isOpen &&
         mounted &&
         createPortal(
           <div
-            className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in"
+            className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/80 animate-fade-in text-[#F1F3EF]"
             onClick={() => setIsOpen(false)}
           >
             <div
-              className="relative w-full max-w-sm bg-[#0E121A] border border-white/[0.12] rounded-2xl p-5 shadow-2xl space-y-4 animate-scale-in"
+              className="relative w-full max-w-sm bg-[#0D1110] border border-[#1E2421] rounded-md p-4 space-y-3.5"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
-              <div className="flex items-center justify-between pb-3 border-b border-white/[0.08]">
-                <div className="flex items-center gap-2">
-                  <span className="text-base font-bold font-mono text-neutral-100">
-                    LiveFPL Badge Legend
-                  </span>
-                </div>
+              <div className="flex items-center justify-between pb-2.5 border-b border-[#1E2421]">
+                <span className="text-xs font-bold font-mono uppercase tracking-wider text-[#F1F3EF]">
+                  BADGE METRIC LEGEND
+                </span>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="p-1 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-800 transition"
+                  className="w-7 h-7 flex items-center justify-center rounded-sm text-[#7F8983] hover:text-[#F1F3EF] bg-[#070908] border border-[#1E2421] transition"
                 >
-                  <X className="w-4 h-4" />
+                  <X className="w-3.5 h-3.5" />
                 </button>
               </div>
 
               {/* Legend List */}
-              <div className="space-y-2 text-xs font-mono">
+              <div className="space-y-1.5 text-xs font-mono">
                 {BADGE_LEGEND_ITEMS.map((item) => (
                   <div
                     key={item.title}
-                    className="flex items-center gap-3 p-2 rounded-xl bg-neutral-900/60 border border-white/[0.04]"
+                    className="flex items-center gap-3 p-2 rounded-sm bg-[#070908] border border-[#1E2421]"
                   >
-                    <span className="w-7 h-7 flex items-center justify-center rounded-lg bg-black/50 border border-white/[0.08] text-sm">
+                    <span className="w-6 h-6 flex items-center justify-center rounded-sm bg-[#111614] border border-[#1E2421] text-xs">
                       {item.emoji}
                     </span>
                     <div className="min-w-0 flex-1">
-                      <div className="text-xs font-bold text-neutral-200">
+                      <div className="text-xs font-bold text-[#F1F3EF]">
                         {item.title}
                       </div>
-                      <div className="text-[10px] text-neutral-400">
+                      <div className="text-[10px] text-[#7F8983]">
                         {item.description}
                       </div>
                     </div>
@@ -84,9 +82,9 @@ export const BadgeLegend: React.FC<BadgeLegendProps> = ({ buttonClassName }) => 
               {/* Close Footer Button */}
               <button
                 onClick={() => setIsOpen(false)}
-                className="w-full py-2.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 border border-white/[0.08] text-xs font-mono font-medium text-neutral-200 transition"
+                className="w-full py-2 rounded-sm bg-[#070908] hover:bg-[#111614] border border-[#1E2421] text-xs font-mono font-medium text-[#F1F3EF] transition"
               >
-                Got it
+                CLOSE
               </button>
             </div>
           </div>,

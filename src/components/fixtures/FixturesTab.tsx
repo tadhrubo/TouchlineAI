@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { ScheduleView } from "./ScheduleView";
 import { FDRTickerView } from "./FDRTickerView";
 import { MatchFixture, TeamFDRRow } from "@/app/api/fixtures/route";
-import { RefreshCw, Calendar, Grid } from "lucide-react";
 
 interface FixturesTabProps {
   currentGameweek: number;
@@ -50,30 +49,34 @@ export const FixturesTab: React.FC<FixturesTabProps> = ({
 
   return (
     <div className="w-full space-y-3 animate-fade-in select-none">
-      {/* Segmented Sub-Tab Controller: [ Fixtures ] [ FDR ] */}
-      <div className="flex items-center p-1 bg-neutral-900/80 border border-white/[0.08] rounded-xl shadow-sm">
+      {/* Editorial Sub-Navigation Strip */}
+      <div className="flex items-center border-b border-[#1E2421] gap-6 px-0.5">
         <button
           onClick={() => setActiveSubTab("schedule")}
-          className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-medium transition-all flex items-center justify-center gap-1.5 ${
+          className={`relative pb-2 pt-1 text-xs uppercase tracking-wider font-semibold transition-colors ${
             activeSubTab === "schedule"
-              ? "bg-neutral-800 text-neutral-100 shadow-sm font-semibold"
-              : "text-neutral-400 hover:text-neutral-200"
+              ? "text-[#F1F3EF]"
+              : "text-[#7F8983] hover:text-[#F1F3EF]"
           }`}
         >
-          <Calendar className="w-3.5 h-3.5" />
-          <span>Fixtures</span>
+          Match Schedule
+          {activeSubTab === "schedule" && (
+            <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#16C784]" />
+          )}
         </button>
 
         <button
           onClick={() => setActiveSubTab("fdr")}
-          className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-medium transition-all flex items-center justify-center gap-1.5 ${
+          className={`relative pb-2 pt-1 text-xs uppercase tracking-wider font-semibold transition-colors ${
             activeSubTab === "fdr"
-              ? "bg-neutral-800 text-emerald-400 shadow-sm font-semibold"
-              : "text-neutral-400 hover:text-neutral-200"
+              ? "text-[#F1F3EF]"
+              : "text-[#7F8983] hover:text-[#F1F3EF]"
           }`}
         >
-          <Grid className="w-3.5 h-3.5" />
-          <span>FDR Ticker</span>
+          FDR Heatmap
+          {activeSubTab === "fdr" && (
+            <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#16C784]" />
+          )}
         </button>
       </div>
 

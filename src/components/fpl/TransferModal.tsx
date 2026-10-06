@@ -3,21 +3,19 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Player } from "@/types/fpl";
 import { JerseyIcon } from "./JerseyIcon";
-import { X, Search, RefreshCw } from "lucide-react";
+import { Search, X, RefreshCw } from "lucide-react";
 
 interface TransferModalProps {
   outPlayer: Player | null;
-  remainingBank: number;
+  bank: number;
   currentSquad: Player[];
   onSelect: (inPlayer: Player) => void;
   onClose: () => void;
 }
 
-type SortOption = "xp" | "form" | "price_desc" | "price_asc" | "tsb";
-
 export const TransferModal: React.FC<TransferModalProps> = ({
   outPlayer,
-  remainingBank,
+  bank,
   currentSquad,
   onSelect,
   onClose,
@@ -25,19 +23,19 @@ export const TransferModal: React.FC<TransferModalProps> = ({
   const [candidates, setCandidates] = useState<Player[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [sortBy, setSortBy] = useState<SortOption>("xp");
+  const [sortBy, setSortBy] = useState<"xp" | "form" | "price_desc" | "price_asc" | "tsb">("xp");
 
-  const maxBudget = outPlayer
-    ? Number((outPlayer.price + remainingBank).toFixed(1))
-    : 0;
+  const maxBudget = useMemo(() => {
+    return bank + (outPlayer ? outPlayer.price : 0);
+  }, [bank, outPlayer]);
 
-  // Calculate existing club counts (excluding the player being transferred out)
+  // Track how many players from each team are currently in the squad
   const squadClubCounts = useMemo(() => {
     const counts: Record<string, number> = {};
-    currentSquad.forEach((p) => {
-      if (outPlayer && p.id === outPlayer.id) return;
+    for (const p of currentSquad) {
+      if (outPlayer && p.id === outPlayer.id) continue;
       counts[p.teamShort] = (counts[p.teamShort] || 0) + 1;
-    });
+    }
     return counts;
   }, [currentSquad, outPlayer]);
 
@@ -51,17 +49,66 @@ export const TransferModal: React.FC<TransferModalProps> = ({
     let isMounted = true;
     setLoading(true);
 
-    fetch(`/api/players?position=${outPlayer.position}`)
-      .then((res) => res.json())
+    fetch("/api/fpl/bootstrap")
+      .then((res) => {
+        if (!res.ok) throw new Error("Network error fetching bootstrap");
+        return res.json();
+      })
       .then((data) => {
-        if (isMounted && data.players) {
-          setCandidates(data.players);
+        if (!isMounted) return;
+
+        const teamMap: Record<number, { name: string; short: string }> = {};
+        for (const t of data.teams || []) {
+          teamMap[t.id] = { name: t.name, short: t.short_name };
         }
+
+        const posMap: Record<number, "GKP" | "DEF" | "MID" | "FWD"> = {
+          1: "GKP",
+          2: "DEF",
+          3: "MID",
+          4: "FWD",
+        };
+
+        const targetPosType = Object.keys(posMap).find(
+          (k) => posMap[Number(k)] === outPlayer.position
+        );
+
+        const mapped: Player[] = (data.elements || [])
+          .filter((el: any) => String(el.element_type) === String(targetPosType))
+          .map((el: any) => {
+            const team = teamMap[el.team] || { name: "Unknown", short: "UNK" };
+            return {
+              id: el.id,
+              code: el.code,
+              webName: el.web_name,
+              firstName: el.first_name,
+              secondName: el.second_name,
+              position: posMap[el.element_type],
+              team: team.name,
+              teamShort: team.short,
+              price: el.now_cost / 10,
+              totalPoints: el.total_points,
+              goals: el.goals_scored,
+              assists: el.assists,
+              cleanSheets: el.clean_sheets,
+              form: parseFloat(el.form) || 0,
+              selectedByPercent: parseFloat(el.selected_by_percent) || 0,
+              xG: parseFloat(el.expected_goals) || 0,
+              xA: parseFloat(el.expected_assists) || 0,
+              projectedPoints: parseFloat(el.ep_next) || 0,
+              isStarter: false,
+              isCaptain: false,
+              isViceCaptain: false,
+              chanceOfPlayingNextRound: el.chance_of_playing_next_round,
+              news: el.news,
+            };
+          });
+
+        setCandidates(mapped);
+        setLoading(false);
       })
       .catch((err) => {
-        console.error("Failed to load transfer candidates:", err);
-      })
-      .finally(() => {
+        console.error("Error fetching candidates:", err);
         if (isMounted) setLoading(false);
       });
 
@@ -70,55 +117,39 @@ export const TransferModal: React.FC<TransferModalProps> = ({
     };
   }, [outPlayer]);
 
-  // Filter and sort candidates
   const filteredCandidates = useMemo(() => {
-    if (!outPlayer) return [];
-
     return candidates
-      .filter((p) => {
-        // Exclude current squad members
-        if (currentSquadIds.has(p.id)) return false;
-
-        // Search query filter
-        if (searchQuery.trim()) {
-          const q = searchQuery.toLowerCase();
-          const matchName =
-            p.webName.toLowerCase().includes(q) ||
-            p.fullName.toLowerCase().includes(q);
-          const matchTeam =
-            p.team.toLowerCase().includes(q) ||
-            p.teamShort.toLowerCase().includes(q);
+      .filter((c) => {
+        if (c.id === outPlayer?.id) return false;
+        if (searchQuery.trim() !== "") {
+          const query = searchQuery.toLowerCase();
+          const matchName = c.webName.toLowerCase().includes(query);
+          const matchTeam = c.teamShort.toLowerCase().includes(query);
           if (!matchName && !matchTeam) return false;
         }
-
         return true;
       })
-      .map((p) => {
-        const isAffordable = p.price <= maxBudget + 0.001;
-        const clubCount = squadClubCounts[p.teamShort] || 0;
-        const isClubValid = clubCount < 3;
-        const isEligible = isAffordable && isClubValid;
+      .map((c) => {
+        const exceedsBudget = c.price > maxBudget;
+        const clubCount = squadClubCounts[c.teamShort] || 0;
+        const exceedsClubLimit = clubCount >= 3;
+        const isAlreadyInSquad = currentSquadIds.has(c.id);
 
         let ineligibleReason = "";
-        if (!isAffordable) {
-          ineligibleReason = `Exceeds budget by £${(p.price - maxBudget).toFixed(1)}m`;
-        } else if (!isClubValid) {
-          ineligibleReason = `Club limit reached (3 ${p.teamShort})`;
-        }
+        if (isAlreadyInSquad) ineligibleReason = "Already in squad";
+        else if (exceedsBudget) ineligibleReason = `Exceeds max budget (£${maxBudget.toFixed(1)}m)`;
+        else if (exceedsClubLimit) ineligibleReason = `Max 3 ${c.teamShort} players reached`;
 
         return {
-          ...p,
-          isEligible,
+          ...c,
+          isEligible: !exceedsBudget && !exceedsClubLimit && !isAlreadyInSquad,
           ineligibleReason,
         };
       })
       .sort((a, b) => {
-        // First sort eligible above ineligible
         if (a.isEligible !== b.isEligible) {
           return a.isEligible ? -1 : 1;
         }
-
-        // Secondary user-selected sort
         if (sortBy === "xp") {
           return (b.projectedPoints || 0) - (a.projectedPoints || 0);
         }
@@ -142,74 +173,74 @@ export const TransferModal: React.FC<TransferModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/80 backdrop-blur-md animate-fade-in select-none"
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/80 animate-fade-in select-none"
       onClick={onClose}
     >
       {/* Modal Container */}
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-gray-900/95 backdrop-blur-xl border border-white/10 w-full sm:w-[480px] rounded-t-3xl sm:rounded-2xl pb-safe shadow-2xl shadow-black/90 overflow-hidden animate-slide-up flex flex-col max-h-[88vh]"
+        className="bg-[#0D1110] border border-[#1E2421] w-full sm:w-[480px] rounded-t-md sm:rounded-md overflow-hidden flex flex-col max-h-[88vh] text-[#F1F3EF]"
       >
         {/* Header */}
-        <div className="p-5 border-b border-white/10 flex items-center justify-between flex-shrink-0 bg-white/[0.02]">
+        <div className="p-4 border-b border-[#1E2421] flex items-center justify-between flex-shrink-0 bg-[#070908]">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold uppercase tracking-wider font-mono text-gray-400">
-                Transfer Search
+              <span className="text-[10px] font-semibold uppercase tracking-wider font-mono text-[#7F8983]">
+                TRANSFER SEARCH
               </span>
-              <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-md bg-white/[0.08] text-gray-300 border border-white/10 uppercase">
+              <span className="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded-sm bg-[#111614] text-[#F1F3EF] border border-[#1E2421] uppercase">
                 {outPlayer.position}
               </span>
             </div>
-            <p className="text-xs text-gray-300 font-medium mt-1">
-              Replacing <span className="font-semibold text-white">{outPlayer.webName}</span> (£{outPlayer.price.toFixed(1)}m)
+            <p className="text-xs text-[#7F8983] font-medium mt-1">
+              Replacing <span className="font-semibold text-[#F1F3EF]">{outPlayer.webName}</span> (£{outPlayer.price.toFixed(1)}m)
             </p>
           </div>
 
           <div className="flex items-center gap-3">
             <div className="text-right">
-              <span className="text-[10px] uppercase tracking-wider font-mono text-gray-400 block">
-                Max Budget
+              <span className="text-[10px] uppercase tracking-wider font-mono text-[#7F8983] block">
+                MAX BUDGET
               </span>
-              <span className="text-sm font-bold font-mono tabular-nums text-emerald-400">
+              <span className="text-sm font-bold font-mono tabular-nums text-[#16C784]">
                 £{maxBudget.toFixed(1)}m
               </span>
             </div>
             <button
               onClick={onClose}
               aria-label="Close transfer modal"
-              className="min-h-[44px] min-w-[44px] p-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-white/[0.08] active:scale-95 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 flex items-center justify-center"
+              className="w-8 h-8 rounded-sm text-[#7F8983] hover:text-[#F1F3EF] bg-[#070908] border border-[#1E2421] flex items-center justify-center transition"
             >
-              <X className="w-5 h-5" aria-hidden="true" />
+              <X className="w-4 h-4" aria-hidden="true" />
             </button>
           </div>
         </div>
 
         {/* Search & Sort Filter Bar */}
-        <div className="p-4 border-b border-white/10 bg-white/[0.01] flex flex-col gap-3 flex-shrink-0">
+        <div className="p-3 border-b border-[#1E2421] bg-[#0D1110] flex flex-col gap-2.5 flex-shrink-0">
           <div className="relative flex items-center">
-            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" aria-hidden="true" />
+            <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#7F8983] pointer-events-none" aria-hidden="true" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search candidate by name or club..."
-              className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-gray-950/80 border border-white/10 text-xs text-white placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:border-transparent font-sans transition-all"
+              className="w-full pl-9 pr-8 py-2 rounded-sm bg-[#070908] border border-[#1E2421] text-xs text-[#F1F3EF] placeholder:text-[#7F8983] focus:outline-none focus:border-[#16C784] font-sans"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
                 aria-label="Clear search query"
-                className="min-h-[44px] min-w-[44px] absolute right-0 top-1/2 -translate-y-1/2 flex items-center justify-center text-gray-400 hover:text-white transition-colors"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#7F8983] hover:text-[#F1F3EF]"
               >
                 ✕
               </button>
             )}
           </div>
 
-          {/* Sort Pills */}
+          {/* Sort Options */}
           <div className="flex items-center gap-1.5 overflow-x-auto text-xs font-mono tabular-nums no-scrollbar py-0.5">
-            <span className="text-gray-400 text-xs font-semibold uppercase mr-1 select-none">Sort:</span>
+            <span className="text-[#7F8983] text-[10px] font-semibold uppercase mr-1 select-none">SORT:</span>
             {[
               { id: "xp" as const, label: "xP" },
               { id: "form" as const, label: "Form" },
@@ -220,10 +251,10 @@ export const TransferModal: React.FC<TransferModalProps> = ({
               <button
                 key={opt.id}
                 onClick={() => setSortBy(opt.id)}
-                className={`min-h-[36px] px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 ${
+                className={`px-2.5 py-1 rounded-sm text-xs font-medium transition whitespace-nowrap ${
                   sortBy === opt.id
-                    ? "bg-emerald-500/15 text-emerald-300 border border-emerald-500/30"
-                    : "text-gray-400 hover:text-gray-200 bg-white/[0.03] hover:bg-white/[0.06] border border-white/5"
+                    ? "bg-[#070908] text-[#16C784] border border-[#16C784]/40"
+                    : "text-[#7F8983] hover:text-[#F1F3EF] bg-[#070908] border border-[#1E2421]"
                 }`}
               >
                 {opt.label}
@@ -233,51 +264,51 @@ export const TransferModal: React.FC<TransferModalProps> = ({
         </div>
 
         {/* Candidates List */}
-        <div className="flex-1 overflow-y-auto divide-y divide-white/[0.06] p-3 space-y-1 text-xs">
+        <div className="flex-1 overflow-y-auto divide-y divide-[#1E2421] p-2 space-y-1 text-xs">
           {loading ? (
-            <div className="py-20 flex flex-col items-center justify-center gap-3 text-gray-400 font-mono text-xs">
-              <RefreshCw className="w-6 h-6 animate-spin text-emerald-400" />
-              <span>Loading {outPlayer.position} candidates...</span>
+            <div className="py-16 flex flex-col items-center justify-center gap-2 text-[#7F8983] font-mono text-xs">
+              <RefreshCw className="w-5 h-5 animate-spin text-[#16C784]" />
+              <span>LOADING {outPlayer.position} CANDIDATES...</span>
             </div>
           ) : filteredCandidates.length === 0 ? (
-            <div className="py-20 text-center text-gray-400 font-mono text-xs">
+            <div className="py-16 text-center text-[#7F8983] font-mono text-xs">
               No matching {outPlayer.position} candidates found
             </div>
           ) : (
             filteredCandidates.map((candidate) => (
               <div
                 key={candidate.id}
-                className={`flex items-center justify-between p-3 rounded-xl transition-all ${
+                className={`flex items-center justify-between p-2.5 rounded-sm transition ${
                   candidate.isEligible
-                    ? "hover:bg-white/[0.04] bg-white/[0.01]"
-                    : "opacity-45 bg-black/20"
+                    ? "hover:bg-[#111614] bg-[#070908]"
+                    : "opacity-40 bg-[#070908]"
                 }`}
               >
                 {/* Player identity */}
-                <div className="flex items-center gap-3 min-w-0 flex-1">
+                <div className="flex items-center gap-2.5 min-w-0 flex-1">
                   <JerseyIcon
                     teamShort={candidate.teamShort}
                     isGK={candidate.position === "GKP"}
-                    size={36}
+                    size={28}
                   />
                   <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2">
-                      <span className="font-semibold text-white truncate leading-tight text-sm">
+                    <div className="flex items-center gap-1.5">
+                      <span className="font-semibold text-[#F1F3EF] truncate leading-tight text-xs">
                         {candidate.webName}
                       </span>
-                      <span className="text-xs font-mono font-medium text-gray-400">
+                      <span className="text-[10px] font-mono font-medium text-[#7F8983]">
                         {candidate.teamShort}
                       </span>
                     </div>
 
                     {candidate.isEligible ? (
-                      <div className="flex items-center gap-2 text-xs font-mono tabular-nums text-gray-400 mt-0.5">
+                      <div className="flex items-center gap-1.5 text-[10px] font-mono tabular-nums text-[#7F8983] mt-0.5">
                         <span>Form {candidate.form}</span>
-                        <span className="text-gray-600 select-none">·</span>
+                        <span>·</span>
                         <span>{candidate.selectedByPercent}% TSB</span>
                       </div>
                     ) : (
-                      <div className="text-xs font-mono text-rose-400 mt-0.5 truncate">
+                      <div className="text-[10px] font-mono text-[#E05252] mt-0.5 truncate">
                         {candidate.ineligibleReason}
                       </div>
                     )}
@@ -285,12 +316,12 @@ export const TransferModal: React.FC<TransferModalProps> = ({
                 </div>
 
                 {/* Metrics and Select Action */}
-                <div className="flex items-center gap-3.5 flex-shrink-0 ml-3">
+                <div className="flex items-center gap-3 flex-shrink-0 ml-2">
                   <div className="text-right font-mono tabular-nums">
-                    <div className="text-white font-bold text-sm">
+                    <div className="text-[#F1F3EF] font-bold text-xs">
                       £{candidate.price.toFixed(1)}m
                     </div>
-                    <div className="text-xs text-emerald-400 font-semibold">
+                    <div className="text-[10px] text-[#16C784] font-semibold">
                       {candidate.projectedPoints} xP
                     </div>
                   </div>
@@ -302,13 +333,13 @@ export const TransferModal: React.FC<TransferModalProps> = ({
                         onSelect(candidate);
                       }
                     }}
-                    className={`min-h-[44px] px-4 py-2 rounded-xl text-xs font-semibold font-mono tabular-nums transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 ${
+                    className={`h-7 px-3 rounded-sm text-xs font-semibold font-mono tabular-nums transition ${
                       candidate.isEligible
-                        ? "bg-white/[0.06] hover:bg-emerald-400 hover:text-gray-950 text-white border border-white/10 active:scale-95 cursor-pointer shadow-sm"
-                        : "bg-white/[0.02] text-gray-500 border border-white/[0.04] cursor-not-allowed"
+                        ? "bg-[#111614] hover:bg-[#16C784] hover:text-[#070908] text-[#F1F3EF] border border-[#1E2421] cursor-pointer"
+                        : "bg-[#070908] text-[#7F8983]/60 border border-[#1E2421]/60 cursor-not-allowed"
                     }`}
                   >
-                    Select
+                    SELECT
                   </button>
                 </div>
               </div>
@@ -317,13 +348,13 @@ export const TransferModal: React.FC<TransferModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="p-4 bg-gray-950/90 border-t border-white/10 flex items-center justify-between text-xs font-mono tabular-nums text-gray-400">
-          <span>Remaining Candidates: {filteredCandidates.length}</span>
+        <div className="p-3 bg-[#070908] border-t border-[#1E2421] flex items-center justify-between text-xs font-mono tabular-nums text-[#7F8983]">
+          <span>REMAINING: {filteredCandidates.length}</span>
           <button
             onClick={onClose}
-            className="min-h-[44px] px-3 py-2 text-gray-300 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-lg flex items-center justify-center"
+            className="px-3 py-1 text-[#7F8983] hover:text-[#F1F3EF] transition rounded-sm border border-[#1E2421]"
           >
-            Cancel
+            CANCEL
           </button>
         </div>
       </div>

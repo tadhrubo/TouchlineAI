@@ -73,7 +73,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  themeColor: "#0B0E14",
+  themeColor: "#070908",
 };
 
 export default function RootLayout({
@@ -90,8 +90,8 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/asset/image/apple-touch-icon.png" sizes="180x180" />
         <link rel="manifest" href="/asset/image/site.webmanifest" />
       </head>
-      <body className={`${lemonMilk.variable} bg-[#06080C] text-neutral-100 min-h-screen antialiased selection:bg-emerald-500/20 selection:text-emerald-300 flex justify-center`}>
-        <main className="w-full max-w-4xl mx-auto flex flex-col min-h-screen h-screen overflow-hidden bg-black relative border-x border-white/[0.06] shadow-2xl shadow-emerald-950/20">
+      <body className={`${lemonMilk.variable} bg-[#070908] text-[#F1F3EF] min-h-screen antialiased selection:bg-[#16C784]/20 selection:text-[#16C784] flex justify-center`}>
+        <main className="w-full max-w-4xl mx-auto flex flex-col min-h-screen h-screen overflow-hidden bg-[#070908] relative border-x border-[#1E2421]">
           {children}
         </main>
       </body>

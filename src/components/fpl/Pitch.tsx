@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { Player } from "@/types/fpl";
 import { PlayerCard } from "./PlayerCard";
 import { SampleTier } from "@/utils/eo";
@@ -37,12 +36,12 @@ export const Pitch: React.FC<PitchProps> = ({
     formation || `${defs.length}-${mids.length}-${fwds.length}`;
 
   return (
-    <div className="relative w-full max-w-2xl mx-auto rounded-2xl overflow-hidden border border-white/[0.06] bg-[#0d121c] select-none shadow-xl">
+    <div className="relative w-full max-w-2xl mx-auto rounded-sm overflow-hidden border border-[#1E2421] bg-[#0A0E0C] select-none">
       {/* Tactical Pitch Canvas with Minimalist Vector Pitch Markings */}
-      <div className="relative w-full h-[520px] sm:h-[560px] md:h-[580px] overflow-hidden flex flex-col justify-between py-2.5 md:py-3.5">
+      <div className="relative w-full h-[520px] sm:h-[560px] md:h-[590px] overflow-hidden flex flex-col justify-between py-2.5 md:py-3.5">
         {/* Subtle tactical grid lines background */}
         <div
-          className="absolute inset-0 opacity-[0.03] pointer-events-none"
+          className="absolute inset-0 opacity-[0.02] pointer-events-none"
           style={{
             backgroundImage:
               "linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)",
@@ -52,7 +51,7 @@ export const Pitch: React.FC<PitchProps> = ({
 
         {/* Vector Pitch Markings (Whisper-thin white lines) */}
         <svg
-          className="absolute inset-0 w-full h-full pointer-events-none opacity-20"
+          className="absolute inset-0 w-full h-full pointer-events-none opacity-15"
           xmlns="http://www.w3.org/2000/svg"
         >
           {/* Pitch Outer Boundary */}
@@ -64,7 +63,7 @@ export const Pitch: React.FC<PitchProps> = ({
             fill="none"
             stroke="#ffffff"
             strokeWidth="1"
-            rx="2"
+            rx="1"
           />
 
           {/* Half-Way Line */}
@@ -81,7 +80,7 @@ export const Pitch: React.FC<PitchProps> = ({
           <circle
             cx="50%"
             cy="50%"
-            r="40"
+            r="42"
             fill="none"
             stroke="#ffffff"
             strokeWidth="1"
@@ -133,12 +132,12 @@ export const Pitch: React.FC<PitchProps> = ({
           <circle cx="50%" cy="calc(100% - 52px)" r="1.5" fill="#ffffff" />
         </svg>
 
-        {/* Top Symmetrical Pitchside Branding Banners */}
+        {/* Top Symmetrical Pitchside Branding (Disabled) */}
         <PitchBranding />
 
         {/* Dynamic Formation Indicator (Bottom Right) */}
         <div className="absolute bottom-2 right-2.5 z-10">
-          <span className="text-[10px] md:text-xs font-mono font-medium text-neutral-400 bg-neutral-900/80 border border-white/[0.06] rounded px-2 py-0.5">
+          <span className="text-[10px] font-mono font-medium text-[#7F8983] bg-[#070908] border border-[#1E2421] rounded-sm px-2 py-0.5">
             {displayFormation}
           </span>
         </div>

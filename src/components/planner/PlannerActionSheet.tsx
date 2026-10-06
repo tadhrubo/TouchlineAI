@@ -8,9 +8,6 @@ import {
   X,
   ArrowLeftRight,
   Info,
-  ChevronRight,
-  Shield,
-  TrendingUp,
 } from "lucide-react";
 
 interface PlannerActionSheetProps {
@@ -64,80 +61,80 @@ export const PlannerActionSheet: React.FC<PlannerActionSheetProps> = ({
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center bg-black/80 backdrop-blur-sm animate-fade-in p-0 sm:p-4"
+      className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center bg-black/80 animate-fade-in p-0 sm:p-4"
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-md bg-[#0F141E] border-t sm:border border-white/10 rounded-t-3xl sm:rounded-2xl p-5 shadow-2xl space-y-4 animate-slide-up"
+        className="relative w-full max-w-md bg-[#0D1110] border-t sm:border border-[#1E2421] rounded-t-md sm:rounded-md p-4 shadow-2xl space-y-3.5 animate-slide-up"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Handle Bar */}
-        <div className="w-12 h-1 bg-white/20 rounded-full mx-auto -mt-1 mb-2" />
+        <div className="w-10 h-1 bg-[#1E2421] rounded-none mx-auto mb-1" />
 
         {/* Top Header: Player Summary */}
-        <div className="flex items-center justify-between pb-3 border-b border-white/10">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between pb-2.5 border-b border-[#1E2421]">
+          <div className="flex items-center gap-2.5">
             {/* Shirt Icon */}
-            <div className="relative w-12 h-12 flex items-center justify-center bg-white/[0.03] rounded-xl border border-white/10 p-1">
+            <div className="relative w-10 h-10 flex items-center justify-center bg-[#111614] rounded-sm border border-[#1E2421] p-0.5">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={shirtUrl}
                 alt={player.webName}
-                className="h-10 object-contain drop-shadow"
+                className="h-8 object-contain drop-shadow"
                 onError={(e) => {
                   (e.currentTarget as HTMLImageElement).src = fallbackUrl;
                 }}
               />
-              <span className="absolute -bottom-1 -right-1 px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-neutral-950 text-neutral-300 border border-white/10">
+              <span className="absolute -bottom-1 -right-1 px-1 py-0.2 rounded-none text-[8.5px] font-mono font-bold bg-[#070908] text-[#7F8983] border border-[#1E2421]">
                 {player.position}
               </span>
             </div>
 
             {/* Name & Club */}
             <div>
-              <h3 className="text-base font-bold text-neutral-100 leading-tight">
+              <h3 className="text-sm font-bold text-[#F1F3EF] leading-tight">
                 {player.fullName || player.webName}
               </h3>
-              <p className="text-xs text-neutral-400 font-mono mt-0.5">
-                {player.team} · <span className="text-emerald-400 font-bold tabular-nums">£{player.price.toFixed(1)}m</span>
+              <p className="text-xs text-[#7F8983] font-mono mt-0.5">
+                {player.team} · <span className="text-[#16C784] font-semibold tabular-nums">£{player.price.toFixed(1)}m</span>
               </p>
             </div>
           </div>
 
-          {/* Close Button with 44px min touch target */}
+          {/* Close Button */}
           <button
             onClick={onClose}
             aria-label="Close action sheet"
-            className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl bg-white/[0.04] text-neutral-400 hover:text-white hover:bg-white/[0.08] border border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+            className="p-1 rounded-sm text-[#7F8983] hover:text-[#F1F3EF] hover:bg-[#111614] transition"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Fixtures Schedule (Next 3 Matches) */}
-        <div className="space-y-1.5">
-          <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 font-semibold block">
+        <div className="space-y-1">
+          <span className="text-[10px] font-mono uppercase tracking-wider text-[#7F8983] font-semibold block">
             Upcoming Fixtures
           </span>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-3 gap-1.5">
             {nextFixtures.length > 0 ? (
               nextFixtures.map((fix, idx) => (
                 <div
                   key={idx}
-                  className={`p-2.5 rounded-xl text-center font-mono flex flex-col items-center justify-center ${getFdrColor(
+                  className={`p-2 rounded-none text-center font-mono flex flex-col items-center justify-center ${getFdrColor(
                     fix.difficulty
                   )}`}
                 >
                   <span className="text-[10px] uppercase font-bold tracking-tight">
                     {fix.opponent} ({fix.isHome ? "H" : "A"})
                   </span>
-                  <span className="text-[9px] opacity-80 mt-0.5 tabular-nums font-semibold">
+                  <span className="text-[9px] opacity-90 mt-0.5 tabular-nums font-semibold">
                     FDR {fix.difficulty}
                   </span>
                 </div>
               ))
             ) : (
-              <div className="col-span-3 p-3 text-center text-xs font-mono text-neutral-400 bg-white/[0.02] border border-white/5 rounded-xl">
+              <div className="col-span-3 p-2.5 text-center text-xs font-mono text-[#7F8983] bg-[#111614] border border-[#1E2421] rounded-none">
                 No upcoming fixture data
               </div>
             )}
@@ -145,23 +142,23 @@ export const PlannerActionSheet: React.FC<PlannerActionSheetProps> = ({
         </div>
 
         {/* Key Quick Telemetry: Typographic Row */}
-        <div className="grid grid-cols-3 gap-2 text-center py-2 px-3 rounded-xl bg-white/[0.02] border border-white/10">
+        <div className="grid grid-cols-3 gap-2 text-center py-2 px-2.5 rounded-sm bg-[#111614] border border-[#1E2421]">
           <div>
-            <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-wider block mb-0.5">Total Pts</span>
-            <span className="text-base font-mono font-bold text-neutral-100 tabular-nums">{player.totalPoints}</span>
+            <span className="text-[10px] font-mono text-[#7F8983] uppercase tracking-wider block mb-0.5">Total Pts</span>
+            <span className="text-sm font-mono font-bold text-[#F1F3EF] tabular-nums">{player.totalPoints}</span>
           </div>
-          <div className="border-x border-white/5 px-2">
-            <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-wider block mb-0.5">Selected</span>
-            <span className="text-base font-mono font-bold text-neutral-100 tabular-nums">{player.selectedByPercent}%</span>
+          <div className="border-x border-[#1E2421] px-2">
+            <span className="text-[10px] font-mono text-[#7F8983] uppercase tracking-wider block mb-0.5">Selected</span>
+            <span className="text-sm font-mono font-bold text-[#F1F3EF] tabular-nums">{player.selectedByPercent}%</span>
           </div>
           <div>
-            <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-wider block mb-0.5">Form</span>
-            <span className="text-base font-mono font-bold text-emerald-400 tabular-nums">{player.form}</span>
+            <span className="text-[10px] font-mono text-[#7F8983] uppercase tracking-wider block mb-0.5">Form</span>
+            <span className="text-sm font-mono font-bold text-[#16C784] tabular-nums">{player.form}</span>
           </div>
         </div>
 
         {/* Primary Action Buttons */}
-        <div className="grid grid-cols-2 gap-2.5 pt-1">
+        <div className="grid grid-cols-2 gap-2 pt-1">
           {/* Player Info Button */}
           <button
             onClick={() => {
@@ -170,21 +167,21 @@ export const PlannerActionSheet: React.FC<PlannerActionSheetProps> = ({
               }
               onClose();
             }}
-            className="min-h-[44px] flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-neutral-200 border border-white/10 text-xs font-semibold font-mono transition active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+            className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-sm bg-[#111614] hover:bg-[#171e1b] text-[#F1F3EF] border border-[#1E2421] text-xs font-semibold font-mono transition"
           >
-            <Info className="w-4 h-4 text-neutral-400" />
+            <Info className="w-3.5 h-3.5 text-[#7F8983]" />
             <span>Player Info</span>
           </button>
 
-          {/* Replace Player CTA: Confident Solid CTA */}
+          {/* Replace Player CTA */}
           <button
             onClick={() => {
               onReplace(player);
               onClose();
             }}
-            className="min-h-[44px] flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-gray-950 text-xs font-bold font-mono tracking-wide transition active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+            className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-sm bg-[#16C784] hover:bg-[#13ab71] text-[#070908] text-xs font-bold font-mono tracking-wide transition"
           >
-            <ArrowLeftRight className="w-4 h-4" />
+            <ArrowLeftRight className="w-3.5 h-3.5" />
             <span>Replace Player</span>
           </button>
         </div>

@@ -153,7 +153,7 @@ const PlayerCompactCard: React.FC<{
       </div>
 
       {/* Name Bar */}
-      <div className="w-full bg-neutral-900 text-white text-[9px] md:text-[11px] font-semibold truncate text-center px-0.5 py-0.5 border border-white/[0.08] rounded-t-sm">
+      <div className="w-full bg-[#0D1110] text-[#F1F3EF] text-[9px] md:text-[11px] font-semibold truncate text-center px-0.5 py-0.5 border border-[#1E2421] rounded-t-sm">
         {player.webName}
       </div>
 
@@ -161,23 +161,21 @@ const PlayerCompactCard: React.FC<{
       <div
         className={`w-full text-center text-[10px] md:text-xs font-mono font-bold py-0.5 border-x ${
           player.isSubbedOut
-            ? "bg-neutral-950 text-neutral-600 border-neutral-800 line-through"
-            : player.isSubbedIn
-            ? "bg-emerald-600 text-white border-emerald-500 shadow-sm"
-            : pts > 0
-            ? "bg-emerald-500 text-white border-emerald-600 shadow-sm"
+            ? "bg-[#070908] text-[#7F8983] border-[#1E2421] line-through"
+            : player.isSubbedIn || pts > 0
+            ? "bg-[#16C784] text-[#070908] border-[#16C784]"
             : isYetToPlay
-            ? "bg-gray-900 text-gray-300 border-gray-800"
+            ? "bg-[#111614] text-[#7F8983] border-[#1E2421]"
             : isBlanked
-            ? "bg-gray-600 text-white border-gray-500"
-            : "bg-gray-900 text-gray-400 border-gray-800"
+            ? "bg-[#111614] text-[#F1F3EF] border-[#1E2421]"
+            : "bg-[#111614] text-[#7F8983] border-[#1E2421]"
         }`}
       >
         {pts}
       </div>
 
       {/* Mini-League Local Ownership % */}
-      <div className="w-full text-center text-[9px] md:text-[10px] font-medium bg-black text-gray-300 rounded-b-sm pb-0.5 border-x border-b border-white/[0.08]">
+      <div className="w-full text-center text-[9px] md:text-[10px] font-mono text-[#7F8983] bg-[#070908] rounded-b-sm pb-0.5 border-x border-b border-[#1E2421]">
         {leagueOwnership}%
       </div>
     </div>
@@ -312,9 +310,9 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
   // LiveFPL Compact List View (Default)
   if (layoutMode === "list") {
     return (
-      <div className="p-3 bg-[#0B0E14] border-t border-white/[0.06] rounded-b-xl space-y-2.5">
+      <div className="p-3 bg-[#0D1110] border-t border-[#1E2421] rounded-none space-y-2.5">
         {/* Status Bar */}
-        <div className="flex items-center justify-between text-xs font-mono text-gray-300 pb-2 border-b border-white/10">
+        <div className="flex items-center justify-between text-xs font-mono text-[#7F8983] pb-2 border-b border-[#1E2421]">
           <div className="flex items-center gap-2">
             <span>
               FT Left: <strong className="text-white font-bold tabular-nums">{ftLeft}</strong>
@@ -509,50 +507,50 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
   };
 
   return (
-    <div className="w-full p-2.5 rounded-xl bg-[#0B0E14] border border-white/[0.08] space-y-2.5 shadow-inner">
+    <div className="w-full p-2.5 rounded-sm bg-[#0D1110] border border-[#1E2421] space-y-2 text-[#F1F3EF]">
       {/* Quick Status Bar */}
-      <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-white/[0.03] border border-white/10 text-xs font-mono text-gray-300">
+      <div className="flex items-center justify-between px-3 py-2 rounded-sm bg-[#070908] border border-[#1E2421] text-xs font-mono text-[#7F8983]">
         <div className="flex items-center gap-2">
           <span>
-            FT Left: <strong className="text-white font-bold tabular-nums">{ftLeft}</strong>
+            FT: <strong className="text-[#F1F3EF] font-bold tabular-nums">{ftLeft}</strong>
           </span>
-          <span className="text-gray-600 select-none">|</span>
+          <span className="text-[#1E2421] select-none">|</span>
           <span>
-            TV: <strong className="text-white tabular-nums">£{teamValue.toFixed(1)}m</strong>
+            TV: <strong className="text-[#F1F3EF] tabular-nums">£{teamValue.toFixed(1)}m</strong>
           </span>
-          <span className="text-gray-600 select-none">|</span>
+          <span className="text-[#1E2421] select-none">|</span>
           <span>
-            Bank: <strong className="text-white tabular-nums">£{bank.toFixed(1)}m</strong>
+            BANK: <strong className="text-[#F1F3EF] tabular-nums">£{bank.toFixed(1)}m</strong>
           </span>
         </div>
         <div className="flex items-center gap-2">
           {activeChip && (
-            <span className="bg-white/10 border border-white/20 text-gray-300 px-2 py-0.5 rounded text-[10px] font-mono tracking-wider font-semibold">
+            <span className="bg-[#111614] border border-[#1E2421] text-[#F1F3EF] px-1.5 py-0.5 rounded-sm text-[10px] font-mono tracking-wider font-semibold">
               {activeChip}
             </span>
           )}
-          <span className="text-gray-300 font-mono">
-            Played: <strong className="text-emerald-400 font-semibold tabular-nums">{effectivePlayedCount}/{maxPlayedCount}</strong>
+          <span className="text-[#7F8983] font-mono">
+            PLAYED: <strong className="text-[#16C784] font-semibold tabular-nums">{effectivePlayedCount}/{maxPlayedCount}</strong>
           </span>
         </div>
       </div>
 
       {/* LiveFPL GW Active Transfers Bar (Net Transfers Only) */}
       {netTransfers && netTransfers.length > 0 && (
-        <div className="flex flex-wrap gap-2 items-center text-[10px] px-2.5 py-1.5 bg-neutral-900/70 rounded-lg border border-white/[0.06] shadow-sm">
-          <span className="text-neutral-400 font-mono text-[9px] uppercase tracking-wider font-semibold">
-            Transfers ({netTransfers.length}):
+        <div className="flex flex-wrap gap-2 items-center text-[10px] px-2.5 py-1.5 bg-[#070908] rounded-sm border border-[#1E2421]">
+          <span className="text-[#7F8983] font-mono text-[9px] uppercase tracking-wider font-semibold">
+            TRANSFERS ({netTransfers.length}):
           </span>
           {netTransfers.map((t, idx) => (
             <div key={idx} className="flex items-center gap-1 font-mono">
-              <span className="text-rose-400 line-through decoration-rose-900/60 font-medium">{t.out}</span>
-              <span className="text-neutral-500">→</span>
-              <span className="text-emerald-400 font-semibold">{t.in}</span>
-              {idx < netTransfers.length - 1 && <span className="text-neutral-700 ml-1">·</span>}
+              <span className="text-[#E05252] line-through font-medium">{t.out}</span>
+              <span className="text-[#7F8983]">→</span>
+              <span className="text-[#16C784] font-semibold">{t.in}</span>
+              {idx < netTransfers.length - 1 && <span className="text-[#1E2421] ml-1">·</span>}
             </div>
           ))}
           {transfersCost > 0 && (
-            <span className="text-red-500 font-bold ml-1 font-mono text-[10px]">
+            <span className="text-[#E05252] font-bold ml-1 font-mono text-[10px]">
               (-{transfersCost})
             </span>
           )}
@@ -560,10 +558,10 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
       )}
 
       {/* Mini Pitch Area */}
-      <div className="relative w-full rounded-2xl overflow-hidden border border-white/[0.06] bg-[#0d121c] p-3 flex flex-col justify-between min-h-[340px] shadow-lg select-none">
+      <div className="relative w-full rounded-sm overflow-hidden border border-[#1E2421] bg-[#0A0E0C] p-3 flex flex-col justify-between min-h-[340px] select-none">
         {/* Subtle tactical grid lines background */}
         <div
-          className="absolute inset-0 opacity-[0.03] pointer-events-none"
+          className="absolute inset-0 opacity-[0.02] pointer-events-none"
           style={{
             backgroundImage:
               "linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)",
@@ -573,7 +571,7 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
 
         {/* Vector Pitch Markings */}
         <svg
-          className="absolute inset-0 w-full h-full pointer-events-none opacity-20"
+          className="absolute inset-0 w-full h-full pointer-events-none opacity-15"
           xmlns="http://www.w3.org/2000/svg"
         >
           <rect
@@ -584,7 +582,7 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
             fill="none"
             stroke="#ffffff"
             strokeWidth="1"
-            rx="2"
+            rx="1"
           />
           <line
             x1="12"
@@ -630,7 +628,7 @@ export const LeaguePitchView: React.FC<LeaguePitchViewProps> = ({
 
       {/* Bench Row */}
       {effectiveBench.length > 0 && (
-        <div className="w-full p-2 rounded-lg bg-neutral-900/60 border border-white/[0.06] space-y-1">
+        <div className="w-full p-2 rounded-sm bg-[#0D1110] border border-[#1E2421] space-y-1">
           <div className="flex items-center justify-between text-[10px] font-mono text-neutral-400 px-1">
             <span>BENCH</span>
             {activeChip === "BB" && (

@@ -1,19 +1,12 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import Image from "next/image";
 import { Player, TeamStats } from "@/types/fpl";
 import { BadgeLegend } from "../fpl/BadgeLegend";
-import { getPerformanceBadge } from "@/utils/fplBadges";
 import { PitchBranding } from "../ui/PitchBranding";
 import {
   List,
   Grid,
-  Shield,
-  HelpCircle,
-  TrendingUp,
-  TrendingDown,
-  Minus,
 } from "lucide-react";
 
 interface PointsTabProps {
@@ -47,21 +40,21 @@ const MatchEventIcons: React.FC<{ stats?: Player["stats"] }> = ({ stats }) => {
   if (!hasEvents) return null;
 
   return (
-    <div className="flex items-center justify-center gap-1 mt-0.5 text-[10px] leading-none flex-wrap">
+    <div className="flex items-center justify-center gap-1 mt-0.5 text-[9.5px] leading-none flex-wrap font-mono">
       {stats.goals_scored && stats.goals_scored > 0 ? (
-        <span title={`Goals: ${stats.goals_scored}`}>⚽ {stats.goals_scored}</span>
+        <span title={`Goals: ${stats.goals_scored}`}>⚽{stats.goals_scored}</span>
       ) : null}
       {stats.assists && stats.assists > 0 ? (
-        <span title={`Assists: ${stats.assists}`} className="text-emerald-400 font-bold">
-          Ⓐ {stats.assists}
+        <span title={`Assists: ${stats.assists}`} className="text-[#16C784] font-bold">
+          Ⓐ{stats.assists}
         </span>
       ) : null}
       {stats.clean_sheets && stats.clean_sheets > 0 ? (
-        <span title="Clean Sheet">🛡️</span>
+        <span title="Clean Sheet">CS</span>
       ) : null}
       {stats.bonus && stats.bonus > 0 ? (
-        <span title={`Bonus Points: ${stats.bonus}`} className="text-yellow-400">
-          ⭐ {stats.bonus}
+        <span title={`Bonus Points: ${stats.bonus}`} className="text-[#D6A83D] font-bold">
+          +{stats.bonus}
         </span>
       ) : null}
       {stats.yellow_cards && stats.yellow_cards > 0 ? (
@@ -71,7 +64,7 @@ const MatchEventIcons: React.FC<{ stats?: Player["stats"] }> = ({ stats }) => {
         <span title="Red Card">🟥</span>
       ) : null}
       {stats.saves && stats.saves >= 3 ? (
-        <span title={`Saves: ${stats.saves}`}>🧤 {stats.saves}</span>
+        <span title={`Saves: ${stats.saves}`}>S:{stats.saves}</span>
       ) : null}
     </div>
   );
@@ -138,271 +131,233 @@ export const PointsTab: React.FC<PointsTabProps> = ({
       benchGK.isSubbedIn = true;
     }
 
-    // 2. Outfield Autosub: Only replace starters whose matches finished with 0 mins
-    const zeroMinsFinished = modStarters.filter(
+    // 2. Outfield Autosubs: Sort bench subs by benchOrder (1, 2, 3)
+    const outfieldBench = modBench
+      .filter((p) => p.position !== "GKP")
+      .sort((a, b) => (a.benchOrder ?? 99) - (b.benchOrder ?? 99));
+
+    const failedStarters = modStarters.filter(
       (p) => p.position !== "GKP" && p.matchFinished && (p.stats?.minutes || 0) === 0
     );
 
-    for (const starter of zeroMinsFinished) {
-      const subCandidate = modBench.find(
-        (b) =>
-          b.position !== "GKP" &&
-          !b.isSubbedIn &&
-          ((b.stats?.minutes || 0) > 0 || !b.matchFinished)
+    for (const failedStarter of failedStarters) {
+      const candidateIndex = outfieldBench.findIndex(
+        (sub) => !sub.isSubbedIn && ((sub.stats?.minutes || 0) > 0 || !sub.matchFinished)
       );
 
-      if (subCandidate) {
-        // Formation constraints check (min 3 DEF, 2 MID, 1 FWD)
-        const defCount = modStarters.filter(
-          (p) => p.position === "DEF" && !p.isSubbedOut
-        ).length;
+      if (candidateIndex !== -1) {
+        const candidate = outfieldBench[candidateIndex];
 
-        if (starter.position === "DEF" && defCount <= 3 && subCandidate.position !== "DEF") {
-          const benchDef = modBench.find(
-            (b) =>
-              b.position === "DEF" &&
-              !b.isSubbedIn &&
-              ((b.stats?.minutes || 0) > 0 || !b.matchFinished)
-          );
-          if (benchDef) {
-            starter.isSubbedOut = true;
-            benchDef.isSubbedIn = true;
-          }
-          continue;
+        // Ensure minimum formation rules: 3 DEFs, 2 MIDs, 1 FWD
+        const projectedStarters = modStarters.map((p) =>
+          p.id === failedStarter.id ? candidate : p
+        );
+
+        const defCount = projectedStarters.filter((p) => p.position === "DEF").length;
+        const fwdCount = projectedStarters.filter((p) => p.position === "FWD").length;
+
+        if (defCount >= 3 && fwdCount >= 1) {
+          failedStarter.isSubbedOut = true;
+          candidate.isSubbedIn = true;
         }
-
-        starter.isSubbedOut = true;
-        subCandidate.isSubbedIn = true;
       }
     }
 
-    let playedSum = 0;
-    for (const p of modStarters) {
-      if (!p.isSubbedOut && ((p.stats?.minutes || 0) > 0 || p.matchStarted)) playedSum++;
-    }
-    for (const b of modBench) {
-      if (b.isSubbedIn && ((b.stats?.minutes || 0) > 0 || b.matchStarted)) playedSum++;
-    }
+    const playedCount = modStarters.filter(
+      (p) => (p.stats?.minutes && p.stats.minutes > 0) || p.matchStarted
+    ).length;
 
     return {
       effectiveStarters: modStarters,
       effectiveBench: modBench,
-      effectivePlayedCount: playedSum,
+      effectivePlayedCount: playedCount,
     };
   }, [starters, bench, autosubsEnabled]);
 
-  // Position grouping for Pitch layout
+  // Position groupings
   const gks = effectiveStarters.filter((p) => p.position === "GKP");
   const defs = effectiveStarters.filter((p) => p.position === "DEF");
   const mids = effectiveStarters.filter((p) => p.position === "MID");
   const fwds = effectiveStarters.filter((p) => p.position === "FWD");
 
-  const renderLivePlayerCard = (player: Player, isBench = false) => {
-    const isGK = player.element_type === 1 || player.elementType === 1 || player.position === "GKP";
-    const baseCode = player.team_code || player.teamCode || 0;
-    const shirtCode = isGK ? `${baseCode}_1` : `${baseCode}`;
-    const shirtUrl = player.kitUrl || `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${shirtCode}-66.webp`;
+  const renderLivePlayerCard = (player: any, isBenchCard = false) => {
+    const rawPts = player.gameweekPoints ?? player.stats?.total_points ?? 0;
+    const mult = player.isCaptain ? player.multiplier || 2 : 1;
+    const pts = rawPts * mult;
+
+    const top10kEo = player.top10kEo ?? player.top_10k_eo ?? player.eo ?? 0;
+    const globalOwnership = player.selectedByPercent ?? 0;
+
+    const isGK = player.position === "GKP";
+    const shirtUrl = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.teamShort || "0"}${
+      isGK ? "_1" : ""
+    }-66.webp`;
     const fallbackUrl = isGK
       ? "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_0_1-66.webp"
       : "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_0-66.webp";
 
-    const pts = player.gw_points ?? player.live_points ?? player.gameweekPoints ?? (player.stats?.total_points || 0);
-    const mins = player.stats?.minutes ?? 0;
-    const hasPlayed = mins > 0 || (player.matchStarted && player.matchFinished);
-    const isYetToPlay = Boolean(player.yetToPlay || (!hasPlayed && !player.matchFinished));
-    const isBlanked = (player.matchFinished || hasPlayed) && pts <= 0;
-
-    const top10kEo = Math.round(
-      player.top_10k_eo ?? player.top10kEo ?? (player.selectedByPercent * 1.5)
-    );
-    const globalOwnership = Math.round(player.selectedByPercent || 0);
-
-    const badge = getPerformanceBadge(
-      pts,
-      mins,
-      player.selectedByPercent,
-      player.top_10k_eo ?? player.top10kEo,
-      player.isSubbedIn,
-      player.isSubbedOut
-    );
-
-    const isBenchDimmed = isBench && !player.isSubbedIn;
-
     return (
       <div
         key={player.id}
-        onClick={() => onPlayerClick && onPlayerClick(player)}
-        className={`flex flex-col items-center justify-center relative flex-1 min-w-0 max-w-[80px] md:max-w-[92px] cursor-pointer transition-transform duration-150 hover:scale-105 ${
-          player.isSubbedOut
-            ? "opacity-40"
-            : isBenchDimmed
-            ? "opacity-60 hover:opacity-100"
-            : "opacity-100"
-        }`}
+        onClick={() => onPlayerClick?.(player)}
+        className={`relative flex flex-col items-center justify-between cursor-pointer select-none transition-transform duration-100 hover:-translate-y-0.5 active:scale-95 ${
+          isBenchCard ? "w-[76px] sm:w-[84px] md:w-[90px]" : "w-[80px] sm:w-[88px] md:w-[94px]"
+        } ${player.isSubbedOut ? "opacity-50 grayscale" : "opacity-100"}`}
       >
         {/* Sub In / Sub Out Indicators */}
         {player.isSubbedIn && (
-          <span className="absolute -top-1.5 -left-1.5 z-30 bg-emerald-500 text-black text-[8px] md:text-[9px] font-extrabold px-1 rounded shadow border border-emerald-400 leading-tight">
+          <span className="absolute -top-1 -left-1 z-30 bg-[#16C784] text-[#070908] text-[8px] font-black px-1 rounded-sm leading-tight">
             ▲ IN
           </span>
         )}
         {player.isSubbedOut && (
-          <span className="absolute -top-1.5 -left-1.5 z-30 bg-rose-600 text-white text-[8px] md:text-[9px] font-extrabold px-1 rounded shadow border border-rose-500 leading-tight">
+          <span className="absolute -top-1 -left-1 z-30 bg-[#E05252] text-[#F1F3EF] text-[8px] font-bold px-1 rounded-sm leading-tight">
             ▼ OUT
           </span>
         )}
 
         {/* Captaincy / Vice Captaincy Badges */}
         {player.isCaptain && (
-          <div className="absolute -top-1 -right-0.5 z-20 flex items-center justify-center w-4 h-4 md:w-4.5 md:h-4.5 rounded-full bg-amber-400 text-black font-extrabold text-[9px] md:text-[10px] shadow-md border border-amber-200">
+          <div className="absolute -top-1 -right-0.5 z-20 flex items-center justify-center min-w-[15px] h-3.5 rounded-sm bg-[#16C784] text-[#070908] font-black text-[9px] font-mono px-1">
             {player.multiplier === 3 ? "3C" : "C"}
           </div>
         )}
         {!player.isCaptain && player.isViceCaptain && (
-          <div className="absolute -top-1 -right-0.5 z-20 flex items-center justify-center w-4 h-4 md:w-4.5 md:h-4.5 rounded-full bg-neutral-300 text-black font-extrabold text-[9px] md:text-[10px] shadow-md border border-neutral-100">
+          <div className="absolute -top-1 -right-0.5 z-20 flex items-center justify-center min-w-[15px] h-3.5 rounded-sm bg-[#111614] text-[#F1F3EF] border border-[#1E2421] font-bold text-[9px] font-mono px-1">
             V
           </div>
         )}
 
-        {/* Shirt & Badge Container */}
-        <div className="relative w-10 h-10 md:w-11 md:h-11 flex items-center justify-center">
-          {badge && (
-            <div className="absolute -top-2 -left-3 z-20 bg-[#131722] rounded-full text-[11px] md:text-xs shadow-sm leading-none border border-gray-700 p-[3px]">
-              {badge}
-            </div>
-          )}
+        {/* Shirt Container */}
+        <div className="relative w-9 h-9 md:w-10 md:h-10 flex items-center justify-center my-0.5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={shirtUrl}
             alt={player.webName}
-            className="w-9 h-9 md:w-10 md:h-10 object-contain drop-shadow"
+            className="w-8 h-8 md:w-9 md:h-9 object-contain drop-shadow"
             onError={(e) => {
               (e.currentTarget as HTMLImageElement).src = fallbackUrl;
             }}
           />
-          {hasPlayed && (
-            <span className="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-emerald-400 border border-black shadow" />
-          )}
         </div>
 
-        {/* Line 1: Player Name */}
-        <div className="w-full mt-0.5 px-0.5 py-0.5 rounded-t bg-black/90 border-t border-x border-white/[0.08] backdrop-blur-sm text-center shadow">
-          <p className="text-[10px] md:text-[11px] font-semibold text-neutral-200 truncate leading-tight">
-            {player.webName}
-          </p>
-        </div>
+        {/* Player Block */}
+        <div className="w-full bg-[#0D1110] border border-[#1E2421] rounded-sm text-center">
+          {/* Line 1: Player Name */}
+          <div className="px-1 py-0.5 border-b border-[#1E2421]">
+            <p className="text-[10px] sm:text-[11px] font-semibold text-[#F1F3EF] truncate leading-tight">
+              {player.webName}
+            </p>
+          </div>
 
-        {/* Line 2: Large Live Points */}
-        <div
-          className={`w-full py-0.5 border-x text-center font-mono font-bold leading-tight ${
-            player.isSubbedOut
-              ? "bg-neutral-950 text-neutral-600 border-neutral-800 line-through text-[11px] md:text-xs"
-              : player.isSubbedIn || pts > 0
-              ? "bg-emerald-500 text-white border-emerald-600 text-xs md:text-sm shadow-sm"
-              : isYetToPlay
-              ? "bg-gray-900 text-gray-300 border-gray-800 text-[11px] md:text-xs"
-              : isBlanked
-              ? "bg-gray-600 text-white border-gray-500 text-[11px] md:text-xs"
-              : "bg-gray-900 text-gray-400 border-gray-800 text-[11px] md:text-xs"
-          }`}
-        >
-          {pts}
-        </div>
+          {/* Line 2: Large Live Points */}
+          <div
+            className={`py-0.5 text-center font-mono font-bold leading-tight ${
+              player.isSubbedOut
+                ? "bg-[#070908] text-[#7F8983] line-through text-xs"
+                : pts > 0
+                ? "bg-[#16C784] text-[#070908] text-xs sm:text-sm font-black"
+                : "bg-[#111614] text-[#7F8983] text-xs"
+            }`}
+          >
+            {pts}
+          </div>
 
-        {/* Line 3: Dual EO (Top 10k EO % and Global Ownership %) */}
-        <div className="w-full bg-black/95 text-center text-[9px] md:text-[10px] font-mono font-medium text-gray-300 py-0.5 border-x border-white/[0.08]">
-          <span>{top10kEo}%</span> <span className="text-gray-500">·</span> <span>{globalOwnership}%</span>
-        </div>
+          {/* Line 3: Dual EO */}
+          <div className="text-center text-[9px] font-mono font-medium text-[#7F8983] py-0.5 border-t border-[#1E2421]">
+            <span>{top10kEo}%</span> <span className="text-[#1E2421]">·</span> <span>{globalOwnership}%</span>
+          </div>
 
-        {/* Line 4: Match Event Icons Row */}
-        <div className="w-full bg-[#0B0E14] text-center pb-1 rounded-b border-b border-x border-white/[0.08] min-h-[14px]">
-          <MatchEventIcons stats={player.stats} />
+          {/* Line 4: Match Events */}
+          <div className="min-h-[12px] pb-0.5">
+            <MatchEventIcons stats={player.stats} />
+          </div>
         </div>
       </div>
     );
   };
 
   return (
-    <div className="w-full space-y-3 animate-fade-in">
-      {/* 1. LiveFPL-Style 3-Column Live Rank Dashboard Header */}
-      <div className="grid grid-cols-3 gap-2 bg-gray-900/90 backdrop-blur-md border border-white/10 rounded-xl p-3 md:p-5 text-center shadow-xl">
+    <div className="w-full space-y-3.5 animate-fade-in select-none">
+      {/* 1. Flat Editorial Live Rank Dashboard Header (No card wrapping) */}
+      <div className="grid grid-cols-3 gap-2 py-2 border-b border-[#1E2421] text-center">
         {/* Column 1: GW Rank */}
-        <div className="flex flex-col justify-center border-r border-white/10 pr-1">
-          <span className="text-[10px] md:text-xs text-gray-400 font-semibold uppercase tracking-wider">
+        <div className="flex flex-col justify-center border-r border-[#1E2421] pr-1">
+          <span className="text-[11px] text-[#7F8983] font-semibold uppercase tracking-wider">
             GW Rank
           </span>
-          <span className="text-base sm:text-lg md:text-2xl font-bold font-mono tabular-nums text-white mt-0.5">
+          <span className="text-2xl sm:text-3xl md:text-4xl font-black font-mono tabular-nums text-[#F1F3EF] mt-0.5">
             {formatNumber(liveData.gw_rank)}
           </span>
         </div>
 
         {/* Column 2: Live Rank & Delta */}
-        <div className="flex flex-col justify-center border-r border-white/10 px-1">
-          <span className="text-[10px] md:text-xs text-gray-400 font-semibold uppercase tracking-wider">
+        <div className="flex flex-col justify-center border-r border-[#1E2421] px-1">
+          <span className="text-[11px] text-[#7F8983] font-semibold uppercase tracking-wider">
             Live Rank
           </span>
-          <div className="flex items-center justify-center gap-1 mt-0.5">
-            <span className="text-base sm:text-lg md:text-2xl font-bold font-mono tabular-nums text-white">
+          <div className="flex items-center justify-center gap-1.5 mt-0.5">
+            <span className="text-2xl sm:text-3xl md:text-4xl font-black font-mono tabular-nums text-[#F1F3EF]">
               {formatNumber(liveData.live_rank)}
             </span>
             {rankDelta > 0 ? (
-              <span className="text-emerald-400 font-bold text-xs md:text-sm">▲</span>
+              <span className="text-[#16C784] font-bold text-xs">▲</span>
             ) : rankDelta < 0 ? (
-              <span className="text-rose-400 font-bold text-xs md:text-sm">▼</span>
+              <span className="text-[#E05252] font-bold text-xs">▼</span>
             ) : (
-              <span className="text-gray-400 text-xs">━</span>
+              <span className="text-[#7F8983] text-xs">━</span>
             )}
           </div>
-          <span className="text-[9px] md:text-[11px] font-mono tabular-nums text-gray-400 truncate">
+          <span className="text-[10px] font-mono tabular-nums text-[#7F8983] truncate mt-0.5">
             Old: {formatNumber(liveData.old_rank)} ({rankPercentChange >= 0 ? `+${rankPercentChange}` : rankPercentChange}%)
           </span>
         </div>
 
         {/* Column 3: Points & Safety Score */}
         <div className="flex flex-col justify-center pl-1">
-          <span className="text-[10px] md:text-xs text-gray-400 font-semibold uppercase tracking-wider">
-            Points
+          <span className="text-[11px] text-[#7F8983] font-semibold uppercase tracking-wider">
+            Live Points
           </span>
-          <span className="text-base sm:text-lg md:text-2xl font-bold font-mono tabular-nums text-emerald-400 mt-0.5">
-            {livePoints} <span className="text-[10px] md:text-xs font-normal text-emerald-500">pts</span>
+          <span className="text-2xl sm:text-3xl md:text-4xl font-black font-mono tabular-nums text-[#16C784] mt-0.5">
+            {livePoints} <span className="text-xs font-semibold text-[#16C784]">pts</span>
           </span>
-          <span className="text-[9px] md:text-[11px] font-mono tabular-nums text-gray-400 truncate">
-            Safety: {safetyScore} <span className={safetyDiff >= 0 ? "text-emerald-400" : "text-rose-400"}>Δ:{safetyDiff >= 0 ? `+${safetyDiff}` : safetyDiff}</span>
+          <span className="text-[10px] font-mono tabular-nums text-[#7F8983] truncate mt-0.5">
+            Safety: {safetyScore} <span className={safetyDiff >= 0 ? "text-[#16C784]" : "text-[#E05252]"}>Δ:{safetyDiff >= 0 ? `+${safetyDiff}` : safetyDiff}</span>
           </span>
         </div>
       </div>
 
       {/* 2. Controls Bar: Neutral Autosubs & Layout Mode */}
-      <div className="flex items-center justify-between px-3 py-2 md:py-2.5 rounded-lg bg-white/[0.03] border border-white/10 text-xs font-mono">
+      <div className="flex items-center justify-between py-1 border-b border-[#1E2421] text-xs font-mono">
         <div className="flex items-center gap-3">
           <button
             onClick={() => setAutosubsEnabled(!autosubsEnabled)}
-            className={`px-2.5 py-1 rounded-md text-xs font-mono transition-all border ${
+            className={`px-2 py-0.5 rounded-sm text-xs font-mono transition border ${
               autosubsEnabled
-                ? "bg-white/10 text-white border-white/20 font-semibold shadow-sm"
-                : "bg-transparent text-gray-400 border-white/5 hover:text-gray-200"
+                ? "bg-[#111614] text-[#F1F3EF] border-[#1E2421] font-bold"
+                : "bg-transparent text-[#7F8983] border-[#1E2421] hover:text-[#F1F3EF]"
             }`}
           >
             Autosubs {autosubsEnabled ? "ON" : "OFF"}
           </button>
 
-          <span className="text-gray-300 text-xs font-mono">
-            Played: <strong className="text-emerald-400 font-semibold tabular-nums">{effectivePlayedCount}/11</strong>
+          <span className="text-[#7F8983] text-xs font-mono">
+            Played: <strong className="text-[#16C784] font-semibold tabular-nums">{effectivePlayedCount}/11</strong>
           </span>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           <BadgeLegend />
 
           {/* Layout Toggle */}
-          <div className="flex items-center bg-white/[0.03] rounded-lg p-0.5 border border-white/10">
+          <div className="flex bg-[#0D1110] rounded-sm p-0.5 border border-[#1E2421]">
             <button
               onClick={() => setLayoutMode("pitch")}
               aria-label="Pitch view"
-              className={`p-1.5 rounded-md transition-colors ${
+              className={`p-1 rounded-sm transition ${
                 layoutMode === "pitch"
-                  ? "bg-white/10 text-white shadow-sm"
-                  : "text-gray-400 hover:text-white"
+                  ? "bg-[#111614] text-[#F1F3EF]"
+                  : "text-[#7F8983] hover:text-[#F1F3EF]"
               }`}
               title="Pitch View"
             >
@@ -411,10 +366,10 @@ export const PointsTab: React.FC<PointsTabProps> = ({
             <button
               onClick={() => setLayoutMode("list")}
               aria-label="List view"
-              className={`p-1.5 rounded-md transition-colors ${
+              className={`p-1 rounded-sm transition ${
                 layoutMode === "list"
-                  ? "bg-white/10 text-white shadow-sm"
-                  : "text-gray-400 hover:text-white"
+                  ? "bg-[#111614] text-[#F1F3EF]"
+                  : "text-[#7F8983] hover:text-[#F1F3EF]"
               }`}
               title="Compact List View"
             >
@@ -428,10 +383,10 @@ export const PointsTab: React.FC<PointsTabProps> = ({
       {layoutMode === "pitch" ? (
         <div className="w-full space-y-3">
           {/* Tactical Pitch Canvas */}
-          <div className="relative w-full max-w-2xl mx-auto rounded-2xl overflow-hidden border border-white/[0.06] bg-[#0d121c] select-none p-3 md:p-4 shadow-lg flex flex-col justify-between min-h-[480px] sm:min-h-[520px] md:min-h-[560px]">
+          <div className="relative w-full max-w-2xl mx-auto rounded-sm overflow-hidden border border-[#1E2421] bg-[#0A0E0C] select-none p-3 flex flex-col justify-between min-h-[480px] sm:min-h-[520px] md:min-h-[570px]">
             {/* Subtle tactical grid lines background */}
             <div
-              className="absolute inset-0 opacity-[0.03] pointer-events-none"
+              className="absolute inset-0 opacity-[0.02] pointer-events-none"
               style={{
                 backgroundImage:
                   "linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)",
@@ -441,7 +396,7 @@ export const PointsTab: React.FC<PointsTabProps> = ({
 
             {/* Vector Pitch Markings */}
             <svg
-              className="absolute inset-0 w-full h-full pointer-events-none opacity-20"
+              className="absolute inset-0 w-full h-full pointer-events-none opacity-15"
               xmlns="http://www.w3.org/2000/svg"
             >
               <rect
@@ -452,7 +407,6 @@ export const PointsTab: React.FC<PointsTabProps> = ({
                 fill="none"
                 stroke="#ffffff"
                 strokeWidth="1"
-                rx="2"
               />
               <line
                 x1="12"
@@ -498,15 +452,15 @@ export const PointsTab: React.FC<PointsTabProps> = ({
 
           {/* Bench Row */}
           {effectiveBench.length > 0 && (
-            <div className="w-full max-w-2xl mx-auto p-2.5 md:p-3 rounded-xl bg-neutral-900/40 border border-white/[0.06] space-y-1.5">
-              <div className="flex items-center justify-between text-[10px] md:text-xs font-mono text-neutral-400 px-1">
-                <span>SUBSTITUTES BENCH</span>
-                <span className="text-[9px] md:text-[10px] text-neutral-500">Live Dual EO & Event Telemetry</span>
+            <div className="w-full max-w-2xl mx-auto p-2.5 md:p-3 rounded-sm bg-[#0D1110] border border-[#1E2421] space-y-1.5">
+              <div className="flex items-center justify-between text-[10px] md:text-xs font-mono text-[#7F8983] px-1">
+                <span className="uppercase tracking-wider font-semibold">SUBSTITUTES BENCH</span>
+                <span className="text-[10px]">Dual EO & Telemetry</span>
               </div>
               <div className="flex justify-around items-center gap-2 md:gap-6">
                 {effectiveBench.map((p, idx) => (
                   <div key={p.id} className="relative flex flex-col items-center flex-1 max-w-[80px] md:max-w-[92px]">
-                    <span className="text-[9px] md:text-[10px] font-mono text-neutral-500 mb-0.5">
+                    <span className="text-[9px] font-mono text-[#7F8983] mb-0.5">
                       {idx === 0 ? "GK" : `B${idx}`}
                     </span>
                     {renderLivePlayerCard(p, true)}
@@ -518,7 +472,7 @@ export const PointsTab: React.FC<PointsTabProps> = ({
         </div>
       ) : (
         /* Compact List View */
-        <div className="p-3 bg-[#0B0E14] border border-white/[0.06] rounded-xl space-y-3">
+        <div className="p-3 bg-[#0D1110] border border-[#1E2421] rounded-sm space-y-3">
           <div className="flex flex-wrap gap-2 justify-start">
             {effectiveStarters.map((player) => renderLivePlayerCard(player, false))}
             {effectiveBench.map((player) => renderLivePlayerCard(player, true))}

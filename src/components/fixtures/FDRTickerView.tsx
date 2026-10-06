@@ -56,25 +56,25 @@ export const FDRTickerView: React.FC<FDRTickerViewProps> = ({
   };
 
   return (
-    <div className="w-full space-y-3 select-none">
+    <div className="w-full space-y-2.5 select-none text-[#F1F3EF]">
       {/* 1. Matrix Pagination Header */}
-      <div className="bg-neutral-900/60 border border-white/[0.06] rounded-xl p-3 flex items-center justify-between">
+      <div className="border border-[#1E2421] bg-[#0D1110] p-2.5 flex items-center justify-between">
         <button
           disabled={startGW <= 1}
           onClick={() => setStartGW((prev) => Math.max(1, prev - WINDOW_SIZE))}
           aria-label="Previous Gameweeks"
-          className="min-h-[44px] px-3 rounded-lg bg-neutral-900 border border-white/10 text-neutral-300 hover:text-white hover:bg-neutral-800 disabled:opacity-30 disabled:cursor-not-allowed transition flex items-center gap-1.5 text-xs font-mono focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+          className="h-8 px-3 rounded-sm bg-[#070908] border border-[#1E2421] text-[#7F8983] hover:text-[#F1F3EF] hover:border-neutral-600 disabled:opacity-30 disabled:cursor-not-allowed transition flex items-center gap-1.5 text-xs font-mono"
         >
-          <ChevronLeft className="w-4 h-4" />
-          <span className="hidden sm:inline">Prev</span>
+          <ChevronLeft className="w-3.5 h-3.5" />
+          <span className="hidden sm:inline">PREV</span>
         </button>
 
         <div className="text-center">
-          <span className="text-xs font-bold font-mono text-neutral-100 tracking-tight block tabular-nums">
-            Gameweeks {startGW} – {endGW}
+          <span className="text-xs font-bold font-mono text-[#F1F3EF] tracking-tight block tabular-nums">
+            GAMEWEEKS {startGW} – {endGW}
           </span>
-          <span className="text-[10px] font-mono text-neutral-400">
-            FDR Matrix Ticker
+          <span className="text-[10px] font-mono text-[#7F8983] uppercase tracking-wider">
+            FIXTURE DIFFICULTY MATRIX
           </span>
         </div>
 
@@ -82,24 +82,24 @@ export const FDRTickerView: React.FC<FDRTickerViewProps> = ({
           disabled={startGW >= maxStartGW}
           onClick={() => setStartGW((prev) => Math.min(maxStartGW, prev + WINDOW_SIZE))}
           aria-label="Next Gameweeks"
-          className="min-h-[44px] px-3 rounded-lg bg-neutral-900 border border-white/10 text-neutral-300 hover:text-white hover:bg-neutral-800 disabled:opacity-30 disabled:cursor-not-allowed transition flex items-center gap-1.5 text-xs font-mono focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+          className="h-8 px-3 rounded-sm bg-[#070908] border border-[#1E2421] text-[#7F8983] hover:text-[#F1F3EF] hover:border-neutral-600 disabled:opacity-30 disabled:cursor-not-allowed transition flex items-center gap-1.5 text-xs font-mono"
         >
-          <span className="hidden sm:inline">Next</span>
-          <ChevronRight className="w-4 h-4" />
+          <span className="hidden sm:inline">NEXT</span>
+          <ChevronRight className="w-3.5 h-3.5" />
         </button>
       </div>
 
       {/* 2. FDR Color Legend Bar */}
-      <div className="p-2.5 rounded-xl bg-neutral-900/40 border border-white/[0.06] flex items-center justify-between overflow-x-auto text-[10px] font-mono gap-1.5 no-scrollbar">
-        <div className="flex items-center gap-1.5 text-neutral-400 font-medium whitespace-nowrap mr-1">
-          <Info className="w-3.5 h-3.5 text-neutral-500" />
-          <span>FDR:</span>
+      <div className="p-2 border border-[#1E2421] bg-[#070908] flex items-center justify-between overflow-x-auto text-[10px] font-mono gap-2 no-scrollbar">
+        <div className="flex items-center gap-1.5 text-[#7F8983] font-medium whitespace-nowrap mr-1">
+          <Info className="w-3 h-3 text-[#7F8983]" />
+          <span>FDR SCALE:</span>
         </div>
-        <div className="flex items-center gap-1 flex-1 justify-between min-w-[280px]">
+        <div className="flex items-center gap-1.5 flex-1 justify-between min-w-[280px]">
           {FDR_LEGEND.map((item) => (
             <div
               key={item.level}
-              className={`px-2 py-0.5 rounded text-[9.5px] whitespace-nowrap ${item.bg} ${item.text}`}
+              className={`px-2 py-0.5 rounded-sm text-[9px] whitespace-nowrap ${item.bg} ${item.text}`}
             >
               {item.level}
             </div>
@@ -107,21 +107,21 @@ export const FDRTickerView: React.FC<FDRTickerViewProps> = ({
         </div>
       </div>
 
-      {/* 3. FDR Table / Grid View */}
-      <div className="bg-neutral-900/40 border border-white/[0.06] rounded-xl overflow-hidden shadow-sm">
+      {/* 3. FDR Table / Grid View (Dense data directly on page) */}
+      <div className="border border-[#1E2421] bg-[#070908] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse min-w-[440px]">
             {/* Table Header */}
             <thead>
-              <tr className="bg-neutral-950/80 border-b border-white/[0.06] text-[10px] font-mono text-neutral-400 uppercase">
-                <th className="py-2.5 px-3 sticky left-0 bg-neutral-950/95 z-20 w-[120px] sm:w-[140px] border-r border-white/[0.04]">
-                  Club
+              <tr className="bg-[#0D1110] border-b border-[#1E2421] text-[10px] font-mono text-[#7F8983] uppercase">
+                <th className="py-2.5 px-3 sticky left-0 bg-[#0D1110] z-20 w-[120px] sm:w-[140px] border-r border-[#1E2421]">
+                  CLUB
                 </th>
                 {visibleGWs.map((gw) => (
                   <th
                     key={gw}
-                    className={`py-2.5 px-2 text-center w-[54px] font-bold ${
-                      gw === currentGameweek ? "text-emerald-400" : "text-neutral-300"
+                    className={`py-2 px-2 text-center w-[54px] font-bold ${
+                      gw === currentGameweek ? "text-[#16C784]" : "text-[#F1F3EF]"
                     }`}
                   >
                     GW{gw}
@@ -131,21 +131,21 @@ export const FDRTickerView: React.FC<FDRTickerViewProps> = ({
             </thead>
 
             {/* Table Body: 20 Clubs */}
-            <tbody className="divide-y divide-white/[0.04] text-xs">
+            <tbody className="divide-y divide-[#1E2421] text-xs">
               {fdrMatrix.map((row) => (
                 <tr
                   key={row.teamId}
-                  className="hover:bg-neutral-900/60 transition-colors"
+                  className="hover:bg-[#0D1110] transition-colors"
                 >
                   {/* Sticky Team Label Column */}
-                  <td className="py-2 px-3 sticky left-0 bg-[#0B0E14] z-10 border-r border-white/[0.04]">
+                  <td className="py-2 px-3 sticky left-0 bg-[#070908] z-10 border-r border-[#1E2421]">
                     <div className="flex items-center gap-2">
                       <JerseyIcon
                         teamShort={row.short_name}
-                        size={20}
+                        size={18}
                         className="flex-shrink-0"
                       />
-                      <span className="font-semibold text-neutral-200 text-xs truncate">
+                      <span className="font-semibold text-[#F1F3EF] text-xs truncate">
                         {row.short_name}
                       </span>
                     </div>
@@ -157,7 +157,7 @@ export const FDRTickerView: React.FC<FDRTickerViewProps> = ({
                     if (!cell || cell.opponentId === 0) {
                       return (
                         <td key={gw} className="py-2 px-1 text-center">
-                          <span className="text-[10px] font-mono text-neutral-600 block">
+                          <span className="text-[10px] font-mono text-[#7F8983] block">
                             -
                           </span>
                         </td>
@@ -169,7 +169,7 @@ export const FDRTickerView: React.FC<FDRTickerViewProps> = ({
                     return (
                       <td key={gw} className="py-2 px-1 text-center">
                         <span
-                          className={`inline-block px-1.5 py-1 rounded text-[9.5px] whitespace-nowrap ${getFdrClass(
+                          className={`inline-block px-1.5 py-0.5 rounded-sm text-[9px] whitespace-nowrap ${getFdrClass(
                             cell.fdr
                           )}`}
                           title={`${row.name} vs ${cell.opponentName} (${

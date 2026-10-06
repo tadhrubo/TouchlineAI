@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import Image from "next/image";
 import { Player, TeamStats } from "@/types/fpl";
 import { JerseyIcon } from "../fpl/JerseyIcon";
 import { PlayerModal } from "../fpl/PlayerModal";
@@ -14,7 +13,6 @@ import {
   calculateXEO,
   calculateTemplateOverlap,
 } from "@/utils/eo";
-import { getPerformanceBadge } from "@/utils/fplBadges";
 import {
   ChevronLeft,
   ChevronRight,
@@ -22,7 +20,6 @@ import {
   HelpCircle,
   ArrowLeftRight,
   X,
-  Info,
 } from "lucide-react";
 
 interface PlannerTabProps {
@@ -140,65 +137,94 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
     }
   };
 
-  // Click on a Player Card
+  // Click on Player Card opens Action Sheet
   const handlePlayerCardClick = (player: Player) => {
     if (swappingPlayerId) {
-      handleInitiateSwap(player);
-      return;
+      handleCompleteSwap(player);
+    } else {
+      setActivePlayerSlot(player);
+      setIsActionSheetOpen(true);
     }
-    setActivePlayerSlot(player);
-    setIsActionSheetOpen(true);
   };
 
-  // Swap logic
+  // Swap mechanism
   const handleInitiateSwap = (player: Player) => {
     setSwapError(null);
-    if (!swappingPlayerId) {
-      setSwappingPlayerId(player.id);
-      return;
-    }
+    setSwappingPlayerId(player.id);
+  };
 
-    if (swappingPlayerId === player.id) {
+  const handleCompleteSwap = (targetPlayer: Player) => {
+    if (!swappingPlayerId) return;
+
+    if (swappingPlayerId === targetPlayer.id) {
       setSwappingPlayerId(null);
       return;
     }
 
     const playerA = plannedSquad.find((p) => p.id === swappingPlayerId);
-    const playerB = player;
+    const playerB = targetPlayer;
 
-    if (!playerA || !playerB) {
+    if (!playerA) {
       setSwappingPlayerId(null);
       return;
     }
 
-    const aIsBench = !!playerA.isBench;
-    const bIsBench = !!playerB.isBench;
+    const aIsBench = playerA.isBench;
+    const bIsBench = playerB.isBench;
+
+    if (playerA.position === "GKP" || playerB.position === "GKP") {
+      if (playerA.position !== playerB.position) {
+        setSwapError("Goalkeepers can only be swapped with Goalkeepers.");
+        setTimeout(() => setSwapError(null), 3000);
+        setSwappingPlayerId(null);
+        return;
+      }
+    }
 
     if (aIsBench !== bIsBench) {
-      if (playerA.position === "GKP" && playerB.position !== "GKP") {
-        setSwapError("Goalkeepers can only be swapped with a substitute Goalkeeper.");
-        setSwappingPlayerId(null);
-        return;
-      }
-      if (playerB.position === "GKP" && playerA.position !== "GKP") {
-        setSwapError("Goalkeepers can only be swapped with a substitute Goalkeeper.");
-        setSwappingPlayerId(null);
-        return;
-      }
+      const startingPosCounts = {
+        DEF: defs.length,
+        MID: mids.length,
+        FWD: fwds.length,
+      };
 
-      const simulatedStarters = startingXI.map((p) =>
-        p.id === (aIsBench ? playerB.id : playerA.id) ? (aIsBench ? playerA : playerB) : p
-      );
+      const outPos = (aIsBench ? playerB : playerA).position as "DEF" | "MID" | "FWD";
+      const inPos = (aIsBench ? playerA : playerB).position as "DEF" | "MID" | "FWD";
 
-      const simGKP = simulatedStarters.filter((p) => p.position === "GKP").length;
-      const simDEF = simulatedStarters.filter((p) => p.position === "DEF").length;
-      const simMID = simulatedStarters.filter((p) => p.position === "MID").length;
-      const simFWD = simulatedStarters.filter((p) => p.position === "FWD").length;
+      if (outPos !== inPos && startingPosCounts[outPos] !== undefined && startingPosCounts[inPos] !== undefined) {
+        const nextCountOut = startingPosCounts[outPos] - 1;
+        const nextCountIn = startingPosCounts[inPos] + 1;
 
-      if (simGKP !== 1 || simDEF < 3 || simMID < 2 || simFWD < 1) {
-        setSwapError(`Illegal formation (${simDEF}-${simMID}-${simFWD}). Minimum 3 DEF, 2 MID, 1 FWD required.`);
-        setSwappingPlayerId(null);
-        return;
+        if (outPos === "DEF" && nextCountOut < 3) {
+          setSwapError("Invalid formation: Minimum 3 defenders required.");
+          setTimeout(() => setSwapError(null), 3000);
+          setSwappingPlayerId(null);
+          return;
+        }
+        if (outPos === "FWD" && nextCountOut < 1) {
+          setSwapError("Invalid formation: Minimum 1 forward required.");
+          setTimeout(() => setSwapError(null), 3000);
+          setSwappingPlayerId(null);
+          return;
+        }
+        if (inPos === "DEF" && nextCountIn > 5) {
+          setSwapError("Invalid formation: Maximum 5 defenders allowed.");
+          setTimeout(() => setSwapError(null), 3000);
+          setSwappingPlayerId(null);
+          return;
+        }
+        if (inPos === "MID" && nextCountIn > 5) {
+          setSwapError("Invalid formation: Maximum 5 midfielders allowed.");
+          setTimeout(() => setSwapError(null), 3000);
+          setSwappingPlayerId(null);
+          return;
+        }
+        if (inPos === "FWD" && nextCountIn > 3) {
+          setSwapError("Invalid formation: Maximum 3 forwards allowed.");
+          setTimeout(() => setSwapError(null), 3000);
+          setSwappingPlayerId(null);
+          return;
+        }
       }
     }
 
@@ -257,7 +283,7 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
   };
 
   return (
-    <div className="w-full space-y-3 pb-24 animate-fade-in select-none">
+    <div className="w-full space-y-4 pb-24 animate-fade-in select-none">
       {/* 1. Official FPL-Style Action Sheet */}
       <PlannerActionSheet
         player={activePlayerSlot}
@@ -304,136 +330,125 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
 
       {/* EO Explanation Modal */}
       {showEOInfoModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in">
-          <div className="bg-[#0B0E14] border border-white/[0.08] w-full max-w-sm rounded-2xl p-4 shadow-2xl space-y-3">
-            <div className="flex items-center justify-between pb-2 border-b border-white/[0.06]">
-              <span className="text-xs font-bold font-mono text-neutral-100 uppercase tracking-wider">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 animate-fade-in">
+          <div className="bg-[#0D1110] border border-[#1E2421] w-full max-w-sm rounded-sm p-4 shadow-2xl space-y-3">
+            <div className="flex items-center justify-between pb-2 border-b border-[#1E2421]">
+              <span className="text-xs font-bold font-mono text-[#F1F3EF] uppercase tracking-wider">
                 Effective Ownership (EO / xEO)
               </span>
               <button
                 onClick={() => setShowEOInfoModal(false)}
-                className="p-1 rounded text-neutral-400 hover:text-neutral-200"
+                className="p-1 rounded-sm text-[#7F8983] hover:text-[#F1F3EF]"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
-            <div className="text-xs text-neutral-300 space-y-2 leading-relaxed font-sans">
+            <div className="text-xs text-[#7F8983] space-y-2 leading-relaxed font-sans">
               <p>
-                <strong className="text-neutral-100">Effective Ownership (EO)</strong> represents the total percentage of active teams gaining points from a player:
+                <strong className="text-[#F1F3EF]">Effective Ownership (EO)</strong> represents the total percentage of active teams gaining points from a player:
               </p>
-              <div className="p-2 rounded bg-neutral-900/80 border border-white/[0.06] font-mono text-[11px] text-emerald-400">
+              <div className="p-2 rounded-sm bg-[#111614] border border-[#1E2421] font-mono text-[11px] text-[#16C784]">
                 EO = Start% + Captain% + (2 × TripleCap%)
               </div>
               <p>
-                If a player has <span className="text-neutral-100 font-mono">140% EO</span>, owning them without captaincy leaves you with negative gain when they score.
-              </p>
-              <p>
-                <strong className="text-neutral-100">xEO (Predicted EO)</strong> simulates expected captaincy concentration and template shifts for the upcoming Gameweek.
+                If a player has <span className="text-[#F1F3EF] font-mono">140% EO</span>, owning them without captaincy leaves you with negative rank delta when they score.
               </p>
             </div>
             <button
               onClick={() => setShowEOInfoModal(false)}
-              className="w-full py-2 rounded-lg bg-neutral-900 border border-neutral-800 text-xs font-medium text-neutral-200 hover:bg-neutral-800 transition-colors"
+              className="w-full py-2 rounded-sm bg-[#16C784] text-[#070908] text-xs font-bold uppercase tracking-wider"
             >
-              Got it
+              Close
             </button>
           </div>
         </div>
       )}
 
-      {/* Gameweek Navigation & Controls Bar */}
-      <div className="bg-neutral-900/60 border border-white/[0.06] rounded-xl p-3 flex items-center justify-between">
+      {/* 4. Strong Information Hierarchy: Analytical Planner Workspace Header */}
+      <div className="space-y-3 pb-3 border-b border-[#1E2421]">
+        {/* Title & Gameweek Navigation */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-xs font-bold font-mono uppercase tracking-widest text-[#7F8983]">
+              PLANNER
+            </h2>
+            <div className="flex items-center gap-3 mt-0.5">
+              <span className="text-2xl sm:text-3xl font-black font-mono text-[#F1F3EF] tracking-tight">
+                GW{plannedGW}
+              </span>
+              <span className="text-xs font-mono font-bold text-[#16C784] uppercase tracking-wider">
+                {freeTransfers} FT
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-1.5">
+            <button
+              disabled={plannedGW <= currentGW}
+              onClick={() => setPlannedGW((prev) => Math.max(currentGW, prev - 1))}
+              aria-label="Previous Gameweek"
+              className="min-w-[32px] min-h-[32px] flex items-center justify-center rounded-sm bg-[#0D1110] border border-[#1E2421] text-[#7F8983] hover:text-[#F1F3EF] disabled:opacity-30 transition"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button
+              disabled={plannedGW >= 38}
+              onClick={() => setPlannedGW((prev) => Math.min(38, prev + 1))}
+              aria-label="Next Gameweek"
+              className="min-w-[32px] min-h-[32px] flex items-center justify-center rounded-sm bg-[#0D1110] border border-[#1E2421] text-[#7F8983] hover:text-[#F1F3EF] disabled:opacity-30 transition"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+            <button
+              onClick={handleReset}
+              className="flex items-center gap-1 px-2.5 py-1 rounded-sm bg-[#0D1110] border border-[#1E2421] text-xs font-mono text-[#7F8983] hover:text-[#F1F3EF] transition ml-1"
+            >
+              <RotateCcw className="w-3 h-3" />
+              <span>Reset</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Ledger Statistics Row: Flat, Stark, Tabular numbers directly on page */}
+        <div className="grid grid-cols-4 gap-2 pt-2 border-t border-[#1E2421] text-xs font-mono">
+          <div>
+            <span className="text-[10px] uppercase tracking-wider text-[#7F8983] block">TRANSFERS</span>
+            <span className="text-sm sm:text-base font-bold text-[#F1F3EF] tabular-nums">
+              {transfersMade} <span className="text-[10px] font-normal text-[#7F8983]">/ {freeTransfers} FT</span>
+            </span>
+          </div>
+
+          <div>
+            <span className="text-[10px] uppercase tracking-wider text-[#7F8983] block">BANK</span>
+            <span className={`text-sm sm:text-base font-bold tabular-nums ${calculatedBank < 0 ? "text-[#E05252]" : "text-[#16C784]"}`}>
+              £{calculatedBank.toFixed(1)}m
+            </span>
+          </div>
+
+          <div>
+            <span className="text-[10px] uppercase tracking-wider text-[#7F8983] block">HITS</span>
+            <span className={`text-sm sm:text-base font-bold tabular-nums ${hitCost > 0 ? "text-[#D6A83D]" : "text-[#F1F3EF]"}`}>
+              {hitCost > 0 ? `-${hitCost}` : "0"}
+            </span>
+          </div>
+
+          <div>
+            <span className="text-[10px] uppercase tracking-wider text-[#7F8983] block">TEMPLATE</span>
+            <span className="text-sm sm:text-base font-bold text-[#F1F3EF] tabular-nums">
+              {templateScore}%
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Sample Tier Selector & Action Controls */}
+      <div className="flex items-center justify-between py-1 px-0.5 text-xs">
         <div className="flex items-center gap-2">
-          <button
-            disabled={plannedGW <= currentGW}
-            onClick={() => setPlannedGW((prev) => Math.max(currentGW, prev - 1))}
-            aria-label="Previous Gameweek"
-            className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg bg-neutral-900 border border-white/10 text-neutral-300 hover:text-white hover:bg-neutral-800 disabled:opacity-30 disabled:cursor-not-allowed transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
-          >
-            <ChevronLeft className="w-4 h-4" />
-          </button>
-          <div className="text-center min-w-[100px]">
-            <span className="text-xs font-bold font-mono text-neutral-100 tracking-tight block tabular-nums">
-              Gameweek {plannedGW}
-            </span>
-            <span className="text-[9.5px] font-mono text-neutral-400 tabular-nums">
-              {plannedGW === currentGW ? "Current GW" : `GW +${plannedGW - currentGW}`}
-            </span>
-          </div>
-          <button
-            disabled={plannedGW >= 38}
-            onClick={() => setPlannedGW((prev) => Math.min(38, prev + 1))}
-            aria-label="Next Gameweek"
-            className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg bg-neutral-900 border border-white/10 text-neutral-300 hover:text-white hover:bg-neutral-800 disabled:opacity-30 disabled:cursor-not-allowed transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
-          >
-            <ChevronRight className="w-4 h-4" />
-          </button>
-        </div>
-
-        <button
-          onClick={handleReset}
-          className="min-h-[44px] flex items-center gap-1.5 px-3 py-2 rounded-lg bg-neutral-900 border border-white/10 text-xs font-mono text-neutral-300 hover:text-white hover:bg-neutral-800 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
-        >
-          <RotateCcw className="w-3.5 h-3.5" />
-          <span>Reset</span>
-        </button>
-      </div>
-
-      {/* Live Planning Metrics Summary Bar: Unified Ledger */}
-      <div className="grid grid-cols-4 rounded-xl bg-white/[0.02] border border-white/10 divide-x divide-white/5 text-center py-2.5 shadow-sm">
-        <div className="px-2">
-          <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 block mb-0.5">
-            Transfers
-          </span>
-          <div className="text-sm md:text-base font-bold font-mono text-neutral-100 tabular-nums">
-            {transfersMade} <span className="text-neutral-400 font-normal text-xs">/ {freeTransfers} FT</span>
-          </div>
-        </div>
-
-        <div className="px-2">
-          <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 block mb-0.5">
-            Bank
-          </span>
-          <div
-            className={`text-sm md:text-base font-bold font-mono tabular-nums ${
-              calculatedBank < 0 ? "text-rose-400" : "text-emerald-400"
-            }`}
-          >
-            £{calculatedBank.toFixed(1)}m
-          </div>
-        </div>
-
-        <div className="px-2">
-          <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 block mb-0.5">
-            Cost / Hits
-          </span>
-          <div
-            className={`text-sm md:text-base font-bold font-mono tabular-nums ${
-              hitCost > 0 ? "text-amber-400" : "text-neutral-300"
-            }`}
-          >
-            {hitCost > 0 ? `-${hitCost} pts` : "0 pts"}
-          </div>
-        </div>
-
-        <div className="px-2">
-          <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 block mb-0.5">
-            Template
-          </span>
-          <div className="text-sm md:text-base font-bold font-mono text-neutral-100 tabular-nums">
-            {templateScore}%
-          </div>
-        </div>
-      </div>
-
-      {/* Sample Tier Selector */}
-      <div className="p-2.5 md:p-3 rounded-xl bg-neutral-900/50 border border-white/[0.06] flex items-center justify-between">
-        <div className="flex items-center gap-1.5">
-          <span className="text-[11px] md:text-xs font-mono text-neutral-400">Choose Sample:</span>
+          <span className="text-[11px] font-mono uppercase tracking-wider text-[#7F8983]">Sample:</span>
           <select
             value={sampleTier}
             onChange={(e) => setSampleTier(e.target.value as SampleTier)}
-            className="bg-neutral-900 border border-white/10 text-xs font-mono text-neutral-200 rounded px-2.5 py-1.5 focus:outline-none focus:border-emerald-500"
+            className="bg-[#0D1110] border border-[#1E2421] text-xs font-mono text-[#F1F3EF] rounded-sm px-2 py-1 focus:outline-none focus:border-[#16C784]"
           >
             {SAMPLE_TIER_OPTIONS.map((opt) => (
               <option key={opt.id} value={opt.id}>
@@ -445,21 +460,21 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
 
         <button
           onClick={() => setShowEOInfoModal(true)}
-          className="min-w-[40px] min-h-[40px] flex items-center justify-center rounded-lg text-neutral-400 hover:text-white hover:bg-white/[0.05] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+          className="p-1 text-[#7F8983] hover:text-[#F1F3EF] transition-colors"
           title="Explain EO / xEO"
           aria-label="Explain Effective Ownership"
         >
-          <HelpCircle className="w-4 h-4" />
+          <HelpCircle className="w-3.5 h-3.5" />
         </button>
       </div>
 
       {/* Swap Notification / Error Banner */}
       {swappingPlayerId && (
-        <div className="p-2 rounded-lg bg-emerald-950/40 border border-emerald-500/30 text-emerald-300 text-xs font-mono flex items-center justify-between animate-fade-in">
+        <div className="p-2 rounded-sm bg-[#111614] border border-[#16C784]/40 text-[#16C784] text-xs font-mono flex items-center justify-between animate-fade-in">
           <span>Tap another player to complete swap</span>
           <button
             onClick={() => setSwappingPlayerId(null)}
-            className="text-[11px] underline text-emerald-400"
+            className="text-[11px] underline text-[#16C784]"
           >
             Cancel
           </button>
@@ -467,11 +482,11 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
       )}
 
       {swapError && (
-        <div className="p-2 rounded-lg bg-rose-950/40 border border-rose-900/60 text-rose-300 text-xs font-mono flex items-center justify-between animate-fade-in">
+        <div className="p-2 rounded-sm bg-[#1A0E10] border border-[#E05252]/40 text-[#fca5a5] text-xs font-mono flex items-center justify-between animate-fade-in">
           <span>{swapError}</span>
           <button
             onClick={() => setSwapError(null)}
-            className="text-[11px] underline text-rose-400"
+            className="text-[11px] underline text-[#E05252]"
           >
             Dismiss
           </button>
@@ -479,10 +494,10 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
       )}
 
       {/* Interactive Tactical Pitch */}
-      <div className="relative w-full max-w-2xl mx-auto rounded-2xl overflow-hidden border border-white/[0.06] bg-[#0d121c]">
+      <div className="relative w-full max-w-2xl mx-auto rounded-sm overflow-hidden border border-[#1E2421] bg-[#0A0E0C]">
         {/* Grid Background */}
         <div
-          className="absolute inset-0 opacity-[0.03] pointer-events-none"
+          className="absolute inset-0 opacity-[0.02] pointer-events-none"
           style={{
             backgroundImage:
               "linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)",
@@ -492,7 +507,7 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
 
         {/* Vector Pitch Markings */}
         <svg
-          className="absolute inset-0 w-full h-full pointer-events-none opacity-20"
+          className="absolute inset-0 w-full h-full pointer-events-none opacity-15"
           xmlns="http://www.w3.org/2000/svg"
         >
           <rect
@@ -522,14 +537,11 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
           />
         </svg>
 
-        {/* Top Symmetrical Pitchside Branding */}
-        <PitchBranding />
-
         {/* Starting Formation Rows */}
-        <div className="relative z-10 w-full flex flex-col justify-between py-3 md:py-4 h-[520px] sm:h-[560px] md:h-[580px]">
+        <div className="relative z-10 w-full flex flex-col justify-between py-3 md:py-4 h-[520px] sm:h-[560px] md:h-[590px]">
           {/* Formation Label (Bottom Left) */}
           <div className="absolute bottom-2 left-3 z-20">
-            <span className="text-[10px] md:text-xs font-mono text-neutral-500 uppercase tracking-wider bg-neutral-900/80 border border-white/[0.06] rounded px-1.5 py-0.5">
+            <span className="text-[10px] md:text-xs font-mono text-[#7F8983] uppercase tracking-wider bg-[#070908] border border-[#1E2421] rounded-sm px-1.5 py-0.5">
               {defs.length}-{mids.length}-{fwds.length}
             </span>
           </div>
@@ -601,7 +613,7 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
           </div>
 
           {/* Forwards Line */}
-          <div className="flex justify-around items-center px-4 md:px-6 gap-2 md:gap-6">
+          <div className="flex justify-around items-center px-4 md:px-6 gap-2 md:gap-6 pb-2">
             {fwds.map((p) => (
               <PlannerPlayerCard
                 key={p.id}
@@ -625,17 +637,17 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
       </div>
 
       {/* Substitutes Bench Area */}
-      <div className="w-full max-w-2xl mx-auto bg-neutral-900/40 border border-white/[0.06] rounded-xl p-3 md:p-4 space-y-2">
-        <div className="flex items-center justify-between">
-          <span className="text-[10px] md:text-xs font-mono uppercase tracking-wider text-neutral-400">
-            Substitutes Bench
+      <div className="w-full max-w-2xl mx-auto bg-[#0D1110] border border-[#1E2421] rounded-sm p-3">
+        <div className="flex items-center justify-between pb-2 border-b border-[#1E2421] mb-2 px-1 text-xs">
+          <span className="text-[10px] md:text-xs uppercase tracking-wider font-semibold text-[#7F8983]">
+            Planned Substitutes
           </span>
-          <span className="text-[10px] md:text-xs font-mono text-neutral-500">
-            Tap player for Action Sheet
+          <span className="text-[10px] md:text-xs text-[#7F8983] font-mono">
+            Bench order
           </span>
         </div>
 
-        <div className="grid grid-cols-4 gap-2 md:gap-6 pt-1">
+        <div className="flex items-center justify-around px-1 gap-2 md:gap-6">
           {benchPlayers.map((p, idx) => (
             <div key={p.id} className="flex flex-col items-center">
               <PlannerPlayerCard
@@ -660,15 +672,15 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
         </div>
       </div>
 
-      {/* AI Strategy Consultation Shortcut */}
+      {/* Analyst Strategy Consultation Shortcut */}
       {onOpenChatWithPrompt && (
-        <div className="p-3 rounded-xl bg-neutral-950/60 border border-white/[0.06] flex items-center justify-between">
+        <div className="p-3 rounded-sm bg-[#0D1110] border border-[#1E2421] flex items-center justify-between">
           <div>
-            <span className="text-xs font-semibold text-neutral-200 block">
+            <span className="text-xs font-semibold text-[#F1F3EF] block">
               Evaluate Transfer Strategy
             </span>
-            <p className="text-[11px] text-neutral-400 font-mono">
-              Ask Touchline AI to validate your planned squad for GW{plannedGW}
+            <p className="text-[11px] text-[#7F8983] font-mono">
+              Validate planned squad for GW{plannedGW} with Touchline Analyst
             </p>
           </div>
           <button
@@ -682,9 +694,9 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
                 : `Evaluate my squad setup for GW${plannedGW}. Who are my best transfer targets with £${calculatedBank.toFixed(1)}m in the bank?`;
               onOpenChatWithPrompt(prompt);
             }}
-            className="min-h-[44px] px-3.5 py-2 rounded-xl text-xs font-semibold font-mono text-neutral-100 bg-white/[0.04] hover:bg-white/10 border border-white/10 transition whitespace-nowrap ml-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+            className="px-3.5 py-1.5 rounded-sm text-xs font-bold font-mono text-[#070908] bg-[#16C784] hover:bg-[#13ab71] transition whitespace-nowrap ml-2"
           >
-            Ask AI
+            Ask Analyst →
           </button>
         </div>
       )}
@@ -724,21 +736,13 @@ const PlannerPlayerCard: React.FC<PlannerPlayerCardProps> = ({
   const eoResult = calculateXEO(player, sampleTier, userRank);
   const fixtureText = `${player.currentFixture?.opponent || "PL"} (${player.currentFixture?.isHome ? "H" : "A"})`;
 
-  const perfBadge = getPerformanceBadge(
-    player.gameweekPoints ?? player.totalPoints ?? 0,
-    player.minutesExpected ?? 90,
-    player.selectedByPercent ?? 0,
-    player.top10kEo ?? player.top_10k_eo,
-    isCaptain
-  );
-
   return (
     <div
       onClick={onCardClick}
-      className={`relative flex flex-col items-center justify-between select-none cursor-pointer transition-all duration-150 active:scale-95 ${
+      className={`relative flex flex-col items-center justify-between select-none cursor-pointer transition-all duration-100 active:scale-95 ${
         isBench ? "w-[76px] sm:w-[84px] md:w-[90px]" : "w-[80px] sm:w-[88px] md:w-[96px]"
       } ${
-        isSwapping ? "ring-2 ring-emerald-400 scale-105" : ""
+        isSwapping ? "ring-2 ring-[#16C784] scale-105" : ""
       }`}
     >
       {/* Top Action Header: C/V toggle on left, Swap and Replace on right */}
@@ -750,12 +754,12 @@ const PlannerPlayerCard: React.FC<PlannerPlayerCardProps> = ({
           }}
           title={isCaptain ? "Captain (2x)" : isViceCaptain ? "Vice Captain" : "Set Captain"}
           aria-label={isCaptain ? "Captain" : isViceCaptain ? "Vice Captain" : "Set Captain"}
-          className={`flex items-center justify-center min-w-[22px] h-[22px] rounded text-[9.5px] font-bold font-mono transition-transform active:scale-95 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 ${
+          className={`flex items-center justify-center min-w-[20px] h-[20px] rounded-sm text-[9.5px] font-bold font-mono transition-transform active:scale-95 shadow-sm ${
             isCaptain
-              ? "bg-neutral-100 text-neutral-950 font-black"
+              ? "bg-[#16C784] text-[#070908] font-black"
               : isViceCaptain
-              ? "bg-neutral-800 text-neutral-300 border border-white/[0.15]"
-              : "bg-neutral-950/80 text-neutral-400 border border-white/[0.08] hover:text-white"
+              ? "bg-[#111614] text-[#F1F3EF] border border-[#1E2421]"
+              : "bg-[#070908] text-[#7F8983] border border-[#1E2421] hover:text-[#F1F3EF]"
           }`}
         >
           {isCaptain ? "C" : isViceCaptain ? "V" : "c"}
@@ -771,7 +775,7 @@ const PlannerPlayerCard: React.FC<PlannerPlayerCardProps> = ({
           }}
           title="Swap player"
           aria-label="Swap player"
-          className="min-w-[22px] h-[22px] flex items-center justify-center rounded bg-neutral-900/90 text-neutral-400 hover:text-white border border-white/10 shadow-sm transition-transform active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+          className="min-w-[20px] h-[20px] flex items-center justify-center rounded-sm bg-[#0D1110] text-[#7F8983] hover:text-[#F1F3EF] border border-[#1E2421] transition-transform active:scale-95"
         >
           <ArrowLeftRight className="w-3 h-3" />
         </button>
@@ -780,21 +784,25 @@ const PlannerPlayerCard: React.FC<PlannerPlayerCardProps> = ({
             e.stopPropagation();
             onReplace();
           }}
-          title="Replace Player (Market)"
+          title="Replace Player"
           aria-label="Replace player"
-          className="min-w-[22px] h-[22px] flex items-center justify-center rounded bg-neutral-900/90 text-rose-400 hover:text-rose-300 border border-white/10 shadow-sm transition-transform active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+          className="min-w-[20px] h-[20px] flex items-center justify-center rounded-sm bg-[#0D1110] text-[#E05252] hover:text-[#ff7878] border border-[#1E2421] transition-transform active:scale-95"
         >
           <X className="w-3 h-3" />
         </button>
       </div>
 
-      {/* Jersey Icon with Performance Badge on Top-Left */}
+      {/* Bench Priority Tag */}
+      {isBench && benchLabel && (
+        <div className="absolute top-4 -right-1 z-20">
+          <span className="px-1 py-0.2 text-[8.5px] font-mono font-medium rounded-sm bg-[#070908] text-[#7F8983] border border-[#1E2421]">
+            {benchLabel}
+          </span>
+        </div>
+      )}
+
+      {/* Jersey Icon */}
       <div className="relative my-0.5 flex items-center justify-center mt-1">
-        {perfBadge && (
-          <div className="absolute -top-2 -left-3 z-20 bg-[#131722] rounded-full text-[11px] md:text-xs shadow-sm leading-none border border-gray-700 p-[3px]">
-            {perfBadge}
-          </div>
-        )}
         <JerseyIcon
           teamShort={player.teamShort}
           isGK={player.position === "GKP"}
@@ -804,33 +812,33 @@ const PlannerPlayerCard: React.FC<PlannerPlayerCardProps> = ({
       </div>
 
       {/* Player Info Badge */}
-      <div className="w-full flex flex-col items-center mt-0.5 bg-neutral-950/85 border border-white/10 rounded-md px-1 py-0.5 text-center backdrop-blur-sm shadow-md">
+      <div className="w-full flex flex-col items-center mt-0.5 bg-[#0D1110] border border-[#1E2421] rounded-sm px-1 py-0.5 text-center">
         {/* Web Name */}
-        <p className="text-[11px] md:text-xs font-medium text-neutral-200 truncate leading-tight w-full">
+        <p className="text-[11px] sm:text-[11.5px] font-semibold text-[#F1F3EF] truncate leading-tight w-full">
           {player.webName}
         </p>
 
         {/* Fixture & Price */}
-        <div className="flex items-center justify-center gap-1 text-[9px] md:text-[10px] font-mono text-neutral-400 mt-0.5 leading-none">
+        <div className="flex items-center justify-center gap-1 text-[9.5px] font-mono text-[#7F8983] mt-0.5 leading-none">
           <span>{fixtureText}</span>
-          <span className="text-neutral-600">·</span>
-          <span className="text-emerald-400 font-medium tabular-nums">£{player.price.toFixed(1)}m</span>
+          <span className="text-[#1E2421]">·</span>
+          <span className="text-[#16C784] font-semibold tabular-nums">£{player.price.toFixed(1)}m</span>
         </div>
 
         {/* xEO Badge */}
         {eoResult && (
-          <div className="w-full mt-0.5 pt-0.5 border-t border-white/[0.04]">
+          <div className="w-full mt-0.5 pt-0.5 border-t border-[#1E2421]/60">
             {sampleTier === "TOP_10K_NEAR_U" && eoResult.top10k != null && eoResult.nearU != null ? (
-              <div className="flex w-full items-center justify-between px-0.5 text-[8.5px] sm:text-[9.5px] md:text-[10px] font-mono leading-none tracking-tight">
-                <span className="text-neutral-200 tabular-nums" title="Top 10k EO">
+              <div className="flex w-full items-center justify-between px-0.5 text-[8.5px] font-mono leading-none tracking-tight">
+                <span className="text-[#F1F3EF] tabular-nums" title="Top 10k EO">
                   {eoResult.top10k}%
                 </span>
-                <span className="text-neutral-400 tabular-nums" title="Near You EO">
+                <span className="text-[#7F8983] tabular-nums" title="Near You EO">
                   {eoResult.nearU}%
                 </span>
               </div>
             ) : (
-              <div className="w-full text-center text-[8.5px] sm:text-[9.5px] md:text-[10px] font-mono text-neutral-400 leading-none tabular-nums">
+              <div className="w-full text-center text-[8.5px] font-mono text-[#7F8983] leading-none tabular-nums">
                 {eoResult.displayText}
               </div>
             )}

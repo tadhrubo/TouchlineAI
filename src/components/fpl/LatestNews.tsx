@@ -16,36 +16,36 @@ export const LatestNews: React.FC<LatestNewsProps> = ({ news }) => {
   };
 
   return (
-    <div className="w-full bg-neutral-900/40 border border-white/10 rounded-xl p-3">
+    <div className="w-full bg-[#0D1110] border border-[#1E2421] p-3 text-[#F1F3EF]">
       {/* Header */}
-      <div className="flex items-center justify-between pb-2 border-b border-white/[0.06] mb-2 px-1 text-xs">
-        <span className="text-[10px] uppercase tracking-wider font-semibold text-neutral-400">
-          Squad Status & Flags
+      <div className="flex items-center justify-between pb-2 border-b border-[#1E2421] mb-2 px-1 text-xs">
+        <span className="text-[10px] uppercase tracking-wider font-semibold text-[#7F8983] font-mono">
+          SQUAD STATUS & INJURY FLAGS
         </span>
-        <span className="text-[10px] text-neutral-400 font-mono tabular-nums">
-          {news.length} {news.length === 1 ? "alert" : "alerts"}
+        <span className="text-[10px] text-[#7F8983] font-mono tabular-nums">
+          {news.length} {news.length === 1 ? "ALERT" : "ALERTS"}
         </span>
       </div>
 
       {/* News Item List */}
-      <div className="space-y-1.5">
+      <div className="space-y-1">
         {news.map((item) => {
           const isExpanded = expandedId === item.id;
           return (
             <button
               key={item.id}
               onClick={() => toggleExpand(item.id)}
-              className="w-full min-h-[44px] p-2.5 rounded-lg bg-neutral-950/60 border border-white/[0.04] hover:border-white/10 transition text-left text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+              className="w-full p-2.5 rounded-sm bg-[#070908] border border-[#1E2421] hover:border-neutral-600 transition text-left text-xs"
             >
               <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2 truncate">
-                  <AlertTriangle className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
-                  <span className="text-neutral-200 truncate font-medium">
+                  <AlertTriangle className="w-3.5 h-3.5 text-[#D6A83D] flex-shrink-0" />
+                  <span className="text-[#F1F3EF] truncate font-medium">
                     {item.headline}
                   </span>
                 </div>
                 {item.detail && (
-                  <div className="text-neutral-400 flex-shrink-0">
+                  <div className="text-[#7F8983] flex-shrink-0">
                     {isExpanded ? (
                       <ChevronUp className="w-3.5 h-3.5" />
                     ) : (
@@ -56,7 +56,7 @@ export const LatestNews: React.FC<LatestNewsProps> = ({ news }) => {
               </div>
 
               {isExpanded && item.detail && (
-                <p className="mt-2 pt-2 border-t border-white/[0.06] text-[11px] text-neutral-300 leading-relaxed font-sans">
+                <p className="mt-2 pt-2 border-t border-[#1E2421] text-[11px] text-[#7F8983] leading-relaxed font-sans">
                   {item.detail}
                 </p>
               )}

@@ -3,14 +3,21 @@
 @tailwind utilities;
 
 :root {
-  --background: #000000;
-  --foreground: #f8fafc;
+  --background: #070908;
+  --foreground: #F1F3EF;
+  --surface-primary: #0D1110;
+  --surface-secondary: #111614;
+  --border-subtle: #1E2421;
+  --text-muted: #7F8983;
+  --touchline-green: #16C784;
+  --touchline-warning: #D6A83D;
+  --touchline-negative: #E05252;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
 }
@@ -28,19 +35,19 @@ body {
 
 /* Sleek custom scrollbars for regular content */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #000000;
+  background: #070908;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 9999px;
+  background: #1E2421;
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(16, 185, 129, 0.6);
+  background: #2E3833;
 }

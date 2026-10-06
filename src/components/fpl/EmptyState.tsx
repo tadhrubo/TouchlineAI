@@ -25,53 +25,53 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   };
 
   return (
-    <div className="w-full min-h-[420px] flex flex-col items-center justify-center p-6 text-center space-y-4 rounded-2xl bg-neutral-900/30 border border-white/[0.06] my-auto animate-fade-in">
+    <div className="w-full min-h-[420px] flex flex-col items-center justify-center p-6 text-center space-y-4 rounded-sm bg-[#0D1110] border border-[#1E2421] my-auto animate-fade-in text-[#F1F3EF]">
       {/* Brand Logo */}
       <div className="flex items-center justify-center">
         <Image
           src="/asset/image/tlai.png"
           alt="Touchline AI"
-          width={54}
-          height={54}
-          className="w-14 h-14 object-contain drop-shadow-md"
+          width={48}
+          height={48}
+          className="w-12 h-12 object-contain"
           priority
         />
       </div>
 
       {/* Title & Description */}
       <div className="space-y-1.5 max-w-xs">
-        <h2 className="text-lg font-bold text-neutral-100 tracking-tight">
-          Connect Your FPL Squad
+        <h2 className="text-base font-bold text-[#F1F3EF] tracking-tight">
+          CONNECT FPL SQUAD
         </h2>
-        <p className="text-xs text-neutral-400 leading-relaxed">
-          Enter your Fantasy Premier League Entry ID to load live squad data and AI tactical decisions.
+        <p className="text-xs text-[#7F8983] leading-relaxed">
+          Enter your Fantasy Premier League Entry ID to load live squad data and tactical models.
         </p>
       </div>
 
       {/* Entry ID Form */}
-      <form onSubmit={handleSubmit} className="w-full max-w-xs space-y-2.5">
+      <form onSubmit={handleSubmit} className="w-full max-w-xs space-y-2">
         <input
           type="number"
           autoFocus
-          placeholder="Enter FPL Entry ID"
+          placeholder="ENTER FPL ENTRY ID"
           value={inputVal}
           onChange={(e) => setInputVal(e.target.value)}
-          className="w-full bg-neutral-950 border border-white/[0.08] focus:border-emerald-500/60 rounded-xl px-4 py-2.5 text-xs font-mono font-medium text-neutral-100 placeholder-neutral-600 focus:outline-none transition text-center tracking-wider"
+          className="w-full bg-[#070908] border border-[#1E2421] focus:border-[#16C784] rounded-sm px-4 py-2.5 text-xs font-mono font-medium text-[#F1F3EF] placeholder-[#7F8983] focus:outline-none transition text-center tracking-wider"
         />
 
         <button
           type="submit"
           disabled={isLoading || !inputVal.trim()}
-          className="w-full py-2.5 px-4 rounded-xl bg-neutral-100 hover:bg-white disabled:opacity-40 text-neutral-950 font-medium text-xs transition active:scale-95 flex items-center justify-center gap-1.5"
+          className="w-full py-2.5 px-4 rounded-sm bg-[#16C784] hover:bg-[#16C784]/90 disabled:opacity-40 text-[#070908] font-bold text-xs transition flex items-center justify-center gap-1.5 font-mono"
         >
           {isLoading ? (
             <>
               <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-              <span>Fetching Squad...</span>
+              <span>FETCHING SQUAD...</span>
             </>
           ) : (
             <>
-              <span>Load Squad</span>
+              <span>LOAD SQUAD</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </>
           )}
@@ -79,24 +79,24 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       </form>
 
       {/* Where to find ID Guide */}
-      <div className="w-full max-w-xs pt-2 border-t border-white/[0.04] text-left">
+      <div className="w-full max-w-xs pt-2 border-t border-[#1E2421] text-left">
         <button
           type="button"
           onClick={() => setShowHelp(!showHelp)}
-          className="flex items-center gap-1 text-[11px] text-neutral-500 hover:text-neutral-300 transition mx-auto"
+          className="flex items-center gap-1 text-[11px] text-[#7F8983] hover:text-[#F1F3EF] transition mx-auto font-mono"
         >
-          <HelpCircle className="w-3 h-3 text-neutral-500" />
+          <HelpCircle className="w-3 h-3 text-[#7F8983]" />
           <span>How to find your Entry ID</span>
         </button>
 
         {showHelp && (
-          <div className="mt-2 p-2.5 rounded-lg bg-neutral-950 border border-white/[0.06] text-[11px] text-neutral-400 leading-relaxed space-y-1 animate-fade-in">
-            <p className="font-medium text-neutral-200">1. Log in to fantasy.premierleague.com</p>
-            <p>2. Go to the <span className="text-neutral-200">Points</span> tab.</p>
+          <div className="mt-2 p-2.5 rounded-sm bg-[#070908] border border-[#1E2421] text-[11px] text-[#7F8983] leading-relaxed space-y-1">
+            <p className="font-medium text-[#F1F3EF]">1. Log in to fantasy.premierleague.com</p>
+            <p>2. Go to the <span className="text-[#F1F3EF]">Points</span> tab.</p>
             <p>
               3. Check the URL:
               <br />
-              <code className="text-[10px] text-neutral-300 font-mono">
+              <code className="text-[10px] text-[#16C784] font-mono">
                 .../entry/<b>[YOUR_ID]</b>/event/...
               </code>
             </p>
