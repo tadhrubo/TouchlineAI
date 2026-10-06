@@ -44,17 +44,16 @@ export const ScheduleView: React.FC<ScheduleViewProps> = ({
   const getFdrPillClass = (fdr: number) => {
     switch (fdr) {
       case 1:
-        return "bg-[#00753e] text-white";
       case 2:
-        return "bg-[#00ff87] text-neutral-950 font-bold";
+        return "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-medium";
       case 3:
-        return "bg-[#ebebe6] text-neutral-900 font-semibold";
+        return "bg-white/[0.06] text-neutral-300 border border-white/10 font-medium";
       case 4:
-        return "bg-[#e90052] text-white";
+        return "bg-amber-500/15 text-amber-400 border border-amber-500/30 font-medium";
       case 5:
-        return "bg-[#80072d] text-white";
+        return "bg-rose-500/15 text-rose-400 border border-rose-500/30 font-semibold";
       default:
-        return "bg-neutral-800 text-neutral-300";
+        return "bg-white/[0.04] text-neutral-400 border border-white/10";
     }
   };
 
@@ -65,7 +64,8 @@ export const ScheduleView: React.FC<ScheduleViewProps> = ({
         <button
           disabled={selectedGameweek <= 1}
           onClick={() => onSelectGameweek(Math.max(1, selectedGameweek - 1))}
-          className="p-1.5 rounded-md bg-neutral-900 border border-white/[0.06] text-neutral-400 hover:text-neutral-200 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+          aria-label="Previous Gameweek"
+          className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg bg-neutral-900 border border-white/10 text-neutral-300 hover:text-white hover:bg-neutral-800 disabled:opacity-30 disabled:cursor-not-allowed transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
         >
           <ChevronLeft className="w-4 h-4" />
         </button>
@@ -74,7 +74,7 @@ export const ScheduleView: React.FC<ScheduleViewProps> = ({
           <span className="text-xs font-bold font-mono text-neutral-100 tracking-tight block">
             Gameweek {selectedGameweek}
           </span>
-          <span className="text-[10px] font-mono text-neutral-500">
+          <span className="text-[10px] font-mono text-neutral-400">
             {selectedGameweek === currentGameweek
               ? "Active Gameweek"
               : selectedGameweek < currentGameweek
@@ -86,7 +86,8 @@ export const ScheduleView: React.FC<ScheduleViewProps> = ({
         <button
           disabled={selectedGameweek >= 38}
           onClick={() => onSelectGameweek(Math.min(38, selectedGameweek + 1))}
-          className="p-1.5 rounded-md bg-neutral-900 border border-white/[0.06] text-neutral-400 hover:text-neutral-200 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+          aria-label="Next Gameweek"
+          className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg bg-neutral-900 border border-white/10 text-neutral-300 hover:text-white hover:bg-neutral-800 disabled:opacity-30 disabled:cursor-not-allowed transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
         >
           <ChevronRight className="w-4 h-4" />
         </button>
@@ -101,7 +102,7 @@ export const ScheduleView: React.FC<ScheduleViewProps> = ({
           </span>
         </div>
       ) : groupedFixtures.length === 0 ? (
-        <div className="w-full py-16 text-center rounded-xl bg-neutral-900/20 border border-white/[0.04] text-neutral-500 font-mono text-xs">
+        <div className="w-full py-16 text-center rounded-xl bg-neutral-900/20 border border-white/[0.04] text-neutral-400 font-mono text-xs">
           No matches scheduled for Gameweek {selectedGameweek}
         </div>
       ) : (
@@ -114,12 +115,12 @@ export const ScheduleView: React.FC<ScheduleViewProps> = ({
               {/* Date Group Header */}
               <div className="px-3.5 py-2 bg-neutral-950/60 border-b border-white/[0.04] flex items-center justify-between">
                 <div className="flex items-center gap-1.5">
-                  <Calendar className="w-3 h-3 text-neutral-500" />
+                  <Calendar className="w-3 h-3 text-neutral-400" />
                   <span className="text-[11px] font-mono font-medium text-neutral-300">
                     {group.date}
                   </span>
                 </div>
-                <span className="text-[10px] font-mono text-neutral-500">
+                <span className="text-[10px] font-mono text-neutral-400 tabular-nums">
                   {group.matches.length} {group.matches.length === 1 ? "Match" : "Matches"}
                 </span>
               </div>
@@ -141,7 +142,7 @@ export const ScheduleView: React.FC<ScheduleViewProps> = ({
                           {match.team_h.short_name}
                         </span>
                         <span
-                          className={`text-[9px] font-mono px-1 py-0.2 rounded ${getFdrPillClass(
+                          className={`text-[9px] font-mono px-1.5 py-0.5 rounded ${getFdrPillClass(
                             match.team_h.fdr
                           )}`}
                           title={`Fixture Difficulty: ${match.team_h.fdr}`}
@@ -158,23 +159,23 @@ export const ScheduleView: React.FC<ScheduleViewProps> = ({
                       {/* Score / Kickoff Center Pill */}
                       <div className="px-3 min-w-[70px] text-center flex flex-col items-center">
                         {isStarted || isFinished ? (
-                          <div className="flex items-center gap-1 font-mono text-xs font-bold text-neutral-100 bg-neutral-950 px-2 py-0.5 rounded border border-white/[0.08]">
+                          <div className="flex items-center gap-1 font-mono text-xs font-bold text-neutral-100 tabular-nums bg-neutral-950 px-2 py-0.5 rounded border border-white/[0.08]">
                             <span>{match.team_h.score ?? 0}</span>
                             <span className="text-neutral-500">-</span>
                             <span>{match.team_a.score ?? 0}</span>
                           </div>
                         ) : (
-                          <span className="text-[11px] font-mono font-medium text-neutral-400 bg-neutral-950 px-2 py-0.5 rounded border border-white/[0.06]">
+                          <span className="text-[11px] font-mono font-medium text-neutral-300 tabular-nums bg-neutral-950 px-2 py-0.5 rounded border border-white/[0.06]">
                             {match.kickoff_formatted?.time || "15:00"}
                           </span>
                         )}
                         {isFinished && (
-                          <span className="text-[8px] font-mono uppercase text-neutral-500 mt-0.5">
+                          <span className="text-[8px] font-mono uppercase text-neutral-400 mt-0.5">
                             FT
                           </span>
                         )}
                         {isStarted && !isFinished && (
-                          <span className="text-[8px] font-mono uppercase text-emerald-400 mt-0.5 animate-pulse">
+                          <span className="text-[8.5px] font-mono uppercase tracking-widest text-emerald-400 font-semibold mt-0.5">
                             LIVE
                           </span>
                         )}
@@ -188,7 +189,7 @@ export const ScheduleView: React.FC<ScheduleViewProps> = ({
                           className="flex-shrink-0"
                         />
                         <span
-                          className={`text-[9px] font-mono px-1 py-0.2 rounded ${getFdrPillClass(
+                          className={`text-[9px] font-mono px-1.5 py-0.5 rounded ${getFdrPillClass(
                             match.team_a.fdr
                           )}`}
                           title={`Fixture Difficulty: ${match.team_a.fdr}`}

@@ -347,22 +347,24 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
           <button
             disabled={plannedGW <= currentGW}
             onClick={() => setPlannedGW((prev) => Math.max(currentGW, prev - 1))}
-            className="p-1.5 rounded-md bg-neutral-900 border border-white/[0.06] text-neutral-400 hover:text-neutral-200 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            aria-label="Previous Gameweek"
+            className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg bg-neutral-900 border border-white/10 text-neutral-300 hover:text-white hover:bg-neutral-800 disabled:opacity-30 disabled:cursor-not-allowed transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
           <div className="text-center min-w-[100px]">
-            <span className="text-xs font-bold font-mono text-neutral-100 tracking-tight block">
+            <span className="text-xs font-bold font-mono text-neutral-100 tracking-tight block tabular-nums">
               Gameweek {plannedGW}
             </span>
-            <span className="text-[9.5px] font-mono text-neutral-500">
+            <span className="text-[9.5px] font-mono text-neutral-400 tabular-nums">
               {plannedGW === currentGW ? "Current GW" : `GW +${plannedGW - currentGW}`}
             </span>
           </div>
           <button
             disabled={plannedGW >= 38}
             onClick={() => setPlannedGW((prev) => Math.min(38, prev + 1))}
-            className="p-1.5 rounded-md bg-neutral-900 border border-white/[0.06] text-neutral-400 hover:text-neutral-200 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            aria-label="Next Gameweek"
+            className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg bg-neutral-900 border border-white/10 text-neutral-300 hover:text-white hover:bg-neutral-800 disabled:opacity-30 disabled:cursor-not-allowed transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
           >
             <ChevronRight className="w-4 h-4" />
           </button>
@@ -370,30 +372,30 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
 
         <button
           onClick={handleReset}
-          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-neutral-900/90 border border-white/[0.06] text-xs font-mono text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 transition-colors"
+          className="min-h-[44px] flex items-center gap-1.5 px-3 py-2 rounded-lg bg-neutral-900 border border-white/10 text-xs font-mono text-neutral-300 hover:text-white hover:bg-neutral-800 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
         >
           <RotateCcw className="w-3.5 h-3.5" />
           <span>Reset</span>
         </button>
       </div>
 
-      {/* Live Planning Metrics Summary Bar */}
-      <div className="grid grid-cols-4 gap-2 text-center">
-        <div className="p-2.5 md:p-3.5 rounded-xl bg-neutral-900/40 border border-white/[0.06]">
-          <span className="text-[9.5px] md:text-xs font-mono uppercase tracking-wider text-neutral-500 block">
+      {/* Live Planning Metrics Summary Bar: Unified Ledger */}
+      <div className="grid grid-cols-4 rounded-xl bg-white/[0.02] border border-white/10 divide-x divide-white/5 text-center py-2.5 shadow-sm">
+        <div className="px-2">
+          <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 block mb-0.5">
             Transfers
           </span>
-          <div className="text-sm md:text-lg font-bold font-mono text-neutral-100 mt-0.5">
-            {transfersMade} <span className="text-neutral-500 font-normal text-xs">/ {freeTransfers} FT</span>
+          <div className="text-sm md:text-base font-bold font-mono text-neutral-100 tabular-nums">
+            {transfersMade} <span className="text-neutral-400 font-normal text-xs">/ {freeTransfers} FT</span>
           </div>
         </div>
 
-        <div className="p-2.5 md:p-3.5 rounded-xl bg-neutral-900/40 border border-white/[0.06]">
-          <span className="text-[9.5px] md:text-xs font-mono uppercase tracking-wider text-neutral-500 block">
+        <div className="px-2">
+          <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 block mb-0.5">
             Bank
           </span>
           <div
-            className={`text-sm md:text-lg font-bold font-mono mt-0.5 ${
+            className={`text-sm md:text-base font-bold font-mono tabular-nums ${
               calculatedBank < 0 ? "text-rose-400" : "text-emerald-400"
             }`}
           >
@@ -401,12 +403,12 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
           </div>
         </div>
 
-        <div className="p-2.5 md:p-3.5 rounded-xl bg-neutral-900/40 border border-white/[0.06]">
-          <span className="text-[9.5px] md:text-xs font-mono uppercase tracking-wider text-neutral-500 block">
+        <div className="px-2">
+          <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 block mb-0.5">
             Cost / Hits
           </span>
           <div
-            className={`text-sm md:text-lg font-bold font-mono mt-0.5 ${
+            className={`text-sm md:text-base font-bold font-mono tabular-nums ${
               hitCost > 0 ? "text-amber-400" : "text-neutral-300"
             }`}
           >
@@ -414,11 +416,11 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
           </div>
         </div>
 
-        <div className="p-2.5 md:p-3.5 rounded-xl bg-neutral-900/40 border border-white/[0.06]">
-          <span className="text-[9.5px] md:text-xs font-mono uppercase tracking-wider text-neutral-500 block">
+        <div className="px-2">
+          <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 block mb-0.5">
             Template
           </span>
-          <div className="text-sm md:text-lg font-bold font-mono text-neutral-100 mt-0.5">
+          <div className="text-sm md:text-base font-bold font-mono text-neutral-100 tabular-nums">
             {templateScore}%
           </div>
         </div>
@@ -431,7 +433,7 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
           <select
             value={sampleTier}
             onChange={(e) => setSampleTier(e.target.value as SampleTier)}
-            className="bg-neutral-900 border border-white/[0.08] text-xs font-mono text-neutral-200 rounded px-2 py-1 focus:outline-none focus:border-neutral-600"
+            className="bg-neutral-900 border border-white/10 text-xs font-mono text-neutral-200 rounded px-2.5 py-1.5 focus:outline-none focus:border-emerald-500"
           >
             {SAMPLE_TIER_OPTIONS.map((opt) => (
               <option key={opt.id} value={opt.id}>
@@ -443,8 +445,9 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
 
         <button
           onClick={() => setShowEOInfoModal(true)}
-          className="p-1 text-neutral-400 hover:text-neutral-200 transition-colors"
+          className="min-w-[40px] min-h-[40px] flex items-center justify-center rounded-lg text-neutral-400 hover:text-white hover:bg-white/[0.05] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
           title="Explain EO / xEO"
+          aria-label="Explain Effective Ownership"
         >
           <HelpCircle className="w-4 h-4" />
         </button>
@@ -679,7 +682,7 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
                 : `Evaluate my squad setup for GW${plannedGW}. Who are my best transfer targets with £${calculatedBank.toFixed(1)}m in the bank?`;
               onOpenChatWithPrompt(prompt);
             }}
-            className="py-1.5 px-3 rounded-lg text-xs font-medium font-mono text-neutral-200 bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 transition-colors whitespace-nowrap ml-2"
+            className="min-h-[44px] px-3.5 py-2 rounded-xl text-xs font-semibold font-mono text-neutral-100 bg-white/[0.04] hover:bg-white/10 border border-white/10 transition whitespace-nowrap ml-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
           >
             Ask AI
           </button>
@@ -746,12 +749,13 @@ const PlannerPlayerCard: React.FC<PlannerPlayerCardProps> = ({
             onToggleCaptain();
           }}
           title={isCaptain ? "Captain (2x)" : isViceCaptain ? "Vice Captain" : "Set Captain"}
-          className={`flex items-center justify-center min-w-[18px] h-[18px] rounded-sm text-[9px] font-bold font-mono transition-transform active:scale-95 shadow-sm ${
+          aria-label={isCaptain ? "Captain" : isViceCaptain ? "Vice Captain" : "Set Captain"}
+          className={`flex items-center justify-center min-w-[22px] h-[22px] rounded text-[9.5px] font-bold font-mono transition-transform active:scale-95 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 ${
             isCaptain
               ? "bg-neutral-100 text-neutral-950 font-black"
               : isViceCaptain
               ? "bg-neutral-800 text-neutral-300 border border-white/[0.15]"
-              : "bg-neutral-950/80 text-neutral-500 border border-white/[0.08] hover:text-neutral-300"
+              : "bg-neutral-950/80 text-neutral-400 border border-white/[0.08] hover:text-white"
           }`}
         >
           {isCaptain ? "C" : isViceCaptain ? "V" : "c"}
@@ -766,9 +770,10 @@ const PlannerPlayerCard: React.FC<PlannerPlayerCardProps> = ({
             onSwap();
           }}
           title="Swap player"
-          className="p-1 rounded-sm bg-neutral-900/90 text-neutral-400 hover:text-neutral-200 border border-white/[0.08] shadow-sm transition-transform active:scale-95"
+          aria-label="Swap player"
+          className="min-w-[22px] h-[22px] flex items-center justify-center rounded bg-neutral-900/90 text-neutral-400 hover:text-white border border-white/10 shadow-sm transition-transform active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
         >
-          <ArrowLeftRight className="w-2.5 h-2.5" />
+          <ArrowLeftRight className="w-3 h-3" />
         </button>
         <button
           onClick={(e) => {
@@ -776,9 +781,10 @@ const PlannerPlayerCard: React.FC<PlannerPlayerCardProps> = ({
             onReplace();
           }}
           title="Replace Player (Market)"
-          className="p-1 rounded-sm bg-neutral-900/90 text-rose-400 hover:text-rose-300 border border-white/[0.08] shadow-sm transition-transform active:scale-95"
+          aria-label="Replace player"
+          className="min-w-[22px] h-[22px] flex items-center justify-center rounded bg-neutral-900/90 text-rose-400 hover:text-rose-300 border border-white/10 shadow-sm transition-transform active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
         >
-          <X className="w-2.5 h-2.5" />
+          <X className="w-3 h-3" />
         </button>
       </div>
 
@@ -798,7 +804,7 @@ const PlannerPlayerCard: React.FC<PlannerPlayerCardProps> = ({
       </div>
 
       {/* Player Info Badge */}
-      <div className="w-full flex flex-col items-center mt-0.5 bg-neutral-950/85 border border-white/[0.08] rounded-md px-1 py-0.5 text-center backdrop-blur-sm shadow-md">
+      <div className="w-full flex flex-col items-center mt-0.5 bg-neutral-950/85 border border-white/10 rounded-md px-1 py-0.5 text-center backdrop-blur-sm shadow-md">
         {/* Web Name */}
         <p className="text-[11px] md:text-xs font-medium text-neutral-200 truncate leading-tight w-full">
           {player.webName}
@@ -808,7 +814,7 @@ const PlannerPlayerCard: React.FC<PlannerPlayerCardProps> = ({
         <div className="flex items-center justify-center gap-1 text-[9px] md:text-[10px] font-mono text-neutral-400 mt-0.5 leading-none">
           <span>{fixtureText}</span>
           <span className="text-neutral-600">·</span>
-          <span className="text-emerald-400 font-medium">£{player.price.toFixed(1)}m</span>
+          <span className="text-emerald-400 font-medium tabular-nums">£{player.price.toFixed(1)}m</span>
         </div>
 
         {/* xEO Badge */}
@@ -816,15 +822,15 @@ const PlannerPlayerCard: React.FC<PlannerPlayerCardProps> = ({
           <div className="w-full mt-0.5 pt-0.5 border-t border-white/[0.04]">
             {sampleTier === "TOP_10K_NEAR_U" && eoResult.top10k != null && eoResult.nearU != null ? (
               <div className="flex w-full items-center justify-between px-0.5 text-[8.5px] sm:text-[9.5px] md:text-[10px] font-mono leading-none tracking-tight">
-                <span className="text-neutral-200" title="Top 10k EO">
+                <span className="text-neutral-200 tabular-nums" title="Top 10k EO">
                   {eoResult.top10k}%
                 </span>
-                <span className="text-neutral-500" title="Near You EO">
+                <span className="text-neutral-400 tabular-nums" title="Near You EO">
                   {eoResult.nearU}%
                 </span>
               </div>
             ) : (
-              <div className="w-full text-center text-[8.5px] sm:text-[9.5px] md:text-[10px] font-mono text-neutral-400 leading-none">
+              <div className="w-full text-center text-[8.5px] sm:text-[9.5px] md:text-[10px] font-mono text-neutral-400 leading-none tabular-nums">
                 {eoResult.displayText}
               </div>
             )}

@@ -12,11 +12,11 @@ interface FDRTickerViewProps {
 }
 
 const FDR_LEGEND = [
-  { level: 1, label: "1 (Very Easy)", bg: "bg-[#00753e]", text: "text-white" },
-  { level: 2, label: "2 (Easy)", bg: "bg-[#00ff87]", text: "text-neutral-950 font-bold" },
-  { level: 3, label: "3 (Moderate)", bg: "bg-[#ebebe6]", text: "text-neutral-900 font-semibold" },
-  { level: 4, label: "4 (Hard)", bg: "bg-[#e90052]", text: "text-white font-medium" },
-  { level: 5, label: "5 (Very Hard)", bg: "bg-[#80072d]", text: "text-white font-medium" },
+  { level: 1, label: "1 (Very Easy)", bg: "bg-emerald-500/15 border border-emerald-500/30", text: "text-emerald-400 font-medium" },
+  { level: 2, label: "2 (Easy)", bg: "bg-emerald-500/15 border border-emerald-500/30", text: "text-emerald-400 font-medium" },
+  { level: 3, label: "3 (Moderate)", bg: "bg-white/[0.06] border border-white/10", text: "text-neutral-300 font-medium" },
+  { level: 4, label: "4 (Hard)", bg: "bg-amber-500/15 border border-amber-500/30", text: "text-amber-400 font-medium" },
+  { level: 5, label: "5 (Very Hard)", bg: "bg-rose-500/15 border border-rose-500/30", text: "text-rose-400 font-semibold" },
 ];
 
 export const FDRTickerView: React.FC<FDRTickerViewProps> = ({
@@ -41,17 +41,16 @@ export const FDRTickerView: React.FC<FDRTickerViewProps> = ({
   const getFdrClass = (fdr: number) => {
     switch (fdr) {
       case 1:
-        return "bg-[#00753e] text-white";
       case 2:
-        return "bg-[#00ff87] text-neutral-950 font-bold";
+        return "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-medium";
       case 3:
-        return "bg-[#ebebe6] text-neutral-900 font-semibold";
+        return "bg-white/[0.06] text-neutral-300 border border-white/10 font-medium";
       case 4:
-        return "bg-[#e90052] text-white font-medium";
+        return "bg-amber-500/15 text-amber-400 border border-amber-500/30 font-medium";
       case 5:
-        return "bg-[#80072d] text-white font-medium";
+        return "bg-rose-500/15 text-rose-400 border border-rose-500/30 font-semibold";
       default:
-        return "bg-neutral-800 text-neutral-300";
+        return "bg-white/[0.04] text-neutral-400 border border-white/10";
     }
   };
 
@@ -62,17 +61,18 @@ export const FDRTickerView: React.FC<FDRTickerViewProps> = ({
         <button
           disabled={startGW <= 1}
           onClick={() => setStartGW((prev) => Math.max(1, prev - WINDOW_SIZE))}
-          className="p-1.5 rounded-md bg-neutral-900 border border-white/[0.06] text-neutral-400 hover:text-neutral-200 disabled:opacity-30 disabled:cursor-not-allowed transition-colors flex items-center gap-1 text-xs font-mono"
+          aria-label="Previous Gameweeks"
+          className="min-h-[44px] px-3 rounded-lg bg-neutral-900 border border-white/10 text-neutral-300 hover:text-white hover:bg-neutral-800 disabled:opacity-30 disabled:cursor-not-allowed transition flex items-center gap-1.5 text-xs font-mono focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
         >
           <ChevronLeft className="w-4 h-4" />
           <span className="hidden sm:inline">Prev</span>
         </button>
 
         <div className="text-center">
-          <span className="text-xs font-bold font-mono text-neutral-100 tracking-tight block">
+          <span className="text-xs font-bold font-mono text-neutral-100 tracking-tight block tabular-nums">
             Gameweeks {startGW} – {endGW}
           </span>
-          <span className="text-[10px] font-mono text-neutral-500">
+          <span className="text-[10px] font-mono text-neutral-400">
             FDR Matrix Ticker
           </span>
         </div>
@@ -80,7 +80,8 @@ export const FDRTickerView: React.FC<FDRTickerViewProps> = ({
         <button
           disabled={startGW >= maxStartGW}
           onClick={() => setStartGW((prev) => Math.min(maxStartGW, prev + WINDOW_SIZE))}
-          className="p-1.5 rounded-md bg-neutral-900 border border-white/[0.06] text-neutral-400 hover:text-neutral-200 disabled:opacity-30 disabled:cursor-not-allowed transition-colors flex items-center gap-1 text-xs font-mono"
+          aria-label="Next Gameweeks"
+          className="min-h-[44px] px-3 rounded-lg bg-neutral-900 border border-white/10 text-neutral-300 hover:text-white hover:bg-neutral-800 disabled:opacity-30 disabled:cursor-not-allowed transition flex items-center gap-1.5 text-xs font-mono focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
         >
           <span className="hidden sm:inline">Next</span>
           <ChevronRight className="w-4 h-4" />

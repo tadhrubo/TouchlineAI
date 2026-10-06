@@ -391,7 +391,7 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
                 key={mgr.entry}
                 className={`rounded-xl border transition-all duration-200 overflow-hidden ${
                   isUserTeam
-                    ? "bg-emerald-950/20 border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.06)]"
+                    ? "bg-emerald-500/[0.04] border-emerald-500/40"
                     : isExpanded
                     ? "bg-[#0E121A] border-white/[0.12]"
                     : "bg-[#0B0E14] border-white/[0.06] hover:border-white/[0.12]"
@@ -408,17 +408,17 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
                     <div className="flex items-center gap-2.5 min-w-0 flex-1">
                       {/* Rank Badge + Movement */}
                       <div className="flex flex-col items-center justify-center w-8 flex-shrink-0">
-                        <span className="text-xs font-mono font-bold text-neutral-100">
+                        <span className="text-xs font-mono font-bold text-neutral-100 tabular-nums">
                           {mgr.rank}
                         </span>
                         <div className="flex items-center text-[9px] font-mono leading-none mt-0.5">
                           {mgr.rankChange > 0 ? (
-                            <span className="text-emerald-400 flex items-center">
+                            <span className="text-emerald-400 flex items-center tabular-nums">
                               <ArrowUp className="w-2.5 h-2.5 inline" />
                               {mgr.rankChange}
                             </span>
                           ) : mgr.rankChange < 0 ? (
-                            <span className="text-rose-400 flex items-center">
+                            <span className="text-rose-400 flex items-center tabular-nums">
                               <ArrowDown className="w-2.5 h-2.5 inline" />
                               {Math.abs(mgr.rankChange)}
                             </span>
@@ -454,10 +454,10 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
                         <div className="flex items-center gap-1.5 text-[10px] font-mono text-neutral-400 mt-0.5">
                           <span>
                             <span className="text-neutral-400">FT</span>
-                            <span className="font-bold text-white ml-1">{mgr.ft_available ?? mgr.ftAvailable ?? mgr.ft_left ?? 1}</span>
+                            <span className="font-bold text-white ml-1 tabular-nums">{mgr.ft_available ?? mgr.ftAvailable ?? mgr.ft_left ?? 1}</span>
                           </span>
                           <span className="text-neutral-600">·</span>
-                          <span>TV £{Number(mgr.teamValue || 100).toFixed(1)}m</span>
+                          <span className="tabular-nums">TV £{Number(mgr.teamValue || 100).toFixed(1)}m</span>
                         </div>
                       </div>
                     </div>
@@ -467,17 +467,17 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
                       {/* Live GW & Total Points + Hits + Yet */}
                       <div className="font-mono text-right min-w-[76px]">
                         <div className="flex items-center justify-end gap-1 text-xs font-bold text-emerald-400">
-                          <span>{mgr.liveGwPoints} pts</span>
+                          <span className="tabular-nums">{mgr.liveGwPoints} pts</span>
                           {cost > 0 && (
-                            <span className="text-red-500 text-[10px] font-bold">
+                            <span className="text-red-500 text-[10px] font-bold tabular-nums">
                               (-{cost})
                             </span>
                           )}
                         </div>
                         <div className="text-[10px] text-neutral-400 flex items-center justify-end gap-1 mt-0.5">
-                          <span>{mgr.totalPoints} tot</span>
+                          <span className="tabular-nums">{mgr.totalPoints} tot</span>
                           <span className="text-neutral-600">·</span>
-                          <span className={yetCount > 0 ? "text-amber-400 font-medium" : "text-neutral-500"}>
+                          <span className={`tabular-nums ${yetCount > 0 ? "text-amber-400 font-medium" : "text-neutral-500"}`}>
                             Yet {yetCount}
                           </span>
                         </div>

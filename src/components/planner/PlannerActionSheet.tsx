@@ -25,15 +25,15 @@ function getFdrColor(difficulty: number = 3): string {
   switch (difficulty) {
     case 1:
     case 2:
-      return "bg-emerald-600/90 text-white border-emerald-500/40";
+      return "bg-emerald-500/15 text-emerald-400 border-emerald-500/30";
     case 3:
-      return "bg-neutral-700 text-neutral-200 border-neutral-600/40";
+      return "bg-white/[0.04] text-neutral-300 border-white/10";
     case 4:
-      return "bg-rose-700/90 text-white border-rose-600/40";
+      return "bg-amber-500/15 text-amber-400 border-amber-500/30";
     case 5:
-      return "bg-rose-950 text-rose-300 border-rose-800";
+      return "bg-rose-500/15 text-rose-400 border-rose-500/30";
     default:
-      return "bg-neutral-700 text-neutral-200 border-neutral-600/40";
+      return "bg-white/[0.04] text-neutral-300 border-white/10";
   }
 }
 
@@ -67,17 +67,17 @@ export const PlannerActionSheet: React.FC<PlannerActionSheetProps> = ({
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-md bg-[#0F141E] border-t sm:border border-white/[0.12] rounded-t-3xl sm:rounded-2xl p-5 shadow-2xl space-y-4 animate-slide-up"
+        className="relative w-full max-w-md bg-[#0F141E] border-t sm:border border-white/10 rounded-t-3xl sm:rounded-2xl p-5 shadow-2xl space-y-4 animate-slide-up"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Handle Bar */}
         <div className="w-12 h-1 bg-white/20 rounded-full mx-auto -mt-1 mb-2" />
 
         {/* Top Header: Player Summary */}
-        <div className="flex items-center justify-between pb-3 border-b border-white/[0.08]">
+        <div className="flex items-center justify-between pb-3 border-b border-white/10">
           <div className="flex items-center gap-3">
             {/* Shirt Icon */}
-            <div className="relative w-12 h-12 flex items-center justify-center bg-neutral-900/80 rounded-xl border border-white/[0.06] p-1 shadow-inner">
+            <div className="relative w-12 h-12 flex items-center justify-center bg-white/[0.03] rounded-xl border border-white/10 p-1">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={shirtUrl}
@@ -87,7 +87,7 @@ export const PlannerActionSheet: React.FC<PlannerActionSheetProps> = ({
                   (e.currentTarget as HTMLImageElement).src = fallbackUrl;
                 }}
               />
-              <span className="absolute -bottom-1 -right-1 px-1 py-0.2 rounded text-[8.5px] font-mono font-bold bg-neutral-950 text-neutral-300 border border-white/[0.1]">
+              <span className="absolute -bottom-1 -right-1 px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-neutral-950 text-neutral-300 border border-white/10">
                 {player.position}
               </span>
             </div>
@@ -98,15 +98,16 @@ export const PlannerActionSheet: React.FC<PlannerActionSheetProps> = ({
                 {player.fullName || player.webName}
               </h3>
               <p className="text-xs text-neutral-400 font-mono mt-0.5">
-                {player.team} · <span className="text-emerald-400 font-bold">£{player.price.toFixed(1)}m</span>
+                {player.team} · <span className="text-emerald-400 font-bold tabular-nums">£{player.price.toFixed(1)}m</span>
               </p>
             </div>
           </div>
 
-          {/* Close Button */}
+          {/* Close Button with 44px min touch target */}
           <button
             onClick={onClose}
-            className="p-1.5 rounded-full bg-neutral-900 text-neutral-400 hover:text-white hover:bg-neutral-800 transition"
+            aria-label="Close action sheet"
+            className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl bg-white/[0.04] text-neutral-400 hover:text-white hover:bg-white/[0.08] border border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
           >
             <X className="w-4 h-4" />
           </button>
@@ -122,44 +123,44 @@ export const PlannerActionSheet: React.FC<PlannerActionSheetProps> = ({
               nextFixtures.map((fix, idx) => (
                 <div
                   key={idx}
-                  className={`p-2 rounded-xl border text-center font-mono flex flex-col items-center justify-center ${getFdrColor(
+                  className={`p-2.5 rounded-xl border text-center font-mono flex flex-col items-center justify-center ${getFdrColor(
                     fix.difficulty
                   )}`}
                 >
                   <span className="text-[10px] uppercase font-bold tracking-tight">
                     {fix.opponent} ({fix.isHome ? "H" : "A"})
                   </span>
-                  <span className="text-[9px] opacity-80 mt-0.5">
+                  <span className="text-[9px] opacity-80 mt-0.5 tabular-nums font-semibold">
                     FDR {fix.difficulty}
                   </span>
                 </div>
               ))
             ) : (
-              <div className="col-span-3 p-2 text-center text-xs font-mono text-neutral-500 bg-neutral-900/40 rounded-xl">
+              <div className="col-span-3 p-3 text-center text-xs font-mono text-neutral-400 bg-white/[0.02] border border-white/5 rounded-xl">
                 No upcoming fixture data
               </div>
             )}
           </div>
         </div>
 
-        {/* Key Quick Telemetry */}
-        <div className="grid grid-cols-3 gap-2 text-center py-1">
-          <div className="p-2 rounded-xl bg-neutral-900/60 border border-white/[0.04]">
-            <span className="text-[9px] font-mono text-neutral-500 uppercase block">Total Pts</span>
-            <span className="text-sm font-mono font-bold text-neutral-100">{player.totalPoints}</span>
+        {/* Key Quick Telemetry: Typographic Row */}
+        <div className="grid grid-cols-3 gap-2 text-center py-2 px-3 rounded-xl bg-white/[0.02] border border-white/10">
+          <div>
+            <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-wider block mb-0.5">Total Pts</span>
+            <span className="text-base font-mono font-bold text-neutral-100 tabular-nums">{player.totalPoints}</span>
           </div>
-          <div className="p-2 rounded-xl bg-neutral-900/60 border border-white/[0.04]">
-            <span className="text-[9px] font-mono text-neutral-500 uppercase block">Selected By</span>
-            <span className="text-sm font-mono font-bold text-neutral-100">{player.selectedByPercent}%</span>
+          <div className="border-x border-white/5 px-2">
+            <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-wider block mb-0.5">Selected</span>
+            <span className="text-base font-mono font-bold text-neutral-100 tabular-nums">{player.selectedByPercent}%</span>
           </div>
-          <div className="p-2 rounded-xl bg-neutral-900/60 border border-white/[0.04]">
-            <span className="text-[9px] font-mono text-neutral-500 uppercase block">Form</span>
-            <span className="text-sm font-mono font-bold text-emerald-400">{player.form}</span>
+          <div>
+            <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-wider block mb-0.5">Form</span>
+            <span className="text-base font-mono font-bold text-emerald-400 tabular-nums">{player.form}</span>
           </div>
         </div>
 
         {/* Primary Action Buttons */}
-        <div className="grid grid-cols-2 gap-2.5 pt-2">
+        <div className="grid grid-cols-2 gap-2.5 pt-1">
           {/* Player Info Button */}
           <button
             onClick={() => {
@@ -168,19 +169,19 @@ export const PlannerActionSheet: React.FC<PlannerActionSheetProps> = ({
               }
               onClose();
             }}
-            className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-200 border border-white/[0.08] text-xs font-semibold font-mono transition active:scale-95 shadow-sm"
+            className="min-h-[44px] flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-neutral-200 border border-white/10 text-xs font-semibold font-mono transition active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
           >
             <Info className="w-4 h-4 text-neutral-400" />
             <span>Player Info</span>
           </button>
 
-          {/* Replace Player (Transfer Market) Button */}
+          {/* Replace Player CTA: Confident Solid CTA */}
           <button
             onClick={() => {
               onReplace(player);
               onClose();
             }}
-            className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white text-xs font-bold font-mono transition active:scale-95 shadow-[0_0_20px_rgba(16,185,129,0.25)] border border-emerald-400/40"
+            className="min-h-[44px] flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-gray-950 text-xs font-bold font-mono tracking-wide transition active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
           >
             <ArrowLeftRight className="w-4 h-4" />
             <span>Replace Player</span>

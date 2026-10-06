@@ -187,21 +187,23 @@ export default function App() {
                 onClick={handleRefresh}
                 disabled={isLoadingSquad}
                 aria-label="Refresh Data"
-                className="p-1.5 rounded-md text-neutral-400 hover:text-neutral-200 hover:bg-neutral-900 transition active:scale-95 disabled:opacity-40"
+                className="min-w-[40px] min-h-[40px] flex items-center justify-center rounded-lg text-neutral-400 hover:text-white hover:bg-white/[0.06] transition active:scale-95 disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
               >
                 <RefreshCw
-                  className={`w-3.5 h-3.5 ${isLoadingSquad ? "animate-spin text-emerald-400" : ""}`}
+                  className={`w-4 h-4 ${isLoadingSquad ? "animate-spin text-emerald-400" : ""}`}
                 />
               </button>
             )}
 
             <button
               aria-label="Notifications"
-              className="p-1.5 rounded-md text-neutral-400 hover:text-neutral-200 hover:bg-neutral-900 transition relative active:scale-95"
+              className="relative min-w-[40px] min-h-[40px] flex items-center justify-center rounded-lg text-neutral-400 hover:text-white hover:bg-white/[0.06] transition active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
             >
-              <Bell className="w-3.5 h-3.5" />
+              <Bell className="w-4 h-4" />
               {news.length > 0 && (
-                <span className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                <span className="absolute top-2 right-2 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-emerald-400 text-[9px] font-bold font-mono tabular-nums text-gray-950 shadow-sm">
+                  {news.length}
+                </span>
               )}
             </button>
           </div>

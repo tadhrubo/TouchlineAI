@@ -75,15 +75,15 @@ function getFdrBadgeColor(difficulty: number = 3): string {
   switch (difficulty) {
     case 1:
     case 2:
-      return "bg-emerald-600/90 text-white";
+      return "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30";
     case 3:
-      return "bg-neutral-700 text-neutral-200";
+      return "bg-white/[0.06] text-neutral-300 border border-white/10";
     case 4:
-      return "bg-rose-700/90 text-white";
+      return "bg-amber-500/15 text-amber-400 border border-amber-500/30";
     case 5:
-      return "bg-rose-950 text-rose-300 border border-rose-800";
+      return "bg-rose-500/15 text-rose-400 border border-rose-500/30";
     default:
-      return "bg-neutral-700 text-neutral-200";
+      return "bg-white/[0.04] text-neutral-400 border border-white/10";
   }
 }
 
@@ -308,22 +308,23 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
 
         <div className="flex items-center gap-2 flex-shrink-0">
           {/* Dynamic Bank & Transfers Badges with Red Negative Color */}
-          <div className="flex items-center gap-1.5 bg-neutral-900 px-2.5 py-1.5 rounded-lg border border-white/[0.06] text-xs font-mono">
+          <div className="flex items-center gap-1.5 bg-neutral-900 px-2.5 py-1.5 rounded-lg border border-white/10 text-xs font-mono">
             <span className="text-neutral-400">Bank:</span>
-            <span className={`font-bold ${bankTextColor}`}>
+            <span className={`font-bold tabular-nums ${bankTextColor}`}>
               £{currentBank.toFixed(1)}m
             </span>
           </div>
 
-          <div className="flex items-center gap-1.5 bg-neutral-900 px-2.5 py-1.5 rounded-lg border border-white/[0.06] text-xs font-mono">
+          <div className="flex items-center gap-1.5 bg-neutral-900 px-2.5 py-1.5 rounded-lg border border-white/10 text-xs font-mono">
             <span className="text-neutral-400">FT:</span>
-            <span className="font-bold text-neutral-100">{freeTransfers}</span>
+            <span className="font-bold text-neutral-100 tabular-nums">{freeTransfers}</span>
           </div>
 
           {/* Close Button */}
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg bg-neutral-900 text-neutral-400 hover:text-white hover:bg-neutral-800 transition"
+            aria-label="Close transfer market"
+            className="min-w-[40px] min-h-[40px] flex items-center justify-center rounded-lg bg-neutral-900 border border-white/10 text-neutral-400 hover:text-white hover:bg-neutral-800 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
           >
             <X className="w-4 h-4" />
           </button>
@@ -486,16 +487,16 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
                 <div className="flex items-center gap-2.5 text-right flex-shrink-0 font-mono">
                   {/* Custom Stat & Price Pill */}
                   <div className="text-right">
-                    <span className="text-xs font-bold text-emerald-400 block">
+                    <span className="text-xs font-bold text-emerald-400 block tabular-nums">
                       {renderStatValue(player)}
                     </span>
-                    <span className="text-[9.5px] text-neutral-400 font-medium">
+                    <span className="text-[9.5px] text-neutral-400 font-medium tabular-nums">
                       £{player.price.toFixed(1)}m
                     </span>
                   </div>
 
                   {/* Buy / Swap Action Button with Generous Mobile Touch Target */}
-                  <div className="min-w-[32px] h-8 px-2 rounded-lg flex items-center justify-center border bg-emerald-500/15 border-emerald-500/35 text-emerald-400 hover:bg-emerald-500/25 transition">
+                  <div className="min-w-[40px] min-h-[40px] px-2.5 rounded-lg flex items-center justify-center border bg-emerald-500/15 border-emerald-500/35 text-emerald-400 group-hover:bg-emerald-500/25 transition">
                     <Check className="w-4 h-4" />
                   </div>
                 </div>

@@ -105,18 +105,18 @@ export const ChipTimeline: React.FC<ChipTimelineProps> = ({
       case "WC2":
       case "Wildcard 1":
       case "Wildcard 2":
-        return "text-sky-400 bg-sky-950/40 border-sky-800/40";
+        return "text-sky-300 bg-white/10 border-white/20";
       case "FH":
       case "Free Hit":
-        return "text-amber-400 bg-amber-950/40 border-amber-800/40";
+        return "text-amber-300 bg-white/10 border-white/20";
       case "BB":
       case "Bench Boost":
-        return "text-emerald-400 bg-emerald-950/40 border-emerald-800/40";
+        return "text-emerald-300 bg-white/10 border-white/20";
       case "TC":
       case "Triple Captain":
-        return "text-purple-400 bg-purple-950/40 border-purple-800/40";
+        return "text-purple-300 bg-white/10 border-white/20";
       default:
-        return "text-neutral-400 bg-neutral-900/40 border-white/[0.06]";
+        return "text-neutral-300 bg-white/[0.04] border-white/10";
     }
   };
 
@@ -127,10 +127,10 @@ export const ChipTimeline: React.FC<ChipTimelineProps> = ({
         <div className="flex items-center justify-between border-b border-white/[0.06] pb-3">
           <div className="space-y-0.5">
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-400">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-400 font-semibold">
                 Strategy Matrix
               </span>
-              <span className="text-[10px] font-mono text-neutral-500">
+              <span className="text-[10px] font-mono text-neutral-400">
                 • 38-GW Simulation
               </span>
             </div>
@@ -139,10 +139,10 @@ export const ChipTimeline: React.FC<ChipTimelineProps> = ({
             </h2>
           </div>
           <div className="text-right">
-            <div className="text-sm font-mono font-bold text-emerald-400">
+            <div className="text-sm font-mono font-bold text-emerald-400 tabular-nums">
               {totalProjectedStrategyGain}
             </div>
-            <div className="text-[10px] text-neutral-500 font-mono">
+            <div className="text-[10px] text-neutral-400 font-mono">
               Total Expected Gain
             </div>
           </div>
@@ -163,8 +163,8 @@ export const ChipTimeline: React.FC<ChipTimelineProps> = ({
                 key={chip.key}
                 className={`p-2 rounded-lg border flex flex-col items-center justify-center text-center space-y-1 transition ${
                   isAvail
-                    ? "bg-neutral-950/70 border-white/[0.08]"
-                    : "bg-neutral-950/30 border-white/[0.03] opacity-50"
+                    ? "bg-neutral-950/70 border-white/10"
+                    : "bg-neutral-950/30 border-white/[0.03] opacity-40"
                 }`}
               >
                 <span className="text-[11px] font-mono font-bold text-neutral-200">
@@ -173,7 +173,7 @@ export const ChipTimeline: React.FC<ChipTimelineProps> = ({
                 <span
                   className={`text-[9px] font-mono px-1 py-0.5 rounded leading-none ${
                     isAvail
-                      ? "text-emerald-400 bg-emerald-950/40"
+                      ? "text-emerald-400 bg-emerald-500/15 border border-emerald-500/30"
                       : "text-neutral-500 bg-neutral-900/60"
                   }`}
                 >
@@ -187,40 +187,40 @@ export const ChipTimeline: React.FC<ChipTimelineProps> = ({
 
       {/* 3. Filter Toggle */}
       <div className="flex items-center justify-between gap-2 px-1">
-        <div className="flex items-center gap-1.5 bg-neutral-900/60 p-1 rounded-lg border border-white/[0.06]">
+        <div className="flex items-center gap-1 bg-neutral-900/60 p-1 rounded-xl border border-white/[0.06]">
           <button
             onClick={() => setActiveFilter("all")}
-            className={`px-2.5 py-1 rounded text-xs font-medium transition ${
+            className={`min-h-[36px] px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 ${
               activeFilter === "all"
-                ? "bg-neutral-800 text-neutral-100 shadow-sm"
-                : "text-neutral-400 hover:text-neutral-200"
+                ? "bg-white/10 text-white shadow-sm border border-white/15"
+                : "text-neutral-400 hover:text-white"
             }`}
           >
             All 38 GWs
           </button>
           <button
             onClick={() => setActiveFilter("chips")}
-            className={`px-2.5 py-1 rounded text-xs font-medium transition ${
+            className={`min-h-[36px] px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 ${
               activeFilter === "chips"
-                ? "bg-neutral-800 text-neutral-100 shadow-sm"
-                : "text-neutral-400 hover:text-neutral-200"
+                ? "bg-white/10 text-white shadow-sm border border-white/15"
+                : "text-neutral-400 hover:text-white"
             }`}
           >
             Chip Windows ({data.recommendedCount})
           </button>
           <button
             onClick={() => setActiveFilter("dgw")}
-            className={`px-2.5 py-1 rounded text-xs font-medium transition ${
+            className={`min-h-[36px] px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 ${
               activeFilter === "dgw"
-                ? "bg-neutral-800 text-neutral-100 shadow-sm"
-                : "text-neutral-400 hover:text-neutral-200"
+                ? "bg-white/10 text-white shadow-sm border border-white/15"
+                : "text-neutral-400 hover:text-white"
             }`}
           >
             DGW / BGW
           </button>
         </div>
 
-        <span className="text-[11px] font-mono text-neutral-500">
+        <span className="text-[11px] font-mono text-neutral-400 tabular-nums">
           Showing {filteredTimeline.length} GWs
         </span>
       </div>
@@ -240,7 +240,7 @@ export const ChipTimeline: React.FC<ChipTimelineProps> = ({
                 isSelected
                   ? "bg-neutral-900 border-white/20 ring-1 ring-white/10"
                   : hasChip
-                  ? "bg-neutral-900/80 border-white/[0.08] hover:border-white/15"
+                  ? "bg-neutral-900/80 border-white/10 hover:border-white/20"
                   : "bg-neutral-950/50 border-white/[0.04] hover:bg-neutral-900/40"
               }`}
             >
@@ -248,8 +248,8 @@ export const ChipTimeline: React.FC<ChipTimelineProps> = ({
                 {/* Left: Gameweek & Tags */}
                 <div className="flex items-center gap-2.5 min-w-0">
                   <div className="flex flex-col items-center justify-center w-10 h-10 rounded-lg bg-neutral-950 border border-white/[0.06] flex-shrink-0">
-                    <span className="text-[9px] font-mono text-neutral-500 uppercase">GW</span>
-                    <span className="text-sm font-mono font-bold text-neutral-200">
+                    <span className="text-[9px] font-mono text-neutral-400 uppercase">GW</span>
+                    <span className="text-sm font-mono font-bold text-neutral-200 tabular-nums">
                       {item.gameweek}
                     </span>
                   </div>
@@ -257,17 +257,17 @@ export const ChipTimeline: React.FC<ChipTimelineProps> = ({
                   <div className="min-w-0">
                     <div className="flex items-center gap-1.5 flex-wrap">
                       {item.status === "active" && (
-                        <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                        <span className="text-[9px] font-mono uppercase tracking-wider font-semibold px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
                           LIVE
                         </span>
                       )}
                       {item.isDGW && (
-                        <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">
+                        <span className="text-[9px] font-mono uppercase tracking-wider font-semibold px-2 py-0.5 rounded bg-sky-500/15 text-sky-300 border border-sky-500/30">
                           DGW
                         </span>
                       )}
                       {item.isBGW && (
-                        <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                        <span className="text-[9px] font-mono uppercase tracking-wider font-semibold px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 border border-amber-500/30">
                           BGW
                         </span>
                       )}
@@ -340,12 +340,12 @@ export const ChipTimeline: React.FC<ChipTimelineProps> = ({
                           `Explain the tactical reasoning for deploying ${item.chipName || "no chip"} in Gameweek ${item.gameweek}.`
                         );
                       }}
-                      className="mt-2 w-full flex items-center justify-between p-2 rounded-lg bg-neutral-950 border border-white/[0.06] hover:border-white/20 text-neutral-300 hover:text-neutral-100 transition"
+                      className="min-h-[44px] mt-2 w-full flex items-center justify-between px-3 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 hover:border-white/25 text-neutral-300 hover:text-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
                     >
-                      <span className="text-xs font-mono text-emerald-400">
+                      <span className="text-xs font-mono font-semibold text-emerald-400">
                         Ask AI Assistant about GW{item.gameweek} Strategy
                       </span>
-                      <ArrowRight className="w-3.5 h-3.5 text-neutral-400" />
+                      <ArrowRight className="w-4 h-4 text-neutral-400" />
                     </button>
                   )}
                 </div>

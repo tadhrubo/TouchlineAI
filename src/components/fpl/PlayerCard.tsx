@@ -47,8 +47,17 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
 
   return (
     <div
+      role="button"
+      tabIndex={0}
+      aria-label={`${player.webName}, ${player.position}, £${player.price.toFixed(1)}m`}
       onClick={() => onClick?.(player)}
-      className={`group relative flex flex-col items-center justify-between cursor-pointer select-none transition-transform duration-150 hover:-translate-y-0.5 active:scale-95 ${
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick?.(player);
+        }
+      }}
+      className={`group relative flex flex-col items-center justify-between cursor-pointer select-none transition-transform duration-150 hover:-translate-y-0.5 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded-lg ${
         isBench ? "w-[76px] sm:w-[84px] md:w-[90px]" : "w-[80px] sm:w-[88px] md:w-[96px]"
       }`}
     >
@@ -56,11 +65,11 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
       {(isCap || isVice) && (
         <div className="absolute -top-1 -left-0.5 z-20">
           {isCap ? (
-            <span className="flex items-center justify-center min-w-[16px] h-4 rounded-sm bg-neutral-100 text-neutral-950 font-black text-[9px] px-1 shadow-sm">
+            <span className="flex items-center justify-center min-w-[16px] h-4 rounded-sm bg-neutral-100 text-neutral-950 font-black text-[9px] font-mono px-1 shadow-sm">
               C
             </span>
           ) : (
-            <span className="flex items-center justify-center min-w-[16px] h-4 rounded-sm bg-neutral-800 text-neutral-300 border border-white/[0.1] font-bold text-[9px] px-1 shadow-sm">
+            <span className="flex items-center justify-center min-w-[16px] h-4 rounded-sm bg-neutral-800 text-neutral-300 border border-white/[0.15] font-bold text-[9px] font-mono px-1 shadow-sm">
               V
             </span>
           )}
@@ -70,7 +79,7 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
       {/* Bench Priority Tag */}
       {isBench && benchLabel && (
         <div className="absolute -top-1 -right-0.5 z-20">
-          <span className="px-1 py-0.2 text-[9px] md:text-[10px] font-mono font-medium rounded bg-neutral-900 text-neutral-400 border border-white/[0.08]">
+          <span className="px-1 py-0.2 text-[9px] md:text-[10px] font-mono font-medium rounded bg-neutral-900 text-neutral-300 border border-white/10">
             {benchLabel}
           </span>
         </div>
@@ -81,7 +90,7 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
         <div className="absolute top-0 right-0 z-20">
           <span
             title={player.news || "Status alert"}
-            className="flex items-center justify-center w-3.5 h-3.5 rounded-full bg-amber-500 text-neutral-950 font-bold text-[9px]"
+            className="flex items-center justify-center w-3.5 h-3.5 rounded-full bg-amber-400 text-neutral-950 font-bold font-mono text-[9px]"
           >
             !
           </span>
@@ -104,7 +113,7 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
       </div>
 
       {/* Understated Player Information Badge */}
-      <div className="w-full flex flex-col items-center mt-0.5 bg-neutral-950/85 border border-white/[0.08] rounded-md px-1 py-0.5 text-center backdrop-blur-sm">
+      <div className="w-full flex flex-col items-center mt-0.5 bg-neutral-950/90 border border-white/10 rounded-md px-1 py-0.5 text-center backdrop-blur-sm">
         {/* Name */}
         <p className="text-[11px] sm:text-[11.5px] md:text-xs font-medium text-neutral-200 truncate leading-tight w-full">
           {player.webName}
@@ -116,7 +125,7 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
           {showProjected && (
             <>
               <span className="text-neutral-600">·</span>
-              <span className="text-emerald-400 font-medium">
+              <span className="text-emerald-400 font-medium tabular-nums">
                 {player.projectedPoints}
               </span>
             </>
@@ -128,15 +137,15 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
           <div className="w-full mt-0.5 pt-0.5 border-t border-white/[0.04]">
             {sampleTier === "TOP_10K_NEAR_U" && eoResult.top10k != null && eoResult.nearU != null ? (
               <div className="flex w-full items-center justify-between px-0.5 text-[8.5px] sm:text-[9.5px] font-mono leading-none tracking-tight">
-                <span className="text-neutral-200" title="Top 10k EO">
+                <span className="text-neutral-200 tabular-nums" title="Top 10k EO">
                   {eoResult.top10k}%
                 </span>
-                <span className="text-neutral-500" title="Near You EO">
+                <span className="text-neutral-400 tabular-nums" title="Near You EO">
                   {eoResult.nearU}%
                 </span>
               </div>
             ) : (
-              <div className="w-full text-center text-[8.5px] sm:text-[9.5px] font-mono text-neutral-400 leading-none">
+              <div className="w-full text-center text-[8.5px] sm:text-[9.5px] font-mono text-neutral-400 leading-none tabular-nums">
                 {eoResult.displayText}
               </div>
             )}
