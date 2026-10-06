@@ -1,6 +1,6 @@
 import { supabase } from "@/lib/supabase";
 import { Player } from "@/types/fpl";
-import { computeFallbackXP, sanitizeXP } from "@/utils/xp";
+import { computeFallbackXP } from "@/utils/xp";
 
 export interface OptimizedXIResult {
   formation: string;
@@ -206,7 +206,8 @@ export async function solveBest1Transfer(
     const raw = poolData[i];
     if (currentSquadIds.has(raw.id)) continue;
 
-    const pred = raw.player_predictions?.[0];
+    const sortedPreds = raw.player_predictions?.sort((a: any, b: any) => (b.gw || 0) - (a.gw || 0));
+    const pred = sortedPreds?.[0];
     const teamShort = raw.teams?.short_name || "PL";
     const pos = (
       raw.element_type === 1
@@ -219,13 +220,11 @@ export async function solveBest1Transfer(
     ) as "GKP" | "DEF" | "MID" | "FWD";
 
     const price = (raw.now_cost || 50) / 10;
-    const chanceOfPlaying = pred?.start_probability != null ? pred.start_probability : (raw.chance_of_playing_next_round ?? 100);
-    const projectedPts = sanitizeXP(
-      raw.total_points || 0,
-      currentEvent,
-      pos,
-      chanceOfPlaying,
-      raw.status || "a"
+    const projectedPts = Number(
+      (
+        pred?.projected_points ||
+        computeFallbackXP(raw.total_points || 0, currentEvent, pos)
+      ).toFixed(2)
     );
 
     const candPlayer: Player = {

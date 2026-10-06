@@ -26,27 +26,3 @@ export function computeFallbackXP(
   return Number(Math.max(baseline, scaledReturn + baseline * 0.3).toFixed(1));
 }
 
-/**
- * Sanitizes and overrides ML model xP predictions which are currently
- * poisoned/suppressed due to feature scale mismatch at inference time.
- * Calculates robust fallback and adjusts for injury/suspension.
- */
-export function sanitizeXP(
-  totalPts: number,
-  currentEvent: number,
-  position: "GKP" | "DEF" | "MID" | "FWD",
-  chanceOfPlaying: number | null | undefined,
-  status: string | undefined
-): number {
-  let xp = computeFallbackXP(totalPts, currentEvent, position);
-  
-  if (status === "i" || status === "s" || status === "n" || chanceOfPlaying === 0) {
-    return 0.0;
-  }
-  
-  if (chanceOfPlaying != null && chanceOfPlaying < 100) {
-    xp = Number((xp * (chanceOfPlaying / 100)).toFixed(1));
-  }
-  
-  return xp;
-}

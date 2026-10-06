@@ -1,6 +1,6 @@
 import { supabase } from "@/lib/supabase";
 import { Player, TeamStats, FixtureInfo, Position } from "@/types/fpl";
-import { computeFallbackXP, sanitizeXP } from "@/utils/xp";
+import { computeFallbackXP } from "@/utils/xp";
 
 // Team kit styling dictionary
 export const TEAM_KIT_MAP: Record<
@@ -385,7 +385,8 @@ function getFplKitUrl(teamCode: number | undefined, isGoalkeeper: boolean = fals
   for (let idx = 0; idx < rawPicks.length; idx++) {
     const pick = rawPicks[idx];
     const dbP = playerDbMap.get(pick.element);
-    const pred = dbP?.player_predictions?.[0];
+    const sortedPreds = dbP?.player_predictions?.sort((a: any, b: any) => (b.gw || 0) - (a.gw || 0));
+    const pred = sortedPreds?.[0];
     const liveStat = liveElementsMap.get(pick.element) || {};
 
     const teamShort = dbP?.teams?.short_name || "PL";
@@ -432,11 +433,14 @@ function getFplKitUrl(teamCode: number | undefined, isGoalkeeper: boolean = fals
 
     const totalPts = dbP?.total_points || 0;
     const priceVal = (dbP?.now_cost || 50) / 10;
-    const xStatsEl = bootstrapElementsMap.get(pick.element);
-    const chanceOfPlaying = dbP?.chance_of_playing_next_round ?? xStatsEl?.chance_of_playing_next_round ?? 100;
-    const status = dbP?.status ?? xStatsEl?.status ?? "a";
-
-    const projectedPts = sanitizeXP(totalPts, currentEvent, positionType, chanceOfPlaying, status);
+    const projectedPts = pred?.projected_points != null
+      ? Number(pred.projected_points.toFixed(1))
+      : computeFallbackXP(totalPts, currentEvent, positionType);
+      
+    // LOG VERIFICATION FOR USER
+    if (pick.element === 355 || pick.element === 354 || pick.element === 329 || dbP?.web_name === "Haaland") {
+      console.log(`[VERIFY] Haaland DB pred.projected_points (GW: ${pred?.gw}):`, pred?.projected_points, "-> Using:", projectedPts);
+    }
 
     const startProb = pred?.start_probability != null
       ? Number(pred.start_probability.toFixed(1))
@@ -444,6 +448,7 @@ function getFplKitUrl(teamCode: number | undefined, isGoalkeeper: boolean = fals
 
     // xG / xA: use real FPL expected-stats per 90 when available, otherwise a
     // flat per-position default (no positional/index-based noise).
+    const xStatsEl = bootstrapElementsMap.get(pick.element);
     const per90Goals = parseFloat(xStatsEl?.expected_goals_per_90);
     const per90Assists = parseFloat(xStatsEl?.expected_assists_per_90);
 

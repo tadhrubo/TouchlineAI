@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 import { fetchBootstrapStatic, resolveCurrentEvent } from "@/services/fpl";
 import { Player, Position } from "@/types/fpl";
-import { computeFallbackXP, sanitizeXP } from "@/utils/xp";
+import { computeFallbackXP } from "@/utils/xp";
 
 export const dynamic = "force-dynamic";
 
@@ -80,11 +80,13 @@ export async function GET(request: Request) {
         };
 
         const posType = POSITION_MAP[p.element_type || 3] || "MID";
-        const pred = p.player_predictions?.[0];
+        const sortedPreds = p.player_predictions?.sort((a: any, b: any) => (b.gw || 0) - (a.gw || 0));
+        const pred = sortedPreds?.[0];
         const totalPts = p.total_points || 0;
         const priceVal = (p.now_cost || 50) / 10;
-        const chanceOfPlaying = pred?.start_probability != null ? pred.start_probability : (p.chance_of_playing_next_round ?? 100);
-        const projectedPts = sanitizeXP(totalPts, currentEvent, posType, chanceOfPlaying, p.status);
+        const projectedPts = pred?.projected_points != null
+          ? Number(pred.projected_points.toFixed(1))
+          : computeFallbackXP(totalPts, currentEvent, posType);
 
         return {
           id: String(p.id),
@@ -143,8 +145,7 @@ export async function GET(request: Request) {
         const posType = POSITION_MAP[el.element_type || 3] || "MID";
         const totalPts = el.total_points || 0;
         const priceVal = (el.now_cost || 50) / 10;
-        const chanceOfPlaying = el.chance_of_playing_next_round ?? 100;
-        const projectedPts = el.ep_next != null ? parseFloat(el.ep_next) : sanitizeXP(totalPts, currentEvent, posType, chanceOfPlaying, el.status);
+        const projectedPts = el.ep_next != null ? parseFloat(el.ep_next) : computeFallbackXP(totalPts, currentEvent, posType);
 
         return {
           id: String(el.id),
