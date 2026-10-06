@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from "react";
 import { TeamStats, Player } from "@/types/fpl";
 import { BadgeLegend } from "../fpl/BadgeLegend";
+import { JerseyIcon } from "../fpl/JerseyIcon";
 import { PitchBranding } from "../ui/PitchBranding";
 import { Grid, List } from "lucide-react";
 
@@ -183,13 +184,7 @@ export const PointsTab: React.FC<PointsTabProps> = ({
     const top10kEo = player.top10kEo ?? player.top_10k_eo ?? player.eo ?? 0;
     const globalOwnership = player.selectedByPercent ?? 0;
 
-    const isGK = player.position === "GKP";
-    const shirtUrl = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${player.teamShort || "0"}${
-      isGK ? "_1" : ""
-    }-66.webp`;
-    const fallbackUrl = isGK
-      ? "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_0_1-66.webp"
-      : "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_0-66.webp";
+    const isGK = player.position === "GKP" || player.elementType === 1 || player.element_type === 1;
 
     return (
       <div
@@ -224,15 +219,14 @@ export const PointsTab: React.FC<PointsTabProps> = ({
         )}
 
         {/* Shirt Container */}
-        <div className="relative w-9 h-9 md:w-10 md:h-10 flex items-center justify-center my-0.5">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={shirtUrl}
-            alt={player.webName}
-            className="w-8 h-8 md:w-9 md:h-9 object-contain drop-shadow"
-            onError={(e) => {
-              (e.currentTarget as HTMLImageElement).src = fallbackUrl;
-            }}
+        <div className="relative my-0.5 flex items-center justify-center">
+          <JerseyIcon
+            teamShort={player.teamShort}
+            teamCode={player.teamCode ?? player.team_code}
+            kitUrl={player.kitUrl}
+            isGK={isGK}
+            size={isBenchCard ? 36 : 42}
+            priority={!isBenchCard}
           />
         </div>
 

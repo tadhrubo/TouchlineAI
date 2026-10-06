@@ -6,6 +6,8 @@ import { getFplKitUrl } from "@/utils/fpl";
 
 interface JerseyProps {
   teamShort?: string;
+  teamCode?: number;
+  kitUrl?: string;
   isGK?: boolean;
   size?: number;
   width?: number;
@@ -20,6 +22,8 @@ interface JerseyProps {
 
 export const JerseyIcon: React.FC<JerseyProps> = ({
   teamShort = "ARS",
+  teamCode,
+  kitUrl: propKitUrl,
   isGK = false,
   size,
   width = 40,
@@ -29,7 +33,7 @@ export const JerseyIcon: React.FC<JerseyProps> = ({
 }) => {
   const finalWidth = size ? size : width;
   const finalHeight = size ? Math.round(size * 1.22) : height;
-  const kitUrl = getFplKitUrl(teamShort, isGK);
+  const kitUrl = propKitUrl || getFplKitUrl(teamCode || teamShort, isGK);
 
   return (
     <div

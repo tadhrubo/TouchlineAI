@@ -40,12 +40,18 @@ export function getFplKitUrl(
   let code = 3; // Default to Arsenal
 
   if (typeof teamShortOrCode === "number") {
-    code = teamShortOrCode;
+    code = teamShortOrCode > 0 ? teamShortOrCode : 3;
   } else if (typeof teamShortOrCode === "string") {
-    code = TEAM_CODE_MAP[teamShortOrCode.toUpperCase()] || 3;
+    const numericCode = Number(teamShortOrCode);
+    if (!isNaN(numericCode) && numericCode > 0) {
+      code = numericCode;
+    } else {
+      code = TEAM_CODE_MAP[teamShortOrCode.toUpperCase()] || 3;
+    }
   }
 
   return `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${code}${
     isGK ? "_1" : ""
   }-110.webp`;
 }
+
