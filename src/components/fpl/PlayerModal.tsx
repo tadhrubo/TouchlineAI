@@ -227,33 +227,39 @@ export const PlayerModal: React.FC<PlayerModalProps> = ({
       ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in select-none">
+    <div
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/80 backdrop-blur-md animate-fade-in select-none"
+      onClick={onClose}
+    >
       {/* Modal Container */}
-      <div className="bg-[#0B0E14] border border-white/[0.08] w-full sm:w-[400px] rounded-t-2xl sm:rounded-2xl pb-safe shadow-2xl overflow-hidden animate-slide-up flex flex-col max-h-[85vh]">
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="bg-gray-900/95 backdrop-blur-xl border border-white/10 w-full sm:w-[440px] rounded-t-3xl sm:rounded-2xl pb-safe shadow-2xl shadow-black/90 overflow-hidden animate-slide-up flex flex-col max-h-[88vh]"
+      >
         {/* Header Section */}
-        <div className="p-4 border-b border-white/[0.06] flex items-center justify-between flex-shrink-0">
-          <div className="flex items-center gap-3">
+        <div className="p-5 border-b border-white/10 flex items-center justify-between flex-shrink-0 bg-white/[0.02]">
+          <div className="flex items-center gap-3.5">
             <JerseyIcon
               teamShort={player.teamShort}
               isGK={player.position === "GKP"}
-              size={38}
+              size={42}
               priority
             />
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-sm font-semibold text-neutral-100 leading-tight">
+                <h3 className="text-base font-bold text-white tracking-tight leading-tight">
                   {player.fullName || player.webName}
                 </h3>
-                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-neutral-900 text-neutral-400 border border-white/[0.06]">
+                <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-md bg-white/[0.08] text-gray-300 border border-white/10 uppercase">
                   {player.position}
                 </span>
                 {player.isCaptain && (
-                  <span className="text-[9px] font-bold px-1 rounded-sm bg-neutral-200 text-neutral-950 font-mono">
+                  <span className="text-[10px] font-mono font-extrabold px-1.5 py-0.5 rounded-md bg-amber-400 text-gray-950">
                     C
                   </span>
                 )}
               </div>
-              <p className="text-xs font-mono text-neutral-400 mt-0.5">
+              <p className="text-xs font-mono tabular-nums text-gray-400 mt-1">
                 {player.team} · £{player.price.toFixed(1)}m
               </p>
             </div>
@@ -261,31 +267,31 @@ export const PlayerModal: React.FC<PlayerModalProps> = ({
 
           <div className="flex items-center gap-3">
             <div className="text-right">
-              <span className="text-[9px] uppercase tracking-wider font-mono text-neutral-500 block">
+              <span className="text-[11px] font-semibold uppercase tracking-wider font-mono text-gray-400 block">
                 GW Points
               </span>
-              <span className="text-lg font-bold font-mono text-neutral-100 leading-tight">
-                {player.gameweekPoints} <span className="text-xs font-normal text-neutral-400">pts</span>
+              <span className="text-2xl font-bold font-mono tabular-nums text-emerald-400 leading-tight">
+                {player.gameweekPoints} <span className="text-xs font-normal text-gray-400">pts</span>
               </span>
             </div>
             <button
               onClick={onClose}
-              aria-label="Close modal"
-              className="p-1.5 rounded-md text-neutral-400 hover:text-neutral-200 hover:bg-neutral-900 transition-colors"
+              aria-label="Close player details"
+              className="min-h-[44px] min-w-[44px] p-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-white/[0.08] active:scale-95 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 flex items-center justify-center"
             >
-              <X className="w-4 h-4" />
+              <X className="w-5 h-5" aria-hidden="true" />
             </button>
           </div>
         </div>
 
         {/* Scrollable Content Body */}
-        <div className="p-4 space-y-4 overflow-y-auto flex-1 text-xs max-h-[60vh] sm:max-h-[65vh]">
+        <div className="p-5 space-y-6 overflow-y-auto flex-1 text-xs max-h-[60vh] sm:max-h-[65vh]">
           {/* Status Alert if not available */}
           {player.status !== "available" && player.news && (
-            <div className="p-2.5 rounded-lg bg-neutral-900/60 border border-white/[0.06] text-neutral-300 text-xs flex items-center justify-between">
-              <span className="truncate">{player.news}</span>
+            <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-200 text-xs flex items-center justify-between gap-3 shadow-sm">
+              <span className="truncate leading-relaxed">{player.news}</span>
               {player.chanceOfPlaying !== undefined && (
-                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-neutral-800 text-neutral-400 font-bold ml-2 flex-shrink-0 border border-white/[0.04]">
+                <span className="text-xs font-mono tabular-nums font-bold px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/30 flex-shrink-0">
                   {player.chanceOfPlaying}%
                 </span>
               )}
@@ -293,49 +299,49 @@ export const PlayerModal: React.FC<PlayerModalProps> = ({
           )}
 
           {/* Section 1: GW Breakdown */}
-          <div className="space-y-1.5">
-            <span className="text-[10px] font-semibold tracking-wider text-neutral-500 uppercase block mb-1">
+          <div className="space-y-2">
+            <span className="text-xs font-semibold tracking-wider text-gray-400 uppercase block mb-2">
               GW Breakdown
             </span>
 
             {gwEvents.length > 0 ? (
-              <div className="divide-y divide-white/[0.04] border-y border-white/[0.04]">
+              <div className="divide-y divide-white/[0.06] border-y border-white/[0.08]">
                 {gwEvents.map((row, idx) => (
                   <div
                     key={idx}
-                    className={`flex items-center justify-between py-2 px-1 ${
+                    className={`flex items-center justify-between py-2.5 px-2 rounded-lg hover:bg-white/[0.02] transition-colors ${
                       row.pts === ""
-                        ? "border-t border-white/[0.08] mt-1"
+                        ? "border-t border-white/10 mt-1.5 pt-2"
                         : ""
                     }`}
                   >
                     <span
                       className={`font-medium ${
                         row.pts === ""
-                          ? "text-amber-400 text-[10px] uppercase tracking-widest"
-                          : "text-neutral-300"
+                          ? "text-amber-400 text-xs font-bold uppercase tracking-wider font-mono tabular-nums"
+                          : "text-sm text-gray-200"
                       }`}
                     >
                       {row.name}
                     </span>
-                    <div className="flex items-center gap-2 font-mono">
+                    <div className="flex items-center gap-2 font-mono tabular-nums">
                       <span
                         className={`font-bold ${
                           row.pts === ""
                             ? "text-amber-400 text-sm"
-                            : "text-neutral-400"
+                            : "text-gray-300 text-sm"
                         }`}
                       >
                         {row.count}
                       </span>
                       {row.pts !== "" && (
                         <>
-                          <span className="text-neutral-600">•</span>
+                          <span className="text-gray-500 select-none">•</span>
                           <span
-                            className={`font-medium ${
+                            className={`font-semibold text-sm ${
                               row.pts.startsWith("-")
                                 ? "text-rose-400"
-                                : "text-neutral-200"
+                                : "text-emerald-400"
                             }`}
                           >
                             {row.pts}
@@ -347,26 +353,26 @@ export const PlayerModal: React.FC<PlayerModalProps> = ({
                 ))}
               </div>
             ) : (
-              <div className="py-2.5 px-2 text-center rounded bg-neutral-950/40 border border-white/[0.04] text-neutral-500 font-mono text-[11px]">
+              <div className="py-4 px-3 text-center rounded-xl bg-white/[0.02] border border-white/5 text-gray-400 font-mono text-xs">
                 No match events recorded yet for current Gameweek
               </div>
             )}
           </div>
 
           {/* Section 2: Tactical & Model Metrics */}
-          <div className="border-t border-white/[0.06] pt-3 space-y-1.5">
-            <span className="text-[10px] font-semibold tracking-wider text-neutral-500 uppercase block mb-1">
+          <div className="border-t border-white/10 pt-4 space-y-2">
+            <span className="text-xs font-semibold tracking-wider text-gray-400 uppercase block mb-2">
               Tactical & Model Metrics
             </span>
 
-            <div className="divide-y divide-white/[0.04] border-y border-white/[0.04]">
+            <div className="divide-y divide-white/[0.06] border-y border-white/[0.08]">
               {tacticalMetrics.map((item, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center justify-between py-2 px-1"
+                  className="flex items-center justify-between py-2.5 px-2 rounded-lg hover:bg-white/[0.02] transition-colors"
                 >
-                  <span className="text-neutral-400 font-medium">{item.label}</span>
-                  <span className="text-neutral-200 font-mono font-medium text-right">
+                  <span className="text-sm text-gray-300 font-medium">{item.label}</span>
+                  <span className="text-sm text-white font-mono tabular-nums font-semibold text-right">
                     {item.value}
                   </span>
                 </div>
@@ -375,20 +381,20 @@ export const PlayerModal: React.FC<PlayerModalProps> = ({
           </div>
         </div>
 
-        {/* Action Handoff Footer: Flat, Editorial Buttons */}
-        <div className="p-3 bg-neutral-950/80 border-t border-white/[0.06] flex flex-col gap-2 flex-shrink-0">
+        {/* Action Handoff Footer: Flat, Editorial Buttons with WCAG Touch Targets */}
+        <div className="p-4 bg-gray-950/90 border-t border-white/10 flex flex-col gap-2.5 flex-shrink-0">
           <button
             onClick={() => {
               onClose();
               onDiscuss(player);
             }}
-            className="w-full py-2.5 text-sm font-medium text-neutral-200 bg-neutral-900 border border-neutral-800 rounded-lg hover:bg-neutral-800 transition-colors text-center active:scale-[0.99]"
+            className="w-full min-h-[44px] px-4 py-2.5 text-sm font-semibold text-gray-950 bg-emerald-400 hover:bg-emerald-300 active:scale-[0.99] rounded-xl transition-all shadow-md shadow-emerald-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950 flex items-center justify-center gap-2"
           >
             Discuss with AI
           </button>
           <button
             onClick={onClose}
-            className="w-full py-2 text-xs font-medium text-neutral-400 hover:text-neutral-200 bg-transparent border border-neutral-800/80 rounded-lg transition-colors text-center"
+            className="w-full min-h-[44px] px-4 py-2.5 text-sm font-medium text-gray-300 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 active:scale-[0.99] rounded-xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950 flex items-center justify-center"
           >
             Close
           </button>

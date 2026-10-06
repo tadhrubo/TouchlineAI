@@ -3,7 +3,7 @@
 import React from "react";
 import { Player } from "@/types/fpl";
 import { JerseyIcon } from "./JerseyIcon";
-import { X, Crown, Shield, Sparkles, TrendingUp, Activity, Calendar, Award } from "lucide-react";
+import { X, Crown, Shield, Sparkles, Calendar } from "lucide-react";
 
 interface PlayerDetailModalProps {
   player: Player | null;
@@ -22,116 +22,132 @@ export const PlayerDetailModal: React.FC<PlayerDetailModalProps> = ({
 }) => {
   if (!player) return null;
 
-  const getFdrBg = (fdr: number) => {
+  const getFdrStyle = (fdr: number) => {
     switch (fdr) {
       case 2:
-        return "bg-emerald-950 text-emerald-300 border-emerald-500/40";
+        return "bg-emerald-500/10 text-emerald-300 border-emerald-500/20";
       case 3:
-        return "bg-slate-800 text-slate-300 border-slate-600/40";
+        return "bg-white/[0.04] text-gray-300 border-white/10";
       case 4:
-        return "bg-amber-950 text-amber-300 border-amber-500/40";
+        return "bg-amber-500/10 text-amber-300 border-amber-500/20";
       case 5:
-        return "bg-rose-950 text-rose-300 border-rose-500/40";
+        return "bg-rose-500/10 text-rose-300 border-rose-500/20";
       default:
-        return "bg-slate-800 text-slate-300 border-slate-700";
+        return "bg-white/[0.04] text-gray-300 border-white/10";
     }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/70 backdrop-blur-sm animate-fade-in">
-      <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-t-3xl sm:rounded-3xl p-5 shadow-2xl animate-slide-up max-h-[90vh] overflow-y-auto">
+    <div
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/80 backdrop-blur-md animate-fade-in select-none"
+      onClick={onClose}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="w-full sm:max-w-md bg-gray-900/95 backdrop-blur-xl border border-white/10 rounded-t-3xl sm:rounded-2xl p-5 sm:p-6 shadow-2xl shadow-black/90 animate-slide-up max-h-[90vh] overflow-y-auto space-y-5"
+      >
         {/* Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between pb-4 border-b border-white/10">
+          <div className="flex items-center gap-3.5">
             <JerseyIcon
-              primaryColor={player.teamColor}
-              secondaryColor={player.teamSecondaryColor}
-              pattern={player.teamPattern}
+              teamShort={player.teamShort}
+              isGK={player.position === "GKP"}
               size={48}
+              priority
             />
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-lg font-extrabold text-white">
-                  {player.fullName}
+                <h2 className="text-base sm:text-lg font-bold text-white tracking-tight leading-tight">
+                  {player.fullName || player.webName}
                 </h2>
-                <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
+                <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-md bg-white/[0.08] text-gray-300 border border-white/10 uppercase">
                   {player.position}
                 </span>
               </div>
-              <p className="text-xs text-slate-400 font-medium">
-                {player.team} • £{player.price.toFixed(1)}m • {player.selectedByPercent}% Selected
+              <p className="text-xs font-mono tabular-nums text-gray-400 mt-1">
+                {player.team} · £{player.price.toFixed(1)}m · {player.selectedByPercent}% Selected
               </p>
             </div>
           </div>
 
           <button
             onClick={onClose}
-            aria-label="Close details"
-            className="p-2 rounded-full bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 transition"
+            aria-label="Close player details"
+            className="min-h-[44px] min-w-[44px] p-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-white/[0.08] active:scale-95 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 flex items-center justify-center"
           >
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5" aria-hidden="true" />
           </button>
         </div>
 
         {/* Status / Injury Alert if any */}
         {player.news && (
-          <div className="mt-3 p-2.5 rounded-xl bg-amber-950/40 border border-amber-500/40 flex items-start gap-2 text-xs text-amber-200">
-            <span className="font-bold uppercase tracking-wider text-[10px] bg-amber-500/20 px-1.5 py-0.5 rounded border border-amber-500/30">
-              {player.chanceOfPlaying}% Chance
-            </span>
-            <span>{player.news}</span>
+          <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-start gap-3 text-xs text-amber-200">
+            {player.chanceOfPlaying !== undefined && (
+              <span className="font-mono tabular-nums font-bold uppercase tracking-wider text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-md border border-amber-500/30 flex-shrink-0">
+                {player.chanceOfPlaying}%
+              </span>
+            )}
+            <span className="leading-relaxed">{player.news}</span>
           </div>
         )}
 
-        {/* Key Metrics Grid */}
-        <div className="grid grid-cols-4 gap-2 mt-4 text-center">
-          <div className="p-2 rounded-xl bg-slate-950/60 border border-slate-800/80">
-            <span className="text-[10px] text-slate-400 font-semibold uppercase">Projected</span>
-            <p className="text-base font-extrabold text-emerald-400 mt-0.5">
-              {player.projectedPoints} pts
+        {/* Key Metrics: Flat Typographic Design */}
+        <div className="grid grid-cols-4 gap-2 text-center p-3 rounded-xl bg-white/[0.02] border border-white/10">
+          <div className="flex flex-col items-center">
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-gray-400">
+              Projected
+            </span>
+            <p className="text-base font-bold font-mono tabular-nums text-emerald-400 mt-1">
+              {player.projectedPoints} <span className="text-[10px] font-normal text-gray-400">pts</span>
             </p>
           </div>
-          <div className="p-2 rounded-xl bg-slate-950/60 border border-slate-800/80">
-            <span className="text-[10px] text-slate-400 font-semibold uppercase">Form</span>
-            <p className="text-base font-extrabold text-white mt-0.5">
+          <div className="flex flex-col items-center border-l border-white/10">
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-gray-400">
+              Form
+            </span>
+            <p className="text-base font-bold font-mono tabular-nums text-white mt-1">
               {player.form}
             </p>
           </div>
-          <div className="p-2 rounded-xl bg-slate-950/60 border border-slate-800/80">
-            <span className="text-[10px] text-slate-400 font-semibold uppercase">xGI / 90</span>
-            <p className="text-base font-extrabold text-sky-400 mt-0.5">
+          <div className="flex flex-col items-center border-l border-white/10">
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-gray-400">
+              xGI / 90
+            </span>
+            <p className="text-base font-bold font-mono tabular-nums text-sky-400 mt-1">
               {player.xGI.toFixed(2)}
             </p>
           </div>
-          <div className="p-2 rounded-xl bg-slate-950/60 border border-slate-800/80">
-            <span className="text-[10px] text-slate-400 font-semibold uppercase">Start Prob</span>
-            <p className="text-base font-extrabold text-white mt-0.5">
+          <div className="flex flex-col items-center border-l border-white/10">
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-gray-400">
+              Start Prob
+            </span>
+            <p className="text-base font-bold font-mono tabular-nums text-white mt-1">
               {player.startProbability}%
             </p>
           </div>
         </div>
 
         {/* Upcoming 3 Fixtures with FDR */}
-        <div className="mt-4">
-          <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1 mb-2">
-            <Calendar className="w-3.5 h-3.5 text-slate-400" />
+        <div className="space-y-2">
+          <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">
+            <Calendar className="w-3.5 h-3.5 text-gray-400" aria-hidden="true" />
             Next 3 Fixtures
           </h4>
           <div className="grid grid-cols-3 gap-2">
             {player.upcomingFixtures.map((fix, idx) => (
               <div
                 key={idx}
-                className={`p-2 rounded-xl border text-center flex flex-col items-center justify-center ${getFdrBg(
+                className={`p-3 rounded-xl border text-center flex flex-col items-center justify-center transition-colors ${getFdrStyle(
                   fix.difficulty
                 )}`}
               >
-                <span className="text-[10px] font-bold opacity-80">
+                <span className="text-[10px] font-mono tabular-nums font-semibold opacity-75">
                   GW {fix.gameweek}
                 </span>
-                <span className="text-xs font-black">
+                <span className="text-xs font-bold mt-0.5 truncate max-w-full">
                   {fix.opponent} ({fix.isHome ? "H" : "A"})
                 </span>
-                <span className="text-[9px] font-semibold mt-0.5">
+                <span className="text-[10px] font-mono tabular-nums font-medium mt-1 opacity-80">
                   FDR {fix.difficulty}
                 </span>
               </div>
@@ -139,17 +155,17 @@ export const PlayerDetailModal: React.FC<PlayerDetailModalProps> = ({
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="mt-5 space-y-2">
-          <div className="grid grid-cols-2 gap-2">
+        {/* Action Buttons: Strict 44px touch targets & high-contrast focus rings */}
+        <div className="space-y-2.5 pt-2 border-t border-white/10">
+          <div className="grid grid-cols-2 gap-2.5">
             <button
               onClick={() => {
                 onSetCaptain(player.id);
                 onClose();
               }}
-              className="flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-amber-500/15 border border-amber-500/40 text-amber-300 hover:bg-amber-500/25 font-bold text-xs transition active:scale-95"
+              className="min-h-[44px] px-3.5 py-2.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-300 font-semibold text-xs transition active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 flex items-center justify-center gap-2"
             >
-              <Crown className="w-4 h-4 text-amber-400" />
+              <Crown className="w-4 h-4 text-amber-400" aria-hidden="true" />
               Make Captain (C)
             </button>
 
@@ -158,9 +174,9 @@ export const PlayerDetailModal: React.FC<PlayerDetailModalProps> = ({
                 onSetViceCaptain(player.id);
                 onClose();
               }}
-              className="flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-slate-800 border border-slate-700 text-slate-200 hover:bg-slate-700 font-bold text-xs transition active:scale-95"
+              className="min-h-[44px] px-3.5 py-2.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-gray-300 hover:text-white font-semibold text-xs transition active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 flex items-center justify-center gap-2"
             >
-              <Shield className="w-4 h-4 text-slate-400" />
+              <Shield className="w-4 h-4 text-gray-400" aria-hidden="true" />
               Make Vice-Captain
             </button>
           </div>
@@ -170,9 +186,9 @@ export const PlayerDetailModal: React.FC<PlayerDetailModalProps> = ({
               onAskAIAboutPlayer(player);
               onClose();
             }}
-            className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-slate-950 font-extrabold text-xs shadow-lg shadow-emerald-500/20 transition active:scale-95"
+            className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-emerald-400 hover:bg-emerald-300 active:scale-[0.99] text-gray-950 font-bold text-xs transition-all shadow-md shadow-emerald-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 flex items-center justify-center gap-2"
           >
-            <Sparkles className="w-4 h-4" />
+            <Sparkles className="w-4 h-4" aria-hidden="true" />
             Analyze {player.webName} with Touchline AI
           </button>
         </div>
