@@ -365,7 +365,8 @@ export async function POST(request: NextRequest) {
     const bestTransferMove = await solveBest1Transfer(
       players,
       stats.inTheBank,
-      stats.freeTransfers
+      stats.freeTransfers,
+      stats.currentGameweek
     );
 
     // Differentiate custom free-text query from rigid actionType

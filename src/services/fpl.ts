@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase";
 import { Player, TeamStats, FixtureInfo, Position } from "@/types/fpl";
+import { computeFallbackXP } from "@/utils/xp";
 
 // Team kit styling dictionary
 export const TEAM_KIT_MAP: Record<
@@ -104,6 +105,19 @@ export const fplHeaders = {
   'Accept': 'application/json',
   'Accept-Language': 'en-US,en;q=0.9',
 };
+
+/**
+ * Resolve the current gameweek from bootstrap-static events.
+ * Accepts already-fetched bootstrap data to avoid a second request.
+ */
+export function resolveCurrentEvent(bData: any): number {
+  const events: any[] = bData?.events || [];
+  const current = events.find((e) => e.is_current)?.id;
+  if (current) return Number(current);
+  const next = events.find((e) => e.is_next)?.id;
+  if (next) return Math.max(1, Number(next) - 1);
+  return 1;
+}
 
 export async function fetchBootstrapStatic(): Promise<any> {
   let res: Response;
@@ -420,30 +434,38 @@ function getFplKitUrl(teamCode: number | undefined, isGoalkeeper: boolean = fals
     const priceVal = (dbP?.now_cost || 50) / 10;
     const projectedPts = pred?.projected_points != null
       ? Number(pred.projected_points.toFixed(1))
-      : Number(Math.max(1.5, (totalPts / Math.max(1, currentEvent)) * 0.95 + 1.2).toFixed(1));
+      : computeFallbackXP(totalPts, currentEvent, positionType);
 
     const startProb = pred?.start_probability != null
       ? Number(pred.start_probability.toFixed(1))
       : 85.0;
+
+    // xG / xA: use real FPL expected-stats per 90 when available, otherwise a
+    // flat per-position default (no positional/index-based noise).
+    const xStatsEl = bootstrapElementsMap.get(pick.element);
+    const per90Goals = parseFloat(xStatsEl?.expected_goals_per_90);
+    const per90Assists = parseFloat(xStatsEl?.expected_assists_per_90);
 
     let xGVal = 0.05;
     let xAVal = 0.05;
     let xGCVal = 1.15;
 
     if (isDefOrGk) {
-      xGVal = Number((0.02 + (idx % 3) * 0.03).toFixed(2));
-      xAVal = Number((0.04 + (idx % 4) * 0.05).toFixed(2));
+      xGVal = 0.03;
+      xAVal = 0.08;
       xGCVal = Number(Math.max(0.65, 1.45 - (dbP?.clean_sheets || 1) * 0.08 + (fdrDifficulty - 2) * 0.2).toFixed(2));
     } else if (isFwd) {
-      xGVal = Number((0.45 + (idx % 3) * 0.12).toFixed(2));
-      xAVal = Number((0.14 + (idx % 2) * 0.08).toFixed(2));
+      xGVal = 0.5;
+      xAVal = 0.15;
       xGCVal = 1.35;
     } else {
       // MID
-      xGVal = Number((0.24 + (idx % 4) * 0.08).toFixed(2));
-      xAVal = Number((0.28 + (idx % 3) * 0.09).toFixed(2));
+      xGVal = 0.3;
+      xAVal = 0.25;
       xGCVal = 1.22;
     }
+    if (Number.isFinite(per90Goals)) xGVal = Number(per90Goals.toFixed(2));
+    if (Number.isFinite(per90Assists)) xAVal = Number(per90Assists.toFixed(2));
     const xGIVal = Number((xGVal + xAVal).toFixed(2));
 
     const teamFix = playerTeamId ? teamFixtureMap.get(playerTeamId) : undefined;

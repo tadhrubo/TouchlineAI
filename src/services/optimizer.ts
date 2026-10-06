@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase";
 import { Player } from "@/types/fpl";
+import { computeFallbackXP } from "@/utils/xp";
 
 export interface OptimizedXIResult {
   formation: string;
@@ -163,7 +164,8 @@ export function solveOptimalStartingXI(squad: Player[]): OptimizedXIResult {
 export async function solveBest1Transfer(
   squad: Player[],
   inTheBank: number,
-  freeTransfers: number = 1
+  freeTransfers: number = 1,
+  currentEvent: number = 1
 ): Promise<TransferRecommendation | null> {
   const baselineXI = solveOptimalStartingXI(squad);
   const baselineXP = baselineXI.totalStartingXP;
@@ -218,7 +220,10 @@ export async function solveBest1Transfer(
 
     const price = (raw.now_cost || 50) / 10;
     const projectedPts = Number(
-      (pred?.projected_points || (raw.total_points / 2) * 0.9 + 1.2).toFixed(2)
+      (
+        pred?.projected_points ||
+        computeFallbackXP(raw.total_points || 0, currentEvent, pos)
+      ).toFixed(2)
     );
 
     const candPlayer: Player = {
@@ -236,7 +241,7 @@ export async function solveBest1Transfer(
       totalPoints: raw.total_points || 0,
       gameweekPoints: 0,
       projectedPoints: projectedPts,
-      form: Number((raw.total_points / 2).toFixed(1)),
+      form: Number(((raw.total_points || 0) / Math.max(1, currentEvent)).toFixed(1)),
       xG: 0.2,
       xA: 0.1,
       xGI: 0.3,

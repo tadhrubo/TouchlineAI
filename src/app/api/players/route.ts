@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
-import { fetchBootstrapStatic } from "@/services/fpl";
+import { fetchBootstrapStatic, resolveCurrentEvent } from "@/services/fpl";
 import { Player, Position } from "@/types/fpl";
+import { computeFallbackXP } from "@/utils/xp";
 
 export const dynamic = "force-dynamic";
 
@@ -59,6 +60,15 @@ export async function GET(request: Request) {
 
     let players: Player[] = [];
 
+    // Bootstrap data supplies the current gameweek (per-GW denominator for the xP fallback)
+    let bData: any = null;
+    try {
+      bData = await fetchBootstrapStatic();
+    } catch (bErr) {
+      console.warn("Bootstrap-static fetch failed, defaulting current gameweek:", bErr);
+    }
+    const currentEvent = resolveCurrentEvent(bData);
+
     if (dbPlayers && dbPlayers.length > 0) {
       players = dbPlayers.map((p: any) => {
         const teamShort = p.teams?.short_name || "PL";
@@ -75,7 +85,7 @@ export async function GET(request: Request) {
         const priceVal = (p.now_cost || 50) / 10;
         const projectedPts = pred?.projected_points != null
           ? Number(pred.projected_points.toFixed(1))
-          : Number(Math.max(1.5, totalPts * 0.12 + 1.5).toFixed(1));
+          : computeFallbackXP(totalPts, currentEvent, posType);
 
         return {
           id: String(p.id),
@@ -114,7 +124,9 @@ export async function GET(request: Request) {
         };
       });
     } else {
-      const bData = await fetchBootstrapStatic();
+      if (!bData) {
+        throw new Error("Failed to load player data from Supabase and FPL bootstrap-static");
+      }
       const teamMap = new Map<number, { name: string; short_name: string }>();
       for (const t of bData.teams || []) {
         teamMap.set(t.id, { name: t.name, short_name: t.short_name });
@@ -132,7 +144,7 @@ export async function GET(request: Request) {
         const posType = POSITION_MAP[el.element_type || 3] || "MID";
         const totalPts = el.total_points || 0;
         const priceVal = (el.now_cost || 50) / 10;
-        const projectedPts = el.ep_next != null ? parseFloat(el.ep_next) : Number(Math.max(1.5, totalPts * 0.12 + 1.5).toFixed(1));
+        const projectedPts = el.ep_next != null ? parseFloat(el.ep_next) : computeFallbackXP(totalPts, currentEvent, posType);
 
         return {
           id: String(el.id),
