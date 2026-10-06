@@ -1,6 +1,6 @@
 import { supabase } from "@/lib/supabase";
 import { Player, TeamStats, FixtureInfo, Position } from "@/types/fpl";
-import { computeFallbackXP } from "@/utils/xp";
+import { computeFallbackXP, sanitizeXP } from "@/utils/xp";
 
 // Team kit styling dictionary
 export const TEAM_KIT_MAP: Record<
@@ -432,9 +432,11 @@ function getFplKitUrl(teamCode: number | undefined, isGoalkeeper: boolean = fals
 
     const totalPts = dbP?.total_points || 0;
     const priceVal = (dbP?.now_cost || 50) / 10;
-    const projectedPts = pred?.projected_points != null
-      ? Number(pred.projected_points.toFixed(1))
-      : computeFallbackXP(totalPts, currentEvent, positionType);
+    const xStatsEl = bootstrapElementsMap.get(pick.element);
+    const chanceOfPlaying = dbP?.chance_of_playing_next_round ?? xStatsEl?.chance_of_playing_next_round ?? 100;
+    const status = dbP?.status ?? xStatsEl?.status ?? "a";
+
+    const projectedPts = sanitizeXP(totalPts, currentEvent, positionType, chanceOfPlaying, status);
 
     const startProb = pred?.start_probability != null
       ? Number(pred.start_probability.toFixed(1))
@@ -442,7 +444,6 @@ function getFplKitUrl(teamCode: number | undefined, isGoalkeeper: boolean = fals
 
     // xG / xA: use real FPL expected-stats per 90 when available, otherwise a
     // flat per-position default (no positional/index-based noise).
-    const xStatsEl = bootstrapElementsMap.get(pick.element);
     const per90Goals = parseFloat(xStatsEl?.expected_goals_per_90);
     const per90Assists = parseFloat(xStatsEl?.expected_assists_per_90);
 
