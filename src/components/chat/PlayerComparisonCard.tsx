@@ -17,20 +17,20 @@ export const PlayerComparisonCard: React.FC<PlayerComparisonCardProps> = ({
   const { playerA, playerB, verdict } = data;
 
   return (
-    <div className="w-full bg-[#0D1110] border border-[#1E2421] rounded-sm p-3.5 space-y-3.5 my-2">
+    <div className="w-full bg-tl-surface border border-tl-border rounded-sm p-3.5 space-y-3.5 my-2">
       {/* Editorial Header */}
-      <div className="flex items-center justify-between pb-2.5 border-b border-[#1E2421] text-xs">
+      <div className="flex items-center justify-between pb-2.5 border-b border-tl-border text-xs">
         <div>
-          <span className="text-[10px] font-mono uppercase tracking-widest text-[#7F8983] block">
+          <span className="text-[10px] font-mono uppercase tracking-widest text-tl-muted block">
             TOUCHLINE ANALYST
           </span>
-          <h4 className="text-xs font-bold uppercase tracking-wider text-[#F1F3EF]">
+          <h4 className="text-xs font-bold uppercase tracking-wider text-tl-text">
             MATCHDAY BRIEF
           </h4>
         </div>
         <div className="text-right font-mono">
-          <span className="text-[10px] uppercase tracking-wider text-[#7F8983] block">CONFIDENCE</span>
-          <span className="text-xs font-bold text-[#16C784] tabular-nums">
+          <span className="text-[10px] uppercase tracking-wider text-tl-muted block">CONFIDENCE</span>
+          <span className="text-xs font-bold text-tl-accent tabular-nums">
             {verdict.confidence}%
           </span>
         </div>
@@ -39,44 +39,45 @@ export const PlayerComparisonCard: React.FC<PlayerComparisonCardProps> = ({
       {/* Side-by-Side Comparison Columns */}
       <div className="grid grid-cols-2 gap-2 text-center relative items-stretch">
         {/* Player A (Recommended) */}
-        <div className="p-3 rounded-sm bg-[#111614] border border-[#16C784]/40 flex flex-col items-center relative">
-          <span className="text-[9px] font-mono font-bold uppercase tracking-wider text-[#16C784] mb-1">
+        <div className="p-3 rounded-sm bg-tl-surface2 border border-tl-accent/40 flex flex-col items-center relative">
+          <span className="text-[9px] font-mono font-bold uppercase tracking-wider text-tl-accent mb-1">
             RECOMMENDED (C)
           </span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={playerA.photoUrl}
             alt={playerA.name}
-            className="w-12 h-12 rounded-sm object-cover border border-[#16C784]/60 bg-[#070908]"
+            className="w-12 h-12 rounded-sm object-cover border border-tl-accent/60 bg-tl-bg"
           />
-          <h5 className="font-bold text-xs text-[#F1F3EF] mt-1.5 leading-tight truncate w-full">
+          <h5 className="font-bold text-xs text-tl-text mt-1.5 leading-tight truncate w-full">
             {playerA.name}
           </h5>
-          <p className="text-[11px] font-mono text-[#7F8983] mt-0.5">
+          <p className="text-[11px] font-mono text-tl-muted mt-0.5">
             {playerA.team} · {playerA.price}
           </p>
 
-          <div className="mt-2.5 w-full pt-2 border-t border-[#1E2421] space-y-1 text-[11px] font-mono">
+          <div className="mt-2.5 w-full pt-2 border-t border-tl-border space-y-1 text-[11px] font-mono">
             <div className="flex justify-between items-center">
-              <span className="text-[#7F8983]">xP</span>
-              <span className="font-bold text-[#16C784] tabular-nums">
+              <span className="text-tl-muted">xP</span>
+              <span className="font-bold text-tl-accent tabular-nums">
                 {playerA.projectedPoints} pts
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-[#7F8983]">Fixture</span>
-              <span className="text-[#F1F3EF] tabular-nums">
+              <span className="text-tl-muted">Fixture</span>
+              <span className="text-tl-text tabular-nums">
                 {playerA.fixture}
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-[#7F8983]">Start Prob</span>
-              <span className="text-[#F1F3EF] tabular-nums">
+              <span className="text-tl-muted">Start Prob</span>
+              <span className="text-tl-text tabular-nums">
                 {playerA.startProbability}%
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-[#7F8983]">xGI/90</span>
-              <span className="text-[#F1F3EF] tabular-nums">
+              <span className="text-tl-muted">xGI/90</span>
+              <span className="text-tl-text tabular-nums">
                 {playerA.xGI}
               </span>
             </div>
@@ -84,44 +85,45 @@ export const PlayerComparisonCard: React.FC<PlayerComparisonCardProps> = ({
         </div>
 
         {/* Player B */}
-        <div className="p-3 rounded-sm bg-[#111614] border border-[#1E2421] flex flex-col items-center relative">
-          <span className="text-[9px] font-mono font-medium uppercase tracking-wider text-[#7F8983] mb-1">
+        <div className="p-3 rounded-sm bg-tl-surface2 border border-tl-border flex flex-col items-center relative">
+          <span className="text-[9px] font-mono font-medium uppercase tracking-wider text-tl-muted mb-1">
             ALTERNATIVE
           </span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={playerB.photoUrl}
             alt={playerB.name}
-            className="w-12 h-12 rounded-sm object-cover border border-[#1E2421] bg-[#070908]"
+            className="w-12 h-12 rounded-sm object-cover border border-tl-border bg-tl-bg"
           />
-          <h5 className="font-bold text-xs text-[#7F8983] mt-1.5 leading-tight truncate w-full">
+          <h5 className="font-bold text-xs text-tl-muted mt-1.5 leading-tight truncate w-full">
             {playerB.name}
           </h5>
-          <p className="text-[11px] font-mono text-[#7F8983] mt-0.5">
+          <p className="text-[11px] font-mono text-tl-muted mt-0.5">
             {playerB.team} · {playerB.price}
           </p>
 
-          <div className="mt-2.5 w-full pt-2 border-t border-[#1E2421] space-y-1 text-[11px] font-mono">
+          <div className="mt-2.5 w-full pt-2 border-t border-tl-border space-y-1 text-[11px] font-mono">
             <div className="flex justify-between items-center">
-              <span className="text-[#7F8983]">xP</span>
-              <span className="font-semibold text-[#F1F3EF] tabular-nums">
+              <span className="text-tl-muted">xP</span>
+              <span className="font-semibold text-tl-text tabular-nums">
                 {playerB.projectedPoints} pts
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-[#7F8983]">Fixture</span>
-              <span className="text-[#7F8983] tabular-nums">
+              <span className="text-tl-muted">Fixture</span>
+              <span className="text-tl-muted tabular-nums">
                 {playerB.fixture}
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-[#7F8983]">Start Prob</span>
-              <span className="text-[#7F8983] tabular-nums">
+              <span className="text-tl-muted">Start Prob</span>
+              <span className="text-tl-muted tabular-nums">
                 {playerB.startProbability}%
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-[#7F8983]">xGI/90</span>
-              <span className="text-[#7F8983] tabular-nums">
+              <span className="text-tl-muted">xGI/90</span>
+              <span className="text-tl-muted tabular-nums">
                 {playerB.xGI}
               </span>
             </div>
@@ -130,19 +132,19 @@ export const PlayerComparisonCard: React.FC<PlayerComparisonCardProps> = ({
       </div>
 
       {/* Model Verdict */}
-      <div className="p-3 rounded-sm bg-[#111614] border border-[#1E2421] space-y-1.5 text-xs">
-        <span className="font-bold text-xs text-[#F1F3EF] tracking-tight block">
+      <div className="p-3 rounded-sm bg-tl-surface2 border border-tl-border space-y-1.5 text-xs">
+        <span className="font-bold text-xs text-tl-text tracking-tight block">
           {verdict.headline}
         </span>
-        <p className="text-xs text-[#7F8983] leading-relaxed">
+        <p className="text-xs text-tl-muted leading-relaxed">
           {verdict.summary}
         </p>
 
         {/* Reasons */}
-        <div className="space-y-1 pt-1.5 border-t border-[#1E2421] text-xs text-[#F1F3EF]">
+        <div className="space-y-1 pt-1.5 border-t border-tl-border text-xs text-tl-text">
           {verdict.reasons.map((reason, idx) => (
             <div key={idx} className="flex items-start gap-2">
-              <span className="text-[#16C784] font-bold select-none">•</span>
+              <span className="text-tl-accent font-bold select-none">•</span>
               <span className="leading-relaxed">{reason}</span>
             </div>
           ))}
@@ -158,7 +160,7 @@ export const PlayerComparisonCard: React.FC<PlayerComparisonCardProps> = ({
                 `Explain in depth why ${playerA.name}'s underlying metrics make him superior to ${playerB.name}.`
               )
             }
-            className="flex-1 py-1.5 px-2.5 rounded-sm bg-[#111614] hover:bg-[#161c19] border border-[#1E2421] text-[#7F8983] hover:text-[#F1F3EF] text-xs font-mono transition text-center"
+            className="flex-1 py-1.5 px-2.5 rounded-sm bg-tl-surface2 hover:bg-tl-surface border border-tl-border text-tl-muted hover:text-tl-text text-xs font-mono transition text-center"
           >
             Why {playerA.name.split(" ").pop()}?
           </button>
@@ -169,7 +171,7 @@ export const PlayerComparisonCard: React.FC<PlayerComparisonCardProps> = ({
                 `Compare ${playerA.name} and ${playerB.name} fixture runs over the next 5 gameweeks.`
               )
             }
-            className="flex-1 py-1.5 px-2.5 rounded-sm bg-[#111614] hover:bg-[#161c19] border border-[#1E2421] text-[#7F8983] hover:text-[#F1F3EF] text-xs font-mono transition text-center"
+            className="flex-1 py-1.5 px-2.5 rounded-sm bg-tl-surface2 hover:bg-tl-surface border border-tl-border text-tl-muted hover:text-tl-text text-xs font-mono transition text-center"
           >
             5-GW Fixtures
           </button>
@@ -177,7 +179,7 @@ export const PlayerComparisonCard: React.FC<PlayerComparisonCardProps> = ({
 
         <button
           onClick={() => onSetCaptain?.(playerA.id)}
-          className="w-full py-2 px-3 rounded-sm bg-[#16C784] hover:bg-[#13ab71] text-[#070908] text-xs font-bold uppercase tracking-wider transition"
+          className="w-full py-2 px-3 rounded-sm bg-tl-accent hover:opacity-90 text-tl-accentContrast text-xs font-bold uppercase tracking-wider transition"
         >
           Confirm {playerA.name.split(" ").pop()} as Captain (C)
         </button>

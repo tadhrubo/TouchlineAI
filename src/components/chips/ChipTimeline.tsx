@@ -58,9 +58,9 @@ export const ChipTimeline: React.FC<ChipTimelineProps> = ({
 
   if (loading) {
     return (
-      <div className="w-full min-h-[340px] flex flex-col items-center justify-center p-8 border border-[#1E2421] bg-[#0D1110] space-y-2">
-        <div className="w-4 h-4 border-2 border-[#16C784] border-t-transparent rounded-full animate-spin" />
-        <p className="text-xs font-mono text-[#7F8983]">
+      <div className="w-full min-h-[340px] flex flex-col items-center justify-center p-8 border border-tl-border bg-tl-surface space-y-2">
+        <div className="w-4 h-4 border-2 border-tl-accent border-t-transparent rounded-full animate-spin" />
+        <p className="text-xs font-mono text-tl-muted">
           CALCULATING 38-GW OPTIMALITY MATRIX...
         </p>
       </div>
@@ -69,8 +69,8 @@ export const ChipTimeline: React.FC<ChipTimelineProps> = ({
 
   if (error || !data) {
     return (
-      <div className="w-full p-6 border border-[#1E2421] bg-[#0D1110] text-center space-y-2">
-        <p className="text-xs text-[#E05252] font-mono">
+      <div className="w-full p-6 border border-tl-border bg-tl-surface text-center space-y-2">
+        <p className="text-xs text-rose-500 font-mono">
           {error || "Unable to compute strategy timeline."}
         </p>
       </div>
@@ -95,39 +95,39 @@ export const ChipTimeline: React.FC<ChipTimelineProps> = ({
       case "WC2":
       case "Wildcard 1":
       case "Wildcard 2":
-        return "text-[#F1F3EF] bg-[#111614] border-[#1E2421]";
+        return "text-tl-text bg-tl-surface2 border-tl-border";
       case "FH":
       case "Free Hit":
-        return "text-[#D6A83D] bg-[#111614] border-[#D6A83D]/30";
+        return "text-amber-500 bg-tl-surface2 border-amber-500/30";
       case "BB":
       case "Bench Boost":
-        return "text-[#16C784] bg-[#111614] border-[#16C784]/30";
+        return "text-tl-accent bg-tl-surface2 border-tl-accent/30";
       case "TC":
       case "Triple Captain":
-        return "text-[#F1F3EF] bg-[#111614] border-[#1E2421]";
+        return "text-tl-text bg-tl-surface2 border-tl-border";
       default:
-        return "text-[#7F8983] bg-[#111614] border-[#1E2421]";
+        return "text-tl-muted bg-tl-surface2 border-tl-border";
     }
   };
 
   return (
-    <div className="w-full space-y-4 pb-8 text-[#F1F3EF]">
+    <div className="w-full space-y-4 pb-8 text-tl-text">
       {/* 1. Header Overview Ledger */}
-      <div className="w-full border-b border-[#1E2421] pb-4">
+      <div className="w-full border-b border-tl-border pb-4">
         <div className="flex items-end justify-between">
           <div>
-            <div className="text-[11px] font-mono font-semibold uppercase tracking-wider text-[#7F8983]">
+            <div className="text-[11px] font-mono font-semibold uppercase tracking-wider text-tl-muted">
               STRATEGY BLUEPRINT
             </div>
-            <h2 className="text-lg font-bold text-[#F1F3EF] mt-0.5">
+            <h2 className="text-lg font-bold text-tl-text mt-0.5">
               38-Gameweek Chip Optimisation
             </h2>
           </div>
           <div className="text-right">
-            <div className="text-2xl font-bold font-mono text-[#16C784] tabular-nums">
+            <div className="text-2xl font-bold font-mono text-tl-accent tabular-nums">
               {totalProjectedStrategyGain}
             </div>
-            <div className="text-[10px] text-[#7F8983] font-mono uppercase tracking-wider">
+            <div className="text-[10px] text-tl-muted font-mono uppercase tracking-wider">
               PROJECTED GAIN
             </div>
           </div>
@@ -148,18 +148,18 @@ export const ChipTimeline: React.FC<ChipTimelineProps> = ({
                 key={chip.key}
                 className={`p-2.5 rounded-sm border flex flex-col items-center justify-center text-center space-y-1 transition ${
                   isAvail
-                    ? "bg-[#0D1110] border-[#1E2421]"
-                    : "bg-[#070908] border-[#1E2421]/60 opacity-40"
+                    ? "bg-tl-surface border-tl-border"
+                    : "bg-tl-bg border-tl-border/60 opacity-40"
                 }`}
               >
-                <span className="text-xs font-mono font-bold text-[#F1F3EF]">
+                <span className="text-xs font-mono font-bold text-tl-text">
                   {chip.key}
                 </span>
                 <span
                   className={`text-[9px] font-mono px-1.5 py-0.5 rounded-sm leading-none font-semibold ${
                     isAvail
-                      ? "text-[#16C784] bg-[#070908] border border-[#16C784]/40"
-                      : "text-[#7F8983] bg-[#070908]"
+                      ? "text-tl-accent bg-tl-bg border border-tl-accent/40"
+                      : "text-tl-muted bg-tl-bg"
                   }`}
                 >
                   {isAvail ? "READY" : `GW${chip.status.usedEvent ?? "-"}`}
@@ -172,13 +172,13 @@ export const ChipTimeline: React.FC<ChipTimelineProps> = ({
 
       {/* 3. Filter Toggle */}
       <div className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-1 border border-[#1E2421] bg-[#0D1110] p-0.5 rounded-sm">
+        <div className="flex items-center gap-1 border border-tl-border bg-tl-surface p-0.5 rounded-sm">
           <button
             onClick={() => setActiveFilter("all")}
             className={`px-3 py-1.5 text-xs font-mono font-semibold transition ${
               activeFilter === "all"
-                ? "bg-[#070908] text-[#F1F3EF] border border-[#1E2421]"
-                : "text-[#7F8983] hover:text-[#F1F3EF]"
+                ? "bg-tl-bg text-tl-text border border-tl-border"
+                : "text-tl-muted hover:text-tl-text"
             }`}
           >
             All 38 GWs
@@ -187,8 +187,8 @@ export const ChipTimeline: React.FC<ChipTimelineProps> = ({
             onClick={() => setActiveFilter("chips")}
             className={`px-3 py-1.5 text-xs font-mono font-semibold transition ${
               activeFilter === "chips"
-                ? "bg-[#070908] text-[#F1F3EF] border border-[#1E2421]"
-                : "text-[#7F8983] hover:text-[#F1F3EF]"
+                ? "bg-tl-bg text-tl-text border border-tl-border"
+                : "text-tl-muted hover:text-tl-text"
             }`}
           >
             Chip Windows ({data.recommendedCount})
@@ -197,15 +197,15 @@ export const ChipTimeline: React.FC<ChipTimelineProps> = ({
             onClick={() => setActiveFilter("dgw")}
             className={`px-3 py-1.5 text-xs font-mono font-semibold transition ${
               activeFilter === "dgw"
-                ? "bg-[#070908] text-[#F1F3EF] border border-[#1E2421]"
-                : "text-[#7F8983] hover:text-[#F1F3EF]"
+                ? "bg-tl-bg text-tl-text border border-tl-border"
+                : "text-tl-muted hover:text-tl-text"
             }`}
           >
             DGW / BGW
           </button>
         </div>
 
-        <span className="text-[11px] font-mono text-[#7F8983] tabular-nums">
+        <span className="text-[11px] font-mono text-tl-muted tabular-nums">
           {filteredTimeline.length} GAMEWEEKS
         </span>
       </div>
@@ -223,18 +223,18 @@ export const ChipTimeline: React.FC<ChipTimelineProps> = ({
               onClick={() => setSelectedGW(item)}
               className={`w-full p-3 rounded-sm border transition cursor-pointer text-left ${
                 isSelected
-                  ? "bg-[#111614] border-[#16C784]"
+                  ? "bg-tl-surface2 border-tl-accent"
                   : hasChip
-                  ? "bg-[#0D1110] border-[#1E2421] hover:border-neutral-600"
-                  : "bg-[#070908] border-[#1E2421] hover:bg-[#0D1110]"
+                  ? "bg-tl-surface border-tl-border hover:border-tl-muted"
+                  : "bg-tl-bg border-tl-border hover:bg-tl-surface"
               }`}
             >
               <div className="flex items-center justify-between gap-3">
                 {/* Left: Gameweek & Tags */}
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="flex flex-col items-center justify-center w-9 h-9 rounded-sm bg-[#070908] border border-[#1E2421] flex-shrink-0">
-                    <span className="text-[8px] font-mono text-[#7F8983] uppercase">GW</span>
-                    <span className="text-xs font-mono font-bold text-[#F1F3EF] tabular-nums">
+                  <div className="flex flex-col items-center justify-center w-9 h-9 rounded-sm bg-tl-bg border border-tl-border flex-shrink-0">
+                    <span className="text-[8px] font-mono text-tl-muted uppercase">GW</span>
+                    <span className="text-xs font-mono font-bold text-tl-text tabular-nums">
                       {item.gameweek}
                     </span>
                   </div>
@@ -242,17 +242,17 @@ export const ChipTimeline: React.FC<ChipTimelineProps> = ({
                   <div className="min-w-0">
                     <div className="flex items-center gap-1.5 flex-wrap">
                       {item.status === "active" && (
-                        <span className="text-[9px] font-mono uppercase tracking-wider font-semibold px-1.5 py-0.5 rounded-sm bg-[#070908] text-[#16C784] border border-[#16C784]/40">
+                        <span className="text-[9px] font-mono uppercase tracking-wider font-semibold px-1.5 py-0.5 rounded-sm bg-tl-bg text-tl-accent border border-tl-accent/40">
                           LIVE
                         </span>
                       )}
                       {item.isDGW && (
-                        <span className="text-[9px] font-mono uppercase tracking-wider font-semibold px-1.5 py-0.5 rounded-sm bg-[#070908] text-[#F1F3EF] border border-[#1E2421]">
+                        <span className="text-[9px] font-mono uppercase tracking-wider font-semibold px-1.5 py-0.5 rounded-sm bg-tl-bg text-tl-text border border-tl-border">
                           DGW
                         </span>
                       )}
                       {item.isBGW && (
-                        <span className="text-[9px] font-mono uppercase tracking-wider font-semibold px-1.5 py-0.5 rounded-sm bg-[#070908] text-[#D6A83D] border border-[#D6A83D]/40">
+                        <span className="text-[9px] font-mono uppercase tracking-wider font-semibold px-1.5 py-0.5 rounded-sm bg-tl-bg text-amber-500 border border-amber-500/40">
                           BGW
                         </span>
                       )}
@@ -264,12 +264,12 @@ export const ChipTimeline: React.FC<ChipTimelineProps> = ({
                         </span>
                       )}
                       {item.usedChip && (
-                        <span className="text-[9px] font-mono px-1.5 py-0.5 rounded-sm bg-[#070908] text-[#7F8983] border border-[#1E2421]">
+                        <span className="text-[9px] font-mono px-1.5 py-0.5 rounded-sm bg-tl-bg text-tl-muted border border-tl-border">
                           USED: {item.usedChip}
                         </span>
                       )}
                     </div>
-                    <p className="text-xs text-[#7F8983] truncate mt-0.5">
+                    <p className="text-xs text-tl-muted truncate mt-0.5">
                       {item.rationale}
                     </p>
                   </div>
@@ -278,15 +278,15 @@ export const ChipTimeline: React.FC<ChipTimelineProps> = ({
                 {/* Right: Point Gain & Indicator */}
                 <div className="text-right flex-shrink-0 font-mono">
                   {item.expectedValueDelta ? (
-                    <div className="text-xs font-bold text-[#16C784] tabular-nums">
+                    <div className="text-xs font-bold text-tl-accent tabular-nums">
                       {item.expectedValueDelta}
                     </div>
                   ) : (
-                    <div className="text-xs text-[#7F8983] tabular-nums">
+                    <div className="text-xs text-tl-muted tabular-nums">
                       ~52 pts
                     </div>
                   )}
-                  <span className="text-[9px] text-[#7F8983] block uppercase">
+                  <span className="text-[9px] text-tl-muted block uppercase">
                     {item.deadline.split(" ")[0]} {item.deadline.split(" ")[1]}
                   </span>
                 </div>
@@ -294,21 +294,21 @@ export const ChipTimeline: React.FC<ChipTimelineProps> = ({
 
               {/* Expanded Detail Panel if Selected */}
               {isSelected && (
-                <div className="mt-3 pt-3 border-t border-[#1E2421] space-y-2.5 text-xs">
-                  <div className="text-[#F1F3EF]/90 leading-relaxed font-sans">
+                <div className="mt-3 pt-3 border-t border-tl-border space-y-2.5 text-xs">
+                  <div className="text-tl-text/90 leading-relaxed font-sans">
                     {item.rationale}
                   </div>
 
                   {item.keyMatchups && item.keyMatchups.length > 0 && (
                     <div className="space-y-1">
-                      <span className="text-[10px] font-mono uppercase text-[#7F8983] tracking-wider">
+                      <span className="text-[10px] font-mono uppercase text-tl-muted tracking-wider">
                         KEY FIXTURES:
                       </span>
                       <div className="flex flex-wrap gap-1.5">
                         {item.keyMatchups.map((m, idx) => (
                           <span
                             key={idx}
-                            className="text-[10px] font-mono px-2 py-0.5 rounded-sm bg-[#070908] border border-[#1E2421] text-[#F1F3EF]"
+                            className="text-[10px] font-mono px-2 py-0.5 rounded-sm bg-tl-bg border border-tl-border text-tl-text"
                           >
                             {m}
                           </span>
@@ -325,12 +325,12 @@ export const ChipTimeline: React.FC<ChipTimelineProps> = ({
                           `Explain the tactical reasoning for deploying ${item.chipName || "no chip"} in Gameweek ${item.gameweek}.`
                         );
                       }}
-                      className="mt-2 w-full flex items-center justify-between px-3 py-2 rounded-sm bg-[#070908] border border-[#1E2421] hover:border-[#16C784] text-[#7F8983] hover:text-[#F1F3EF] transition"
+                      className="mt-2 w-full flex items-center justify-between px-3 py-2 rounded-sm bg-tl-bg border border-tl-border hover:border-tl-accent text-tl-muted hover:text-tl-text transition"
                     >
-                      <span className="text-xs font-mono font-semibold text-[#16C784]">
+                      <span className="text-xs font-mono font-semibold text-tl-accent">
                         CONSULT ANALYST: GW{item.gameweek} REASONING
                       </span>
-                      <ArrowRight className="w-3.5 h-3.5 text-[#7F8983]" />
+                      <ArrowRight className="w-3.5 h-3.5 text-tl-muted" />
                     </button>
                   )}
                 </div>

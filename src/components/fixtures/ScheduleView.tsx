@@ -20,7 +20,7 @@ export const ScheduleView: React.FC<ScheduleViewProps> = ({
   isLoading = false,
   onSelectGameweek,
 }) => {
-  // Group 10 matches by kickoff date
+  // Group matches by kickoff date
   const groupedFixtures = useMemo(() => {
     const groups: { date: string; matches: MatchFixture[] }[] = [];
     const dateMap = new Map<string, MatchFixture[]>();
@@ -43,38 +43,38 @@ export const ScheduleView: React.FC<ScheduleViewProps> = ({
   const getFdrPillClass = (fdr: number) => {
     switch (fdr) {
       case 1:
-        return "bg-emerald-700 text-white font-semibold font-mono";
+        return "bg-emerald-500 text-black font-black font-mono shadow-sm";
       case 2:
-        return "bg-emerald-500 text-white font-semibold font-mono";
+        return "bg-emerald-700 text-white font-bold font-mono";
       case 3:
         return "bg-slate-600 text-white font-semibold font-mono";
       case 4:
-        return "bg-rose-600 text-white font-semibold font-mono";
+        return "bg-rose-600 text-white font-bold font-mono";
       case 5:
-        return "bg-rose-800 text-white font-semibold font-mono";
+        return "bg-red-950 text-rose-200 border border-rose-600/80 font-black font-mono";
       default:
         return "bg-slate-700 text-white font-semibold font-mono";
     }
   };
 
   return (
-    <div className="w-full space-y-2 select-none">
+    <div className="w-full space-y-2 select-none text-tl-text">
       {/* 1. Gameweek Selector Strip */}
-      <div className="flex items-center justify-between py-1 border-b border-[#1E2421]">
+      <div className="flex items-center justify-between py-1 border-b border-tl-border">
         <button
           disabled={selectedGameweek <= 1}
           onClick={() => onSelectGameweek(Math.max(1, selectedGameweek - 1))}
           aria-label="Previous Gameweek"
-          className="min-w-[36px] min-h-[36px] flex items-center justify-center rounded-sm bg-[#0D1110] border border-[#1E2421] text-[#7F8983] hover:text-[#F1F3EF] hover:bg-[#111614] disabled:opacity-30 disabled:cursor-not-allowed transition"
+          className="min-w-[34px] min-h-[34px] flex items-center justify-center rounded-sm bg-tl-surface border border-tl-border text-tl-muted hover:text-tl-text hover:bg-tl-surface2 disabled:opacity-30 disabled:cursor-not-allowed transition"
         >
           <ChevronLeft className="w-4 h-4" />
         </button>
 
         <div className="text-center min-w-[140px]">
-          <span className="text-xs font-bold font-mono text-[#F1F3EF] uppercase tracking-wider block">
+          <span className="text-xs font-bold font-mono text-tl-text uppercase tracking-wider block">
             Gameweek {selectedGameweek}
           </span>
-          <span className="text-[10px] font-mono text-[#7F8983]">
+          <span className="text-[10px] font-mono text-tl-muted">
             {selectedGameweek === currentGameweek
               ? "Active Matchday"
               : selectedGameweek < currentGameweek
@@ -87,38 +87,38 @@ export const ScheduleView: React.FC<ScheduleViewProps> = ({
           disabled={selectedGameweek >= 38}
           onClick={() => onSelectGameweek(Math.min(38, selectedGameweek + 1))}
           aria-label="Next Gameweek"
-          className="min-w-[36px] min-h-[36px] flex items-center justify-center rounded-sm bg-[#0D1110] border border-[#1E2421] text-[#7F8983] hover:text-[#F1F3EF] hover:bg-[#111614] disabled:opacity-30 disabled:cursor-not-allowed transition"
+          className="min-w-[34px] min-h-[34px] flex items-center justify-center rounded-sm bg-tl-surface border border-tl-border text-tl-muted hover:text-tl-text hover:bg-tl-surface2 disabled:opacity-30 disabled:cursor-not-allowed transition"
         >
           <ChevronRight className="w-4 h-4" />
         </button>
       </div>
 
-      {/* 2. Editorial Sports Match Schedule (No rounded cards around matches) */}
+      {/* 2. Editorial Sports Match Schedule */}
       {isLoading ? (
-        <div className="w-full h-72 flex flex-col items-center justify-center p-8 rounded-sm bg-[#0D1110] border border-[#1E2421] space-y-2">
-          <Clock className="w-5 h-5 text-[#16C784] animate-spin" />
-          <span className="text-xs font-mono text-[#7F8983]">
+        <div className="w-full h-72 flex flex-col items-center justify-center p-8 rounded-sm bg-tl-surface border border-tl-border space-y-2">
+          <Clock className="w-5 h-5 text-tl-accent animate-spin" />
+          <span className="text-xs font-mono text-tl-muted">
             Loading GW{selectedGameweek} schedule...
           </span>
         </div>
       ) : groupedFixtures.length === 0 ? (
-        <div className="w-full py-16 text-center text-[#7F8983] font-mono text-xs border border-dashed border-[#1E2421] rounded-sm">
+        <div className="w-full py-16 text-center text-tl-muted font-mono text-xs border border-dashed border-tl-border rounded-sm">
           No matches scheduled for Gameweek {selectedGameweek}
         </div>
       ) : (
-        <div className="space-y-4 pt-1">
+        <div className="space-y-3.5 pt-1">
           {groupedFixtures.map((group) => (
             <div key={group.date} className="w-full">
               {/* Editorial Date / Match Count Header */}
-              <div className="pb-1.5 flex items-center justify-between border-b border-[#1E2421] text-[11px] font-mono uppercase tracking-wider">
-                <span className="font-semibold text-[#F1F3EF]">{group.date}</span>
-                <span className="text-[#7F8983] tabular-nums">
+              <div className="pb-1.5 flex items-center justify-between border-b border-tl-border text-[11px] font-mono uppercase tracking-wider">
+                <span className="font-semibold text-tl-text">{group.date}</span>
+                <span className="text-tl-muted tabular-nums">
                   {group.matches.length} {group.matches.length === 1 ? "MATCH" : "MATCHES"}
                 </span>
               </div>
 
-              {/* Match Rows (Sit directly on the page with subtle hairline dividers) */}
-              <div className="divide-y divide-[#1E2421]">
+              {/* Match Rows */}
+              <div className="divide-y divide-tl-border">
                 {group.matches.map((match) => {
                   const isFinished = match.finished;
                   const isStarted = match.started;
@@ -126,11 +126,11 @@ export const ScheduleView: React.FC<ScheduleViewProps> = ({
                   return (
                     <div
                       key={match.id}
-                      className="py-2.5 px-0.5 flex items-center justify-between hover:bg-[#0D1110] transition-colors"
+                      className="py-2.5 px-0.5 flex items-center justify-between hover:bg-tl-surface transition-colors"
                     >
                       {/* Home Team */}
                       <div className="flex-1 flex items-center justify-end gap-2 text-right min-w-0">
-                        <span className="text-xs font-bold font-mono text-[#F1F3EF] truncate">
+                        <span className="text-xs font-bold font-mono text-tl-text truncate">
                           {match.team_h.short_name}
                         </span>
                         <span
@@ -151,23 +151,23 @@ export const ScheduleView: React.FC<ScheduleViewProps> = ({
                       {/* Score / Kickoff Center Column */}
                       <div className="px-3 min-w-[76px] text-center flex flex-col items-center">
                         {isStarted || isFinished ? (
-                          <div className="flex items-center gap-1.5 font-mono text-xs font-black text-[#F1F3EF] tabular-nums">
+                          <div className="flex items-center gap-1.5 font-mono text-xs font-black text-tl-text tabular-nums">
                             <span>{match.team_h.score ?? 0}</span>
-                            <span className="text-[#7F8983]">-</span>
+                            <span className="text-tl-muted">-</span>
                             <span>{match.team_a.score ?? 0}</span>
                           </div>
                         ) : (
-                          <span className="text-xs font-mono font-bold text-[#F1F3EF] tabular-nums">
+                          <span className="text-xs font-mono font-bold text-tl-text tabular-nums">
                             {match.kickoff_formatted?.time || "15:00"}
                           </span>
                         )}
                         {isFinished && (
-                          <span className="text-[8.5px] font-mono uppercase tracking-wider text-[#7F8983] mt-0.5">
+                          <span className="text-[8.5px] font-mono uppercase tracking-wider text-tl-muted mt-0.5">
                             FT
                           </span>
                         )}
                         {isStarted && !isFinished && (
-                          <span className="text-[8.5px] font-mono uppercase tracking-widest text-[#16C784] font-bold mt-0.5">
+                          <span className="text-[8.5px] font-mono uppercase tracking-widest text-tl-accent font-bold mt-0.5">
                             LIVE
                           </span>
                         )}
@@ -188,7 +188,7 @@ export const ScheduleView: React.FC<ScheduleViewProps> = ({
                         >
                           {match.team_a.fdr}
                         </span>
-                        <span className="text-xs font-bold font-mono text-[#F1F3EF] truncate">
+                        <span className="text-xs font-bold font-mono text-tl-text truncate">
                           {match.team_a.short_name}
                         </span>
                       </div>

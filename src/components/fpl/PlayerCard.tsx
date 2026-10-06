@@ -31,7 +31,6 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
   const isCap = isCaptain || player.isCaptain;
   const isVice = isViceCaptain || player.isViceCaptain;
 
-  const fixtureText = `${player.currentFixture.opponent} (${player.currentFixture.isHome ? "H" : "A"})`;
   const eoResult = sampleTier && sampleTier !== "NO_EO"
     ? calculateXEO(player, sampleTier, userRank)
     : null;
@@ -40,7 +39,7 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
     <div
       role="button"
       tabIndex={0}
-      aria-label={`${player.webName}, ${player.position}, £${player.price.toFixed(1)}m`}
+      aria-label={`${player.webName}, £${player.price.toFixed(1)}m, ${player.projectedPoints} xP`}
       onClick={() => onClick?.(player)}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
@@ -48,7 +47,7 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
           onClick?.(player);
         }
       }}
-      className={`group relative flex flex-col items-center justify-between cursor-pointer select-none transition-transform duration-100 hover:-translate-y-0.5 active:scale-95 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#16C784] rounded-sm ${
+      className={`group relative flex flex-col items-center justify-start cursor-pointer select-none transition-transform duration-100 hover:-translate-y-0.5 active:scale-95 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-tl-accent ${
         isBench ? "w-[76px] sm:w-[84px] md:w-[90px]" : "w-[80px] sm:w-[88px] md:w-[96px]"
       }`}
     >
@@ -56,11 +55,11 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
       {(isCap || isVice) && (
         <div className="absolute -top-1 -left-0.5 z-20">
           {isCap ? (
-            <span className="flex items-center justify-center min-w-[15px] h-3.5 rounded-sm bg-[#16C784] text-[#070908] font-black text-[9px] font-mono px-1">
+            <span className="flex items-center justify-center min-w-[15px] h-3.5 rounded-sm bg-tl-accent text-tl-accentContrast font-black text-[9px] font-mono px-1">
               C
             </span>
           ) : (
-            <span className="flex items-center justify-center min-w-[15px] h-3.5 rounded-sm bg-[#111614] text-[#F1F3EF] border border-[#1E2421] font-bold text-[9px] font-mono px-1">
+            <span className="flex items-center justify-center min-w-[15px] h-3.5 rounded-sm bg-tl-surface2 text-tl-text border border-tl-border font-bold text-[9px] font-mono px-1">
               V
             </span>
           )}
@@ -70,7 +69,7 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
       {/* Bench Priority Tag */}
       {isBench && benchLabel && (
         <div className="absolute -top-1 -right-0.5 z-20">
-          <span className="px-1 py-0.2 text-[9px] font-mono font-medium rounded-sm bg-[#0D1110] text-[#7F8983] border border-[#1E2421]">
+          <span className="px-1 py-0.2 text-[9px] font-mono font-medium rounded-sm bg-tl-surface text-tl-muted border border-tl-border">
             {benchLabel}
           </span>
         </div>
@@ -81,14 +80,14 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
         <div className="absolute top-0 right-0 z-20">
           <span
             title={player.news || "Status alert"}
-            className="flex items-center justify-center w-3 h-3 rounded-sm bg-[#D6A83D] text-[#070908] font-bold font-mono text-[8px]"
+            className="flex items-center justify-center w-3 h-3 rounded-sm bg-tl-warning text-black font-bold font-mono text-[8px]"
           >
             !
           </span>
         </div>
       )}
 
-      {/* Jersey Graphic (Clean sports representation) */}
+      {/* [shirt icon] */}
       <div className="relative my-0.5 flex items-center justify-center">
         <JerseyIcon
           teamShort={player.teamShort}
@@ -98,44 +97,29 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
         />
       </div>
 
-      {/* Understated Player Information Badge */}
-      <div className="w-full flex flex-col items-center mt-0.5 bg-[#0D1110] border border-[#1E2421] rounded-sm px-1 py-0.5 text-center">
-        {/* Line 1: Player Name */}
-        <p className="text-[11px] sm:text-[11.5px] font-semibold text-[#F1F3EF] truncate leading-tight w-full">
+      {/* Looser, editorial stack per player (NO bordered rectangle / mini-card) */}
+      <div className="w-full flex flex-col items-center text-center mt-1">
+        {/* Player Name */}
+        <p className="text-[11px] sm:text-[12px] font-bold text-tl-text truncate leading-tight w-full tracking-tight">
           {player.webName}
         </p>
 
-        {/* Line 2: Position / Fixture & Points */}
-        <div className="flex items-center justify-center gap-1 text-[9.5px] font-mono text-[#7F8983] mt-0.5 leading-none">
-          <span className="text-[#7F8983]">{player.position}</span>
-          <span className="text-[#1E2421]">·</span>
-          <span>{fixtureText}</span>
-          {showProjected && (
-            <>
-              <span className="text-[#1E2421]">·</span>
-              <span className="text-[#16C784] font-semibold tabular-nums">
-                {player.projectedPoints}
-              </span>
-            </>
-          )}
+        {/* £6.2m · 2.3 xP */}
+        <div className="flex items-center justify-center gap-1 text-[10px] font-mono text-tl-muted leading-tight tabular-nums mt-0.5">
+          <span>£{player.price.toFixed(1)}m</span>
+          <span className="opacity-40">·</span>
+          <span className="text-tl-accent font-semibold">
+            {showProjected ? `${player.projectedPoints} xP` : `${player.totalPoints} pts`}
+          </span>
         </div>
 
-        {/* Line 3: Progressive EO data row if enabled */}
+        {/* Subtle EO metric sub-line if active */}
         {eoResult && (
-          <div className="w-full mt-0.5 pt-0.5 border-t border-[#1E2421]/60">
+          <div className="text-[8.5px] font-mono text-tl-muted opacity-80 leading-none tabular-nums mt-0.5">
             {sampleTier === "TOP_10K_NEAR_U" && eoResult.top10k != null && eoResult.nearU != null ? (
-              <div className="flex w-full items-center justify-between px-0.5 text-[8.5px] font-mono leading-none tracking-tight">
-                <span className="text-[#F1F3EF] tabular-nums" title="Top 10k EO">
-                  {eoResult.top10k}%
-                </span>
-                <span className="text-[#7F8983] tabular-nums" title="Near You EO">
-                  {eoResult.nearU}%
-                </span>
-              </div>
+              <span>{eoResult.top10k}% · {eoResult.nearU}%</span>
             ) : (
-              <div className="w-full text-center text-[8.5px] font-mono text-[#7F8983] leading-none tabular-nums">
-                {eoResult.displayText}
-              </div>
+              <span>{eoResult.displayText}</span>
             )}
           </div>
         )}

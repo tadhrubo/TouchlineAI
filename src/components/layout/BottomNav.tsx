@@ -17,7 +17,7 @@ export const BottomNav: React.FC<BottomNavProps> = ({
   return (
     <nav
       aria-label="Bottom Navigation"
-      className="fixed bottom-0 left-0 right-0 z-40 bg-[#070908] border-t border-[#1E2421] px-4 py-2 flex justify-center"
+      className="fixed bottom-0 left-0 right-0 z-40 bg-tl-bg border-t border-tl-border px-4 py-2 flex justify-center"
     >
       <div className="flex items-center justify-around w-full max-w-sm">
         {/* Home Tab Button */}
@@ -26,12 +26,12 @@ export const BottomNav: React.FC<BottomNavProps> = ({
           aria-label="Home Tab"
           className={`relative flex flex-col items-center justify-center w-28 py-1.5 transition-colors rounded-sm ${
             activeTab === "home"
-              ? "text-[#16C784]"
-              : "text-[#7F8983] hover:text-[#F1F3EF]"
+              ? "text-tl-accent"
+              : "text-tl-muted hover:text-tl-text"
           }`}
         >
           {activeTab === "home" && (
-            <div className="absolute -top-2 w-10 h-0.5 bg-[#16C784]" />
+            <div className="absolute -top-2 w-10 h-0.5 bg-tl-accent" />
           )}
           <div className="p-1">
             <Home className="w-4 h-4" aria-hidden="true" />
@@ -47,12 +47,12 @@ export const BottomNav: React.FC<BottomNavProps> = ({
           aria-label="Analyst Desk"
           className={`relative flex flex-col items-center justify-center w-28 py-1.5 transition-colors rounded-sm ${
             activeTab === "chat"
-              ? "text-[#16C784]"
-              : "text-[#7F8983] hover:text-[#F1F3EF]"
+              ? "text-tl-accent"
+              : "text-tl-muted hover:text-tl-text"
           }`}
         >
           {activeTab === "chat" && (
-            <div className="absolute -top-2 w-10 h-0.5 bg-[#16C784]" />
+            <div className="absolute -top-2 w-10 h-0.5 bg-tl-accent" />
           )}
           <div className="p-1">
             <MessageSquareText className="w-4 h-4" aria-hidden="true" />
@@ -60,7 +60,7 @@ export const BottomNav: React.FC<BottomNavProps> = ({
           <span className="text-[10px] font-mono font-semibold tracking-wider uppercase mt-0.5 flex items-center gap-1">
             ANALYST
             {unreadChatCount > 0 && activeTab !== "chat" && (
-              <span className="w-1.5 h-1.5 rounded-sm bg-[#16C784]" />
+              <span className="w-1.5 h-1.5 rounded-sm bg-tl-accent" />
             )}
           </span>
         </button>

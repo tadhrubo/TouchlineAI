@@ -46,10 +46,10 @@ export const PlayerDetailModal: React.FC<PlayerDetailModalProps> = ({
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="w-full sm:max-w-md bg-[#0D1110] border border-[#1E2421] rounded-t-md sm:rounded-md p-4 shadow-2xl animate-slide-up max-h-[90vh] overflow-y-auto space-y-4"
+        className="w-full sm:max-w-md bg-tl-surface border border-tl-border rounded-t-md sm:rounded-md p-4 shadow-2xl animate-slide-up max-h-[90vh] overflow-y-auto space-y-4"
       >
         {/* Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-[#1E2421]">
+        <div className="flex items-center justify-between pb-3 border-b border-tl-border">
           <div className="flex items-center gap-3">
             <JerseyIcon
               teamShort={player.teamShort}
@@ -59,14 +59,14 @@ export const PlayerDetailModal: React.FC<PlayerDetailModalProps> = ({
             />
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-sm sm:text-base font-bold text-[#F1F3EF] tracking-tight leading-tight">
+                <h2 className="text-sm sm:text-base font-bold text-tl-text tracking-tight leading-tight">
                   {player.fullName || player.webName}
                 </h2>
-                <span className="text-[10px] font-mono font-semibold px-1.5 py-0.2 rounded-none bg-[#111614] text-[#7F8983] border border-[#1E2421] uppercase">
+                <span className="text-[10px] font-mono font-semibold px-1.5 py-0.2 rounded-none bg-tl-surface2 text-tl-muted border border-tl-border uppercase">
                   {player.position}
                 </span>
               </div>
-              <p className="text-xs font-mono tabular-nums text-[#7F8983] mt-0.5">
+              <p className="text-xs font-mono tabular-nums text-tl-muted mt-0.5">
                 {player.team} · £{player.price.toFixed(1)}m · {player.selectedByPercent}% Selected
               </p>
             </div>
@@ -75,7 +75,7 @@ export const PlayerDetailModal: React.FC<PlayerDetailModalProps> = ({
           <button
             onClick={onClose}
             aria-label="Close player details"
-            className="p-1 rounded-sm text-[#7F8983] hover:text-[#F1F3EF] transition"
+            className="p-1 rounded-sm text-tl-muted hover:text-tl-text transition"
           >
             <X className="w-4 h-4" aria-hidden="true" />
           </button>
@@ -83,9 +83,9 @@ export const PlayerDetailModal: React.FC<PlayerDetailModalProps> = ({
 
         {/* Status / Injury Alert if any */}
         {player.news && (
-          <div className="p-2.5 rounded-sm bg-[#1A0E10] border border-[#E05252]/40 flex items-start gap-2.5 text-xs text-[#fca5a5]">
+          <div className="p-2.5 rounded-sm bg-rose-950/20 border border-rose-500/40 flex items-start gap-2.5 text-xs text-rose-300">
             {player.chanceOfPlaying !== undefined && (
-              <span className="font-mono tabular-nums font-bold uppercase tracking-wider text-[10px] bg-[#E05252]/20 text-[#fca5a5] px-1.5 py-0.5 rounded-none border border-[#E05252]/30 flex-shrink-0">
+              <span className="font-mono tabular-nums font-bold uppercase tracking-wider text-[10px] bg-rose-500/20 text-rose-300 px-1.5 py-0.5 rounded-none border border-rose-500/30 flex-shrink-0">
                 {player.chanceOfPlaying}%
               </span>
             )}
@@ -94,36 +94,36 @@ export const PlayerDetailModal: React.FC<PlayerDetailModalProps> = ({
         )}
 
         {/* Key Metrics: Flat Typographic Design */}
-        <div className="grid grid-cols-4 gap-2 text-center p-2.5 rounded-sm bg-[#111614] border border-[#1E2421]">
+        <div className="grid grid-cols-4 gap-2 text-center p-2.5 rounded-sm bg-tl-surface2 border border-tl-border">
           <div className="flex flex-col items-center">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-[#7F8983]">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-tl-muted">
               Projected
             </span>
-            <p className="text-sm sm:text-base font-bold font-mono tabular-nums text-[#16C784] mt-0.5">
-              {player.projectedPoints} <span className="text-[10px] font-normal text-[#7F8983]">pts</span>
+            <p className="text-sm sm:text-base font-bold font-mono tabular-nums text-tl-accent mt-0.5">
+              {player.projectedPoints} <span className="text-[10px] font-normal text-tl-muted">pts</span>
             </p>
           </div>
-          <div className="flex flex-col items-center border-l border-[#1E2421]">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-[#7F8983]">
+          <div className="flex flex-col items-center border-l border-tl-border">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-tl-muted">
               Form
             </span>
-            <p className="text-sm sm:text-base font-bold font-mono tabular-nums text-[#F1F3EF] mt-0.5">
+            <p className="text-sm sm:text-base font-bold font-mono tabular-nums text-tl-text mt-0.5">
               {player.form}
             </p>
           </div>
-          <div className="flex flex-col items-center border-l border-[#1E2421]">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-[#7F8983]">
+          <div className="flex flex-col items-center border-l border-tl-border">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-tl-muted">
               xGI / 90
             </span>
-            <p className="text-sm sm:text-base font-bold font-mono tabular-nums text-[#F1F3EF] mt-0.5">
+            <p className="text-sm sm:text-base font-bold font-mono tabular-nums text-tl-text mt-0.5">
               {player.xGI.toFixed(2)}
             </p>
           </div>
-          <div className="flex flex-col items-center border-l border-[#1E2421]">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-[#7F8983]">
+          <div className="flex flex-col items-center border-l border-tl-border">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-tl-muted">
               Start Prob
             </span>
-            <p className="text-sm sm:text-base font-bold font-mono tabular-nums text-[#F1F3EF] mt-0.5">
+            <p className="text-sm sm:text-base font-bold font-mono tabular-nums text-tl-text mt-0.5">
               {player.startProbability}%
             </p>
           </div>
@@ -131,7 +131,7 @@ export const PlayerDetailModal: React.FC<PlayerDetailModalProps> = ({
 
         {/* Upcoming 3 Fixtures with FDR */}
         <div className="space-y-1.5">
-          <h4 className="text-[10px] font-semibold text-[#7F8983] uppercase tracking-wider font-mono">
+          <h4 className="text-[10px] font-semibold text-tl-muted uppercase tracking-wider font-mono">
             Upcoming Fixtures
           </h4>
           <div className="grid grid-cols-3 gap-1.5">
@@ -157,16 +157,16 @@ export const PlayerDetailModal: React.FC<PlayerDetailModalProps> = ({
         </div>
 
         {/* Action Buttons */}
-        <div className="space-y-2 pt-2 border-t border-[#1E2421]">
+        <div className="space-y-2 pt-2 border-t border-tl-border">
           <div className="grid grid-cols-2 gap-2">
             <button
               onClick={() => {
                 onSetCaptain(player.id);
                 onClose();
               }}
-              className="py-2 px-3 rounded-sm bg-[#111614] hover:bg-[#171e1b] border border-[#1E2421] text-[#F1F3EF] font-semibold text-xs transition flex items-center justify-center gap-1.5"
+              className="py-2 px-3 rounded-sm bg-tl-surface2 hover:bg-tl-surface border border-tl-border text-tl-text font-semibold text-xs transition flex items-center justify-center gap-1.5"
             >
-              <Crown className="w-3.5 h-3.5 text-[#16C784]" aria-hidden="true" />
+              <Crown className="w-3.5 h-3.5 text-tl-accent" aria-hidden="true" />
               <span>Make Captain (C)</span>
             </button>
 
@@ -175,9 +175,9 @@ export const PlayerDetailModal: React.FC<PlayerDetailModalProps> = ({
                 onSetViceCaptain(player.id);
                 onClose();
               }}
-              className="py-2 px-3 rounded-sm bg-[#111614] hover:bg-[#171e1b] border border-[#1E2421] text-[#7F8983] hover:text-[#F1F3EF] font-semibold text-xs transition flex items-center justify-center gap-1.5"
+              className="py-2 px-3 rounded-sm bg-tl-surface2 hover:bg-tl-surface border border-tl-border text-tl-muted hover:text-tl-text font-semibold text-xs transition flex items-center justify-center gap-1.5"
             >
-              <Shield className="w-3.5 h-3.5 text-[#7F8983]" aria-hidden="true" />
+              <Shield className="w-3.5 h-3.5 text-tl-muted" aria-hidden="true" />
               <span>Make Vice-Captain</span>
             </button>
           </div>
@@ -187,7 +187,7 @@ export const PlayerDetailModal: React.FC<PlayerDetailModalProps> = ({
               onAskAIAboutPlayer(player);
               onClose();
             }}
-            className="w-full py-2 px-3 rounded-sm bg-[#16C784] hover:bg-[#13ab71] text-[#070908] font-bold font-mono uppercase tracking-wider text-xs transition flex items-center justify-center gap-1.5"
+            className="w-full py-2 px-3 rounded-sm bg-tl-accent hover:opacity-90 text-tl-accentContrast font-bold font-mono uppercase tracking-wider text-xs transition flex items-center justify-center gap-1.5"
           >
             Analyze {player.webName} with Touchline Analyst
           </button>

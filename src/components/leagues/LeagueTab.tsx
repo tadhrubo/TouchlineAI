@@ -186,14 +186,14 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
   });
 
   return (
-    <div className="w-full space-y-3 pb-8 animate-fade-in relative select-none">
+    <div className="w-full space-y-3 pb-8 animate-fade-in relative select-none text-tl-text">
       {/* 1. Header & Choose League Selector Strip */}
-      <div className="py-2 flex items-center justify-between border-b border-[#1E2421]">
+      <div className="py-1.5 flex items-center justify-between border-b border-tl-border">
         <div className="min-w-0">
-          <p className="text-[10px] font-mono text-[#7F8983] uppercase tracking-wider font-semibold">
+          <p className="text-[10px] font-mono text-tl-muted uppercase tracking-wider font-semibold">
             Mini-League Standings
           </p>
-          <h2 className="text-sm md:text-base font-bold text-[#F1F3EF] truncate">
+          <h2 className="text-sm md:text-base font-bold text-tl-text truncate">
             {isLoadingLeagues && !selectedLeagueName
               ? "Loading leagues..."
               : selectedLeagueName || "Choose League"}
@@ -203,7 +203,7 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
         <div className="flex items-center gap-1.5 flex-shrink-0">
           <button
             onClick={() => setIsModalOpen(true)}
-            className="flex items-center gap-1.5 px-2.5 py-1 rounded-sm bg-[#0D1110] border border-[#1E2421] text-xs font-semibold text-[#F1F3EF] hover:border-[#16C784]/40 hover:bg-[#111614] transition"
+            className="flex items-center gap-1.5 px-2.5 py-1 rounded-sm bg-tl-surface border border-tl-border text-xs font-semibold text-tl-text hover:border-tl-accent/40 hover:bg-tl-surface2 transition"
           >
             <span>
               {isLoadingLeagues
@@ -212,7 +212,7 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
                 ? "Switch league"
                 : "Choose league"}
             </span>
-            <ChevronDown className="w-3 h-3 text-[#7F8983]" />
+            <ChevronDown className="w-3 h-3 text-tl-muted" />
           </button>
 
           {selectedLeagueId && (
@@ -220,10 +220,10 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
               onClick={() => fetchLeagueStandings(selectedLeagueId)}
               disabled={isLoadingStandings}
               aria-label="Refresh League"
-              className="p-1.5 rounded-sm bg-[#0D1110] border border-[#1E2421] text-[#7F8983] hover:text-[#F1F3EF] transition disabled:opacity-40"
+              className="p-1.5 rounded-sm bg-tl-surface border border-tl-border text-tl-muted hover:text-tl-text transition disabled:opacity-40"
             >
               <RefreshCw
-                className={`w-3.5 h-3.5 ${isLoadingStandings ? "animate-spin text-[#16C784]" : ""}`}
+                className={`w-3.5 h-3.5 ${isLoadingStandings ? "animate-spin text-tl-accent" : ""}`}
               />
             </button>
           )}
@@ -232,19 +232,19 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
 
       {/* 2. Search & Controls Bar */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2">
-        <div className="flex-1 flex items-center gap-2 px-2.5 py-1.5 rounded-sm bg-[#0D1110] border border-[#1E2421]">
-          <Search className="w-3.5 h-3.5 text-[#7F8983]" />
+        <div className="flex-1 flex items-center gap-2 px-2.5 py-1.5 rounded-sm bg-tl-surface border border-tl-border">
+          <Search className="w-3.5 h-3.5 text-tl-muted" />
           <input
             type="text"
             placeholder="Search manager, team, or captain..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="flex-1 bg-transparent text-xs text-[#F1F3EF] placeholder-[#7F8983] focus:outline-none font-sans"
+            className="flex-1 bg-transparent text-xs text-tl-text placeholder-tl-muted focus:outline-none font-sans"
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery("")}
-              className="text-[#7F8983] hover:text-[#F1F3EF]"
+              className="text-tl-muted hover:text-tl-text"
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -255,16 +255,16 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
         <div className="flex items-center justify-between sm:justify-end gap-3 text-xs">
           {/* Autosubs Toggle */}
           <div className="flex items-center gap-1.5">
-            <span className="text-[10px] font-mono text-[#7F8983] uppercase tracking-wider font-semibold">
+            <span className="text-[10px] font-mono text-tl-muted uppercase tracking-wider font-semibold">
               Autosubs:
             </span>
-            <div className="flex bg-[#0D1110] rounded-sm p-0.5 border border-[#1E2421]">
+            <div className="flex bg-tl-surface rounded-sm p-0.5 border border-tl-border">
               <button
                 onClick={() => setAutosubsEnabled(true)}
                 className={`px-2 py-0.5 text-xs font-mono font-medium rounded-sm transition ${
                   autosubsEnabled
-                    ? "bg-[#111614] text-[#F1F3EF] font-bold"
-                    : "text-[#7F8983] hover:text-[#F1F3EF]"
+                    ? "bg-tl-surface2 text-tl-text font-bold"
+                    : "text-tl-muted hover:text-tl-text"
                 }`}
               >
                 On
@@ -273,8 +273,8 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
                 onClick={() => setAutosubsEnabled(false)}
                 className={`px-2 py-0.5 text-xs font-mono font-medium rounded-sm transition ${
                   !autosubsEnabled
-                    ? "bg-[#111614] text-[#F1F3EF] font-bold"
-                    : "text-[#7F8983] hover:text-[#F1F3EF]"
+                    ? "bg-tl-surface2 text-tl-text font-bold"
+                    : "text-tl-muted hover:text-tl-text"
                 }`}
               >
                 Off
@@ -284,16 +284,16 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
 
           {/* Layout Toggle */}
           <div className="flex items-center gap-1.5">
-            <span className="text-[10px] font-mono text-[#7F8983] uppercase tracking-wider font-semibold">
+            <span className="text-[10px] font-mono text-tl-muted uppercase tracking-wider font-semibold">
               View:
             </span>
-            <div className="flex bg-[#0D1110] rounded-sm p-0.5 border border-[#1E2421]">
+            <div className="flex bg-tl-surface rounded-sm p-0.5 border border-tl-border">
               <button
                 onClick={() => setLayoutMode("list")}
                 className={`px-2 py-0.5 text-xs font-mono font-medium rounded-sm transition ${
                   layoutMode === "list"
-                    ? "bg-[#111614] text-[#F1F3EF] font-bold"
-                    : "text-[#7F8983] hover:text-[#F1F3EF]"
+                    ? "bg-tl-surface2 text-tl-text font-bold"
+                    : "text-tl-muted hover:text-tl-text"
                 }`}
               >
                 List
@@ -302,8 +302,8 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
                 onClick={() => setLayoutMode("pitch")}
                 className={`px-2 py-0.5 text-xs font-mono font-medium rounded-sm transition ${
                   layoutMode === "pitch"
-                    ? "bg-[#111614] text-[#F1F3EF] font-bold"
-                    : "text-[#7F8983] hover:text-[#F1F3EF]"
+                    ? "bg-tl-surface2 text-tl-text font-bold"
+                    : "text-tl-muted hover:text-tl-text"
                 }`}
               >
                 Pitch
@@ -317,14 +317,14 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
 
       {/* 3. Error state notice if any */}
       {errorMsg && (
-        <div className="p-2.5 rounded-sm bg-[#1A0E10] border border-[#E05252]/40 text-[#fca5a5] text-xs flex items-center justify-between">
+        <div className="p-2.5 rounded-sm bg-tl-surface border border-tl-negative/40 text-tl-negative text-xs flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <ShieldAlert className="w-4 h-4 text-[#E05252] flex-shrink-0" />
+            <ShieldAlert className="w-4 h-4 text-tl-negative flex-shrink-0" />
             <span>{errorMsg}</span>
           </div>
           <button
             onClick={() => setErrorMsg(null)}
-            className="text-[#E05252] underline text-[11px] ml-2"
+            className="text-tl-negative underline text-[11px] ml-2"
           >
             Dismiss
           </button>
@@ -333,23 +333,23 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
 
       {/* 4. Professional Sports-Data Standings Table */}
       {isLoadingStandings ? (
-        <div className="w-full h-72 flex flex-col items-center justify-center p-8 rounded-sm bg-[#0D1110] border border-[#1E2421] space-y-2.5">
-          <RefreshCw className="w-5 h-5 text-[#16C784] animate-spin" />
-          <p className="text-xs font-mono text-[#7F8983]">
+        <div className="w-full h-72 flex flex-col items-center justify-center p-8 rounded-sm bg-tl-surface border border-tl-border space-y-2.5">
+          <RefreshCw className="w-5 h-5 text-tl-accent animate-spin" />
+          <p className="text-xs font-mono text-tl-muted">
             Calculating live league ranks & picks for GW{gameweek}...
           </p>
         </div>
       ) : filteredManagers.length === 0 ? (
-        <div className="w-full p-8 rounded-sm border border-dashed border-[#1E2421] text-center space-y-2">
-          <Users className="w-5 h-5 text-[#7F8983] mx-auto" />
-          <p className="text-xs font-mono text-[#7F8983]">
+        <div className="w-full p-8 rounded-sm border border-dashed border-tl-border text-center space-y-2">
+          <Users className="w-5 h-5 text-tl-muted mx-auto" />
+          <p className="text-xs font-mono text-tl-muted">
             {searchQuery ? "No managers matched your search." : "No standings data available."}
           </p>
         </div>
       ) : (
-        <div className="w-full border-t border-[#1E2421]">
+        <div className="w-full border-t border-tl-border">
           {/* Sports Data Table Header */}
-          <div className="flex items-center justify-between py-1.5 px-1 text-[10px] font-mono uppercase tracking-wider text-[#7F8983] border-b border-[#1E2421]">
+          <div className="flex items-center justify-between py-1.5 px-1 text-[10px] font-mono uppercase tracking-wider text-tl-muted border-b border-tl-border">
             <div className="flex items-center gap-3">
               <span className="w-7 text-center">RANK</span>
               <span>MANAGER / TEAM</span>
@@ -361,7 +361,7 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
           </div>
 
           {/* Table Rows (Subtle row dividers, no individual cards) */}
-          <div className="divide-y divide-[#1E2421]">
+          <div className="divide-y divide-tl-border">
             {filteredManagers.map((mgr) => {
               const isExpanded = expandedIds.has(mgr.entry);
               const isUserTeam = String(mgr.entry) === String(activeEntryId);
@@ -381,7 +381,11 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
                 <div
                   key={mgr.entry}
                   className={`transition-colors ${
-                    isUserTeam ? "bg-[#16C784]/[0.04]" : "hover:bg-[#0D1110]"
+                    isExpanded
+                      ? "bg-tl-surface2"
+                      : isUserTeam
+                      ? "bg-tl-accent/[0.05] hover:bg-tl-surface"
+                      : "hover:bg-tl-surface"
                   }`}
                 >
                   {/* Clickable Row */}
@@ -393,22 +397,22 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
                     <div className="flex items-center gap-3 min-w-0 flex-1">
                       {/* Rank Column */}
                       <div className="flex flex-col items-center justify-center w-7 flex-shrink-0">
-                        <span className="text-xs font-mono font-bold text-[#F1F3EF] tabular-nums">
+                        <span className="text-xs font-mono font-bold text-tl-text tabular-nums">
                           {rankDisplay}
                         </span>
                         <div className="flex items-center text-[9px] font-mono leading-none mt-0.5">
                           {mgr.rankChange > 0 ? (
-                            <span className="text-[#16C784] flex items-center tabular-nums">
+                            <span className="text-tl-accent flex items-center tabular-nums">
                               <ArrowUp className="w-2.5 h-2.5 inline" />
                               {mgr.rankChange}
                             </span>
                           ) : mgr.rankChange < 0 ? (
-                            <span className="text-[#E05252] flex items-center tabular-nums">
+                            <span className="text-tl-negative flex items-center tabular-nums">
                               <ArrowDown className="w-2.5 h-2.5 inline" />
                               {Math.abs(mgr.rankChange)}
                             </span>
                           ) : (
-                            <span className="text-[#7F8983] flex items-center">
+                            <span className="text-tl-muted flex items-center">
                               <Minus className="w-2.5 h-2.5 inline" />
                             </span>
                           )}
@@ -418,24 +422,24 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
                       {/* Team & Manager Details */}
                       <div className="min-w-0 flex-1 pr-2">
                         <div className="flex items-center gap-1.5">
-                          <span className="text-xs font-semibold text-[#F1F3EF] truncate">
+                          <span className="text-xs font-semibold text-tl-text truncate">
                             {mgr.teamName}
                           </span>
                           {isUserTeam && (
-                            <span className="px-1 py-0.2 rounded-none text-[8.5px] font-mono font-bold bg-[#16C784]/20 text-[#16C784]">
+                            <span className="px-1 py-0.2 rounded-none text-[8.5px] font-mono font-bold bg-tl-accent/20 text-tl-accent">
                               YOU
                             </span>
                           )}
                           {mgr.activeChip && (
-                            <span className="bg-[#111614] border border-[#1E2421] text-[#7F8983] px-1.5 py-0.2 rounded-none text-[9px] font-mono uppercase font-semibold">
+                            <span className="bg-tl-surface border border-tl-border text-tl-muted px-1.5 py-0.2 rounded-none text-[9px] font-mono uppercase font-semibold">
                               {mgr.activeChip}
                             </span>
                           )}
                         </div>
-                        <div className="flex items-center gap-1.5 text-[11px] text-[#7F8983] truncate mt-0.5">
+                        <div className="flex items-center gap-1.5 text-[11px] text-tl-muted truncate mt-0.5">
                           <span className="truncate">{mgr.name}</span>
                           <span>·</span>
-                          <span className="font-mono text-[#F1F3EF]">C: {mgr.captainName}</span>
+                          <span className="font-mono text-tl-text">C: {mgr.captainName}</span>
                           <span>·</span>
                           <span className="font-mono text-[10px]">
                             {mgr.ft_available ?? mgr.ftAvailable ?? mgr.ft_left ?? 1} FT
@@ -448,17 +452,17 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
                     <div className="flex items-center gap-4 flex-shrink-0 text-right">
                       {/* GW Points */}
                       <div className="min-w-[60px] text-right font-mono">
-                        <span className="text-xs font-bold text-[#16C784] tabular-nums">
+                        <span className="text-xs font-bold text-tl-accent tabular-nums">
                           {mgr.liveGwPoints}
                         </span>
                         {cost > 0 && (
-                          <span className="text-[#E05252] text-[10px] font-bold tabular-nums ml-1">
+                          <span className="text-tl-negative text-[10px] font-bold tabular-nums ml-1">
                             (-{cost})
                           </span>
                         )}
-                        <span className="block text-[9.5px] text-[#7F8983] tabular-nums">
+                        <span className="block text-[9.5px] text-tl-muted tabular-nums">
                           {yetCount > 0 ? (
-                            <span className="text-[#D6A83D]">Yet {yetCount}</span>
+                            <span className="text-tl-warning">Yet {yetCount}</span>
                           ) : (
                             <span>All played</span>
                           )}
@@ -467,15 +471,15 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
 
                       {/* Total Points */}
                       <div className="min-w-[48px] text-right font-mono">
-                        <span className="text-xs font-bold text-[#F1F3EF] tabular-nums">
+                        <span className="text-xs font-bold text-tl-text tabular-nums">
                           {mgr.totalPoints}
                         </span>
                       </div>
 
                       {/* Chevron */}
-                      <div className="text-[#7F8983] pl-1">
+                      <div className="text-tl-muted pl-1">
                         {isExpanded ? (
-                          <ChevronUp className="w-3.5 h-3.5 text-[#16C784]" />
+                          <ChevronUp className="w-3.5 h-3.5 text-tl-accent" />
                         ) : (
                           <ChevronDown className="w-3.5 h-3.5" />
                         )}
@@ -483,9 +487,9 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
                     </div>
                   </button>
 
-                  {/* Expanded Breakdown Pane (Progressive Disclosure) */}
+                  {/* Expanded Breakdown Pane (Distinct background fill per Task 4) */}
                   {isExpanded && (
-                    <div className="p-2 border-t border-[#1E2421] bg-[#070908] animate-fade-in">
+                    <div className="p-2 border-t border-tl-border bg-tl-surface2 animate-fade-in">
                       <LeaguePitchView
                         managerName={mgr.name}
                         teamName={mgr.teamName}
@@ -521,15 +525,15 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
             onClick={() => setIsModalOpen(false)}
           >
             <div
-              className="relative w-full max-w-sm max-h-[80vh] flex flex-col bg-[#0D1110] border border-[#1E2421] rounded-sm p-4 shadow-xl overflow-hidden animate-scale-in"
+              className="relative w-full max-w-sm max-h-[80vh] flex flex-col bg-tl-surface border border-tl-border rounded-sm p-4 shadow-xl overflow-hidden animate-scale-in text-tl-text"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Modal Header */}
-              <div className="flex items-center justify-between pb-2.5 border-b border-[#1E2421]">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-[#F1F3EF]">Choose League</h3>
+              <div className="flex items-center justify-between pb-2.5 border-b border-tl-border">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-tl-text">Choose League</h3>
                 <button
                   onClick={() => setIsModalOpen(false)}
-                  className="text-[#7F8983] hover:text-[#F1F3EF] text-xs px-2 py-0.5 rounded-sm bg-[#111614] border border-[#1E2421] transition"
+                  className="text-tl-muted hover:text-tl-text text-xs px-2 py-0.5 rounded-sm bg-tl-surface2 border border-tl-border transition"
                 >
                   Close
                 </button>
@@ -538,8 +542,8 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
               {/* Modal Body / League List */}
               <div className="flex-1 overflow-y-auto py-2 space-y-1.5">
                 {isLoadingLeagues ? (
-                  <div className="py-8 text-center text-xs text-[#7F8983] flex flex-col items-center gap-2">
-                    <RefreshCw className="w-4 h-4 text-[#16C784] animate-spin" />
+                  <div className="py-8 text-center text-xs text-tl-muted flex flex-col items-center gap-2">
+                    <RefreshCw className="w-4 h-4 text-tl-accent animate-spin" />
                     <span>Loading leagues...</span>
                   </div>
                 ) : leagues && leagues.length > 0 ? (
@@ -553,29 +557,29 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
                       }}
                       className={`w-full text-left p-2.5 rounded-sm border transition-all flex items-center justify-between ${
                         selectedLeagueId === lg.id
-                          ? "bg-[#16C784]/10 border-[#16C784]/40 text-[#16C784]"
-                          : "bg-[#070908] border-[#1E2421] hover:bg-[#111614] text-[#F1F3EF]"
+                          ? "bg-tl-accent/10 border-tl-accent/40 text-tl-accent"
+                          : "bg-tl-bg border-tl-border hover:bg-tl-surface2 text-tl-text"
                       }`}
                     >
                       <div className="min-w-0 pr-2">
                         <span className="font-semibold text-xs truncate block">{lg.name}</span>
-                        <span className="text-[10px] text-[#7F8983] font-mono">
-                          Rank: <strong className="text-[#16C784]">#{lg.entryRank ? lg.entryRank.toLocaleString() : "N/A"}</strong> of {lg.rankCount ? lg.rankCount.toLocaleString() : "All"}
+                        <span className="text-[10px] text-tl-muted font-mono">
+                          Rank: <strong className="text-tl-accent">#{lg.entryRank ? lg.entryRank.toLocaleString() : "N/A"}</strong> of {lg.rankCount ? lg.rankCount.toLocaleString() : "All"}
                         </span>
                       </div>
-                      {selectedLeagueId === lg.id && <span className="text-xs text-[#16C784] font-bold">✓</span>}
+                      {selectedLeagueId === lg.id && <span className="text-xs text-tl-accent font-bold">✓</span>}
                     </button>
                   ))
                 ) : (
-                  <div className="py-6 text-center text-xs text-[#7F8983]">
+                  <div className="py-6 text-center text-xs text-tl-muted">
                     No mini-leagues found for this ID.
                   </div>
                 )}
               </div>
 
               {/* Quick League ID Input Fallback */}
-              <div className="pt-2.5 border-t border-[#1E2421]">
-                <p className="text-[10px] font-mono text-[#7F8983] mb-1.5 uppercase tracking-wider">Or enter League ID:</p>
+              <div className="pt-2.5 border-t border-tl-border">
+                <p className="text-[10px] font-mono text-tl-muted mb-1.5 uppercase tracking-wider">Or enter League ID:</p>
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
@@ -594,12 +598,12 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
                     placeholder="e.g. 280033"
                     value={customLeagueInput}
                     onChange={(e) => setCustomLeagueInput(e.target.value)}
-                    className="flex-1 bg-[#070908] border border-[#1E2421] rounded-sm px-2.5 py-1 text-xs text-[#F1F3EF] focus:outline-none focus:border-[#16C784] font-mono"
+                    className="flex-1 bg-tl-bg border border-tl-border rounded-sm px-2.5 py-1 text-xs text-tl-text focus:outline-none focus:border-tl-accent font-mono"
                   />
                   <button
                     type="submit"
                     disabled={!customLeagueInput.trim()}
-                    className="bg-[#16C784] text-[#070908] text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-sm transition disabled:opacity-40"
+                    className="bg-tl-accent text-tl-accentContrast text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-sm transition disabled:opacity-40"
                   >
                     Load
                   </button>

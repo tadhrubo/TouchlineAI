@@ -65,17 +65,17 @@ export const PlannerActionSheet: React.FC<PlannerActionSheetProps> = ({
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-md bg-[#0D1110] border-t sm:border border-[#1E2421] rounded-t-md sm:rounded-md p-4 shadow-2xl space-y-3.5 animate-slide-up"
+        className="relative w-full max-w-md bg-tl-surface border-t sm:border border-tl-border rounded-t-md sm:rounded-md p-4 shadow-2xl space-y-3.5 animate-slide-up"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Handle Bar */}
-        <div className="w-10 h-1 bg-[#1E2421] rounded-none mx-auto mb-1" />
+        <div className="w-10 h-1 bg-tl-border rounded-none mx-auto mb-1" />
 
         {/* Top Header: Player Summary */}
-        <div className="flex items-center justify-between pb-2.5 border-b border-[#1E2421]">
+        <div className="flex items-center justify-between pb-2.5 border-b border-tl-border">
           <div className="flex items-center gap-2.5">
             {/* Shirt Icon */}
-            <div className="relative w-10 h-10 flex items-center justify-center bg-[#111614] rounded-sm border border-[#1E2421] p-0.5">
+            <div className="relative w-10 h-10 flex items-center justify-center bg-tl-surface2 rounded-sm border border-tl-border p-0.5">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={shirtUrl}
@@ -85,18 +85,18 @@ export const PlannerActionSheet: React.FC<PlannerActionSheetProps> = ({
                   (e.currentTarget as HTMLImageElement).src = fallbackUrl;
                 }}
               />
-              <span className="absolute -bottom-1 -right-1 px-1 py-0.2 rounded-none text-[8.5px] font-mono font-bold bg-[#070908] text-[#7F8983] border border-[#1E2421]">
+              <span className="absolute -bottom-1 -right-1 px-1 py-0.2 rounded-none text-[8.5px] font-mono font-bold bg-tl-bg text-tl-muted border border-tl-border">
                 {player.position}
               </span>
             </div>
 
             {/* Name & Club */}
             <div>
-              <h3 className="text-sm font-bold text-[#F1F3EF] leading-tight">
+              <h3 className="text-sm font-bold text-tl-text leading-tight">
                 {player.fullName || player.webName}
               </h3>
-              <p className="text-xs text-[#7F8983] font-mono mt-0.5">
-                {player.team} · <span className="text-[#16C784] font-semibold tabular-nums">£{player.price.toFixed(1)}m</span>
+              <p className="text-xs text-tl-muted font-mono mt-0.5">
+                {player.team} · <span className="text-tl-accent font-semibold tabular-nums">£{player.price.toFixed(1)}m</span>
               </p>
             </div>
           </div>
@@ -105,7 +105,7 @@ export const PlannerActionSheet: React.FC<PlannerActionSheetProps> = ({
           <button
             onClick={onClose}
             aria-label="Close action sheet"
-            className="p-1 rounded-sm text-[#7F8983] hover:text-[#F1F3EF] hover:bg-[#111614] transition"
+            className="p-1 rounded-sm text-tl-muted hover:text-tl-text hover:bg-tl-surface2 transition"
           >
             <X className="w-4 h-4" />
           </button>
@@ -113,7 +113,7 @@ export const PlannerActionSheet: React.FC<PlannerActionSheetProps> = ({
 
         {/* Fixtures Schedule (Next 3 Matches) */}
         <div className="space-y-1">
-          <span className="text-[10px] font-mono uppercase tracking-wider text-[#7F8983] font-semibold block">
+          <span className="text-[10px] font-mono uppercase tracking-wider text-tl-muted font-semibold block">
             Upcoming Fixtures
           </span>
           <div className="grid grid-cols-3 gap-1.5">
@@ -134,7 +134,7 @@ export const PlannerActionSheet: React.FC<PlannerActionSheetProps> = ({
                 </div>
               ))
             ) : (
-              <div className="col-span-3 p-2.5 text-center text-xs font-mono text-[#7F8983] bg-[#111614] border border-[#1E2421] rounded-none">
+              <div className="col-span-3 p-2.5 text-center text-xs font-mono text-tl-muted bg-tl-surface2 border border-tl-border rounded-none">
                 No upcoming fixture data
               </div>
             )}
@@ -142,18 +142,18 @@ export const PlannerActionSheet: React.FC<PlannerActionSheetProps> = ({
         </div>
 
         {/* Key Quick Telemetry: Typographic Row */}
-        <div className="grid grid-cols-3 gap-2 text-center py-2 px-2.5 rounded-sm bg-[#111614] border border-[#1E2421]">
+        <div className="grid grid-cols-3 gap-2 text-center py-2 px-2.5 rounded-sm bg-tl-surface2 border border-tl-border">
           <div>
-            <span className="text-[10px] font-mono text-[#7F8983] uppercase tracking-wider block mb-0.5">Total Pts</span>
-            <span className="text-sm font-mono font-bold text-[#F1F3EF] tabular-nums">{player.totalPoints}</span>
+            <span className="text-[10px] font-mono text-tl-muted uppercase tracking-wider block mb-0.5">Total Pts</span>
+            <span className="text-sm font-mono font-bold text-tl-text tabular-nums">{player.totalPoints}</span>
           </div>
-          <div className="border-x border-[#1E2421] px-2">
-            <span className="text-[10px] font-mono text-[#7F8983] uppercase tracking-wider block mb-0.5">Selected</span>
-            <span className="text-sm font-mono font-bold text-[#F1F3EF] tabular-nums">{player.selectedByPercent}%</span>
+          <div className="border-x border-tl-border px-2">
+            <span className="text-[10px] font-mono text-tl-muted uppercase tracking-wider block mb-0.5">Selected</span>
+            <span className="text-sm font-mono font-bold text-tl-text tabular-nums">{player.selectedByPercent}%</span>
           </div>
           <div>
-            <span className="text-[10px] font-mono text-[#7F8983] uppercase tracking-wider block mb-0.5">Form</span>
-            <span className="text-sm font-mono font-bold text-[#16C784] tabular-nums">{player.form}</span>
+            <span className="text-[10px] font-mono text-tl-muted uppercase tracking-wider block mb-0.5">Form</span>
+            <span className="text-sm font-mono font-bold text-tl-accent tabular-nums">{player.form}</span>
           </div>
         </div>
 
@@ -167,9 +167,9 @@ export const PlannerActionSheet: React.FC<PlannerActionSheetProps> = ({
               }
               onClose();
             }}
-            className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-sm bg-[#111614] hover:bg-[#171e1b] text-[#F1F3EF] border border-[#1E2421] text-xs font-semibold font-mono transition"
+            className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-sm bg-tl-surface2 hover:bg-tl-surface text-tl-text border border-tl-border text-xs font-semibold font-mono transition"
           >
-            <Info className="w-3.5 h-3.5 text-[#7F8983]" />
+            <Info className="w-3.5 h-3.5 text-tl-muted" />
             <span>Player Info</span>
           </button>
 
@@ -179,7 +179,7 @@ export const PlannerActionSheet: React.FC<PlannerActionSheetProps> = ({
               onReplace(player);
               onClose();
             }}
-            className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-sm bg-[#16C784] hover:bg-[#13ab71] text-[#070908] text-xs font-bold font-mono tracking-wide transition"
+            className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-sm bg-tl-accent hover:opacity-90 text-tl-accentContrast text-xs font-bold font-mono tracking-wide transition"
           >
             <ArrowLeftRight className="w-3.5 h-3.5" />
             <span>Replace Player</span>

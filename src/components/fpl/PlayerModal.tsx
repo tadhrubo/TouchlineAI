@@ -234,10 +234,10 @@ export const PlayerModal: React.FC<PlayerModalProps> = ({
       {/* Modal Container */}
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-[#0D1110] border border-[#1E2421] w-full sm:w-[440px] rounded-t-md sm:rounded-md pb-safe shadow-2xl overflow-hidden animate-slide-up flex flex-col max-h-[88vh]"
+        className="bg-tl-surface border border-tl-border w-full sm:w-[440px] rounded-t-md sm:rounded-md pb-safe shadow-2xl overflow-hidden animate-slide-up flex flex-col max-h-[88vh]"
       >
         {/* Header Section */}
-        <div className="p-4 border-b border-[#1E2421] flex items-center justify-between flex-shrink-0 bg-[#070908]">
+        <div className="p-4 border-b border-tl-border flex items-center justify-between flex-shrink-0 bg-tl-bg">
           <div className="flex items-center gap-3">
             <JerseyIcon
               teamShort={player.teamShort}
@@ -247,19 +247,19 @@ export const PlayerModal: React.FC<PlayerModalProps> = ({
             />
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-sm font-bold text-[#F1F3EF] tracking-tight leading-tight">
+                <h3 className="text-sm font-bold text-tl-text tracking-tight leading-tight">
                   {player.fullName || player.webName}
                 </h3>
-                <span className="text-[10px] font-mono font-semibold px-1.5 py-0.2 rounded-none bg-[#111614] text-[#7F8983] border border-[#1E2421] uppercase">
+                <span className="text-[10px] font-mono font-semibold px-1.5 py-0.2 rounded-none bg-tl-surface2 text-tl-muted border border-tl-border uppercase">
                   {player.position}
                 </span>
                 {player.isCaptain && (
-                  <span className="text-[10px] font-mono font-black px-1.5 py-0.2 rounded-none bg-[#16C784] text-[#070908]">
+                  <span className="text-[10px] font-mono font-black px-1.5 py-0.2 rounded-none bg-tl-accent text-tl-accentContrast">
                     C
                   </span>
                 )}
               </div>
-              <p className="text-xs font-mono tabular-nums text-[#7F8983] mt-0.5">
+              <p className="text-xs font-mono tabular-nums text-tl-muted mt-0.5">
                 {player.team} · £{player.price.toFixed(1)}m
               </p>
             </div>
@@ -267,17 +267,17 @@ export const PlayerModal: React.FC<PlayerModalProps> = ({
 
           <div className="flex items-center gap-3">
             <div className="text-right">
-              <span className="text-[10px] font-semibold uppercase tracking-wider font-mono text-[#7F8983] block">
+              <span className="text-[10px] font-semibold uppercase tracking-wider font-mono text-tl-muted block">
                 GW Points
               </span>
-              <span className="text-xl font-bold font-mono tabular-nums text-[#16C784] leading-tight">
-                {player.gameweekPoints} <span className="text-[10px] font-normal text-[#7F8983]">pts</span>
+              <span className="text-xl font-bold font-mono tabular-nums text-tl-accent leading-tight">
+                {player.gameweekPoints} <span className="text-[10px] font-normal text-tl-muted">pts</span>
               </span>
             </div>
             <button
               onClick={onClose}
               aria-label="Close player details"
-              className="p-1 rounded-sm text-[#7F8983] hover:text-[#F1F3EF] transition"
+              className="p-1 rounded-sm text-tl-muted hover:text-tl-text transition"
             >
               <X className="w-4 h-4" aria-hidden="true" />
             </button>
@@ -288,10 +288,10 @@ export const PlayerModal: React.FC<PlayerModalProps> = ({
         <div className="p-4 space-y-5 overflow-y-auto flex-1 text-xs max-h-[60vh] sm:max-h-[65vh]">
           {/* Status Alert if not available */}
           {player.status !== "available" && player.news && (
-            <div className="p-2.5 rounded-sm bg-[#1A0E10] border border-[#E05252]/40 text-[#fca5a5] text-xs flex items-center justify-between gap-3">
+            <div className="p-2.5 rounded-sm bg-rose-950/20 border border-rose-500/40 text-rose-300 text-xs flex items-center justify-between gap-3">
               <span className="truncate leading-relaxed">{player.news}</span>
               {player.chanceOfPlaying !== undefined && (
-                <span className="text-xs font-mono tabular-nums font-bold px-1.5 py-0.5 rounded-none bg-[#E05252]/20 text-[#fca5a5] border border-[#E05252]/30 flex-shrink-0">
+                <span className="text-xs font-mono tabular-nums font-bold px-1.5 py-0.5 rounded-none bg-rose-500/20 text-rose-300 border border-rose-500/30 flex-shrink-0">
                   {player.chanceOfPlaying}%
                 </span>
               )}
@@ -300,26 +300,26 @@ export const PlayerModal: React.FC<PlayerModalProps> = ({
 
           {/* Section 1: GW Breakdown */}
           <div className="space-y-1.5">
-            <span className="text-[10px] font-semibold tracking-wider text-[#7F8983] uppercase font-mono block">
+            <span className="text-[10px] font-semibold tracking-wider text-tl-muted uppercase font-mono block">
               GW Breakdown
             </span>
 
             {gwEvents.length > 0 ? (
-              <div className="divide-y divide-[#1E2421] border-y border-[#1E2421]">
+              <div className="divide-y divide-tl-border border-y border-tl-border">
                 {gwEvents.map((row, idx) => (
                   <div
                     key={idx}
-                    className={`flex items-center justify-between py-2 px-1 hover:bg-[#111614] transition-colors ${
+                    className={`flex items-center justify-between py-2 px-1 hover:bg-tl-surface2 transition-colors ${
                       row.pts === ""
-                        ? "border-t border-[#1E2421] mt-1 pt-1.5"
+                        ? "border-t border-tl-border mt-1 pt-1.5"
                         : ""
                     }`}
                   >
                     <span
                       className={`font-medium ${
                         row.pts === ""
-                          ? "text-[#D6A83D] text-xs font-bold uppercase tracking-wider font-mono tabular-nums"
-                          : "text-xs text-[#F1F3EF]"
+                          ? "text-amber-500 text-xs font-bold uppercase tracking-wider font-mono tabular-nums"
+                          : "text-xs text-tl-text"
                       }`}
                     >
                       {row.name}
@@ -328,20 +328,20 @@ export const PlayerModal: React.FC<PlayerModalProps> = ({
                       <span
                         className={`font-bold ${
                           row.pts === ""
-                            ? "text-[#D6A83D] text-xs"
-                            : "text-[#7F8983] text-xs"
+                            ? "text-amber-500 text-xs"
+                            : "text-tl-muted text-xs"
                         }`}
                       >
                         {row.count}
                       </span>
                       {row.pts !== "" && (
                         <>
-                          <span className="text-[#1E2421] select-none">•</span>
+                          <span className="text-tl-border select-none">•</span>
                           <span
                             className={`font-semibold text-xs ${
                               row.pts.startsWith("-")
-                                ? "text-[#E05252]"
-                                : "text-[#16C784]"
+                                ? "text-rose-500"
+                                : "text-tl-accent"
                             }`}
                           >
                             {row.pts}
@@ -353,26 +353,26 @@ export const PlayerModal: React.FC<PlayerModalProps> = ({
                 ))}
               </div>
             ) : (
-              <div className="py-4 px-3 text-center rounded-sm bg-[#111614] border border-[#1E2421] text-[#7F8983] font-mono text-xs">
+              <div className="py-4 px-3 text-center rounded-sm bg-tl-surface2 border border-tl-border text-tl-muted font-mono text-xs">
                 No match events recorded yet for current Gameweek
               </div>
             )}
           </div>
 
           {/* Section 2: Tactical & Model Metrics */}
-          <div className="border-t border-[#1E2421] pt-3.5 space-y-1.5">
-            <span className="text-[10px] font-semibold tracking-wider text-[#7F8983] uppercase font-mono block">
+          <div className="border-t border-tl-border pt-3.5 space-y-1.5">
+            <span className="text-[10px] font-semibold tracking-wider text-tl-muted uppercase font-mono block">
               Tactical & Model Metrics
             </span>
 
-            <div className="divide-y divide-[#1E2421] border-y border-[#1E2421]">
+            <div className="divide-y divide-tl-border border-y border-tl-border">
               {tacticalMetrics.map((item, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center justify-between py-2 px-1 hover:bg-[#111614] transition-colors"
+                  className="flex items-center justify-between py-2 px-1 hover:bg-tl-surface2 transition-colors"
                 >
-                  <span className="text-xs text-[#7F8983] font-medium">{item.label}</span>
-                  <span className="text-xs text-[#F1F3EF] font-mono tabular-nums font-semibold text-right">
+                  <span className="text-xs text-tl-muted font-medium">{item.label}</span>
+                  <span className="text-xs text-tl-text font-mono tabular-nums font-semibold text-right">
                     {item.value}
                   </span>
                 </div>
@@ -382,19 +382,19 @@ export const PlayerModal: React.FC<PlayerModalProps> = ({
         </div>
 
         {/* Action Handoff Footer */}
-        <div className="p-3 bg-[#070908] border-t border-[#1E2421] flex flex-col gap-2 flex-shrink-0">
+        <div className="p-3 bg-tl-bg border-t border-tl-border flex flex-col gap-2 flex-shrink-0">
           <button
             onClick={() => {
               onClose();
               onDiscuss(player);
             }}
-            className="w-full py-2 px-3 text-xs font-bold font-mono uppercase tracking-wider text-[#070908] bg-[#16C784] hover:bg-[#13ab71] rounded-sm transition flex items-center justify-center gap-2"
+            className="w-full py-2 px-3 text-xs font-bold font-mono uppercase tracking-wider text-tl-accentContrast bg-tl-accent hover:opacity-90 rounded-sm transition flex items-center justify-center gap-2"
           >
             Discuss with Analyst
           </button>
           <button
             onClick={onClose}
-            className="w-full py-1.5 px-3 text-xs font-mono text-[#7F8983] hover:text-[#F1F3EF] bg-[#0D1110] border border-[#1E2421] rounded-sm transition flex items-center justify-center"
+            className="w-full py-1.5 px-3 text-xs font-mono text-tl-muted hover:text-tl-text bg-tl-surface border border-tl-border rounded-sm transition flex items-center justify-center"
           >
             Close
           </button>

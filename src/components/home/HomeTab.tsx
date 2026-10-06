@@ -105,7 +105,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({
   ];
 
   return (
-    <div className="w-full space-y-4 pb-20 animate-fade-in">
+    <div className="w-full space-y-3 pb-20 animate-fade-in">
       {/* Player Stats & Breakdown Modal */}
       <PlayerModal
         player={selectedPlayer}
@@ -114,8 +114,8 @@ export const HomeTab: React.FC<HomeTabProps> = ({
         onDiscuss={handleDiscussPlayer}
       />
 
-      {/* 0. Entry ID Selector & Live Polling Status */}
-      <div className="space-y-1">
+      {/* 0. Compressed Entry ID Strip & Live Polling Status */}
+      <div className="space-y-0.5">
         <EntryIdSelector
           currentEntryId={currentEntryId}
           onSelectEntryId={onSelectEntryId}
@@ -124,43 +124,43 @@ export const HomeTab: React.FC<HomeTabProps> = ({
         />
         
         {/* Sleek Terminal Status Indicator */}
-        <div className="flex items-center justify-between px-0.5 text-xs font-mono">
-          <span className="text-[#16C784] text-[11px] uppercase tracking-wider font-semibold">
+        <div className="flex items-center justify-between px-0.5 text-xs font-mono leading-none">
+          <span className="text-tl-accent text-[10px] uppercase tracking-wider font-semibold">
             Live Matchday Polling (2m)
           </span>
-          <span className="text-[#7F8983] text-[11px] tabular-nums">Updated: {lastLivePollTime}</span>
+          <span className="text-tl-muted text-[10px] tabular-nums">Updated: {lastLivePollTime}</span>
         </div>
       </div>
 
       {isLoading ? (
-        <div className="w-full h-80 flex flex-col items-center justify-center p-8 rounded-sm bg-[#0D1110] border border-[#1E2421] space-y-2.5">
-          <RefreshCw className="w-5 h-5 text-[#16C784] animate-spin" />
-          <p className="text-xs font-mono text-[#7F8983]">
+        <div className="w-full h-80 flex flex-col items-center justify-center p-8 rounded-sm bg-tl-surface border border-tl-border space-y-2.5">
+          <RefreshCw className="w-5 h-5 text-tl-accent animate-spin" />
+          <p className="text-xs font-mono text-tl-muted">
             Syncing live squad #{currentEntryId}...
           </p>
         </div>
       ) : (
         <>
-          {/* 1. Stats Bar (Flat editorial statistics) */}
+          {/* 1. Stats Bar (Flat editorial statistics with 3-tier hierarchy) */}
           <StatsCard stats={stats} />
 
           {/* 2. Editorial Plain Text Navigation Bar */}
-          <nav className="flex items-center border-b border-[#1E2421] gap-6 px-0.5 overflow-x-auto no-scrollbar">
+          <nav className="flex items-center border-b border-tl-border gap-6 px-0.5 overflow-x-auto no-scrollbar">
             {navItems.map((tab) => {
               const isActive = secondaryTab === tab.id;
               return (
                 <button
                   key={tab.id}
                   onClick={() => setSecondaryTab(tab.id)}
-                  className={`relative pb-2.5 pt-1 text-xs uppercase tracking-wider font-semibold transition-colors whitespace-nowrap ${
+                  className={`relative pb-2 pt-1 text-xs uppercase tracking-wider font-semibold transition-colors whitespace-nowrap ${
                     isActive
-                      ? "text-[#F1F3EF]"
-                      : "text-[#7F8983] hover:text-[#F1F3EF]"
+                      ? "text-tl-text"
+                      : "text-tl-muted hover:text-tl-text"
                   }`}
                 >
                   {tab.label}
                   {isActive && (
-                    <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#16C784]" />
+                    <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-tl-accent" />
                   )}
                 </button>
               );
@@ -192,15 +192,15 @@ export const HomeTab: React.FC<HomeTabProps> = ({
           )}
 
           {secondaryTab === "team" && (
-            <div className="space-y-4">
-              {/* Sample Tier Selector & Tactical Tools */}
-              <div className="flex items-center justify-between py-1 px-0.5 text-xs">
+            <div className="space-y-3.5">
+              {/* Secondary Tier: Sample Tier Selector & Tactical Tools */}
+              <div className="flex items-center justify-between py-0.5 px-0.5 text-xs">
                 <div className="flex items-center gap-2">
-                  <span className="text-[11px] font-mono uppercase tracking-wider text-[#7F8983]">Sample:</span>
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-tl-muted">SAMPLE:</span>
                   <select
                     value={sampleTier}
                     onChange={(e) => setSampleTier(e.target.value as SampleTier)}
-                    className="bg-[#0D1110] border border-[#1E2421] text-xs font-mono text-[#F1F3EF] rounded-sm px-2 py-1 focus:outline-none focus:border-[#16C784]"
+                    className="bg-tl-surface border border-tl-border text-xs font-mono text-tl-text rounded-sm px-2 py-0.5 focus:outline-none focus:border-tl-accent"
                   >
                     {SAMPLE_TIER_OPTIONS.map((opt) => (
                       <option key={opt.id} value={opt.id}>
@@ -210,11 +210,11 @@ export const HomeTab: React.FC<HomeTabProps> = ({
                   </select>
                 </div>
 
-                <div className="flex items-center gap-2.5">
+                <div className="flex items-center gap-2">
                   <BadgeLegend />
                   <button
                     onClick={() => setShowEOInfoModal(true)}
-                    className="p-1 text-[#7F8983] hover:text-[#F1F3EF] transition-colors"
+                    className="p-1 text-tl-muted hover:text-tl-text transition-colors"
                     title="Explain EO / xEO"
                   >
                     <HelpCircle className="w-3.5 h-3.5" />
@@ -222,7 +222,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({
                 </div>
               </div>
 
-              {/* Pitch Component: Tactical centerpiece */}
+              {/* Pitch Component: Primary Visual Centerpiece */}
               <Pitch
                 players={players}
                 onPlayerClick={handlePlayerSelect}
@@ -244,15 +244,12 @@ export const HomeTab: React.FC<HomeTabProps> = ({
               {/* Latest News / Flags */}
               {news && news.length > 0 && <LatestNews news={news} />}
 
-              {/* Tactical Shortcuts (Clean typographic analytical actions) */}
+              {/* Tactical Shortcuts (Clean typographic analytical actions, removed unnecessary Touchline Analyst label per requirement 9) */}
               <div className="pt-2 space-y-2">
-                <div className="flex items-center justify-between pb-1 border-b border-[#1E2421]">
-                  <h3 className="text-xs font-semibold uppercase tracking-wider text-[#7F8983]">
+                <div className="flex items-center justify-between pb-1 border-b border-tl-border">
+                  <h3 className="text-xs font-semibold uppercase tracking-wider text-tl-muted">
                     Tactical Shortcuts
                   </h3>
-                  <span className="text-[10px] font-mono uppercase tracking-wider text-[#7F8983]">
-                    Touchline Analyst
-                  </span>
                 </div>
 
                 <div className="grid grid-cols-2 gap-2">
@@ -262,12 +259,12 @@ export const HomeTab: React.FC<HomeTabProps> = ({
                         `Who should I captain for Gameweek ${stats.nextGameweek} in ${stats.teamName}?`
                       )
                     }
-                    className="p-3 rounded-sm bg-[#0D1110] border border-[#1E2421] text-left hover:border-[#16C784]/40 hover:bg-[#111614] transition active:scale-[0.98] group"
+                    className="p-3 rounded-sm bg-tl-surface border border-tl-border text-left hover:border-tl-accent/40 hover:bg-tl-surface2 transition active:scale-[0.98] group"
                   >
-                    <p className="text-xs font-semibold text-[#F1F3EF] group-hover:text-[#16C784] transition-colors">
+                    <p className="text-xs font-semibold text-tl-text group-hover:text-tl-accent transition-colors">
                       Captaincy Advice
                     </p>
-                    <p className="text-[10px] font-mono text-[#7F8983] mt-0.5">
+                    <p className="text-[10px] font-mono text-tl-muted mt-0.5">
                       Analyze xP & match-ups
                     </p>
                   </button>
@@ -278,12 +275,12 @@ export const HomeTab: React.FC<HomeTabProps> = ({
                         `Optimize my starting XI formation and bench order for Gameweek ${stats.nextGameweek}.`
                       )
                     }
-                    className="p-3 rounded-sm bg-[#0D1110] border border-[#1E2421] text-left hover:border-[#16C784]/40 hover:bg-[#111614] transition active:scale-[0.98] group"
+                    className="p-3 rounded-sm bg-tl-surface border border-tl-border text-left hover:border-tl-accent/40 hover:bg-tl-surface2 transition active:scale-[0.98] group"
                   >
-                    <p className="text-xs font-semibold text-[#F1F3EF] group-hover:text-[#16C784] transition-colors">
+                    <p className="text-xs font-semibold text-tl-text group-hover:text-tl-accent transition-colors">
                       Optimize Starting XI
                     </p>
-                    <p className="text-[10px] font-mono text-[#7F8983] mt-0.5">
+                    <p className="text-[10px] font-mono text-tl-muted mt-0.5">
                       ILP formation solver
                     </p>
                   </button>
@@ -294,12 +291,12 @@ export const HomeTab: React.FC<HomeTabProps> = ({
                         `What is my best transfer move for Gameweek ${stats.nextGameweek} with £${stats.inTheBank.toFixed(1)}m ITB?`
                       )
                     }
-                    className="p-3 rounded-sm bg-[#0D1110] border border-[#1E2421] text-left hover:border-[#16C784]/40 hover:bg-[#111614] transition active:scale-[0.98] group"
+                    className="p-3 rounded-sm bg-tl-surface border border-tl-border text-left hover:border-tl-accent/40 hover:bg-tl-surface2 transition active:scale-[0.98] group"
                   >
-                    <p className="text-xs font-semibold text-[#F1F3EF] group-hover:text-[#16C784] transition-colors">
+                    <p className="text-xs font-semibold text-tl-text group-hover:text-tl-accent transition-colors">
                       Transfer Targets
                     </p>
-                    <p className="text-[10px] font-mono text-[#7F8983] mt-0.5">
+                    <p className="text-[10px] font-mono text-tl-muted mt-0.5">
                       SHAP expected gain
                     </p>
                   </button>
@@ -310,12 +307,12 @@ export const HomeTab: React.FC<HomeTabProps> = ({
                         `Check injury flags, rotation risks, and press conference updates across my squad.`
                       )
                     }
-                    className="p-3 rounded-sm bg-[#0D1110] border border-[#1E2421] text-left hover:border-[#16C784]/40 hover:bg-[#111614] transition active:scale-[0.98] group"
+                    className="p-3 rounded-sm bg-tl-surface border border-tl-border text-left hover:border-tl-accent/40 hover:bg-tl-surface2 transition active:scale-[0.98] group"
                   >
-                    <p className="text-xs font-semibold text-[#F1F3EF] group-hover:text-[#16C784] transition-colors">
+                    <p className="text-xs font-semibold text-tl-text group-hover:text-tl-accent transition-colors">
                       Fitness & Flags
                     </p>
-                    <p className="text-[10px] font-mono text-[#7F8983] mt-0.5">
+                    <p className="text-[10px] font-mono text-tl-muted mt-0.5">
                       Press conference intel
                     </p>
                   </button>
@@ -340,40 +337,35 @@ export const HomeTab: React.FC<HomeTabProps> = ({
         </>
       )}
 
-      {/* Explanation Modal for EO & xEO */}
+      {/* EO Explanation Modal with Strict Semantic Tokens */}
       {showEOInfoModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 animate-fade-in">
-          <div className="w-full max-w-sm rounded-md bg-[#0D1110] border border-[#1E2421] p-4 space-y-3.5 shadow-xl animate-scale-in">
-            <div className="flex items-center justify-between border-b border-[#1E2421] pb-2.5">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-[#F1F3EF]">
-                Effective Ownership (EO)
-              </h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 animate-fade-in text-tl-text">
+          <div className="bg-tl-surface border border-tl-border w-full max-w-sm rounded-sm p-4 space-y-3">
+            <div className="flex items-center justify-between pb-2 border-b border-tl-border">
+              <span className="text-xs font-bold font-mono text-tl-text uppercase tracking-wider">
+                Effective Ownership (EO / xEO)
+              </span>
               <button
                 onClick={() => setShowEOInfoModal(false)}
-                className="p-1 rounded-sm text-[#7F8983] hover:text-[#F1F3EF] transition"
+                className="p-1 rounded-sm text-tl-muted hover:text-tl-text"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
-
-            <div className="space-y-2.5 text-xs text-[#7F8983] leading-relaxed font-sans">
+            <div className="text-xs text-tl-muted space-y-2 leading-relaxed font-sans">
               <p>
-                <strong className="text-[#F1F3EF]">Effective Ownership (EO)</strong> accounts for captaincy multipliers. If a player is started by 60% of managers and captained by 30%, their EO is <strong className="text-[#16C784]">90%</strong>.
+                <strong className="text-tl-text">Effective Ownership (EO)</strong> represents the total percentage of active teams gaining points from a player:
               </p>
-              <div className="p-2.5 rounded-sm bg-[#111614] border border-[#1E2421] space-y-1 font-mono text-[11px]">
-                <div className="text-[#7F8983] uppercase tracking-wider">Sample Tiers:</div>
-                <div className="text-[#F1F3EF]">• <span className="text-[#16C784] font-bold">Top 10k:</span> Elite competitive benchmark</div>
-                <div className="text-[#F1F3EF]">• <span className="text-[#16C784] font-bold">Near U:</span> Managers within ±50k of your current rank</div>
-                <div className="text-[#F1F3EF]">• <span className="text-[#16C784] font-bold">Elite:</span> Top 1k hall of fame managers</div>
+              <div className="p-2 rounded-sm bg-tl-surface2 border border-tl-border font-mono text-[11px] text-tl-accent">
+                EO = Start% + Captain% + (2 × TripleCap%)
               </div>
-              <p className="text-[11px] text-[#7F8983]">
-                In <strong className="text-[#F1F3EF]">My XI</strong>, track live EO threat levels so you know which players hurt or protect your rank when they score.
+              <p>
+                If a player has <span className="text-tl-text font-mono">140% EO</span>, owning them without captaincy leaves you with negative rank delta when they score.
               </p>
             </div>
-
             <button
               onClick={() => setShowEOInfoModal(false)}
-              className="w-full py-2 rounded-sm bg-[#16C784] text-[#070908] text-xs font-bold uppercase tracking-wider hover:bg-[#13ab71] transition"
+              className="w-full py-2 rounded-sm bg-tl-accent text-tl-accentContrast text-xs font-bold uppercase tracking-wider transition"
             >
               Close
             </button>

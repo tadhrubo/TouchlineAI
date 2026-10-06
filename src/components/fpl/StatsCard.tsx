@@ -14,79 +14,81 @@ export const StatsCard: React.FC<StatsCardProps> = ({ stats }) => {
     stats.ft_available ?? stats.ftAvailable ?? stats.freeTransfers ?? 1;
 
   return (
-    <div className="w-full py-1 space-y-3">
-      {/* Top Metadata Row: Gameweek & Team context */}
-      <div className="flex items-center justify-between text-xs text-[#7F8983] pb-2 border-b border-[#1E2421]">
+    <div className="w-full space-y-2 py-0.5">
+      {/* Top Metadata Row: Tightened Gameweek & Team context */}
+      <div className="flex items-center justify-between text-xs text-tl-muted pb-1.5 border-b border-tl-border leading-none">
         <div className="flex items-center gap-2">
-          <span className="font-bold text-[#F1F3EF] font-mono uppercase tracking-wider text-xs">
+          {/* Primary context: Current GW */}
+          <span className="font-black text-tl-text font-mono uppercase tracking-wider text-xs">
             GW {stats.nextGameweek}
           </span>
-          <span className="text-[#1E2421] select-none">/</span>
-          <span className="text-[#F1F3EF] font-medium truncate max-w-[200px]">
+          <span className="text-tl-border select-none">/</span>
+          <span className="text-tl-text font-medium truncate max-w-[200px]">
             {stats.teamName}
           </span>
         </div>
 
-        <div className="flex items-center gap-1.5 text-xs text-[#7F8983] font-mono tabular-nums">
-          <Clock className="w-3.5 h-3.5 text-[#7F8983]" aria-hidden="true" />
+        {/* Tertiary metadata: Deadline */}
+        <div className="flex items-center gap-1.5 text-[11px] text-tl-muted font-mono tabular-nums">
+          <Clock className="w-3 h-3 text-tl-muted" aria-hidden="true" />
           <span>{stats.deadline}</span>
         </div>
       </div>
 
-      {/* Main KPI Columns: Powerful editorial hierarchy with dominating FPL numbers */}
-      <div className="grid grid-cols-3 gap-2 py-2 text-center">
-        {/* Overall Points */}
+      {/* Main KPI Columns: Explicit Visual Hierarchy */}
+      <div className="grid grid-cols-3 gap-2 py-1 text-center">
+        {/* Tier 1 Primary: Overall Points */}
         <div className="flex flex-col items-center">
-          <span className="text-[11px] uppercase tracking-wider font-semibold text-[#7F8983]">
+          <span className="text-[10px] uppercase tracking-wider font-semibold text-tl-muted opacity-80">
             Points
           </span>
-          <span className="text-3xl sm:text-4xl md:text-5xl font-black text-[#F1F3EF] font-mono tabular-nums tracking-tight mt-1">
+          <span className="text-3xl sm:text-4xl md:text-5xl font-black text-tl-text font-mono tabular-nums tracking-tight mt-0.5">
             {stats.overallPoints.toLocaleString()}
           </span>
-          <span className="text-xs font-mono tabular-nums text-[#16C784] font-semibold mt-1">
+          <span className="text-[11px] font-mono tabular-nums text-tl-accent font-semibold mt-0.5">
             +{stats.gameweekPoints} GW{stats.currentGameweek}
           </span>
         </div>
 
-        {/* Overall Rank */}
-        <div className="flex flex-col items-center border-x border-[#1E2421] px-1">
-          <span className="text-[11px] uppercase tracking-wider font-semibold text-[#7F8983]">
+        {/* Tier 1 Primary: Overall Rank */}
+        <div className="flex flex-col items-center border-x border-tl-border px-1">
+          <span className="text-[10px] uppercase tracking-wider font-semibold text-tl-muted opacity-80">
             Overall Rank
           </span>
-          <span className="text-2xl sm:text-3xl md:text-4xl font-black text-[#F1F3EF] font-mono tabular-nums tracking-tight mt-1">
+          <span className="text-2xl sm:text-3xl md:text-4xl font-black text-tl-text font-mono tabular-nums tracking-tight mt-0.5">
             #{stats.overallRank.toLocaleString()}
           </span>
-          <span className="text-xs font-mono tabular-nums text-[#7F8983] mt-1">
+          <span className="text-[11px] font-mono tabular-nums text-tl-muted mt-0.5">
             Top {stats.overallRankPercentile}%
           </span>
         </div>
 
-        {/* Free Transfers */}
+        {/* Tier 2 Secondary: Free Transfers */}
         <div className="flex flex-col items-center">
-          <span className="text-[11px] uppercase tracking-wider font-semibold text-[#7F8983]">
+          <span className="text-[10px] uppercase tracking-wider font-semibold text-tl-muted opacity-80">
             Transfers
           </span>
-          <span className="text-2xl sm:text-3xl md:text-4xl font-black text-[#F1F3EF] font-mono tabular-nums tracking-tight mt-1">
-            {ftAvailable} <span className="text-sm font-semibold text-[#16C784]">FT</span>
+          <span className="text-2xl sm:text-3xl md:text-4xl font-black text-tl-text font-mono tabular-nums tracking-tight mt-0.5">
+            {ftAvailable} <span className="text-sm font-semibold text-tl-accent">FT</span>
           </span>
-          <span className="text-xs font-mono tabular-nums text-[#7F8983] mt-1">
+          <span className="text-[11px] font-mono tabular-nums text-tl-muted mt-0.5">
             £{stats.inTheBank.toFixed(1)}m ITB
           </span>
         </div>
       </div>
 
-      {/* Financial Telemetry Sub-line */}
-      <div className="flex items-center justify-between pt-2 border-t border-[#1E2421] text-xs text-[#7F8983] font-mono tabular-nums">
+      {/* Tier 2 Secondary: Squad Value and Bank sub-line */}
+      <div className="flex items-center justify-between pt-1.5 border-t border-tl-border text-[11px] text-tl-muted font-mono tabular-nums leading-none">
         <div>
           <span>Squad Value: </span>
-          <span className="font-semibold text-[#F1F3EF]">
+          <span className="font-semibold text-tl-text">
             £{stats.teamValue.toFixed(1)}m
           </span>
         </div>
 
         <div>
           <span>Bank: </span>
-          <span className="font-semibold text-[#16C784]">
+          <span className="font-semibold text-tl-accent">
             £{stats.inTheBank.toFixed(1)}m
           </span>
         </div>

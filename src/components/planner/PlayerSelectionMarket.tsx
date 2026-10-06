@@ -279,7 +279,7 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
 
   if (!isOpen || !mounted || !outPlayer) return null;
 
-  const bankTextColor = currentBank < 0 ? "text-[#E05252]" : "text-[#16C784]";
+  const bankTextColor = currentBank < 0 ? "text-rose-500" : "text-tl-accent";
 
   const renderStatValue = (player: Player) => {
     switch (customStat) {
@@ -310,35 +310,35 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
 
   return createPortal(
     <div className="fixed inset-0 z-[9999] flex justify-center bg-black/80 overflow-hidden animate-fade-in">
-      <div className="w-full max-w-3xl flex flex-col bg-[#070908] text-[#F1F3EF] overflow-hidden border-x border-[#1E2421] h-full">
+      <div className="w-full max-w-3xl flex flex-col bg-tl-bg text-tl-text overflow-hidden border-x border-tl-border h-full">
         {/* 1. Global Market Header */}
-        <div className="flex-shrink-0 bg-[#0D1110] border-b border-[#1E2421] px-4 py-3 flex items-center justify-between">
+        <div className="flex-shrink-0 bg-tl-surface border-b border-tl-border px-4 py-3 flex items-center justify-between">
           <div className="min-w-0 pr-2">
-            <p className="text-[10px] font-mono text-[#7F8983] uppercase tracking-wider font-semibold">
+            <p className="text-[10px] font-mono text-tl-muted uppercase tracking-wider font-semibold">
               TRANSFER TARGETS
             </p>
-            <h2 className="text-sm font-bold text-[#F1F3EF] truncate">
-              Replace <span className="text-[#E05252] font-semibold">{outPlayer.webName}</span> (£{outPlayer.price.toFixed(1)}m)
+            <h2 className="text-sm font-bold text-tl-text truncate">
+              Replace <span className="text-rose-500 font-semibold">{outPlayer.webName}</span> (£{outPlayer.price.toFixed(1)}m)
             </h2>
           </div>
 
           <div className="flex items-center gap-2 flex-shrink-0">
-            <div className="flex items-center gap-1.5 bg-[#070908] px-2.5 py-1.5 rounded-sm border border-[#1E2421] text-xs font-mono">
-              <span className="text-[#7F8983]">BANK</span>
+            <div className="flex items-center gap-1.5 bg-tl-bg px-2.5 py-1.5 rounded-sm border border-tl-border text-xs font-mono">
+              <span className="text-tl-muted">BANK</span>
               <span className={`font-bold tabular-nums ${bankTextColor}`}>
                 £{currentBank.toFixed(1)}m
               </span>
             </div>
 
-            <div className="flex items-center gap-1.5 bg-[#070908] px-2.5 py-1.5 rounded-sm border border-[#1E2421] text-xs font-mono">
-              <span className="text-[#7F8983]">FT</span>
-              <span className="font-bold text-[#F1F3EF] tabular-nums">{freeTransfers}</span>
+            <div className="flex items-center gap-1.5 bg-tl-bg px-2.5 py-1.5 rounded-sm border border-tl-border text-xs font-mono">
+              <span className="text-tl-muted">FT</span>
+              <span className="font-bold text-tl-text tabular-nums">{freeTransfers}</span>
             </div>
 
             <button
               onClick={onClose}
               aria-label="Close transfer market"
-              className="w-8 h-8 flex items-center justify-center rounded-sm bg-[#070908] border border-[#1E2421] text-[#7F8983] hover:text-[#F1F3EF] hover:border-neutral-600 transition"
+              className="w-8 h-8 flex items-center justify-center rounded-sm bg-tl-bg border border-tl-border text-tl-muted hover:text-tl-text hover:border-tl-muted transition"
             >
               <X className="w-4 h-4" />
             </button>
@@ -346,21 +346,21 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
         </div>
 
         {/* 2. Filter Grid */}
-        <div className="flex-shrink-0 flex flex-col gap-2 p-3 bg-[#0D1110] border-b border-[#1E2421]">
+        <div className="flex-shrink-0 flex flex-col gap-2 p-3 bg-tl-surface border-b border-tl-border">
           {/* Search Row */}
           <div className="w-full relative flex items-center">
-            <Search className="w-3.5 h-3.5 text-[#7F8983] absolute left-3 pointer-events-none" />
+            <Search className="w-3.5 h-3.5 text-tl-muted absolute left-3 pointer-events-none" />
             <input
               type="text"
               placeholder="Search player or club..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-[#070908] border border-[#1E2421] rounded-sm pl-9 pr-8 py-2 text-xs text-[#F1F3EF] placeholder-[#7F8983] focus:outline-none focus:border-[#16C784]"
+              className="w-full bg-tl-bg border border-tl-border rounded-sm pl-9 pr-8 py-2 text-xs text-tl-text placeholder-tl-muted focus:outline-none focus:border-tl-accent"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
-                className="absolute right-2.5 text-[#7F8983] hover:text-[#F1F3EF]"
+                className="absolute right-2.5 text-tl-muted hover:text-tl-text"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -372,10 +372,10 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
             <select
               value={customStat}
               onChange={(e) => setCustomStat(e.target.value as CustomStatOption)}
-              className="bg-[#070908] border border-[#1E2421] rounded-sm px-2.5 py-2 text-xs text-[#F1F3EF] focus:outline-none focus:border-[#16C784] appearance-none truncate"
+              className="bg-tl-bg border border-tl-border rounded-sm px-2.5 py-2 text-xs text-tl-text focus:outline-none focus:border-tl-accent appearance-none truncate"
             >
               {Object.entries(CUSTOM_STAT_LABELS).map(([key, label]) => (
-                <option key={key} value={key} className="bg-[#0D1110] text-[#F1F3EF]">
+                <option key={key} value={key} className="bg-tl-surface text-tl-text">
                   {label}
                 </option>
               ))}
@@ -384,22 +384,22 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
             <select
               value={selectedPosition}
               onChange={(e) => setSelectedPosition(e.target.value)}
-              className="bg-[#070908] border border-[#1E2421] rounded-sm px-2.5 py-2 text-xs text-[#F1F3EF] focus:outline-none focus:border-[#16C784] appearance-none truncate"
+              className="bg-tl-bg border border-tl-border rounded-sm px-2.5 py-2 text-xs text-tl-text focus:outline-none focus:border-tl-accent appearance-none truncate"
             >
-              <option value="ALL" className="bg-[#0D1110] text-[#F1F3EF]">All Positions</option>
-              <option value="GKP" className="bg-[#0D1110] text-[#F1F3EF]">Goalkeepers</option>
-              <option value="DEF" className="bg-[#0D1110] text-[#F1F3EF]">Defenders</option>
-              <option value="MID" className="bg-[#0D1110] text-[#F1F3EF]">Midfielders</option>
-              <option value="FWD" className="bg-[#0D1110] text-[#F1F3EF]">Forwards</option>
+              <option value="ALL" className="bg-tl-surface text-tl-text">All Positions</option>
+              <option value="GKP" className="bg-tl-surface text-tl-text">Goalkeepers</option>
+              <option value="DEF" className="bg-tl-surface text-tl-text">Defenders</option>
+              <option value="MID" className="bg-tl-surface text-tl-text">Midfielders</option>
+              <option value="FWD" className="bg-tl-surface text-tl-text">Forwards</option>
             </select>
 
             <select
               value={selectedTeam}
               onChange={(e) => setSelectedTeam(e.target.value)}
-              className="bg-[#070908] border border-[#1E2421] rounded-sm px-2.5 py-2 text-xs text-[#F1F3EF] focus:outline-none focus:border-[#16C784] appearance-none truncate"
+              className="bg-tl-bg border border-tl-border rounded-sm px-2.5 py-2 text-xs text-tl-text focus:outline-none focus:border-tl-accent appearance-none truncate"
             >
               {TEAMS_LIST.map((t) => (
-                <option key={t.short} value={t.short} className="bg-[#0D1110] text-[#F1F3EF]">
+                <option key={t.short} value={t.short} className="bg-tl-surface text-tl-text">
                   {t.name}
                 </option>
               ))}
@@ -410,11 +410,11 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
               onChange={(e) =>
                 setMaxPrice(e.target.value ? Number(e.target.value) : undefined)
               }
-              className="bg-[#070908] border border-[#1E2421] rounded-sm px-2.5 py-2 text-xs text-[#F1F3EF] focus:outline-none focus:border-[#16C784] appearance-none truncate"
+              className="bg-tl-bg border border-tl-border rounded-sm px-2.5 py-2 text-xs text-tl-text focus:outline-none focus:border-tl-accent appearance-none truncate"
             >
-              <option value="" className="bg-[#0D1110] text-[#F1F3EF]">Max: No limit</option>
+              <option value="" className="bg-tl-surface text-tl-text">Max: No limit</option>
               {Array.from({ length: 23 }, (_, i) => (15.0 - i * 0.5).toFixed(1)).map((price) => (
-                <option key={price} value={price} className="bg-[#0D1110] text-[#F1F3EF]">
+                <option key={price} value={price} className="bg-tl-surface text-tl-text">
                   Max: £{price}m
                 </option>
               ))}
@@ -425,19 +425,19 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
         {/* 3. Player Selection List */}
         <div className="flex-1 overflow-y-auto p-3 space-y-1">
           {isLoading ? (
-            <div className="h-64 flex flex-col items-center justify-center space-y-2 text-xs font-mono text-[#7F8983]">
-              <RefreshCw className="w-5 h-5 text-[#16C784] animate-spin" />
+            <div className="h-64 flex flex-col items-center justify-center space-y-2 text-xs font-mono text-tl-muted">
+              <RefreshCw className="w-5 h-5 text-tl-accent animate-spin" />
               <p>LOADING CANDIDATES...</p>
             </div>
           ) : fetchError ? (
-            <div className="p-3 rounded-sm bg-[#0D1110] border border-[#E05252]/40 text-[#E05252] text-xs flex items-center gap-2">
+            <div className="p-3 rounded-sm bg-tl-surface border border-rose-500/40 text-rose-500 text-xs flex items-center gap-2">
               <AlertCircle className="w-4 h-4 flex-shrink-0" />
               <span>{fetchError}</span>
             </div>
           ) : filteredPlayers.length === 0 ? (
-            <div className="p-8 text-center text-xs font-mono text-[#7F8983] bg-[#0D1110] rounded-sm border border-[#1E2421] space-y-1">
+            <div className="p-8 text-center text-xs font-mono text-tl-muted bg-tl-surface rounded-sm border border-tl-border space-y-1">
               <p>No players matched your filter criteria.</p>
-              <p className="text-[11px] text-[#7F8983]/80">
+              <p className="text-[11px] text-tl-muted/80">
                 Try selecting &quot;No limit&quot; or adjusting your search query.
               </p>
             </div>
@@ -455,11 +455,11 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
                 <button
                   key={player.id}
                   onClick={() => onSelect(player)}
-                  className="w-full p-2.5 rounded-sm border text-left flex items-center justify-between transition-colors bg-[#0D1110] border-[#1E2421] hover:border-[#16C784]/60 hover:bg-[#111614] group"
+                  className="w-full p-2.5 rounded-sm border text-left flex items-center justify-between transition-colors bg-tl-surface border-tl-border hover:border-tl-accent/60 hover:bg-tl-surface2 group"
                 >
                   {/* Left: Shirt & Name Info */}
                   <div className="flex items-center min-w-0 flex-1 pr-2">
-                    <div className="relative w-8 h-8 flex items-center justify-center bg-[#070908] rounded-sm border border-[#1E2421] p-0.5 flex-shrink-0">
+                    <div className="relative w-8 h-8 flex items-center justify-center bg-tl-bg rounded-sm border border-tl-border p-0.5 flex-shrink-0">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={shirtUrl}
@@ -469,14 +469,14 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
                           (e.currentTarget as HTMLImageElement).src = fallbackUrl;
                         }}
                       />
-                      <span className="absolute -bottom-1 -right-1 px-1 py-0.2 rounded-sm text-[8px] font-mono font-bold bg-[#0D1110] text-[#7F8983] border border-[#1E2421]">
+                      <span className="absolute -bottom-1 -right-1 px-1 py-0.2 rounded-sm text-[8px] font-mono font-bold bg-tl-surface text-tl-muted border border-tl-border">
                         {player.position}
                       </span>
                     </div>
 
                     <div className="flex-1 min-w-0 ml-3">
-                      <div className="text-sm font-bold text-[#F1F3EF] truncate">{player.webName}</div>
-                      <div className="text-[10px] text-[#7F8983] uppercase font-mono mt-0.5 flex items-center gap-1.5">
+                      <div className="text-sm font-bold text-tl-text truncate">{player.webName}</div>
+                      <div className="text-[10px] text-tl-muted uppercase font-mono mt-0.5 flex items-center gap-1.5">
                         <span>{player.teamShort} · {player.position}</span>
                         {nextFix && (
                           <span
@@ -494,15 +494,15 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
                   {/* Right: Selected Custom Stat & Price & Select Action */}
                   <div className="flex items-center gap-3 text-right flex-shrink-0 font-mono">
                     <div className="text-right">
-                      <span className="text-xs font-bold text-[#16C784] block tabular-nums">
+                      <span className="text-xs font-bold text-tl-accent block tabular-nums">
                         {renderStatValue(player)}
                       </span>
-                      <span className="text-[10px] text-[#7F8983] font-medium tabular-nums">
+                      <span className="text-[10px] text-tl-muted font-medium tabular-nums">
                         £{player.price.toFixed(1)}m
                       </span>
                     </div>
 
-                    <div className="w-7 h-7 rounded-sm flex items-center justify-center border border-[#1E2421] bg-[#070908] text-[#7F8983] group-hover:border-[#16C784] group-hover:text-[#16C784] transition">
+                    <div className="w-7 h-7 rounded-sm flex items-center justify-center border border-tl-border bg-tl-bg text-tl-muted group-hover:border-tl-accent group-hover:text-tl-accent transition">
                       <Check className="w-3.5 h-3.5" />
                     </div>
                   </div>
@@ -513,7 +513,7 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
         </div>
 
         {/* 4. Footer info */}
-        <div className="flex-shrink-0 p-2.5 border-t border-[#1E2421] bg-[#0D1110] text-center font-mono text-[10px] text-[#7F8983]">
+        <div className="flex-shrink-0 p-2.5 border-t border-tl-border bg-tl-surface text-center font-mono text-[10px] text-tl-muted">
           {filteredPlayers.length} CANDIDATE PLAYERS AVAILABLE
         </div>
       </div>

@@ -25,7 +25,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   };
 
   return (
-    <div className="w-full min-h-[420px] flex flex-col items-center justify-center p-6 text-center space-y-4 rounded-sm bg-[#0D1110] border border-[#1E2421] my-auto animate-fade-in text-[#F1F3EF]">
+    <div className="w-full min-h-[420px] flex flex-col items-center justify-center p-6 text-center space-y-4 rounded-sm bg-tl-surface border border-tl-border my-auto animate-fade-in text-tl-text">
       {/* Brand Logo */}
       <div className="flex items-center justify-center">
         <Image
@@ -40,10 +40,10 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
 
       {/* Title & Description */}
       <div className="space-y-1.5 max-w-xs">
-        <h2 className="text-base font-bold text-[#F1F3EF] tracking-tight">
+        <h2 className="text-base font-bold text-tl-text tracking-tight">
           CONNECT FPL SQUAD
         </h2>
-        <p className="text-xs text-[#7F8983] leading-relaxed">
+        <p className="text-xs text-tl-muted leading-relaxed">
           Enter your Fantasy Premier League Entry ID to load live squad data and tactical models.
         </p>
       </div>
@@ -56,13 +56,13 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
           placeholder="ENTER FPL ENTRY ID"
           value={inputVal}
           onChange={(e) => setInputVal(e.target.value)}
-          className="w-full bg-[#070908] border border-[#1E2421] focus:border-[#16C784] rounded-sm px-4 py-2.5 text-xs font-mono font-medium text-[#F1F3EF] placeholder-[#7F8983] focus:outline-none transition text-center tracking-wider"
+          className="w-full bg-tl-bg border border-tl-border focus:border-tl-accent rounded-sm px-4 py-2.5 text-xs font-mono font-medium text-tl-text placeholder:text-tl-muted focus:outline-none transition text-center tracking-wider"
         />
 
         <button
           type="submit"
           disabled={isLoading || !inputVal.trim()}
-          className="w-full py-2.5 px-4 rounded-sm bg-[#16C784] hover:bg-[#16C784]/90 disabled:opacity-40 text-[#070908] font-bold text-xs transition flex items-center justify-center gap-1.5 font-mono"
+          className="w-full py-2.5 px-4 rounded-sm bg-tl-accent hover:opacity-90 disabled:opacity-40 text-tl-accentContrast font-bold text-xs transition flex items-center justify-center gap-1.5 font-mono"
         >
           {isLoading ? (
             <>
@@ -79,24 +79,24 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       </form>
 
       {/* Where to find ID Guide */}
-      <div className="w-full max-w-xs pt-2 border-t border-[#1E2421] text-left">
+      <div className="w-full max-w-xs pt-2 border-t border-tl-border text-left">
         <button
           type="button"
           onClick={() => setShowHelp(!showHelp)}
-          className="flex items-center gap-1 text-[11px] text-[#7F8983] hover:text-[#F1F3EF] transition mx-auto font-mono"
+          className="flex items-center gap-1 text-[11px] text-tl-muted hover:text-tl-text transition mx-auto font-mono"
         >
-          <HelpCircle className="w-3 h-3 text-[#7F8983]" />
+          <HelpCircle className="w-3 h-3 text-tl-muted" />
           <span>How to find your Entry ID</span>
         </button>
 
         {showHelp && (
-          <div className="mt-2 p-2.5 rounded-sm bg-[#070908] border border-[#1E2421] text-[11px] text-[#7F8983] leading-relaxed space-y-1">
-            <p className="font-medium text-[#F1F3EF]">1. Log in to fantasy.premierleague.com</p>
-            <p>2. Go to the <span className="text-[#F1F3EF]">Points</span> tab.</p>
+          <div className="mt-2 p-2.5 rounded-sm bg-tl-bg border border-tl-border text-[11px] text-tl-muted leading-relaxed space-y-1">
+            <p className="font-medium text-tl-text">1. Log in to fantasy.premierleague.com</p>
+            <p>2. Go to the <span className="text-tl-text">Points</span> tab.</p>
             <p>
               3. Check the URL:
               <br />
-              <code className="text-[10px] text-[#16C784] font-mono">
+              <code className="text-[10px] text-tl-accent font-mono">
                 .../entry/<b>[YOUR_ID]</b>/event/...
               </code>
             </p>

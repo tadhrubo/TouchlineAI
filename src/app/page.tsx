@@ -11,6 +11,8 @@ import {
   Bell,
   RefreshCw,
   Info,
+  Sun,
+  Moon,
 } from "lucide-react";
 
 export default function App() {
@@ -25,6 +27,7 @@ export default function App() {
   const [isLoadingSquad, setIsLoadingSquad] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [pendingChatPrompt, setPendingChatPrompt] = useState<string | null>(null);
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
 
   // Fetch live squad data for a specific entryId
   const loadSquadData = useCallback(async (targetId: string) => {
@@ -79,15 +82,43 @@ export default function App() {
     }
   }, []);
 
-  // Initialize from localStorage on mount
+  // Initialize theme and entryId from localStorage on mount
   useEffect(() => {
     setIsClient(true);
+    try {
+      const storedTheme = localStorage.getItem("touchline_theme");
+      if (storedTheme === "light" || storedTheme === "dark") {
+        setTheme(storedTheme);
+        document.documentElement.setAttribute("data-theme", storedTheme);
+        document.documentElement.classList.remove("light", "dark");
+        document.documentElement.classList.add(storedTheme);
+      } else {
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const initial = prefersDark ? "dark" : "light";
+        setTheme(initial);
+        document.documentElement.setAttribute("data-theme", initial);
+        document.documentElement.classList.remove("light", "dark");
+        document.documentElement.classList.add(initial);
+      }
+    } catch (e) {}
+
     const saved = localStorage.getItem("touchline_fpl_entry_id");
     if (saved && saved.trim() !== "") {
       setEntryId(saved);
       loadSquadData(saved);
     }
   }, [loadSquadData]);
+
+  const toggleTheme = () => {
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    setTheme(nextTheme);
+    try {
+      localStorage.setItem("touchline_theme", nextTheme);
+      document.documentElement.setAttribute("data-theme", nextTheme);
+      document.documentElement.classList.remove("light", "dark");
+      document.documentElement.classList.add(nextTheme);
+    } catch (e) {}
+  };
 
   // Handler for user switching or entering an Entry ID
   const handleSelectEntryId = (newId: string) => {
@@ -137,7 +168,7 @@ export default function App() {
 
   if (!isClient) {
     return (
-      <div className="min-h-screen bg-[#070908] flex items-center justify-center">
+      <div className="min-h-screen bg-tl-bg flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <Image
             src="/asset/image/tlai.png"
@@ -147,34 +178,34 @@ export default function App() {
             className="w-10 h-10 object-contain"
             priority
           />
-          <span className="text-xs font-mono uppercase tracking-widest text-[#7F8983]">Touchline AI</span>
+          <span className="text-xs font-mono uppercase tracking-widest text-tl-muted">Touchline AI</span>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="w-full h-full flex flex-col relative bg-[#070908] text-[#F1F3EF] font-sans antialiased overflow-hidden selection:bg-[#16C784]/20 selection:text-[#16C784]">
+    <div className="w-full h-full flex flex-col relative bg-tl-bg text-tl-text font-sans antialiased overflow-hidden selection:bg-tl-accent/20 selection:text-tl-accent">
       {/* App Container */}
-      <div className="w-full h-full flex flex-col relative bg-[#070908] overflow-hidden">
+      <div className="w-full h-full flex flex-col relative bg-tl-bg overflow-hidden">
         
-        {/* Top Global Header (Fixed at top) */}
-        <header className="flex-shrink-0 z-50 w-full bg-[#070908] border-b border-[#1E2421] px-4 md:px-6 py-2.5 flex items-center justify-between">
+        {/* Top Global Header (Compressed by ~15-20% vertically) */}
+        <header className="flex-shrink-0 z-50 w-full bg-tl-bg border-b border-tl-border px-4 md:px-6 py-2 flex items-center justify-between">
           {/* Logo with /asset/image/tlai.png */}
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2">
             <Image
               src="/asset/image/tlai.png"
               alt="Touchline AI Logo"
-              width={24}
-              height={24}
-              className="w-6 h-6 object-contain"
+              width={22}
+              height={22}
+              className="w-5.5 h-5.5 object-contain"
               priority
             />
-            <div className="flex items-baseline font-brand tracking-widest">
-              <span className="text-xs md:text-sm font-bold text-[#F1F3EF]">
+            <div className="flex items-baseline font-brand tracking-widest leading-none">
+              <span className="text-xs md:text-sm font-bold text-tl-text">
                 TOUCHLINE
               </span>
-              <span className="text-xs md:text-sm font-bold text-[#16C784] ml-1">
+              <span className="text-xs md:text-sm font-bold text-tl-accent ml-1">
                 AI
               </span>
             </div>
@@ -182,26 +213,40 @@ export default function App() {
 
           {/* Action Icons */}
           <div className="flex items-center gap-1.5">
+            {/* Minimal Theme Toggle: sun/moon icon only */}
+            <button
+              onClick={toggleTheme}
+              aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+              title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+              className="min-w-[34px] min-h-[34px] flex items-center justify-center rounded-sm bg-tl-surface border border-tl-border text-tl-muted hover:text-tl-text hover:bg-tl-surface2 transition active:scale-95 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-tl-accent"
+            >
+              {theme === "dark" ? (
+                <Sun className="w-3.5 h-3.5" />
+              ) : (
+                <Moon className="w-3.5 h-3.5" />
+              )}
+            </button>
+
             {entryId && (
               <button
                 onClick={handleRefresh}
                 disabled={isLoadingSquad}
                 aria-label="Refresh Data"
-                className="min-w-[36px] min-h-[36px] flex items-center justify-center rounded-sm bg-[#0D1110] border border-[#1E2421] text-[#7F8983] hover:text-[#F1F3EF] hover:bg-[#111614] transition active:scale-95 disabled:opacity-40 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#16C784]"
+                className="min-w-[34px] min-h-[34px] flex items-center justify-center rounded-sm bg-tl-surface border border-tl-border text-tl-muted hover:text-tl-text hover:bg-tl-surface2 transition active:scale-95 disabled:opacity-40 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-tl-accent"
               >
                 <RefreshCw
-                  className={`w-3.5 h-3.5 ${isLoadingSquad ? "animate-spin text-[#16C784]" : ""}`}
+                  className={`w-3.5 h-3.5 ${isLoadingSquad ? "animate-spin text-tl-accent" : ""}`}
                 />
               </button>
             )}
 
             <button
               aria-label="Notifications"
-              className="relative min-w-[36px] min-h-[36px] flex items-center justify-center rounded-sm bg-[#0D1110] border border-[#1E2421] text-[#7F8983] hover:text-[#F1F3EF] hover:bg-[#111614] transition active:scale-95 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#16C784]"
+              className="relative min-w-[34px] min-h-[34px] flex items-center justify-center rounded-sm bg-tl-surface border border-tl-border text-tl-muted hover:text-tl-text hover:bg-tl-surface2 transition active:scale-95 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-tl-accent"
             >
               <Bell className="w-3.5 h-3.5" />
               {news.length > 0 && (
-                <span className="absolute top-1.5 right-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-sm bg-[#16C784] text-[9px] font-bold font-mono tabular-nums text-[#070908]">
+                <span className="absolute top-1 right-1 flex h-3.5 w-3.5 items-center justify-center rounded-sm bg-tl-accent text-[9px] font-bold font-mono tabular-nums text-tl-accentContrast">
                   {news.length}
                 </span>
               )}
@@ -211,14 +256,14 @@ export default function App() {
 
         {/* Global Error Notice if any */}
         {errorMsg && (
-          <div className="mx-4 mt-2 p-2.5 rounded-sm bg-[#1A0E10] border border-[#E05252]/40 text-[#fca5a5] text-xs flex items-center justify-between flex-shrink-0 animate-fade-in">
+          <div className="mx-4 mt-2 p-2 rounded-sm bg-tl-surface border border-tl-negative/40 text-tl-negative text-xs flex items-center justify-between flex-shrink-0 animate-fade-in">
             <div className="flex items-center gap-2">
-              <Info className="w-3.5 h-3.5 text-[#E05252] flex-shrink-0" />
+              <Info className="w-3.5 h-3.5 text-tl-negative flex-shrink-0" />
               <span>{errorMsg}</span>
             </div>
             <button
               onClick={() => setErrorMsg(null)}
-              className="font-medium underline text-[11px] text-[#E05252] ml-2"
+              className="font-medium underline text-[11px] text-tl-negative ml-2"
             >
               Dismiss
             </button>
@@ -228,7 +273,7 @@ export default function App() {
         {/* Main Content Area: Flexes and takes available height */}
         <main
           className={`flex-1 min-h-0 flex flex-col ${
-            activeTab === "home" ? "overflow-y-auto p-3.5 pb-6" : "overflow-hidden p-0"
+            activeTab === "home" ? "overflow-y-auto px-3.5 py-2 pb-6" : "overflow-hidden p-0"
           }`}
         >
           {activeTab === "home" ? (
@@ -259,16 +304,16 @@ export default function App() {
           )}
         </main>
 
-        {/* Bottom Navigation Bar (Fixed at bottom naturally) */}
-        <nav className="flex-shrink-0 z-50 w-full bg-[#070908] border-t border-[#1E2421] px-8 py-2">
+        {/* Bottom Navigation Bar */}
+        <nav className="flex-shrink-0 z-50 w-full bg-tl-bg border-t border-tl-border px-8 py-2">
           <div className="max-w-md mx-auto flex items-center justify-around">
             {/* Home Tab Button */}
             <button
               onClick={() => setActiveTab("home")}
-              className={`flex flex-col items-center gap-1 py-1 transition-colors ${
+              className={`flex flex-col items-center gap-1 py-0.5 transition-colors ${
                 activeTab === "home"
-                  ? "text-[#16C784]"
-                  : "text-[#7F8983] hover:text-[#F1F3EF]"
+                  ? "text-tl-accent"
+                  : "text-tl-muted hover:text-tl-text"
               }`}
             >
               <Home className="w-4 h-4" />
@@ -278,10 +323,10 @@ export default function App() {
             {/* Chat Tab Button */}
             <button
               onClick={() => setActiveTab("chat")}
-              className={`flex flex-col items-center gap-1 py-1 transition-colors ${
+              className={`flex flex-col items-center gap-1 py-0.5 transition-colors ${
                 activeTab === "chat"
-                  ? "text-[#16C784]"
-                  : "text-[#7F8983] hover:text-[#F1F3EF]"
+                  ? "text-tl-accent"
+                  : "text-tl-muted hover:text-tl-text"
               }`}
             >
               <MessageCircle className="w-4 h-4" />

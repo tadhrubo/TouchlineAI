@@ -1,13 +1,10 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { Player, TeamStats } from "@/types/fpl";
+import { TeamStats, Player } from "@/types/fpl";
 import { BadgeLegend } from "../fpl/BadgeLegend";
 import { PitchBranding } from "../ui/PitchBranding";
-import {
-  List,
-  Grid,
-} from "lucide-react";
+import { Grid, List } from "lucide-react";
 
 interface PointsTabProps {
   stats: TeamStats;
@@ -17,45 +14,43 @@ interface PointsTabProps {
   onPlayerClick?: (player: Player) => void;
 }
 
-function formatNumber(num?: number): string {
-  if (num === undefined || num === null || isNaN(num)) return "-";
+function formatNumber(num?: number | null): string {
+  if (num == null || isNaN(num) || num === 0) return "-";
   return num.toLocaleString();
 }
 
-/**
- * Event Icons Row helper
- */
-const MatchEventIcons: React.FC<{ stats?: Player["stats"] }> = ({ stats }) => {
+const MatchEventIcons: React.FC<{ stats?: any }> = ({ stats }) => {
   if (!stats) return null;
 
-  const hasEvents =
-    (stats.goals_scored && stats.goals_scored > 0) ||
-    (stats.assists && stats.assists > 0) ||
-    (stats.clean_sheets && stats.clean_sheets > 0) ||
-    (stats.bonus && stats.bonus > 0) ||
-    (stats.yellow_cards && stats.yellow_cards > 0) ||
-    (stats.red_cards && stats.red_cards > 0) ||
-    (stats.saves && stats.saves >= 3);
-
-  if (!hasEvents) return null;
-
   return (
-    <div className="flex items-center justify-center gap-1 mt-0.5 text-[9.5px] leading-none flex-wrap font-mono">
+    <div className="flex items-center justify-center gap-1 text-[10px] font-mono leading-none">
       {stats.goals_scored && stats.goals_scored > 0 ? (
-        <span title={`Goals: ${stats.goals_scored}`}>⚽{stats.goals_scored}</span>
+        <span title={`Goals: ${stats.goals_scored}`}>⚽{stats.goals_scored > 1 ? `x${stats.goals_scored}` : ""}</span>
       ) : null}
       {stats.assists && stats.assists > 0 ? (
-        <span title={`Assists: ${stats.assists}`} className="text-[#16C784] font-bold">
-          Ⓐ{stats.assists}
+        <span title={`Assists: ${stats.assists}`}>🅰️{stats.assists > 1 ? `x${stats.assists}` : ""}</span>
+      ) : null}
+      {stats.bonus && stats.bonus > 0 ? (
+        <span className="font-bold text-tl-accent" title={`Bonus: ${stats.bonus}`}>
+          +{stats.bonus}
+        </span>
+      ) : null}
+      {stats.bps && stats.bps > 0 && (!stats.bonus || stats.bonus === 0) ? (
+        <span className="text-[8px] text-tl-muted" title={`BPS: ${stats.bps}`}>
+          {stats.bps}bps
         </span>
       ) : null}
       {stats.clean_sheets && stats.clean_sheets > 0 ? (
-        <span title="Clean Sheet">CS</span>
+        <span title="Clean Sheet">🛡️</span>
       ) : null}
-      {stats.bonus && stats.bonus > 0 ? (
-        <span title={`Bonus Points: ${stats.bonus}`} className="text-[#D6A83D] font-bold">
-          +{stats.bonus}
-        </span>
+      {stats.penalties_saved && stats.penalties_saved > 0 ? (
+        <span title="Penalty Saved">🧤</span>
+      ) : null}
+      {stats.penalties_missed && stats.penalties_missed > 0 ? (
+        <span title="Penalty Missed">❌</span>
+      ) : null}
+      {stats.own_goals && stats.own_goals > 0 ? (
+        <span title="Own Goal">⚠️</span>
       ) : null}
       {stats.yellow_cards && stats.yellow_cards > 0 ? (
         <span title="Yellow Card">🟨</span>
@@ -206,24 +201,24 @@ export const PointsTab: React.FC<PointsTabProps> = ({
       >
         {/* Sub In / Sub Out Indicators */}
         {player.isSubbedIn && (
-          <span className="absolute -top-1 -left-1 z-30 bg-[#16C784] text-[#070908] text-[8px] font-black px-1 rounded-sm leading-tight">
+          <span className="absolute -top-1 -left-1 z-30 bg-tl-accent text-tl-accentContrast text-[8px] font-black px-1 rounded-sm leading-tight">
             ▲ IN
           </span>
         )}
         {player.isSubbedOut && (
-          <span className="absolute -top-1 -left-1 z-30 bg-[#E05252] text-[#F1F3EF] text-[8px] font-bold px-1 rounded-sm leading-tight">
+          <span className="absolute -top-1 -left-1 z-30 bg-tl-negative text-tl-text text-[8px] font-bold px-1 rounded-sm leading-tight">
             ▼ OUT
           </span>
         )}
 
         {/* Captaincy / Vice Captaincy Badges */}
         {player.isCaptain && (
-          <div className="absolute -top-1 -right-0.5 z-20 flex items-center justify-center min-w-[15px] h-3.5 rounded-sm bg-[#16C784] text-[#070908] font-black text-[9px] font-mono px-1">
+          <div className="absolute -top-1 -right-0.5 z-20 flex items-center justify-center min-w-[15px] h-3.5 rounded-sm bg-tl-accent text-tl-accentContrast font-black text-[9px] font-mono px-1">
             {player.multiplier === 3 ? "3C" : "C"}
           </div>
         )}
         {!player.isCaptain && player.isViceCaptain && (
-          <div className="absolute -top-1 -right-0.5 z-20 flex items-center justify-center min-w-[15px] h-3.5 rounded-sm bg-[#111614] text-[#F1F3EF] border border-[#1E2421] font-bold text-[9px] font-mono px-1">
+          <div className="absolute -top-1 -right-0.5 z-20 flex items-center justify-center min-w-[15px] h-3.5 rounded-sm bg-tl-surface2 text-tl-text border border-tl-border font-bold text-[9px] font-mono px-1">
             V
           </div>
         )}
@@ -242,30 +237,30 @@ export const PointsTab: React.FC<PointsTabProps> = ({
         </div>
 
         {/* Player Block */}
-        <div className="w-full bg-[#0D1110] border border-[#1E2421] rounded-sm text-center">
+        <div className="w-full bg-tl-surface border border-tl-border rounded-sm text-center">
           {/* Line 1: Player Name */}
-          <div className="px-1 py-0.5 border-b border-[#1E2421]">
-            <p className="text-[10px] sm:text-[11px] font-semibold text-[#F1F3EF] truncate leading-tight">
+          <div className="px-1 py-0.5 border-b border-tl-border">
+            <p className="text-[10px] sm:text-[11px] font-semibold text-tl-text truncate leading-tight">
               {player.webName}
             </p>
           </div>
 
-          {/* Line 2: Large Live Points */}
+          {/* Line 2: Restrained Live Points Bar (Subtle tint and tighter height to avoid competing with primary score) */}
           <div
-            className={`py-0.5 text-center font-mono font-bold leading-tight ${
+            className={`py-[2px] text-center font-mono font-bold leading-none ${
               player.isSubbedOut
-                ? "bg-[#070908] text-[#7F8983] line-through text-xs"
+                ? "bg-tl-bg text-tl-muted line-through text-xs"
                 : pts > 0
-                ? "bg-[#16C784] text-[#070908] text-xs sm:text-sm font-black"
-                : "bg-[#111614] text-[#7F8983] text-xs"
+                ? "bg-tl-accent/20 text-tl-accent border-y border-tl-accent/30 text-xs sm:text-[13px] font-bold"
+                : "bg-tl-surface2 text-tl-muted text-xs"
             }`}
           >
             {pts}
           </div>
 
           {/* Line 3: Dual EO */}
-          <div className="text-center text-[9px] font-mono font-medium text-[#7F8983] py-0.5 border-t border-[#1E2421]">
-            <span>{top10kEo}%</span> <span className="text-[#1E2421]">·</span> <span>{globalOwnership}%</span>
+          <div className="text-center text-[9px] font-mono font-medium text-tl-muted py-0.5 border-t border-tl-border">
+            <span>{top10kEo}%</span> <span className="text-tl-border">·</span> <span>{globalOwnership}%</span>
           </div>
 
           {/* Line 4: Match Events */}
@@ -278,71 +273,71 @@ export const PointsTab: React.FC<PointsTabProps> = ({
   };
 
   return (
-    <div className="w-full space-y-3.5 animate-fade-in select-none">
-      {/* 1. Flat Editorial Live Rank Dashboard Header (No card wrapping) */}
-      <div className="grid grid-cols-3 gap-2 py-2 border-b border-[#1E2421] text-center">
-        {/* Column 1: GW Rank */}
-        <div className="flex flex-col justify-center border-r border-[#1E2421] pr-1">
-          <span className="text-[11px] text-[#7F8983] font-semibold uppercase tracking-wider">
+    <div className="w-full space-y-3.5 animate-fade-in select-none text-tl-text">
+      {/* 1. Flat Editorial Live Rank Dashboard Header (Explicit 3-Tier Hierarchy) */}
+      <div className="grid grid-cols-3 gap-2 py-2 border-b border-tl-border text-center">
+        {/* Tier 2 Secondary: GW Rank */}
+        <div className="flex flex-col justify-center border-r border-tl-border pr-1">
+          <span className="text-[10px] text-tl-muted font-semibold uppercase tracking-wider opacity-80">
             GW Rank
           </span>
-          <span className="text-2xl sm:text-3xl md:text-4xl font-black font-mono tabular-nums text-[#F1F3EF] mt-0.5">
+          <span className="text-xl sm:text-2xl md:text-3xl font-black font-mono tabular-nums text-tl-text mt-0.5">
             {formatNumber(liveData.gw_rank)}
           </span>
         </div>
 
-        {/* Column 2: Live Rank & Delta */}
-        <div className="flex flex-col justify-center border-r border-[#1E2421] px-1">
-          <span className="text-[11px] text-[#7F8983] font-semibold uppercase tracking-wider">
+        {/* Tier 1 Primary: Live Rank & Delta */}
+        <div className="flex flex-col justify-center border-r border-tl-border px-1">
+          <span className="text-[10px] text-tl-muted font-semibold uppercase tracking-wider opacity-80">
             Live Rank
           </span>
           <div className="flex items-center justify-center gap-1.5 mt-0.5">
-            <span className="text-2xl sm:text-3xl md:text-4xl font-black font-mono tabular-nums text-[#F1F3EF]">
+            <span className="text-2xl sm:text-3xl md:text-4xl font-black font-mono tabular-nums text-tl-text">
               {formatNumber(liveData.live_rank)}
             </span>
             {rankDelta > 0 ? (
-              <span className="text-[#16C784] font-bold text-xs">▲</span>
+              <span className="text-tl-accent font-bold text-xs">▲</span>
             ) : rankDelta < 0 ? (
-              <span className="text-[#E05252] font-bold text-xs">▼</span>
+              <span className="text-tl-negative font-bold text-xs">▼</span>
             ) : (
-              <span className="text-[#7F8983] text-xs">━</span>
+              <span className="text-tl-muted text-xs">━</span>
             )}
           </div>
-          <span className="text-[10px] font-mono tabular-nums text-[#7F8983] truncate mt-0.5">
+          <span className="text-[10px] font-mono tabular-nums text-tl-muted opacity-80 truncate mt-0.5">
             Old: {formatNumber(liveData.old_rank)} ({rankPercentChange >= 0 ? `+${rankPercentChange}` : rankPercentChange}%)
           </span>
         </div>
 
-        {/* Column 3: Points & Safety Score */}
+        {/* Tier 1 Primary: Dominating Live Points */}
         <div className="flex flex-col justify-center pl-1">
-          <span className="text-[11px] text-[#7F8983] font-semibold uppercase tracking-wider">
+          <span className="text-[10px] text-tl-muted font-semibold uppercase tracking-wider opacity-80">
             Live Points
           </span>
-          <span className="text-2xl sm:text-3xl md:text-4xl font-black font-mono tabular-nums text-[#16C784] mt-0.5">
-            {livePoints} <span className="text-xs font-semibold text-[#16C784]">pts</span>
+          <span className="text-3xl sm:text-4xl md:text-5xl font-black font-mono tabular-nums text-tl-accent mt-0.5">
+            {livePoints} <span className="text-xs font-semibold text-tl-accent">pts</span>
           </span>
-          <span className="text-[10px] font-mono tabular-nums text-[#7F8983] truncate mt-0.5">
-            Safety: {safetyScore} <span className={safetyDiff >= 0 ? "text-[#16C784]" : "text-[#E05252]"}>Δ:{safetyDiff >= 0 ? `+${safetyDiff}` : safetyDiff}</span>
+          <span className="text-[10px] font-mono tabular-nums text-tl-muted opacity-80 truncate mt-0.5">
+            Safety: {safetyScore} <span className={safetyDiff >= 0 ? "text-tl-accent" : "text-tl-negative"}>Δ:{safetyDiff >= 0 ? `+${safetyDiff}` : safetyDiff}</span>
           </span>
         </div>
       </div>
 
       {/* 2. Controls Bar: Neutral Autosubs & Layout Mode */}
-      <div className="flex items-center justify-between py-1 border-b border-[#1E2421] text-xs font-mono">
+      <div className="flex items-center justify-between py-1 border-b border-tl-border text-xs font-mono">
         <div className="flex items-center gap-3">
           <button
             onClick={() => setAutosubsEnabled(!autosubsEnabled)}
             className={`px-2 py-0.5 rounded-sm text-xs font-mono transition border ${
               autosubsEnabled
-                ? "bg-[#111614] text-[#F1F3EF] border-[#1E2421] font-bold"
-                : "bg-transparent text-[#7F8983] border-[#1E2421] hover:text-[#F1F3EF]"
+                ? "bg-tl-surface2 text-tl-text border-tl-border font-bold"
+                : "bg-transparent text-tl-muted border-tl-border hover:text-tl-text"
             }`}
           >
             Autosubs {autosubsEnabled ? "ON" : "OFF"}
           </button>
 
-          <span className="text-[#7F8983] text-xs font-mono">
-            Played: <strong className="text-[#16C784] font-semibold tabular-nums">{effectivePlayedCount}/11</strong>
+          <span className="text-tl-muted text-xs font-mono">
+            Played: <strong className="text-tl-accent font-semibold tabular-nums">{effectivePlayedCount}/11</strong>
           </span>
         </div>
 
@@ -350,14 +345,14 @@ export const PointsTab: React.FC<PointsTabProps> = ({
           <BadgeLegend />
 
           {/* Layout Toggle */}
-          <div className="flex bg-[#0D1110] rounded-sm p-0.5 border border-[#1E2421]">
+          <div className="flex bg-tl-surface rounded-sm p-0.5 border border-tl-border">
             <button
               onClick={() => setLayoutMode("pitch")}
               aria-label="Pitch view"
               className={`p-1 rounded-sm transition ${
                 layoutMode === "pitch"
-                  ? "bg-[#111614] text-[#F1F3EF]"
-                  : "text-[#7F8983] hover:text-[#F1F3EF]"
+                  ? "bg-tl-surface2 text-tl-text"
+                  : "text-tl-muted hover:text-tl-text"
               }`}
               title="Pitch View"
             >
@@ -368,8 +363,8 @@ export const PointsTab: React.FC<PointsTabProps> = ({
               aria-label="List view"
               className={`p-1 rounded-sm transition ${
                 layoutMode === "list"
-                  ? "bg-[#111614] text-[#F1F3EF]"
-                  : "text-[#7F8983] hover:text-[#F1F3EF]"
+                  ? "bg-tl-surface2 text-tl-text"
+                  : "text-tl-muted hover:text-tl-text"
               }`}
               title="Compact List View"
             >
@@ -383,20 +378,20 @@ export const PointsTab: React.FC<PointsTabProps> = ({
       {layoutMode === "pitch" ? (
         <div className="w-full space-y-3">
           {/* Tactical Pitch Canvas */}
-          <div className="relative w-full max-w-2xl mx-auto rounded-sm overflow-hidden border border-[#1E2421] bg-[#0A0E0C] select-none p-3 flex flex-col justify-between min-h-[480px] sm:min-h-[520px] md:min-h-[570px]">
+          <div className="relative w-full max-w-2xl mx-auto rounded-sm overflow-hidden border border-tl-border bg-[var(--pitch-bg)] select-none p-3 flex flex-col justify-between min-h-[480px] sm:min-h-[520px] md:min-h-[570px] transition-colors">
             {/* Subtle tactical grid lines background */}
             <div
-              className="absolute inset-0 opacity-[0.02] pointer-events-none"
+              className="absolute inset-0 opacity-[0.03] pointer-events-none"
               style={{
                 backgroundImage:
-                  "linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)",
+                  "linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)",
                 backgroundSize: "32px 32px",
               }}
             />
 
             {/* Vector Pitch Markings */}
             <svg
-              className="absolute inset-0 w-full h-full pointer-events-none opacity-15"
+              className="absolute inset-0 w-full h-full pointer-events-none"
               xmlns="http://www.w3.org/2000/svg"
             >
               <rect
@@ -405,7 +400,7 @@ export const PointsTab: React.FC<PointsTabProps> = ({
                 width="calc(100% - 24px)"
                 height="calc(100% - 24px)"
                 fill="none"
-                stroke="#ffffff"
+                stroke="var(--pitch-line)"
                 strokeWidth="1"
               />
               <line
@@ -413,7 +408,7 @@ export const PointsTab: React.FC<PointsTabProps> = ({
                 y1="50%"
                 x2="calc(100% - 12px)"
                 y2="50%"
-                stroke="#ffffff"
+                stroke="var(--pitch-line)"
                 strokeWidth="1"
               />
               <circle
@@ -421,12 +416,12 @@ export const PointsTab: React.FC<PointsTabProps> = ({
                 cy="50%"
                 r="44"
                 fill="none"
-                stroke="#ffffff"
+                stroke="var(--pitch-line)"
                 strokeWidth="1"
               />
             </svg>
 
-            {/* Top Symmetrical Pitchside Branding */}
+            {/* Top Symmetrical Pitchside Branding (Disabled) */}
             <PitchBranding />
 
             {/* GK Line */}
@@ -452,15 +447,15 @@ export const PointsTab: React.FC<PointsTabProps> = ({
 
           {/* Bench Row */}
           {effectiveBench.length > 0 && (
-            <div className="w-full max-w-2xl mx-auto p-2.5 md:p-3 rounded-sm bg-[#0D1110] border border-[#1E2421] space-y-1.5">
-              <div className="flex items-center justify-between text-[10px] md:text-xs font-mono text-[#7F8983] px-1">
+            <div className="w-full max-w-2xl mx-auto p-2.5 md:p-3 rounded-sm bg-tl-surface border border-tl-border space-y-1.5">
+              <div className="flex items-center justify-between text-[10px] md:text-xs font-mono text-tl-muted px-1">
                 <span className="uppercase tracking-wider font-semibold">SUBSTITUTES BENCH</span>
                 <span className="text-[10px]">Dual EO & Telemetry</span>
               </div>
               <div className="flex justify-around items-center gap-2 md:gap-6">
                 {effectiveBench.map((p, idx) => (
                   <div key={p.id} className="relative flex flex-col items-center flex-1 max-w-[80px] md:max-w-[92px]">
-                    <span className="text-[9px] font-mono text-[#7F8983] mb-0.5">
+                    <span className="text-[9px] font-mono text-tl-muted mb-0.5">
                       {idx === 0 ? "GK" : `B${idx}`}
                     </span>
                     {renderLivePlayerCard(p, true)}
@@ -472,7 +467,7 @@ export const PointsTab: React.FC<PointsTabProps> = ({
         </div>
       ) : (
         /* Compact List View */
-        <div className="p-3 bg-[#0D1110] border border-[#1E2421] rounded-sm space-y-3">
+        <div className="p-3 bg-tl-surface border border-tl-border rounded-sm space-y-3">
           <div className="flex flex-wrap gap-2 justify-start">
             {effectiveStarters.map((player) => renderLivePlayerCard(player, false))}
             {effectiveBench.map((player) => renderLivePlayerCard(player, true))}

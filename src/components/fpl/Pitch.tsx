@@ -36,22 +36,22 @@ export const Pitch: React.FC<PitchProps> = ({
     formation || `${defs.length}-${mids.length}-${fwds.length}`;
 
   return (
-    <div className="relative w-full max-w-2xl mx-auto rounded-sm overflow-hidden border border-[#1E2421] bg-[#0A0E0C] select-none">
+    <div className="relative w-full max-w-2xl mx-auto rounded-sm overflow-hidden border border-tl-border bg-[var(--pitch-bg)] select-none transition-colors">
       {/* Tactical Pitch Canvas with Minimalist Vector Pitch Markings */}
       <div className="relative w-full h-[520px] sm:h-[560px] md:h-[590px] overflow-hidden flex flex-col justify-between py-2.5 md:py-3.5">
         {/* Subtle tactical grid lines background */}
         <div
-          className="absolute inset-0 opacity-[0.02] pointer-events-none"
+          className="absolute inset-0 opacity-[0.03] pointer-events-none"
           style={{
             backgroundImage:
-              "linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)",
+              "linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)",
             backgroundSize: "32px 32px",
           }}
         />
 
-        {/* Vector Pitch Markings (Whisper-thin white lines) */}
+        {/* Vector Pitch Markings */}
         <svg
-          className="absolute inset-0 w-full h-full pointer-events-none opacity-15"
+          className="absolute inset-0 w-full h-full pointer-events-none"
           xmlns="http://www.w3.org/2000/svg"
         >
           {/* Pitch Outer Boundary */}
@@ -61,7 +61,7 @@ export const Pitch: React.FC<PitchProps> = ({
             width="calc(100% - 24px)"
             height="calc(100% - 24px)"
             fill="none"
-            stroke="#ffffff"
+            stroke="var(--pitch-line)"
             strokeWidth="1"
             rx="1"
           />
@@ -72,7 +72,7 @@ export const Pitch: React.FC<PitchProps> = ({
             y1="50%"
             x2="calc(100% - 12px)"
             y2="50%"
-            stroke="#ffffff"
+            stroke="var(--pitch-line)"
             strokeWidth="1"
           />
 
@@ -82,10 +82,10 @@ export const Pitch: React.FC<PitchProps> = ({
             cy="50%"
             r="42"
             fill="none"
-            stroke="#ffffff"
+            stroke="var(--pitch-line)"
             strokeWidth="1"
           />
-          <circle cx="50%" cy="50%" r="2" fill="#ffffff" />
+          <circle cx="50%" cy="50%" r="2" fill="var(--pitch-line)" />
 
           {/* Top Penalty Box */}
           <rect
@@ -94,7 +94,7 @@ export const Pitch: React.FC<PitchProps> = ({
             width="50%"
             height="64"
             fill="none"
-            stroke="#ffffff"
+            stroke="var(--pitch-line)"
             strokeWidth="1"
           />
           {/* Top 6-yard box */}
@@ -104,10 +104,10 @@ export const Pitch: React.FC<PitchProps> = ({
             width="26%"
             height="24"
             fill="none"
-            stroke="#ffffff"
+            stroke="var(--pitch-line)"
             strokeWidth="1"
           />
-          <circle cx="50%" cy="52" r="1.5" fill="#ffffff" />
+          <circle cx="50%" cy="52" r="1.5" fill="var(--pitch-line)" />
 
           {/* Bottom Penalty Box */}
           <rect
@@ -116,7 +116,7 @@ export const Pitch: React.FC<PitchProps> = ({
             width="50%"
             height="64"
             fill="none"
-            stroke="#ffffff"
+            stroke="var(--pitch-line)"
             strokeWidth="1"
           />
           {/* Bottom 6-yard box */}
@@ -126,10 +126,10 @@ export const Pitch: React.FC<PitchProps> = ({
             width="26%"
             height="24"
             fill="none"
-            stroke="#ffffff"
+            stroke="var(--pitch-line)"
             strokeWidth="1"
           />
-          <circle cx="50%" cy="calc(100% - 52px)" r="1.5" fill="#ffffff" />
+          <circle cx="50%" cy="calc(100% - 52px)" r="1.5" fill="var(--pitch-line)" />
         </svg>
 
         {/* Top Symmetrical Pitchside Branding (Disabled) */}
@@ -137,7 +137,7 @@ export const Pitch: React.FC<PitchProps> = ({
 
         {/* Dynamic Formation Indicator (Bottom Right) */}
         <div className="absolute bottom-2 right-2.5 z-10">
-          <span className="text-[10px] font-mono font-medium text-[#7F8983] bg-[#070908] border border-[#1E2421] rounded-sm px-2 py-0.5">
+          <span className="text-[10px] font-mono font-medium text-tl-muted bg-tl-surface border border-tl-border rounded-sm px-2 py-0.5">
             {displayFormation}
           </span>
         </div>

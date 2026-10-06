@@ -48,20 +48,20 @@ export const FixturesTab: React.FC<FixturesTabProps> = ({
   }, [selectedGameweek]);
 
   return (
-    <div className="w-full space-y-3 animate-fade-in select-none">
+    <div className="w-full space-y-3 animate-fade-in select-none text-tl-text">
       {/* Editorial Sub-Navigation Strip */}
-      <div className="flex items-center border-b border-[#1E2421] gap-6 px-0.5">
+      <div className="flex items-center border-b border-tl-border gap-6 px-0.5">
         <button
           onClick={() => setActiveSubTab("schedule")}
           className={`relative pb-2 pt-1 text-xs uppercase tracking-wider font-semibold transition-colors ${
             activeSubTab === "schedule"
-              ? "text-[#F1F3EF]"
-              : "text-[#7F8983] hover:text-[#F1F3EF]"
+              ? "text-tl-text"
+              : "text-tl-muted hover:text-tl-text"
           }`}
         >
           Match Schedule
           {activeSubTab === "schedule" && (
-            <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#16C784]" />
+            <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-tl-accent" />
           )}
         </button>
 
@@ -69,13 +69,13 @@ export const FixturesTab: React.FC<FixturesTabProps> = ({
           onClick={() => setActiveSubTab("fdr")}
           className={`relative pb-2 pt-1 text-xs uppercase tracking-wider font-semibold transition-colors ${
             activeSubTab === "fdr"
-              ? "text-[#F1F3EF]"
-              : "text-[#7F8983] hover:text-[#F1F3EF]"
+              ? "text-tl-text"
+              : "text-tl-muted hover:text-tl-text"
           }`}
         >
           FDR Heatmap
           {activeSubTab === "fdr" && (
-            <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#16C784]" />
+            <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-tl-accent" />
           )}
         </button>
       </div>

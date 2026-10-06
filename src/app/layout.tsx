@@ -73,7 +73,6 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  themeColor: "#070908",
 };
 
 export default function RootLayout({
@@ -82,16 +81,31 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/asset/image/favicon.ico" sizes="any" />
         <link rel="icon" href="/asset/image/favicon-32x32.png" type="image/png" sizes="32x32" />
         <link rel="icon" href="/asset/image/favicon-16x16.png" type="image/png" sizes="16x16" />
         <link rel="apple-touch-icon" href="/asset/image/apple-touch-icon.png" sizes="180x180" />
         <link rel="manifest" href="/asset/image/site.webmanifest" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const stored = localStorage.getItem('touchline_theme');
+                  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  const theme = stored === 'light' || stored === 'dark' ? stored : (prefersDark ? 'dark' : 'light');
+                  document.documentElement.setAttribute('data-theme', theme);
+                  document.documentElement.classList.add(theme);
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
       </head>
-      <body className={`${lemonMilk.variable} bg-[#070908] text-[#F1F3EF] min-h-screen antialiased selection:bg-[#16C784]/20 selection:text-[#16C784] flex justify-center`}>
-        <main className="w-full max-w-4xl mx-auto flex flex-col min-h-screen h-screen overflow-hidden bg-[#070908] relative border-x border-[#1E2421]">
+      <body className={`${lemonMilk.variable} bg-tl-bg text-tl-text min-h-screen antialiased flex justify-center`}>
+        <main className="w-full max-w-4xl mx-auto flex flex-col min-h-screen h-screen overflow-hidden bg-tl-bg relative border-x border-tl-border">
           {children}
         </main>
       </body>

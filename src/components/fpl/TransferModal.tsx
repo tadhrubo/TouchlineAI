@@ -179,37 +179,37 @@ export const TransferModal: React.FC<TransferModalProps> = ({
       {/* Modal Container */}
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-[#0D1110] border border-[#1E2421] w-full sm:w-[480px] rounded-t-md sm:rounded-md overflow-hidden flex flex-col max-h-[88vh] text-[#F1F3EF]"
+        className="bg-tl-surface border border-tl-border w-full sm:w-[480px] rounded-t-md sm:rounded-md overflow-hidden flex flex-col max-h-[88vh] text-tl-text"
       >
         {/* Header */}
-        <div className="p-4 border-b border-[#1E2421] flex items-center justify-between flex-shrink-0 bg-[#070908]">
+        <div className="p-4 border-b border-tl-border flex items-center justify-between flex-shrink-0 bg-tl-bg">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-semibold uppercase tracking-wider font-mono text-[#7F8983]">
+              <span className="text-[10px] font-semibold uppercase tracking-wider font-mono text-tl-muted">
                 TRANSFER SEARCH
               </span>
-              <span className="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded-sm bg-[#111614] text-[#F1F3EF] border border-[#1E2421] uppercase">
+              <span className="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded-sm bg-tl-surface2 text-tl-text border border-tl-border uppercase">
                 {outPlayer.position}
               </span>
             </div>
-            <p className="text-xs text-[#7F8983] font-medium mt-1">
-              Replacing <span className="font-semibold text-[#F1F3EF]">{outPlayer.webName}</span> (£{outPlayer.price.toFixed(1)}m)
+            <p className="text-xs text-tl-muted font-medium mt-1">
+              Replacing <span className="font-semibold text-tl-text">{outPlayer.webName}</span> (£{outPlayer.price.toFixed(1)}m)
             </p>
           </div>
 
           <div className="flex items-center gap-3">
             <div className="text-right">
-              <span className="text-[10px] uppercase tracking-wider font-mono text-[#7F8983] block">
+              <span className="text-[10px] uppercase tracking-wider font-mono text-tl-muted block">
                 MAX BUDGET
               </span>
-              <span className="text-sm font-bold font-mono tabular-nums text-[#16C784]">
+              <span className="text-sm font-bold font-mono tabular-nums text-tl-accent">
                 £{maxBudget.toFixed(1)}m
               </span>
             </div>
             <button
               onClick={onClose}
               aria-label="Close transfer modal"
-              className="w-8 h-8 rounded-sm text-[#7F8983] hover:text-[#F1F3EF] bg-[#070908] border border-[#1E2421] flex items-center justify-center transition"
+              className="w-8 h-8 rounded-sm text-tl-muted hover:text-tl-text bg-tl-bg border border-tl-border flex items-center justify-center transition"
             >
               <X className="w-4 h-4" aria-hidden="true" />
             </button>
@@ -217,21 +217,21 @@ export const TransferModal: React.FC<TransferModalProps> = ({
         </div>
 
         {/* Search & Sort Filter Bar */}
-        <div className="p-3 border-b border-[#1E2421] bg-[#0D1110] flex flex-col gap-2.5 flex-shrink-0">
+        <div className="p-3 border-b border-tl-border bg-tl-surface flex flex-col gap-2.5 flex-shrink-0">
           <div className="relative flex items-center">
-            <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#7F8983] pointer-events-none" aria-hidden="true" />
+            <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-tl-muted pointer-events-none" aria-hidden="true" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search candidate by name or club..."
-              className="w-full pl-9 pr-8 py-2 rounded-sm bg-[#070908] border border-[#1E2421] text-xs text-[#F1F3EF] placeholder:text-[#7F8983] focus:outline-none focus:border-[#16C784] font-sans"
+              className="w-full pl-9 pr-8 py-2 rounded-sm bg-tl-bg border border-tl-border text-xs text-tl-text placeholder:text-tl-muted focus:outline-none focus:border-tl-accent font-sans"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
                 aria-label="Clear search query"
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#7F8983] hover:text-[#F1F3EF]"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-tl-muted hover:text-tl-text"
               >
                 ✕
               </button>
@@ -240,7 +240,7 @@ export const TransferModal: React.FC<TransferModalProps> = ({
 
           {/* Sort Options */}
           <div className="flex items-center gap-1.5 overflow-x-auto text-xs font-mono tabular-nums no-scrollbar py-0.5">
-            <span className="text-[#7F8983] text-[10px] font-semibold uppercase mr-1 select-none">SORT:</span>
+            <span className="text-tl-muted text-[10px] font-semibold uppercase mr-1 select-none">SORT:</span>
             {[
               { id: "xp" as const, label: "xP" },
               { id: "form" as const, label: "Form" },
@@ -253,8 +253,8 @@ export const TransferModal: React.FC<TransferModalProps> = ({
                 onClick={() => setSortBy(opt.id)}
                 className={`px-2.5 py-1 rounded-sm text-xs font-medium transition whitespace-nowrap ${
                   sortBy === opt.id
-                    ? "bg-[#070908] text-[#16C784] border border-[#16C784]/40"
-                    : "text-[#7F8983] hover:text-[#F1F3EF] bg-[#070908] border border-[#1E2421]"
+                    ? "bg-tl-bg text-tl-accent border border-tl-accent/40"
+                    : "text-tl-muted hover:text-tl-text bg-tl-bg border border-tl-border"
                 }`}
               >
                 {opt.label}
@@ -264,14 +264,14 @@ export const TransferModal: React.FC<TransferModalProps> = ({
         </div>
 
         {/* Candidates List */}
-        <div className="flex-1 overflow-y-auto divide-y divide-[#1E2421] p-2 space-y-1 text-xs">
+        <div className="flex-1 overflow-y-auto divide-y divide-tl-border p-2 space-y-1 text-xs">
           {loading ? (
-            <div className="py-16 flex flex-col items-center justify-center gap-2 text-[#7F8983] font-mono text-xs">
-              <RefreshCw className="w-5 h-5 animate-spin text-[#16C784]" />
+            <div className="py-16 flex flex-col items-center justify-center gap-2 text-tl-muted font-mono text-xs">
+              <RefreshCw className="w-5 h-5 animate-spin text-tl-accent" />
               <span>LOADING {outPlayer.position} CANDIDATES...</span>
             </div>
           ) : filteredCandidates.length === 0 ? (
-            <div className="py-16 text-center text-[#7F8983] font-mono text-xs">
+            <div className="py-16 text-center text-tl-muted font-mono text-xs">
               No matching {outPlayer.position} candidates found
             </div>
           ) : (
@@ -280,8 +280,8 @@ export const TransferModal: React.FC<TransferModalProps> = ({
                 key={candidate.id}
                 className={`flex items-center justify-between p-2.5 rounded-sm transition ${
                   candidate.isEligible
-                    ? "hover:bg-[#111614] bg-[#070908]"
-                    : "opacity-40 bg-[#070908]"
+                    ? "hover:bg-tl-surface2 bg-tl-bg"
+                    : "opacity-40 bg-tl-bg"
                 }`}
               >
                 {/* Player identity */}
@@ -293,22 +293,22 @@ export const TransferModal: React.FC<TransferModalProps> = ({
                   />
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-1.5">
-                      <span className="font-semibold text-[#F1F3EF] truncate leading-tight text-xs">
+                      <span className="font-semibold text-tl-text truncate leading-tight text-xs">
                         {candidate.webName}
                       </span>
-                      <span className="text-[10px] font-mono font-medium text-[#7F8983]">
+                      <span className="text-[10px] font-mono font-medium text-tl-muted">
                         {candidate.teamShort}
                       </span>
                     </div>
 
                     {candidate.isEligible ? (
-                      <div className="flex items-center gap-1.5 text-[10px] font-mono tabular-nums text-[#7F8983] mt-0.5">
+                      <div className="flex items-center gap-1.5 text-[10px] font-mono tabular-nums text-tl-muted mt-0.5">
                         <span>Form {candidate.form}</span>
                         <span>·</span>
                         <span>{candidate.selectedByPercent}% TSB</span>
                       </div>
                     ) : (
-                      <div className="text-[10px] font-mono text-[#E05252] mt-0.5 truncate">
+                      <div className="text-[10px] font-mono text-rose-500 mt-0.5 truncate">
                         {candidate.ineligibleReason}
                       </div>
                     )}
@@ -318,10 +318,10 @@ export const TransferModal: React.FC<TransferModalProps> = ({
                 {/* Metrics and Select Action */}
                 <div className="flex items-center gap-3 flex-shrink-0 ml-2">
                   <div className="text-right font-mono tabular-nums">
-                    <div className="text-[#F1F3EF] font-bold text-xs">
+                    <div className="text-tl-text font-bold text-xs">
                       £{candidate.price.toFixed(1)}m
                     </div>
-                    <div className="text-[10px] text-[#16C784] font-semibold">
+                    <div className="text-[10px] text-tl-accent font-semibold">
                       {candidate.projectedPoints} xP
                     </div>
                   </div>
@@ -335,8 +335,8 @@ export const TransferModal: React.FC<TransferModalProps> = ({
                     }}
                     className={`h-7 px-3 rounded-sm text-xs font-semibold font-mono tabular-nums transition ${
                       candidate.isEligible
-                        ? "bg-[#111614] hover:bg-[#16C784] hover:text-[#070908] text-[#F1F3EF] border border-[#1E2421] cursor-pointer"
-                        : "bg-[#070908] text-[#7F8983]/60 border border-[#1E2421]/60 cursor-not-allowed"
+                        ? "bg-tl-surface2 hover:bg-tl-accent hover:text-tl-accentContrast text-tl-text border border-tl-border cursor-pointer"
+                        : "bg-tl-bg text-tl-muted/60 border border-tl-border/60 cursor-not-allowed"
                     }`}
                   >
                     SELECT
@@ -348,11 +348,11 @@ export const TransferModal: React.FC<TransferModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="p-3 bg-[#070908] border-t border-[#1E2421] flex items-center justify-between text-xs font-mono tabular-nums text-[#7F8983]">
+        <div className="p-3 bg-tl-bg border-t border-tl-border flex items-center justify-between text-xs font-mono tabular-nums text-tl-muted">
           <span>REMAINING: {filteredCandidates.length}</span>
           <button
             onClick={onClose}
-            className="px-3 py-1 text-[#7F8983] hover:text-[#F1F3EF] transition rounded-sm border border-[#1E2421]"
+            className="px-3 py-1 text-tl-muted hover:text-tl-text transition rounded-sm border border-tl-border"
           >
             CANCEL
           </button>

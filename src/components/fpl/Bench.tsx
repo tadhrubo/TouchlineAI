@@ -29,13 +29,13 @@ export const Bench: React.FC<BenchProps> = ({
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto bg-[#0D1110] border border-[#1E2421] rounded-sm p-3 md:p-3.5">
+    <div className="w-full max-w-2xl mx-auto bg-tl-surface border border-tl-border rounded-sm p-3 md:p-3.5">
       {/* Bench Header */}
-      <div className="flex items-center justify-between pb-2 border-b border-[#1E2421] mb-2 px-0.5 text-xs">
-        <span className="text-[10px] md:text-xs uppercase tracking-wider font-semibold text-[#7F8983]">
+      <div className="flex items-center justify-between pb-1.5 border-b border-tl-border mb-2 px-0.5 text-xs">
+        <span className="text-[10px] md:text-xs uppercase tracking-wider font-semibold text-tl-muted">
           Substitutes
         </span>
-        <span className="text-[10px] md:text-xs text-[#7F8983] font-mono">
+        <span className="text-[10px] md:text-xs text-tl-muted font-mono">
           Auto-sub order (B1 → B3)
         </span>
       </div>
