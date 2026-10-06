@@ -78,20 +78,20 @@ def engineer_features(corpus: pd.DataFrame) -> pd.DataFrame:
     # Compute rolling lagged features per player group
     grouped = df.groupby(["name", "season"])
     
-    df["rolling_points_3"] = grouped["total_points"].transform(lambda s: s.shift(1).rolling(3, min_periods=1).mean()).fillna(0)
-    df["rolling_points_5"] = grouped["total_points"].transform(lambda s: s.shift(1).rolling(5, min_periods=1).mean()).fillna(0)
-    df["rolling_minutes_3"] = grouped["minutes"].transform(lambda s: s.shift(1).rolling(3, min_periods=1).mean()).fillna(0)
-    df["rolling_minutes_5"] = grouped["minutes"].transform(lambda s: s.shift(1).rolling(5, min_periods=1).mean()).fillna(0)
-    df["rolling_ict_3"] = grouped["ict_index"].transform(lambda s: s.shift(1).rolling(3, min_periods=1).mean()).fillna(0)
-    df["rolling_threat_3"] = grouped["threat"].transform(lambda s: s.shift(1).rolling(3, min_periods=1).mean()).fillna(0)
-    df["rolling_creativity_3"] = grouped["creativity"].transform(lambda s: s.shift(1).rolling(3, min_periods=1).mean()).fillna(0)
-    df["rolling_xg_3"] = grouped["expected_goals"].transform(lambda s: s.shift(1).rolling(3, min_periods=1).mean()).fillna(0)
-    df["rolling_xa_3"] = grouped["expected_assists"].transform(lambda s: s.shift(1).rolling(3, min_periods=1).mean()).fillna(0)
-    df["rolling_bps_3"] = grouped["bps"].transform(lambda s: s.shift(1).rolling(3, min_periods=1).mean()).fillna(0)
+    df["rolling_points_3"] = grouped["total_points"].transform(lambda s: s.rolling(3, min_periods=1).mean()).fillna(0)
+    df["rolling_points_5"] = grouped["total_points"].transform(lambda s: s.rolling(5, min_periods=1).mean()).fillna(0)
+    df["rolling_minutes_3"] = grouped["minutes"].transform(lambda s: s.rolling(3, min_periods=1).mean()).fillna(0)
+    df["rolling_minutes_5"] = grouped["minutes"].transform(lambda s: s.rolling(5, min_periods=1).mean()).fillna(0)
+    df["rolling_ict_3"] = grouped["ict_index"].transform(lambda s: s.rolling(3, min_periods=1).mean()).fillna(0)
+    df["rolling_threat_3"] = grouped["threat"].transform(lambda s: s.rolling(3, min_periods=1).mean()).fillna(0)
+    df["rolling_creativity_3"] = grouped["creativity"].transform(lambda s: s.rolling(3, min_periods=1).mean()).fillna(0)
+    df["rolling_xg_3"] = grouped["expected_goals"].transform(lambda s: s.rolling(3, min_periods=1).mean()).fillna(0)
+    df["rolling_xa_3"] = grouped["expected_assists"].transform(lambda s: s.rolling(3, min_periods=1).mean()).fillna(0)
+    df["rolling_bps_3"] = grouped["bps"].transform(lambda s: s.rolling(3, min_periods=1).mean()).fillna(0)
     
-    # Target variables
-    df["target_start"] = (df["minutes"] >= 60).astype(int)
-    df["target_points"] = df["total_points"].astype(float)
+    # Target variables (predict next gameweek)
+    df["target_start"] = grouped["minutes"].shift(-1).fillna(0).apply(lambda x: 1 if x >= 60 else 0)
+    df["target_points"] = grouped["total_points"].shift(-1).fillna(0.0)
     
     return df
 
@@ -216,8 +216,8 @@ def run_live_inference_and_export(clf_start, reg_points):
             "rolling_ict_3": ict_val / max(target_gw - 1, 1),
             "rolling_threat_3": threat_val / max(target_gw - 1, 1),
             "rolling_creativity_3": creativity_val / max(target_gw - 1, 1),
-            "rolling_xg_3": threat_val / 100.0,
-            "rolling_xa_3": creativity_val / 100.0,
+            "rolling_xg_3": float(el.get("expected_goals") or 0.0) / max(target_gw - 1, 1),
+            "rolling_xa_3": float(el.get("expected_assists") or 0.0) / max(target_gw - 1, 1),
             "rolling_bps_3": float(el.get("bps") or 0.0) / max(target_gw - 1, 1),
             "was_home_int": 1, # default neutral/home expectation
             "value_norm": now_cost,
@@ -259,8 +259,11 @@ def run_live_inference_and_export(clf_start, reg_points):
         elif meta["status"] in ["i", "s", "n"]:
             start_prob = 0.0
             
-        # Bound points realistically
-        proj_pts = max(0.2, proj_pts * (0.4 + 0.6 * start_prob))
+        # Bound points realistically (FPL appearance floor)
+        appearance_floor = 2.0 * start_prob
+        proj_pts = max(appearance_floor, proj_pts)
+        if start_prob == 0.0:
+            proj_pts = 0.0
         
         # Extract top 2 positive/impact SHAP feature drivers
         player_shaps = shap_vals[i]
@@ -291,6 +294,12 @@ def run_live_inference_and_export(clf_start, reg_points):
             "shap_explanation": shap_explanation
         })
         
+    print("[*] Fetching valid player IDs from Supabase...")
+    valid_players_res = supabase.table("players").select("id").execute()
+    valid_player_ids = {p["id"] for p in valid_players_res.data}
+    
+    upsert_payload = [p for p in upsert_payload if p["player_id"] in valid_player_ids]
+    
     print(f"[*] Upserting {len(upsert_payload)} player predictions to Supabase table 'player_predictions'...")
     
     # Upsert in chunks of 200
