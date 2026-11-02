@@ -41,7 +41,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       {/* Title & Description */}
       <div className="space-y-1.5 max-w-xs">
         <h2 className="text-base font-bold text-tl-text tracking-tight">
-          CONNECT FPL SQUAD
+          Connect FPL Squad
         </h2>
         <p className="text-xs text-tl-muted leading-relaxed">
           Enter your Fantasy Premier League Entry ID to load live squad data and tactical models.
@@ -53,10 +53,10 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
         <input
           type="number"
           autoFocus
-          placeholder="ENTER FPL ENTRY ID"
+          placeholder="e.g. 123456"
           value={inputVal}
           onChange={(e) => setInputVal(e.target.value)}
-          className="w-full bg-tl-bg border border-tl-border focus:border-tl-accent rounded-sm px-4 py-2.5 text-xs font-mono font-medium text-tl-text placeholder:text-tl-muted focus:outline-none transition text-center tracking-wider"
+          className="w-full bg-tl-bg border border-tl-border focus:border-tl-accent rounded-sm px-4 py-2 text-xs font-mono font-medium text-tl-text placeholder:text-tl-muted focus:outline-none transition text-center tracking-wider"
         />
 
         <button
@@ -67,11 +67,11 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
           {isLoading ? (
             <>
               <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-              <span>FETCHING SQUAD...</span>
+              <span>Fetching squad...</span>
             </>
           ) : (
             <>
-              <span>LOAD SQUAD</span>
+              <span>Load Squad</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </>
           )}

@@ -365,7 +365,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({
             </div>
             <button
               onClick={() => setShowEOInfoModal(false)}
-              className="w-full py-2 rounded-sm bg-tl-accent text-tl-accentContrast text-xs font-bold uppercase tracking-wider transition"
+              className="w-full py-2 rounded-sm bg-tl-accent text-tl-accentContrast text-xs font-bold font-mono transition"
             >
               Close
             </button>

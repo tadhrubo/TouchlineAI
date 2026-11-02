@@ -459,7 +459,7 @@ export const ChatTab: React.FC<ChatTabProps> = ({
 
           {/* AI Typographic Thinking Indicator */}
           {isThinking && (
-            <div className="flex items-center gap-2 py-2 text-xs font-mono uppercase tracking-wider text-tl-muted">
+            <div className="flex items-center gap-2 py-2 text-xs font-mono text-tl-muted">
               <span className="text-tl-accent">■</span>
               <span>Running model analysis...</span>
             </div>
@@ -501,7 +501,7 @@ export const ChatTab: React.FC<ChatTabProps> = ({
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Ask Touchline Analyst (e.g. Captain, Transfer)..."
+              placeholder="Ask tactical question..."
               className="w-full bg-transparent text-xs text-tl-text placeholder:text-tl-muted focus:outline-none py-1.5 font-sans"
             />
 

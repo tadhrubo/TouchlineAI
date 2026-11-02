@@ -20,10 +20,10 @@ export const LatestNews: React.FC<LatestNewsProps> = ({ news }) => {
       {/* Header */}
       <div className="flex items-center justify-between pb-2 border-b border-tl-border mb-2 px-1 text-xs">
         <span className="text-[10px] uppercase tracking-wider font-semibold text-tl-muted font-mono">
-          SQUAD STATUS & INJURY FLAGS
+          Squad Status & Flags
         </span>
         <span className="text-[10px] text-tl-muted font-mono tabular-nums">
-          {news.length} {news.length === 1 ? "ALERT" : "ALERTS"}
+          {news.length} {news.length === 1 ? "alert" : "alerts"}
         </span>
       </div>
 

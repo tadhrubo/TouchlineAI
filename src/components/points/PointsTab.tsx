@@ -20,47 +20,95 @@ function formatNumber(num?: number | null): string {
   return num.toLocaleString();
 }
 
+/**
+ * Editorial match event indicators with unified typographic tags & micro-shapes.
+ * Zero emoji slop: clean, scannable sports terminal notation.
+ */
 const MatchEventIcons: React.FC<{ stats?: any }> = ({ stats }) => {
   if (!stats) return null;
 
   return (
-    <div className="flex items-center justify-center gap-1 text-[10px] font-mono leading-none">
+    <div className="flex items-center justify-center gap-1 text-[9px] font-mono leading-none flex-wrap">
       {stats.goals_scored && stats.goals_scored > 0 ? (
-        <span title={`Goals: ${stats.goals_scored}`}>⚽{stats.goals_scored > 1 ? `x${stats.goals_scored}` : ""}</span>
+        <span
+          title={`Goals: ${stats.goals_scored}`}
+          className="font-bold text-tl-accent font-mono"
+        >
+          G{stats.goals_scored > 1 ? `x${stats.goals_scored}` : ""}
+        </span>
       ) : null}
       {stats.assists && stats.assists > 0 ? (
-        <span title={`Assists: ${stats.assists}`}>🅰️{stats.assists > 1 ? `x${stats.assists}` : ""}</span>
+        <span
+          title={`Assists: ${stats.assists}`}
+          className="font-semibold text-tl-text font-mono"
+        >
+          A{stats.assists > 1 ? `x${stats.assists}` : ""}
+        </span>
       ) : null}
       {stats.bonus && stats.bonus > 0 ? (
-        <span className="font-bold text-tl-accent" title={`Bonus: ${stats.bonus}`}>
+        <span
+          className="font-bold text-tl-accent font-mono"
+          title={`Bonus: ${stats.bonus}`}
+        >
           +{stats.bonus}
         </span>
       ) : null}
       {stats.bps && stats.bps > 0 && (!stats.bonus || stats.bonus === 0) ? (
-        <span className="text-[8px] text-tl-muted" title={`BPS: ${stats.bps}`}>
+        <span className="text-[8px] text-tl-muted font-mono" title={`BPS: ${stats.bps}`}>
           {stats.bps}bps
         </span>
       ) : null}
       {stats.clean_sheets && stats.clean_sheets > 0 ? (
-        <span title="Clean Sheet">🛡️</span>
+        <span
+          title="Clean Sheet"
+          className="font-mono text-tl-muted font-medium text-[8.5px]"
+        >
+          CS
+        </span>
       ) : null}
       {stats.penalties_saved && stats.penalties_saved > 0 ? (
-        <span title="Penalty Saved">🧤</span>
+        <span
+          title="Penalty Saved"
+          className="font-bold text-tl-accent font-mono text-[8.5px]"
+        >
+          PS
+        </span>
       ) : null}
       {stats.penalties_missed && stats.penalties_missed > 0 ? (
-        <span title="Penalty Missed">❌</span>
+        <span
+          title="Penalty Missed"
+          className="font-bold text-tl-negative font-mono text-[8.5px]"
+        >
+          PM
+        </span>
       ) : null}
       {stats.own_goals && stats.own_goals > 0 ? (
-        <span title="Own Goal">⚠️</span>
+        <span
+          title="Own Goal"
+          className="font-bold text-tl-negative font-mono text-[8.5px]"
+        >
+          OG
+        </span>
       ) : null}
       {stats.yellow_cards && stats.yellow_cards > 0 ? (
-        <span title="Yellow Card">🟨</span>
+        <span
+          title="Yellow Card"
+          className="inline-block w-1.5 h-2.5 rounded-[1px] bg-amber-400"
+        />
       ) : null}
       {stats.red_cards && stats.red_cards > 0 ? (
-        <span title="Red Card">🟥</span>
+        <span
+          title="Red Card"
+          className="inline-block w-1.5 h-2.5 rounded-[1px] bg-rose-600"
+        />
       ) : null}
       {stats.saves && stats.saves >= 3 ? (
-        <span title={`Saves: ${stats.saves}`}>S:{stats.saves}</span>
+        <span
+          title={`Saves: ${stats.saves}`}
+          className="font-mono text-[8.5px] text-tl-muted"
+        >
+          S:{stats.saves}
+        </span>
       ) : null}
     </div>
   );
@@ -176,6 +224,10 @@ export const PointsTab: React.FC<PointsTabProps> = ({
   const mids = effectiveStarters.filter((p) => p.position === "MID");
   const fwds = effectiveStarters.filter((p) => p.position === "FWD");
 
+  /**
+   * Editorial Unboxed Live Player Stack:
+   * Replaces claustrophobic 4-border cards with clean, high-contrast, whitespace-driven typography.
+   */
   const renderLivePlayerCard = (player: any, isBenchCard = false) => {
     const rawPts = player.gameweekPoints ?? player.stats?.total_points ?? 0;
     const mult = player.isCaptain ? player.multiplier || 2 : 1;
@@ -189,32 +241,48 @@ export const PointsTab: React.FC<PointsTabProps> = ({
     return (
       <div
         key={player.id}
+        role="button"
+        tabIndex={0}
         onClick={() => onPlayerClick?.(player)}
-        className={`relative flex flex-col items-center justify-between cursor-pointer select-none transition-transform duration-100 hover:-translate-y-0.5 active:scale-95 ${
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            onPlayerClick?.(player);
+          }
+        }}
+        className={`group relative flex flex-col items-center justify-start cursor-pointer select-none transition-transform duration-100 hover:-translate-y-0.5 active:scale-95 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-tl-accent ${
           isBenchCard ? "w-[76px] sm:w-[84px] md:w-[90px]" : "w-[80px] sm:w-[88px] md:w-[94px]"
-        } ${player.isSubbedOut ? "opacity-50 grayscale" : "opacity-100"}`}
+        } ${player.isSubbedOut ? "opacity-40 grayscale" : "opacity-100"}`}
       >
-        {/* Sub In / Sub Out Indicators */}
+        {/* Tactical Sub In / Sub Out Micro-Tags */}
         {player.isSubbedIn && (
-          <span className="absolute -top-1 -left-1 z-30 bg-tl-accent text-tl-accentContrast text-[8px] font-black px-1 rounded-sm leading-tight">
-            ▲ IN
-          </span>
+          <div className="absolute -top-1 -left-1 z-30">
+            <span className="flex items-center justify-center px-1 h-3.5 rounded-sm bg-tl-accent text-tl-accentContrast text-[8px] font-mono font-black">
+              IN
+            </span>
+          </div>
         )}
         {player.isSubbedOut && (
-          <span className="absolute -top-1 -left-1 z-30 bg-tl-negative text-tl-text text-[8px] font-bold px-1 rounded-sm leading-tight">
-            ▼ OUT
-          </span>
+          <div className="absolute -top-1 -left-1 z-30">
+            <span className="flex items-center justify-center px-1 h-3.5 rounded-sm bg-tl-negative text-tl-text text-[8px] font-mono font-bold">
+              OUT
+            </span>
+          </div>
         )}
 
         {/* Captaincy / Vice Captaincy Badges */}
         {player.isCaptain && (
-          <div className="absolute -top-1 -right-0.5 z-20 flex items-center justify-center min-w-[15px] h-3.5 rounded-sm bg-tl-accent text-tl-accentContrast font-black text-[9px] font-mono px-1">
-            {player.multiplier === 3 ? "3C" : "C"}
+          <div className="absolute -top-1 -right-0.5 z-20">
+            <span className="flex items-center justify-center min-w-[15px] h-3.5 rounded-sm bg-tl-accent text-tl-accentContrast font-black text-[9px] font-mono px-1">
+              {player.multiplier === 3 ? "3C" : "C"}
+            </span>
           </div>
         )}
         {!player.isCaptain && player.isViceCaptain && (
-          <div className="absolute -top-1 -right-0.5 z-20 flex items-center justify-center min-w-[15px] h-3.5 rounded-sm bg-tl-surface2 text-tl-text border border-tl-border font-bold text-[9px] font-mono px-1">
-            V
+          <div className="absolute -top-1 -right-0.5 z-20">
+            <span className="flex items-center justify-center min-w-[15px] h-3.5 rounded-sm bg-tl-surface2 text-tl-text border border-tl-border font-bold text-[9px] font-mono px-1">
+              V
+            </span>
           </div>
         )}
 
@@ -230,35 +298,37 @@ export const PointsTab: React.FC<PointsTabProps> = ({
           />
         </div>
 
-        {/* Player Block */}
-        <div className="w-full bg-tl-surface border border-tl-border rounded-sm text-center">
-          {/* Line 1: Player Name */}
-          <div className="px-1 py-0.5 border-b border-tl-border">
-            <p className="text-[10px] sm:text-[11px] font-semibold text-tl-text truncate leading-tight">
-              {player.webName}
-            </p>
+        {/* Editorial Unboxed Player Typography */}
+        <div className="w-full flex flex-col items-center text-center mt-1">
+          {/* Player Name */}
+          <p className="text-[11px] sm:text-[12px] font-bold text-tl-text truncate leading-tight w-full tracking-tight">
+            {player.webName}
+          </p>
+
+          {/* Points Display */}
+          <div className="flex items-center justify-center gap-1 font-mono leading-tight tabular-nums mt-0.5">
+            <span
+              className={`text-xs sm:text-[13px] font-black tabular-nums ${
+                player.isSubbedOut
+                  ? "text-tl-muted line-through opacity-50"
+                  : pts > 0
+                  ? "text-tl-accent"
+                  : "text-tl-muted"
+              }`}
+            >
+              {pts} <span className="text-[9px] font-normal text-tl-muted">pts</span>
+            </span>
           </div>
 
-          {/* Line 2: Restrained Live Points Bar (Subtle tint and tighter height to avoid competing with primary score) */}
-          <div
-            className={`py-[2px] text-center font-mono font-bold leading-none ${
-              player.isSubbedOut
-                ? "bg-tl-bg text-tl-muted line-through text-xs"
-                : pts > 0
-                ? "bg-tl-accent/20 text-tl-accent border-y border-tl-accent/30 text-xs sm:text-[13px] font-bold"
-                : "bg-tl-surface2 text-tl-muted text-xs"
-            }`}
-          >
-            {pts}
+          {/* Dual EO Telemetry */}
+          <div className="text-[8.5px] font-mono text-tl-muted opacity-80 leading-none tabular-nums mt-0.5">
+            <span>{top10kEo}%</span>
+            <span className="mx-0.5 opacity-40">·</span>
+            <span>{globalOwnership}%</span>
           </div>
 
-          {/* Line 3: Dual EO */}
-          <div className="text-center text-[9px] font-mono font-medium text-tl-muted py-0.5 border-t border-tl-border">
-            <span>{top10kEo}%</span> <span className="text-tl-border">·</span> <span>{globalOwnership}%</span>
-          </div>
-
-          {/* Line 4: Match Events */}
-          <div className="min-h-[12px] pb-0.5">
+          {/* Clean Event Micro-Tags */}
+          <div className="min-h-[14px] flex items-center justify-center mt-0.5">
             <MatchEventIcons stats={player.stats} />
           </div>
         </div>
@@ -268,7 +338,7 @@ export const PointsTab: React.FC<PointsTabProps> = ({
 
   return (
     <div className="w-full space-y-3.5 animate-fade-in select-none text-tl-text">
-      {/* 1. Flat Editorial Live Rank Dashboard Header (Explicit 3-Tier Hierarchy) */}
+      {/* 1. Flat Editorial Live Rank Dashboard Header (Stark 3-Tier Hierarchy) */}
       <div className="grid grid-cols-3 gap-2 py-2 border-b border-tl-border text-center">
         {/* Tier 2 Secondary: GW Rank */}
         <div className="flex flex-col justify-center border-r border-tl-border pr-1">
@@ -287,22 +357,22 @@ export const PointsTab: React.FC<PointsTabProps> = ({
           </span>
           <div className="flex items-center justify-center gap-1.5 mt-0.5">
             <span className="text-2xl sm:text-3xl md:text-4xl font-black font-mono tabular-nums text-tl-text">
-              {formatNumber(liveData.live_rank)}
+              #{formatNumber(liveData.live_rank)}
             </span>
             {rankDelta > 0 ? (
-              <span className="text-tl-accent font-bold text-xs">▲</span>
+              <span className="text-tl-accent font-mono font-bold text-xs">▲</span>
             ) : rankDelta < 0 ? (
-              <span className="text-tl-negative font-bold text-xs">▼</span>
+              <span className="text-tl-negative font-mono font-bold text-xs">▼</span>
             ) : (
               <span className="text-tl-muted text-xs">━</span>
             )}
           </div>
           <span className="text-[10px] font-mono tabular-nums text-tl-muted opacity-80 truncate mt-0.5">
-            Old: {formatNumber(liveData.old_rank)} ({rankPercentChange >= 0 ? `+${rankPercentChange}` : rankPercentChange}%)
+            Old: #{formatNumber(liveData.old_rank)} ({rankPercentChange >= 0 ? `+${rankPercentChange}` : rankPercentChange}%)
           </span>
         </div>
 
-        {/* Tier 1 Primary: Dominating Live Points */}
+        {/* Tier 1 Dominant: Live Points */}
         <div className="flex flex-col justify-center pl-1">
           <span className="text-[10px] text-tl-muted font-semibold uppercase tracking-wider opacity-80">
             Live Points
@@ -415,7 +485,6 @@ export const PointsTab: React.FC<PointsTabProps> = ({
               />
             </svg>
 
-            {/* Top Symmetrical Pitchside Branding (Disabled) */}
             <PitchBranding />
 
             {/* GK Line */}
@@ -443,8 +512,8 @@ export const PointsTab: React.FC<PointsTabProps> = ({
           {effectiveBench.length > 0 && (
             <div className="w-full max-w-2xl mx-auto p-2.5 md:p-3 rounded-sm bg-tl-surface border border-tl-border space-y-1.5">
               <div className="flex items-center justify-between text-[10px] md:text-xs font-mono text-tl-muted px-1">
-                <span className="uppercase tracking-wider font-semibold">SUBSTITUTES BENCH</span>
-                <span className="text-[10px]">Dual EO & Telemetry</span>
+                <span className="uppercase tracking-wider font-semibold">Substitutes Bench</span>
+                <span className="text-[10px] opacity-70">Dual EO & Telemetry</span>
               </div>
               <div className="flex justify-around items-center gap-2 md:gap-6">
                 {effectiveBench.map((p, idx) => (
@@ -462,7 +531,7 @@ export const PointsTab: React.FC<PointsTabProps> = ({
       ) : (
         /* Compact List View */
         <div className="p-3 bg-tl-surface border border-tl-border rounded-sm space-y-3">
-          <div className="flex flex-wrap gap-2 justify-start">
+          <div className="flex flex-wrap gap-3 justify-start">
             {effectiveStarters.map((player) => renderLivePlayerCard(player, false))}
             {effectiveBench.map((player) => renderLivePlayerCard(player, true))}
           </div>

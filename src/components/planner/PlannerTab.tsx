@@ -372,30 +372,30 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
         </div>
 
         {/* Ledger Statistics Row: Flat, Stark, Tabular numbers directly on page */}
-        <div className="grid grid-cols-4 gap-2 pt-1.5 border-t border-tl-border text-xs font-mono">
+        <div className="grid grid-cols-4 gap-2 pt-2 border-t border-tl-border text-xs font-mono">
           <div>
-            <span className="text-[10px] uppercase tracking-wider text-tl-muted opacity-80 block">TRANSFERS</span>
+            <span className="text-[10px] uppercase tracking-wider text-tl-muted block font-semibold">Transfers</span>
             <span className="text-sm sm:text-base font-bold text-tl-text tabular-nums">
               {transfersMade} <span className="text-[10px] font-normal text-tl-muted">/ {freeTransfers} FT</span>
             </span>
           </div>
 
           <div>
-            <span className="text-[10px] uppercase tracking-wider text-tl-muted opacity-80 block">BANK</span>
+            <span className="text-[10px] uppercase tracking-wider text-tl-muted block font-semibold">Bank</span>
             <span className={`text-sm sm:text-base font-bold tabular-nums ${calculatedBank < 0 ? "text-tl-negative" : "text-tl-accent"}`}>
               £{calculatedBank.toFixed(1)}m
             </span>
           </div>
 
           <div>
-            <span className="text-[10px] uppercase tracking-wider text-tl-muted opacity-80 block">HITS</span>
+            <span className="text-[10px] uppercase tracking-wider text-tl-muted block font-semibold">Hits</span>
             <span className={`text-sm sm:text-base font-bold tabular-nums ${hitCost > 0 ? "text-tl-warning" : "text-tl-text"}`}>
               {hitCost > 0 ? `-${hitCost}` : "0"}
             </span>
           </div>
 
           <div>
-            <span className="text-[10px] uppercase tracking-wider text-tl-muted opacity-80 block">TEMPLATE</span>
+            <span className="text-[10px] uppercase tracking-wider text-tl-muted block font-semibold">Template</span>
             <span className="text-sm sm:text-base font-bold text-tl-text tabular-nums">
               {templateScore}%
             </span>
@@ -628,14 +628,14 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
         </div>
       </div>
 
-      {/* 5. Analytical Transfer Plan Result Panel (Restructured per Task 5) */}
+      {/* 5. Analytical Transfer Plan Result Panel */}
       <div className="p-3.5 rounded-sm bg-tl-surface border border-tl-border space-y-2">
         <div className="flex items-baseline justify-between border-b border-tl-border pb-2">
           <div>
-            <span className="text-[10px] font-mono uppercase tracking-widest text-tl-muted font-semibold block">
-              TRANSFER PLAN
+            <span className="text-[10px] font-mono uppercase tracking-wider text-tl-muted font-semibold block">
+              Transfer Plan Assessment
             </span>
-            <div className="text-sm font-mono font-bold text-tl-text mt-0.5">
+            <div className="text-sm font-mono font-bold text-tl-text mt-0.5 tabular-nums">
               {transfersMade} {transfersMade === 1 ? "move" : "moves"} · £{calculatedBank.toFixed(1)}m bank · {templateScore}% template
             </div>
           </div>
@@ -659,8 +659,8 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
         </div>
 
         <div className="pt-0.5">
-          <span className="text-[11px] font-mono uppercase text-tl-muted tracking-wider block font-semibold">
-            Touchline assessment
+          <span className="text-[10px] font-mono uppercase text-tl-muted tracking-wider block font-semibold">
+            Tactical Analysis
           </span>
           <p className="text-xs text-tl-text/90 leading-relaxed font-sans mt-1">
             {transfersMade > 0

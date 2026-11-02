@@ -69,7 +69,7 @@ export const PlannerActionSheet: React.FC<PlannerActionSheetProps> = ({
         onClick={(e) => e.stopPropagation()}
       >
         {/* Handle Bar */}
-        <div className="w-10 h-1 bg-tl-border rounded-none mx-auto mb-1" />
+        <div className="w-10 h-1 bg-tl-border rounded-full mx-auto mb-1" />
 
         {/* Top Header: Player Summary */}
         <div className="flex items-center justify-between pb-2.5 border-b border-tl-border">
@@ -85,7 +85,7 @@ export const PlannerActionSheet: React.FC<PlannerActionSheetProps> = ({
                   (e.currentTarget as HTMLImageElement).src = fallbackUrl;
                 }}
               />
-              <span className="absolute -bottom-1 -right-1 px-1 py-0.2 rounded-none text-[8.5px] font-mono font-bold bg-tl-bg text-tl-muted border border-tl-border">
+              <span className="absolute -bottom-1 -right-1 px-1 py-0.2 rounded-sm text-[8.5px] font-mono font-bold bg-tl-bg text-tl-muted border border-tl-border">
                 {player.position}
               </span>
             </div>
@@ -121,7 +121,7 @@ export const PlannerActionSheet: React.FC<PlannerActionSheetProps> = ({
               nextFixtures.map((fix, idx) => (
                 <div
                   key={idx}
-                  className={`p-2 rounded-none text-center font-mono flex flex-col items-center justify-center ${getFdrColor(
+                  className={`p-2 rounded-sm text-center font-mono flex flex-col items-center justify-center ${getFdrColor(
                     fix.difficulty
                   )}`}
                 >
@@ -134,7 +134,7 @@ export const PlannerActionSheet: React.FC<PlannerActionSheetProps> = ({
                 </div>
               ))
             ) : (
-              <div className="col-span-3 p-2.5 text-center text-xs font-mono text-tl-muted bg-tl-surface2 border border-tl-border rounded-none">
+              <div className="col-span-3 p-2.5 text-center text-xs font-mono text-tl-muted bg-tl-surface2 border border-tl-border rounded-sm">
                 No upcoming fixture data
               </div>
             )}

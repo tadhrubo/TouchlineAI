@@ -388,7 +388,7 @@ export const PlayerModal: React.FC<PlayerModalProps> = ({
               onClose();
               onDiscuss(player);
             }}
-            className="w-full py-2 px-3 text-xs font-bold font-mono uppercase tracking-wider text-tl-accentContrast bg-tl-accent hover:opacity-90 rounded-sm transition flex items-center justify-center gap-2"
+            className="w-full py-2 px-3 text-xs font-bold font-mono text-tl-accentContrast bg-tl-accent hover:opacity-90 rounded-sm transition flex items-center justify-center gap-2"
           >
             Discuss with Analyst
           </button>

@@ -186,7 +186,7 @@ export const TransferModal: React.FC<TransferModalProps> = ({
           <div>
             <div className="flex items-center gap-2">
               <span className="text-[10px] font-semibold uppercase tracking-wider font-mono text-tl-muted">
-                TRANSFER SEARCH
+                Transfer Candidate Search
               </span>
               <span className="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded-sm bg-tl-surface2 text-tl-text border border-tl-border uppercase">
                 {outPlayer.position}
@@ -200,7 +200,7 @@ export const TransferModal: React.FC<TransferModalProps> = ({
           <div className="flex items-center gap-3">
             <div className="text-right">
               <span className="text-[10px] uppercase tracking-wider font-mono text-tl-muted block">
-                MAX BUDGET
+                Budget Limit
               </span>
               <span className="text-sm font-bold font-mono tabular-nums text-tl-accent">
                 £{maxBudget.toFixed(1)}m
@@ -209,7 +209,7 @@ export const TransferModal: React.FC<TransferModalProps> = ({
             <button
               onClick={onClose}
               aria-label="Close transfer modal"
-              className="w-8 h-8 rounded-sm text-tl-muted hover:text-tl-text bg-tl-bg border border-tl-border flex items-center justify-center transition"
+              className="w-8 h-8 rounded-sm text-tl-muted hover:text-tl-text bg-tl-surface border border-tl-border flex items-center justify-center transition"
             >
               <X className="w-4 h-4" aria-hidden="true" />
             </button>
@@ -335,11 +335,11 @@ export const TransferModal: React.FC<TransferModalProps> = ({
                     }}
                     className={`h-7 px-3 rounded-sm text-xs font-semibold font-mono tabular-nums transition ${
                       candidate.isEligible
-                        ? "bg-tl-surface2 hover:bg-tl-accent hover:text-tl-accentContrast text-tl-text border border-tl-border cursor-pointer"
-                        : "bg-tl-bg text-tl-muted/60 border border-tl-border/60 cursor-not-allowed"
+                        ? "bg-tl-accent text-tl-accentContrast hover:opacity-90 active:scale-95 cursor-pointer font-bold"
+                        : "bg-tl-surface2 text-tl-muted/40 border border-tl-border cursor-not-allowed"
                     }`}
                   >
-                    SELECT
+                    Transfer In
                   </button>
                 </div>
               </div>
@@ -349,12 +349,12 @@ export const TransferModal: React.FC<TransferModalProps> = ({
 
         {/* Footer */}
         <div className="p-3 bg-tl-bg border-t border-tl-border flex items-center justify-between text-xs font-mono tabular-nums text-tl-muted">
-          <span>REMAINING: {filteredCandidates.length}</span>
+          <span>Eligible Candidates: {filteredCandidates.length}</span>
           <button
             onClick={onClose}
-            className="px-3 py-1 text-tl-muted hover:text-tl-text transition rounded-sm border border-tl-border"
+            className="px-3 py-1 text-tl-muted hover:text-tl-text transition rounded-sm border border-tl-border bg-tl-surface"
           >
-            CANCEL
+            Cancel
           </button>
         </div>
       </div>

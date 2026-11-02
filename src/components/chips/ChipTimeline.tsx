@@ -61,7 +61,7 @@ export const ChipTimeline: React.FC<ChipTimelineProps> = ({
       <div className="w-full min-h-[340px] flex flex-col items-center justify-center p-8 border border-tl-border bg-tl-surface space-y-2">
         <div className="w-4 h-4 border-2 border-tl-accent border-t-transparent rounded-full animate-spin" />
         <p className="text-xs font-mono text-tl-muted">
-          CALCULATING 38-GW OPTIMALITY MATRIX...
+          Calculating 38-gameweek optimality matrix...
         </p>
       </div>
     );
@@ -111,13 +111,13 @@ export const ChipTimeline: React.FC<ChipTimelineProps> = ({
   };
 
   return (
-    <div className="w-full space-y-4 pb-8 text-tl-text">
+    <div className="w-full space-y-4 pb-8 text-tl-text select-none">
       {/* 1. Header Overview Ledger */}
       <div className="w-full border-b border-tl-border pb-4">
         <div className="flex items-end justify-between">
           <div>
             <div className="text-[11px] font-mono font-semibold uppercase tracking-wider text-tl-muted">
-              STRATEGY BLUEPRINT
+              Strategy Blueprint
             </div>
             <h2 className="text-lg font-bold text-tl-text mt-0.5">
               38-Gameweek Chip Optimisation
@@ -128,7 +128,7 @@ export const ChipTimeline: React.FC<ChipTimelineProps> = ({
               {totalProjectedStrategyGain}
             </div>
             <div className="text-[10px] text-tl-muted font-mono uppercase tracking-wider">
-              PROJECTED GAIN
+              Projected Gain
             </div>
           </div>
         </div>

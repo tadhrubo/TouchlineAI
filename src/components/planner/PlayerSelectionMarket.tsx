@@ -513,8 +513,8 @@ export const PlayerSelectionMarket: React.FC<PlayerSelectionMarketProps> = ({
         </div>
 
         {/* 4. Footer info */}
-        <div className="flex-shrink-0 p-2.5 border-t border-tl-border bg-tl-surface text-center font-mono text-[10px] text-tl-muted">
-          {filteredPlayers.length} CANDIDATE PLAYERS AVAILABLE
+        <div className="flex-shrink-0 p-2.5 border-t border-tl-border bg-tl-surface text-center font-mono text-[10px] text-tl-muted tabular-nums">
+          {filteredPlayers.length} candidates available
         </div>
       </div>
     </div>,

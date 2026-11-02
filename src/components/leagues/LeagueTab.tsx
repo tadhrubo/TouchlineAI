@@ -426,7 +426,7 @@ export const LeagueTab: React.FC<LeagueTabProps> = ({
                             {mgr.teamName}
                           </span>
                           {isUserTeam && (
-                            <span className="px-1 py-0.2 rounded-none text-[8.5px] font-mono font-bold bg-tl-accent/20 text-tl-accent">
+                            <span className="px-1 py-0.2 rounded-sm text-[8.5px] font-mono font-bold bg-tl-accent/15 text-tl-accent border border-tl-accent/30">
                               YOU
                             </span>
                           )}

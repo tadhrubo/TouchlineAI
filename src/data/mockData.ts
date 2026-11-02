@@ -597,31 +597,31 @@ export const mockInsights: InsightItem[] = [
 export const mockActionPills: ActionPill[] = [
   {
     id: "act-1",
-    label: "⚡ Optimize my XI",
+    label: "Optimize XI",
     iconName: "Zap",
     promptText: "Optimize my starting XI and bench order for Gameweek 29 based on latest injury news and xP projections.",
   },
   {
     id: "act-2",
-    label: "👑 Who should I captain?",
+    label: "Captaincy Choice",
     iconName: "Crown",
     promptText: "Compare Haaland vs Salah for Gameweek 29 captaincy with detailed statistical breakdown.",
   },
   {
     id: "act-3",
-    label: "🔄 Replace Gabriel (£6.2m)",
+    label: "Replace Gabriel (£6.2m)",
     iconName: "ArrowLeftRight",
     promptText: "Gabriel is 50% doubtful. What are the best defensive replacements under £6.5m for GW29-33?",
   },
   {
     id: "act-4",
-    label: "📊 Fixture Swing Analysis",
+    label: "Fixture Swings",
     iconName: "TrendingUp",
     promptText: "Which teams have the best upcoming fixture run from GW29 to GW34?",
   },
   {
     id: "act-5",
-    label: "🎯 Best Differentials <10%",
+    label: "Top Differentials (<10%)",
     iconName: "Sparkles",
     promptText: "Show me the highest expected points differentials with under 10% ownership for GW29.",
   },
@@ -668,7 +668,7 @@ export const mockHaalandSalahComparison: PlayerComparisonData = {
   },
   verdict: {
     recommendedPlayerId: "p9",
-    headline: "Touchline AI Model Recommends: Captain Haaland ⚡",
+    headline: "Model Verdict: Captain Haaland",
     summary: "Erling Haaland has a +1.3 xP advantage over Salah this week. Wolves have surrendered 2.45 xGC per away match, compared to Aston Villa conceding just 1.15 xGC at Anfield.",
     reasons: [
       "Haaland's non-penalty xG is 0.76 vs Wolves (highest in GW29)",

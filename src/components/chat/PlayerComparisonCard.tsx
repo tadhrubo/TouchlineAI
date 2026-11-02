@@ -21,15 +21,15 @@ export const PlayerComparisonCard: React.FC<PlayerComparisonCardProps> = ({
       {/* Editorial Header */}
       <div className="flex items-center justify-between pb-2.5 border-b border-tl-border text-xs">
         <div>
-          <span className="text-[10px] font-mono uppercase tracking-widest text-tl-muted block">
-            TOUCHLINE ANALYST
+          <span className="text-[10px] font-mono uppercase tracking-wider text-tl-muted block">
+            Tactical Brief
           </span>
-          <h4 className="text-xs font-bold uppercase tracking-wider text-tl-text">
-            MATCHDAY BRIEF
+          <h4 className="text-xs font-bold text-tl-text">
+            Player Matchup Comparison
           </h4>
         </div>
         <div className="text-right font-mono">
-          <span className="text-[10px] uppercase tracking-wider text-tl-muted block">CONFIDENCE</span>
+          <span className="text-[10px] uppercase tracking-wider text-tl-muted block">Confidence</span>
           <span className="text-xs font-bold text-tl-accent tabular-nums">
             {verdict.confidence}%
           </span>

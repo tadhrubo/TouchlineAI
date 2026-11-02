@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { Bell, RefreshCw, Sparkles, ShieldCheck } from "lucide-react";
+import Image from "next/image";
+import { Bell, RefreshCw } from "lucide-react";
 
 interface HeaderProps {
   onRefresh?: () => void;
@@ -23,18 +24,23 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-black/90 backdrop-blur-md border-b border-white/10 px-4 py-2.5">
+    <header className="sticky top-0 z-40 w-full bg-tl-bg border-b border-tl-border px-4 py-2">
       <div className="flex items-center justify-between max-w-md mx-auto">
         {/* Brand Logo */}
         <div className="flex items-center gap-2">
-          <div className="relative flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-400 text-slate-950 font-bold border border-emerald-300/40">
-            <Sparkles className="w-4 h-4 fill-slate-950" />
-          </div>
-          <div className="flex items-baseline font-brand tracking-wider">
-            <span className="text-base text-white">
+          <Image
+            src="/asset/image/tlai.png"
+            alt="Touchline AI Logo"
+            width={24}
+            height={24}
+            className="w-6 h-6 object-contain"
+            priority
+          />
+          <div className="flex items-baseline font-brand tracking-widest">
+            <span className="text-sm font-bold text-tl-text">
               TOUCHLINE
             </span>
-            <span className="ml-1 text-base text-emerald-400 font-bold">
+            <span className="ml-1 text-sm font-bold text-tl-accent">
               AI
             </span>
           </div>
@@ -46,22 +52,24 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             onClick={handleRefresh}
             aria-label="Refresh live FPL data"
-            className="flex items-center justify-center min-w-[40px] min-h-[40px] rounded-lg bg-white/[0.04] border border-white/10 text-slate-300 hover:text-white hover:bg-white/[0.08] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 active:scale-95"
+            className="flex items-center justify-center min-w-[34px] min-h-[34px] rounded-sm bg-tl-surface border border-tl-border text-tl-muted hover:text-tl-text hover:bg-tl-surface2 transition focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-tl-accent active:scale-95"
           >
             <RefreshCw
-              className={`w-4 h-4 ${isRefreshing ? "animate-spin text-emerald-400" : ""}`}
+              className={`w-3.5 h-3.5 text-tl-muted ${
+                isRefreshing ? "animate-spin text-tl-accent" : ""
+              }`}
             />
           </button>
 
-          {/* Notification Button */}
+          {/* Notifications Button */}
           <button
             onClick={onOpenNotifications}
-            aria-label="View notifications"
-            className="relative flex items-center justify-center min-w-[40px] min-h-[40px] rounded-lg bg-white/[0.04] border border-white/10 text-slate-300 hover:text-white hover:bg-white/[0.08] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 active:scale-95"
+            aria-label="Squad injury alerts"
+            className="relative flex items-center justify-center min-w-[34px] min-h-[34px] rounded-sm bg-tl-surface border border-tl-border text-tl-muted hover:text-tl-text hover:bg-tl-surface2 transition focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-tl-accent active:scale-95"
           >
-            <Bell className="w-4 h-4" />
+            <Bell className="w-3.5 h-3.5" />
             {notificationCount > 0 && (
-              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-400 text-[10px] font-bold font-mono tabular-nums text-gray-950 shadow-sm">
+              <span className="absolute top-1 right-1 flex h-3.5 w-3.5 items-center justify-center rounded-sm bg-tl-accent text-[9px] font-bold font-mono tabular-nums text-tl-accentContrast">
                 {notificationCount}
               </span>
             )}

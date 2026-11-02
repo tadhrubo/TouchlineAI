@@ -32,10 +32,6 @@ const config: Config = {
         fpl: {
           green: "var(--accent)",
           "green-dark": "#02894a",
-          emerald: "#10b981",
-          purple: "#37003c",
-          pink: "#e90052",
-          cyan: "#04f5ff",
           dark: "var(--bg)",
           card: "var(--surface)",
           "card-hover": "var(--surface-secondary)",
@@ -50,15 +46,10 @@ const config: Config = {
         md: "6px",
         lg: "8px",
       },
-      backgroundImage: {
-        "pitch-pattern": "radial-gradient(ellipse at center, rgba(22, 199, 132, 0.08), transparent 70%)",
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-      },
       animation: {
-        "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         "spin-slow": "spin 8s linear infinite",
-        "fade-in": "fadeIn 0.2s ease-out forwards",
-        "slide-up": "slideUp 0.3s ease-out forwards",
+        "fade-in": "fadeIn 0.15s ease-out forwards",
+        "slide-up": "slideUp 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards",
       },
       keyframes: {
         fadeIn: {

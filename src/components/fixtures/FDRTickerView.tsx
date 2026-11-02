@@ -107,20 +107,20 @@ export const FDRTickerView: React.FC<FDRTickerViewProps> = ({
         </div>
       </div>
 
-      {/* 3. FDR Table / Grid View (Prominent headers, larger club text, strong row dividers) */}
-      <div className="border border-tl-border bg-tl-bg overflow-hidden shadow-sm">
+      {/* 3. FDR Table / Grid View */}
+      <div className="border border-tl-border bg-tl-bg overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse min-w-[460px]">
-            {/* Table Header: Clearer, prominent Gameweek column headers */}
+            {/* Table Header: Prominent Gameweek column headers */}
             <thead>
-              <tr className="bg-tl-surface border-b-2 border-tl-border text-xs font-mono text-tl-muted uppercase">
-                <th className="py-2.5 px-3 sticky left-0 bg-tl-surface z-20 w-[120px] sm:w-[140px] border-r-2 border-tl-border font-bold">
-                  CLUB
+              <tr className="bg-tl-surface border-b border-tl-border text-xs font-mono text-tl-muted">
+                <th className="py-2 px-3 sticky left-0 bg-tl-surface z-20 w-[110px] sm:w-[130px] border-r border-tl-border font-bold uppercase tracking-wider text-[11px]">
+                  Club
                 </th>
                 {visibleGWs.map((gw) => (
                   <th
                     key={gw}
-                    className={`py-2.5 px-2 text-center w-[54px] font-black text-xs ${
+                    className={`py-2 px-2 text-center w-[54px] font-bold text-xs tabular-nums ${
                       gw === currentGameweek
                         ? "text-tl-accent bg-tl-surface2 border-b-2 border-tl-accent"
                         : "text-tl-text"
@@ -132,34 +132,34 @@ export const FDRTickerView: React.FC<FDRTickerViewProps> = ({
               </tr>
             </thead>
 
-            {/* Table Body: Stronger row separation between clubs */}
-            <tbody className="divide-y-2 divide-tl-border/70 text-xs">
+            {/* Table Body: Subtle hairline dividers */}
+            <tbody className="divide-y divide-tl-border text-xs">
               {fdrMatrix.map((row) => (
                 <tr
                   key={row.teamId}
-                  className="hover:bg-tl-surface2/60 transition-colors border-b border-tl-border"
+                  className="hover:bg-tl-surface2/60 transition-colors"
                 >
-                  {/* Sticky Team Label Column: Larger club text */}
-                  <td className="py-2.5 px-3 sticky left-0 bg-tl-bg z-10 border-r-2 border-tl-border">
+                  {/* Sticky Team Label Column */}
+                  <td className="py-2 px-3 sticky left-0 bg-tl-bg z-10 border-r border-tl-border">
                     <div className="flex items-center gap-2">
                       <JerseyIcon
                         teamShort={row.short_name}
-                        size={20}
+                        size={18}
                         className="flex-shrink-0"
                       />
-                      <span className="font-bold font-mono text-tl-text text-[13px] tracking-wide truncate">
+                      <span className="font-bold font-mono text-tl-text text-xs tracking-wide truncate">
                         {row.short_name}
                       </span>
                     </div>
                   </td>
 
-                  {/* GW Cells: Strong distinction between easiest vs hardest */}
+                  {/* GW Cells */}
                   {visibleGWs.map((gw) => {
                     const cell = row.schedule.find((s) => s.gw === gw);
                     if (!cell || cell.opponentId === 0) {
                       return (
                         <td key={gw} className="py-2 px-1 text-center">
-                          <span className="text-[10px] font-mono text-tl-muted/60 block">
+                          <span className="text-[10px] font-mono text-tl-muted/40 block">
                             -
                           </span>
                         </td>
@@ -169,9 +169,9 @@ export const FDRTickerView: React.FC<FDRTickerViewProps> = ({
                     const oppLabel = `${cell.opponentShort} (${cell.isHome ? "H" : "A"})`;
 
                     return (
-                      <td key={gw} className="py-2 px-1 text-center">
+                      <td key={gw} className="py-1.5 px-1 text-center">
                         <span
-                          className={`inline-block px-1.5 py-0.5 rounded-sm text-[9.5px] whitespace-nowrap ${getFdrClass(
+                          className={`inline-block px-1.5 py-0.5 rounded-sm text-[9px] font-mono whitespace-nowrap ${getFdrClass(
                             cell.fdr
                           )}`}
                           title={`${row.name} vs ${cell.opponentName} (${
