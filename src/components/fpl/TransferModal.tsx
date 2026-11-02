@@ -84,8 +84,12 @@ export const TransferModal: React.FC<TransferModalProps> = ({
               firstName: el.first_name,
               secondName: el.second_name,
               position: posMap[el.element_type],
+              elementType: el.element_type,
+              element_type: el.element_type,
               team: team.name,
               teamShort: team.short,
+              teamCode: el.team_code,
+              team_code: el.team_code,
               price: el.now_cost / 10,
               totalPoints: el.total_points,
               goals: el.goals_scored,
@@ -288,7 +292,9 @@ export const TransferModal: React.FC<TransferModalProps> = ({
                 <div className="flex items-center gap-2.5 min-w-0 flex-1">
                   <JerseyIcon
                     teamShort={candidate.teamShort}
-                    isGK={candidate.position === "GKP"}
+                    teamCode={candidate.teamCode ?? candidate.team_code}
+                    kitUrl={candidate.kitUrl}
+                    isGK={candidate.position === "GKP" || candidate.elementType === 1 || candidate.element_type === 1}
                     size={28}
                   />
                   <div className="min-w-0 flex-1">

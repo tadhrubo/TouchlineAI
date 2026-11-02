@@ -161,9 +161,14 @@ export const PointsTab: React.FC<PointsTabProps> = ({
     const modStarters = starters.map((p) => ({ ...p, isSubbedIn: false, isSubbedOut: false }));
     const modBench = bench.map((p) => ({ ...p, isSubbedIn: false, isSubbedOut: false }));
 
+    const isGk = (p: any) => p.position === "GKP" || p.elementType === 1 || p.element_type === 1;
+    const isDef = (p: any) => p.position === "DEF" || p.elementType === 2 || p.element_type === 2;
+    const isMid = (p: any) => p.position === "MID" || p.elementType === 3 || p.element_type === 3;
+    const isFwd = (p: any) => p.position === "FWD" || p.elementType === 4 || p.element_type === 4;
+
     // 1. Goalkeeper Autosub: Only if starting GK match has finished with 0 mins
-    const startGK = modStarters.find((p) => p.position === "GKP");
-    const benchGK = modBench.find((p) => p.position === "GKP");
+    const startGK = modStarters.find(isGk);
+    const benchGK = modBench.find(isGk);
     if (
       startGK &&
       benchGK &&
@@ -177,11 +182,11 @@ export const PointsTab: React.FC<PointsTabProps> = ({
 
     // 2. Outfield Autosubs: Sort bench subs by benchOrder (1, 2, 3)
     const outfieldBench = modBench
-      .filter((p) => p.position !== "GKP")
+      .filter((p) => !isGk(p))
       .sort((a, b) => (a.benchOrder ?? 99) - (b.benchOrder ?? 99));
 
     const failedStarters = modStarters.filter(
-      (p) => p.position !== "GKP" && p.matchFinished && (p.stats?.minutes || 0) === 0
+      (p) => !isGk(p) && p.matchFinished && (p.stats?.minutes || 0) === 0
     );
 
     for (const failedStarter of failedStarters) {
@@ -197,8 +202,8 @@ export const PointsTab: React.FC<PointsTabProps> = ({
           p.id === failedStarter.id ? candidate : p
         );
 
-        const defCount = projectedStarters.filter((p) => p.position === "DEF").length;
-        const fwdCount = projectedStarters.filter((p) => p.position === "FWD").length;
+        const defCount = projectedStarters.filter(isDef).length;
+        const fwdCount = projectedStarters.filter(isFwd).length;
 
         if (defCount >= 3 && fwdCount >= 1) {
           failedStarter.isSubbedOut = true;
@@ -219,10 +224,23 @@ export const PointsTab: React.FC<PointsTabProps> = ({
   }, [starters, bench, autosubsEnabled]);
 
   // Position groupings
-  const gks = effectiveStarters.filter((p) => p.position === "GKP");
-  const defs = effectiveStarters.filter((p) => p.position === "DEF");
-  const mids = effectiveStarters.filter((p) => p.position === "MID");
-  const fwds = effectiveStarters.filter((p) => p.position === "FWD");
+  const isGk = (p: any) => p.position === "GKP" || p.elementType === 1 || p.element_type === 1;
+  const isDef = (p: any) => p.position === "DEF" || p.elementType === 2 || p.element_type === 2;
+  const isMid = (p: any) => p.position === "MID" || p.elementType === 3 || p.element_type === 3;
+  const isFwd = (p: any) => p.position === "FWD" || p.elementType === 4 || p.element_type === 4;
+
+  let gks = effectiveStarters.filter(isGk);
+  let defs = effectiveStarters.filter(isDef);
+  let mids = effectiveStarters.filter(isMid);
+  let fwds = effectiveStarters.filter(isFwd);
+
+  // Structural fail-safe if position metadata is missing:
+  if (effectiveStarters.length === 11 && (gks.length === 0 || defs.length === 0 || fwds.length === 0)) {
+    gks = effectiveStarters.slice(0, 1);
+    defs = effectiveStarters.slice(1, 5);
+    mids = effectiveStarters.slice(5, 9);
+    fwds = effectiveStarters.slice(9, 11);
+  }
 
   /**
    * Editorial Unboxed Live Player Stack:

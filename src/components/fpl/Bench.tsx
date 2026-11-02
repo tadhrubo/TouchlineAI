@@ -24,7 +24,7 @@ export const Bench: React.FC<BenchProps> = ({
   );
 
   const getBenchTag = (player: Player, index: number) => {
-    if (player.position === "GKP") return "GK";
+    if (player.position === "GKP" || player.elementType === 1 || player.element_type === 1) return "GK";
     return `B${player.benchOrder ?? index}`;
   };
 

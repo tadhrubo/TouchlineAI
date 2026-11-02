@@ -91,7 +91,9 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
       <div className="relative my-0.5 flex items-center justify-center">
         <JerseyIcon
           teamShort={player.teamShort}
-          isGK={player.position === "GKP"}
+          teamCode={player.teamCode ?? player.team_code}
+          kitUrl={player.kitUrl}
+          isGK={player.position === "GKP" || player.elementType === 1 || player.element_type === 1}
           size={isBench ? 36 : 42}
           priority={!isBench}
         />

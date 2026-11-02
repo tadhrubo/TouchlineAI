@@ -1,6 +1,7 @@
 import { supabase } from "@/lib/supabase";
 import { Player, TeamStats, FixtureInfo, Position } from "@/types/fpl";
 import { computeFallbackXP } from "@/utils/xp";
+import { getFplKitUrl, TEAM_CODE_MAP } from "@/utils/fpl";
 
 // Team kit styling dictionary
 export const TEAM_KIT_MAP: Record<
@@ -251,16 +252,6 @@ export async function fetchManagerSquad(
 
   const elementIds = rawPicks.map((p) => p.element);
 
-function getFplKitUrl(teamCode: number | undefined, isGoalkeeper: boolean = false): string {
-  if (!teamCode) {
-    return isGoalkeeper
-      ? "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_0_1-66.webp"
-      : "https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_0-66.webp";
-  }
-  const shirtCode = isGoalkeeper ? `${teamCode}_1` : `${teamCode}`;
-  return `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${shirtCode}-66.webp`;
-}
-
 // 3. Query Supabase and FPL bootstrap-static to enrich player, team, and kit details
   let dbPlayers: any[] | null = null;
   let allTeams: any[] | null = null;
@@ -385,28 +376,42 @@ function getFplKitUrl(teamCode: number | undefined, isGoalkeeper: boolean = fals
   for (let idx = 0; idx < rawPicks.length; idx++) {
     const pick = rawPicks[idx];
     const dbP = playerDbMap.get(pick.element);
+    const bEl = bootstrapElementsMap.get(pick.element);
+    const bTeam = bEl ? bootstrapTeamsMap.get(bEl.team) : null;
     const sortedPreds = dbP?.player_predictions?.sort((a: any, b: any) => (b.gw || 0) - (a.gw || 0));
     const pred = sortedPreds?.[0];
     const liveStat = liveElementsMap.get(pick.element) || {};
 
-    const teamShort = dbP?.teams?.short_name || "PL";
-    const teamName = dbP?.teams?.name || "Premier League";
+    const elementTypeNum: number = bEl?.element_type || dbP?.element_type || (idx === 0 ? 1 : 3);
+    const positionType = (POSITION_MAP[elementTypeNum] || (idx === 0 ? "GKP" : "MID")) as Position;
+    const isBench = pick.position > 11;
+    const benchOrder = isBench ? pick.position - 12 : undefined;
+
+    const teamShort = bTeam?.short_name || dbP?.teams?.short_name || "PL";
+    const teamName = bTeam?.name || dbP?.teams?.name || "Premier League";
     const kitStyle = TEAM_KIT_MAP[teamShort] || {
       color: "#02894a",
       secondaryColor: "#FFFFFF",
       pattern: "solid" as const,
     };
 
-    const positionType = POSITION_MAP[dbP?.element_type || 3] || "MID";
-    const isBench = pick.position > 11;
-    const benchOrder = isBench ? pick.position - 12 : undefined;
+    const teamCodeNum = Number(
+      bTeam?.code ||
+      bEl?.team_code ||
+      dbP?.team_code ||
+      dbP?.teams?.code ||
+      TEAM_CODE_MAP[teamShort.toUpperCase()] ||
+      3
+    );
+    const isGK = elementTypeNum === 1 || positionType === "GKP";
+    const kitUrl = getFplKitUrl(teamCodeNum, isGK);
 
     const playerId = String(pick.element);
     if (pick.is_captain) captainId = playerId;
     if (pick.is_vice_captain) viceCaptainId = playerId;
 
     // Resolve opponent fixture
-    const playerTeamId = dbP?.team_id || dbP?.team || dbP?.teams?.id;
+    const playerTeamId = bEl?.team || dbP?.team_id || dbP?.team || dbP?.teams?.id;
     const match = upcomingFixturesData.find(
       (f) => f.team_h === playerTeamId || f.team_a === playerTeamId
     );
@@ -418,7 +423,10 @@ function getFplKitUrl(teamCode: number | undefined, isGoalkeeper: boolean = fals
     if (match) {
       isHome = match.team_h === playerTeamId;
       const oppTeamId = isHome ? match.team_a : match.team_h;
-      opponentShort = teamMap.get(oppTeamId)?.short_name || "PL";
+      opponentShort =
+        bootstrapTeamsMap.get(oppTeamId)?.short_name ||
+        teamMap.get(oppTeamId)?.short_name ||
+        "PL";
       const rawFdr = isHome ? match.team_h_difficulty : match.team_a_difficulty;
       fdrDifficulty = ([2, 3, 4, 5].includes(rawFdr) ? rawFdr : 3) as 2 | 3 | 4 | 5;
     } else {
@@ -431,11 +439,18 @@ function getFplKitUrl(teamCode: number | undefined, isGoalkeeper: boolean = fals
     const isDefOrGk = positionType === "GKP" || positionType === "DEF";
     const isFwd = positionType === "FWD";
 
-    const totalPts = dbP?.total_points || 0;
-    const priceVal = (dbP?.now_cost || 50) / 10;
-    const projectedPts = pred?.projected_points != null
-      ? Number(pred.projected_points.toFixed(1))
-      : computeFallbackXP(totalPts, currentEvent, positionType);
+    const totalPts = Number(dbP?.total_points ?? bEl?.total_points ?? 0);
+    const priceVal = Number(bEl?.now_cost ?? dbP?.now_cost ?? 50) / 10;
+
+    // XP Calculation: Prioritize DB prediction, then official FPL ep_next, then regression-based fallback
+    let projectedPts: number;
+    if (pred?.projected_points != null && !isNaN(Number(pred.projected_points))) {
+      projectedPts = Number(Number(pred.projected_points).toFixed(1));
+    } else if (bEl?.ep_next != null && !isNaN(parseFloat(bEl.ep_next)) && parseFloat(bEl.ep_next) > 0) {
+      projectedPts = Number(parseFloat(bEl.ep_next).toFixed(1));
+    } else {
+      projectedPts = computeFallbackXP(totalPts, currentEvent, positionType);
+    }
       
     // LOG VERIFICATION FOR USER
     if (pick.element === 355 || pick.element === 354 || pick.element === 329 || dbP?.web_name === "Haaland") {
@@ -459,7 +474,7 @@ function getFplKitUrl(teamCode: number | undefined, isGoalkeeper: boolean = fals
     if (isDefOrGk) {
       xGVal = 0.03;
       xAVal = 0.08;
-      xGCVal = Number(Math.max(0.65, 1.45 - (dbP?.clean_sheets || 1) * 0.08 + (fdrDifficulty - 2) * 0.2).toFixed(2));
+      xGCVal = Number(Math.max(0.65, 1.45 - (dbP?.clean_sheets || bEl?.clean_sheets || 1) * 0.08 + (fdrDifficulty - 2) * 0.2).toFixed(2));
     } else if (isFwd) {
       xGVal = 0.5;
       xAVal = 0.15;
@@ -484,18 +499,11 @@ function getFplKitUrl(teamCode: number | undefined, isGoalkeeper: boolean = fals
     const isMatchStarted = teamFix ? teamFix.started : liveMins > 0;
     const isYetToPlay = !isMatchStarted && liveMins === 0;
 
-    const bEl = bootstrapElementsMap.get(pick.element);
-    const bTeam = bEl ? bootstrapTeamsMap.get(bEl.team) : null;
-    const elementTypeNum = bEl?.element_type || dbP?.element_type || (POSITION_MAP[dbP?.element_type || 3] === "GKP" ? 1 : 3);
-    const teamCodeNum = Number(bTeam?.code || bEl?.team_code || dbP?.team_code || dbP?.teams?.code || 0);
-    const isGK = elementTypeNum === 1 || positionType === "GKP";
-    const kitUrl = getFplKitUrl(teamCodeNum, isGK);
-
     const playerObj: Player = {
       id: playerId,
       name: dbP?.web_name || bEl?.web_name || `Player ${pick.element}`,
       webName: dbP?.web_name || bEl?.web_name || `Player ${pick.element}`,
-      fullName: `${dbP?.first_name || bEl?.first_name || ""} ${dbP?.second_name || bEl?.second_name || ""}`.trim() || dbP?.web_name || `Player ${pick.element}`,
+      fullName: `${dbP?.first_name || bEl?.first_name || ""} ${dbP?.second_name || bEl?.second_name || ""}`.trim() || dbP?.web_name || bEl?.web_name || `Player ${pick.element}`,
       team: teamName,
       teamShort: teamShort,
       teamColor: kitStyle.color,
@@ -514,7 +522,7 @@ function getFplKitUrl(teamCode: number | undefined, isGoalkeeper: boolean = fals
       gw_points: calculatedLivePts,
       live_points: calculatedLivePts,
       projectedPoints: projectedPts,
-      form: Number((totalPts / Math.max(1, currentEvent)).toFixed(1)),
+      form: Number((bEl?.form ? parseFloat(bEl.form) : totalPts / Math.max(1, currentEvent)).toFixed(1)),
       xG: xGVal,
       xA: xAVal,
       xGI: xGIVal,
@@ -536,9 +544,23 @@ function getFplKitUrl(teamCode: number | undefined, isGoalkeeper: boolean = fals
         { opponent: opponentShort, isHome: isHome, difficulty: fdrDifficulty, gameweek: targetEvent },
         { opponent: "PL", isHome: !isHome, difficulty: 3, gameweek: targetEvent + 1 },
       ],
-      photoUrl: `https://resources.premierleague.com/premierleague/photos/players/110x140/p${pick.element}.png`,
-      top10kEo: dbP?.top_10k_eo != null ? Number(dbP.top_10k_eo) : (dbP?.selected_by_percent ? Number(dbP.selected_by_percent) * 1.5 : undefined),
-      top_10k_eo: dbP?.top_10k_eo != null ? Number(dbP.top_10k_eo) : (dbP?.selected_by_percent ? Number(dbP.selected_by_percent) * 1.5 : undefined),
+      photoUrl: `https://resources.premierleague.com/premierleague/photos/players/110x140/p${bEl?.code || pick.element}.png`,
+      top10kEo:
+        dbP?.top_10k_eo != null
+          ? Number(dbP.top_10k_eo)
+          : dbP?.selected_by_percent
+          ? Number(dbP.selected_by_percent) * 1.5
+          : bEl?.selected_by_percent
+          ? Number(bEl.selected_by_percent) * 1.5
+          : undefined,
+      top_10k_eo:
+        dbP?.top_10k_eo != null
+          ? Number(dbP.top_10k_eo)
+          : dbP?.selected_by_percent
+          ? Number(dbP.selected_by_percent) * 1.5
+          : bEl?.selected_by_percent
+          ? Number(bEl.selected_by_percent) * 1.5
+          : undefined,
       multiplier: mult,
       matchFinished: isMatchFinished,
       matchStarted: isMatchStarted,
@@ -581,9 +603,9 @@ function getFplKitUrl(teamCode: number | undefined, isGoalkeeper: boolean = fals
   }
 
   // Calculate formation: DEF - MID - FWD
-  const defCount = startingXI.filter((p) => p.position === "DEF").length;
-  const midCount = startingXI.filter((p) => p.position === "MID").length;
-  const fwdCount = startingXI.filter((p) => p.position === "FWD").length;
+  const defCount = startingXI.filter((p) => p.position === "DEF" || p.elementType === 2 || p.element_type === 2).length;
+  const midCount = startingXI.filter((p) => p.position === "MID" || p.elementType === 3 || p.element_type === 3).length;
+  const fwdCount = startingXI.filter((p) => p.position === "FWD" || p.elementType === 4 || p.element_type === 4).length;
   const formation = `${defCount}-${midCount}-${fwdCount}`;
 
   // Default captain / vice captain if unset

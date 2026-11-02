@@ -27,13 +27,29 @@ export const Pitch: React.FC<PitchProps> = ({
 }) => {
   // Filter starting XI by position
   const starters = players.filter((p) => !p.isBench);
-  const gkp = starters.filter((p) => p.position === "GKP");
-  const defs = starters.filter((p) => p.position === "DEF");
-  const mids = starters.filter((p) => p.position === "MID");
-  const fwds = starters.filter((p) => p.position === "FWD");
+  const isGk = (p: Player) => p.position === "GKP" || p.elementType === 1 || p.element_type === 1;
+  const isDef = (p: Player) => p.position === "DEF" || p.elementType === 2 || p.element_type === 2;
+  const isMid = (p: Player) => p.position === "MID" || p.elementType === 3 || p.element_type === 3;
+  const isFwd = (p: Player) => p.position === "FWD" || p.elementType === 4 || p.element_type === 4;
+
+  let gkp = starters.filter(isGk);
+  let defs = starters.filter(isDef);
+  let mids = starters.filter(isMid);
+  let fwds = starters.filter(isFwd);
+
+  // Structural fail-safe: If positional metadata is missing and would collapse into 0-11-0,
+  // distribute starters according to standard FPL lineup order (Pick 1 = GK, Picks 2-5 = DEF, Picks 6-9 = MID, Picks 10-11 = FWD)
+  if (starters.length === 11 && (gkp.length === 0 || defs.length === 0 || fwds.length === 0)) {
+    gkp = starters.slice(0, 1);
+    defs = starters.slice(1, 5);
+    mids = starters.slice(5, 9);
+    fwds = starters.slice(9, 11);
+  }
 
   const displayFormation =
-    formation || `${defs.length}-${mids.length}-${fwds.length}`;
+    formation && formation !== "0-11-0"
+      ? formation
+      : `${defs.length}-${mids.length}-${fwds.length}`;
 
   return (
     <div className="relative w-full max-w-2xl mx-auto rounded-sm overflow-hidden border border-tl-border bg-[var(--pitch-bg)] select-none transition-colors">

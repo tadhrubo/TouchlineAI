@@ -99,10 +99,10 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
   }, [plannedSquad]);
 
   // Position partitions
-  const gkps = plannedSquad.filter((p) => p.position === "GKP" && !p.isBench);
-  const defs = plannedSquad.filter((p) => p.position === "DEF" && !p.isBench);
-  const mids = plannedSquad.filter((p) => p.position === "MID" && !p.isBench);
-  const fwds = plannedSquad.filter((p) => p.position === "FWD" && !p.isBench);
+  const gkps = plannedSquad.filter((p) => (p.position === "GKP" || p.elementType === 1 || p.element_type === 1) && !p.isBench);
+  const defs = plannedSquad.filter((p) => (p.position === "DEF" || p.elementType === 2 || p.element_type === 2) && !p.isBench);
+  const mids = plannedSquad.filter((p) => (p.position === "MID" || p.elementType === 3 || p.element_type === 3) && !p.isBench);
+  const fwds = plannedSquad.filter((p) => (p.position === "FWD" || p.elementType === 4 || p.element_type === 4) && !p.isBench);
   const benchPlayers = plannedSquad.filter((p) => p.isBench);
 
   // Handlers
@@ -774,7 +774,9 @@ const PlannerPlayerCard: React.FC<PlannerPlayerCardProps> = ({
       <div className="relative my-0.5 flex items-center justify-center mt-1">
         <JerseyIcon
           teamShort={player.teamShort}
-          isGK={player.position === "GKP"}
+          teamCode={player.teamCode ?? player.team_code}
+          kitUrl={player.kitUrl}
+          isGK={player.position === "GKP" || player.elementType === 1 || player.element_type === 1}
           size={isBench ? 34 : 40}
           priority={!isBench}
         />
