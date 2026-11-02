@@ -10,7 +10,7 @@ for (const line of env) {
 }
 const supabase = createClient(processEnv.NEXT_PUBLIC_SUPABASE_URL, processEnv.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 (async () => {
-    const { data, error } = await supabase.from('players').select('id, web_name, player_predictions(*)').eq('web_name', 'Haaland');
-    const sortedPreds = data[0].player_predictions?.sort((a, b) => (b.gw || 0) - (a.gw || 0));
-    console.log(`[VERIFY] DB pred.projected_points (GW: ${sortedPreds[0]?.gw}):`, sortedPreds[0]?.projected_points);
+    const res = await supabase.from('players').select('id, web_name, player_predictions(*)').limit(5);
+    console.log("Error:", res.error);
+    console.log("Data:", res.data);
 })();
