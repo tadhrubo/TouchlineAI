@@ -9,7 +9,8 @@
   "rolling_xg_3",
   "rolling_xa_3",
   "rolling_bps_3",
-  "was_home_int",
+  "next_was_home",
+  "opp_xga_rolling_5",
   "value_norm",
   "pos_code"
 ]

@@ -1,0 +1,6032 @@
+[
+  {
+    "player_id": 1,
+    "name": "Raya",
+    "gameweek": 10,
+    "start_prob": 0.95,
+    "projected_points": 3.61,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.008
+  },
+  {
+    "player_id": 2,
+    "name": "Arrizabalaga",
+    "gameweek": 10,
+    "start_prob": 0.05,
+    "projected_points": 0.19,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.001
+  },
+  {
+    "player_id": 3,
+    "name": "Meslier",
+    "gameweek": 10,
+    "start_prob": 0.05,
+    "projected_points": 0.19,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 4,
+    "name": "Gabriel",
+    "gameweek": 10,
+    "start_prob": 0.929,
+    "projected_points": 4.19,
+    "ceiling_points": 10.0,
+    "haul_prob": 0.125
+  },
+  {
+    "player_id": 5,
+    "name": "J.Timber",
+    "gameweek": 10,
+    "start_prob": 0.471,
+    "projected_points": 2.17,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.036
+  },
+  {
+    "player_id": 6,
+    "name": "Saliba",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 7,
+    "name": "Lewis-Skelly",
+    "gameweek": 10,
+    "start_prob": 0.466,
+    "projected_points": 1.98,
+    "ceiling_points": 5.0,
+    "haul_prob": 0.02
+  },
+  {
+    "player_id": 8,
+    "name": "Calafiori",
+    "gameweek": 10,
+    "start_prob": 0.859,
+    "projected_points": 3.84,
+    "ceiling_points": 10.0,
+    "haul_prob": 0.103
+  },
+  {
+    "player_id": 9,
+    "name": "Hincapie",
+    "gameweek": 10,
+    "start_prob": 0.451,
+    "projected_points": 1.78,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.031
+  },
+  {
+    "player_id": 10,
+    "name": "White",
+    "gameweek": 10,
+    "start_prob": 0.855,
+    "projected_points": 3.51,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.07
+  },
+  {
+    "player_id": 11,
+    "name": "Mosquera",
+    "gameweek": 10,
+    "start_prob": 0.371,
+    "projected_points": 1.59,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.014
+  },
+  {
+    "player_id": 12,
+    "name": "Saka",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 13,
+    "name": "Rice",
+    "gameweek": 10,
+    "start_prob": 0.9,
+    "projected_points": 4.36,
+    "ceiling_points": 10.0,
+    "haul_prob": 0.122
+  },
+  {
+    "player_id": 14,
+    "name": "Eze",
+    "gameweek": 10,
+    "start_prob": 0.376,
+    "projected_points": 2.16,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.034
+  },
+  {
+    "player_id": 15,
+    "name": "\u00d8degaard",
+    "gameweek": 10,
+    "start_prob": 0.8,
+    "projected_points": 4.19,
+    "ceiling_points": 10.0,
+    "haul_prob": 0.138
+  },
+  {
+    "player_id": 16,
+    "name": "Madueke",
+    "gameweek": 10,
+    "start_prob": 0.741,
+    "projected_points": 3.91,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.096
+  },
+  {
+    "player_id": 17,
+    "name": "Merino",
+    "gameweek": 10,
+    "start_prob": 0.432,
+    "projected_points": 2.42,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.054
+  },
+  {
+    "player_id": 18,
+    "name": "Martinelli",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 19,
+    "name": "Zubimendi",
+    "gameweek": 10,
+    "start_prob": 0.201,
+    "projected_points": 1.31,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.014
+  },
+  {
+    "player_id": 20,
+    "name": "Dowman",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 22,
+    "name": "Nwaneri",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 23,
+    "name": "F\u00e1bio Vieira",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 24,
+    "name": "Nelson",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 25,
+    "name": "Gy\u00f6keres",
+    "gameweek": 10,
+    "start_prob": 0.615,
+    "projected_points": 3.0,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.051
+  },
+  {
+    "player_id": 26,
+    "name": "Havertz",
+    "gameweek": 10,
+    "start_prob": 0.859,
+    "projected_points": 4.24,
+    "ceiling_points": 10.0,
+    "haul_prob": 0.102
+  },
+  {
+    "player_id": 27,
+    "name": "G.Jesus",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 31,
+    "name": "Konsa",
+    "gameweek": 10,
+    "start_prob": 0.855,
+    "projected_points": 3.16,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.056
+  },
+  {
+    "player_id": 452,
+    "name": "Bruno G.",
+    "gameweek": 10,
+    "start_prob": 0.835,
+    "projected_points": 3.54,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.07
+  },
+  {
+    "player_id": 557,
+    "name": "Tzolis",
+    "gameweek": 10,
+    "start_prob": 0.574,
+    "projected_points": 2.76,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.058
+  },
+  {
+    "player_id": 29,
+    "name": "M.Bizot",
+    "gameweek": 10,
+    "start_prob": 0.268,
+    "projected_points": 1.27,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 30,
+    "name": "Digne",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 32,
+    "name": "Cash",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 33,
+    "name": "Mings",
+    "gameweek": 10,
+    "start_prob": 0.532,
+    "projected_points": 1.68,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.015
+  },
+  {
+    "player_id": 34,
+    "name": "Pau",
+    "gameweek": 10,
+    "start_prob": 0.37,
+    "projected_points": 1.23,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.008
+  },
+  {
+    "player_id": 35,
+    "name": "Bogarde",
+    "gameweek": 10,
+    "start_prob": 0.079,
+    "projected_points": 0.69,
+    "ceiling_points": 1.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 36,
+    "name": "Maatsen",
+    "gameweek": 10,
+    "start_prob": 0.508,
+    "projected_points": 1.65,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.012
+  },
+  {
+    "player_id": 37,
+    "name": "Lindel\u00f6f",
+    "gameweek": 10,
+    "start_prob": 0.918,
+    "projected_points": 2.59,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.029
+  },
+  {
+    "player_id": 38,
+    "name": "A.Garc\u00eda",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 39,
+    "name": "Nedeljkovic",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 41,
+    "name": "Buend\u00eda",
+    "gameweek": 10,
+    "start_prob": 0.667,
+    "projected_points": 2.61,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.038
+  },
+  {
+    "player_id": 44,
+    "name": "Bailey",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 45,
+    "name": "McGinn",
+    "gameweek": 10,
+    "start_prob": 0.864,
+    "projected_points": 2.88,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.036
+  },
+  {
+    "player_id": 46,
+    "name": "Barkley",
+    "gameweek": 10,
+    "start_prob": 0.506,
+    "projected_points": 1.88,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.016
+  },
+  {
+    "player_id": 47,
+    "name": "Kamara",
+    "gameweek": 10,
+    "start_prob": 0.865,
+    "projected_points": 2.39,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.012
+  },
+  {
+    "player_id": 48,
+    "name": "Onana",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 49,
+    "name": "Iling Jr",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 50,
+    "name": "Burrowes",
+    "gameweek": 10,
+    "start_prob": 0.011,
+    "projected_points": 0.05,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 51,
+    "name": "George Hemmings",
+    "gameweek": 10,
+    "start_prob": 0.369,
+    "projected_points": 1.43,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.007
+  },
+  {
+    "player_id": 52,
+    "name": "Alysson",
+    "gameweek": 10,
+    "start_prob": 0.374,
+    "projected_points": 1.55,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.012
+  },
+  {
+    "player_id": 53,
+    "name": "Manzambi",
+    "gameweek": 10,
+    "start_prob": 0.846,
+    "projected_points": 3.42,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.065
+  },
+  {
+    "player_id": 54,
+    "name": "Gomes",
+    "gameweek": 10,
+    "start_prob": 0.638,
+    "projected_points": 2.04,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.011
+  },
+  {
+    "player_id": 55,
+    "name": "Watkins",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 56,
+    "name": "Abraham",
+    "gameweek": 10,
+    "start_prob": 0.186,
+    "projected_points": 1.1,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.002
+  },
+  {
+    "player_id": 160,
+    "name": "Garnacho",
+    "gameweek": 10,
+    "start_prob": 0.162,
+    "projected_points": 0.93,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.008
+  },
+  {
+    "player_id": 166,
+    "name": "N.Jackson",
+    "gameweek": 10,
+    "start_prob": 0.885,
+    "projected_points": 3.7,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.065
+  },
+  {
+    "player_id": 582,
+    "name": "Madjo",
+    "gameweek": 10,
+    "start_prob": 0.06,
+    "projected_points": 0.62,
+    "ceiling_points": 1.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 596,
+    "name": "Ruggeri",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 597,
+    "name": "Suzuki",
+    "gameweek": 10,
+    "start_prob": 0.896,
+    "projected_points": 3.12,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.006
+  },
+  {
+    "player_id": 606,
+    "name": "Rowe",
+    "gameweek": 10,
+    "start_prob": 0.014,
+    "projected_points": 0.09,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 607,
+    "name": "Lynch",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 611,
+    "name": "Wan-Bissaka",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 618,
+    "name": "Goretzka",
+    "gameweek": 10,
+    "start_prob": 0.371,
+    "projected_points": 1.58,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.015
+  },
+  {
+    "player_id": 630,
+    "name": "Harwood-Bellis",
+    "gameweek": 10,
+    "start_prob": 0.045,
+    "projected_points": 0.19,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.001
+  },
+  {
+    "player_id": 631,
+    "name": "Mbaye",
+    "gameweek": 10,
+    "start_prob": 0.422,
+    "projected_points": 1.98,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.026
+  },
+  {
+    "player_id": 667,
+    "name": "Wright",
+    "gameweek": 10,
+    "start_prob": 0.014,
+    "projected_points": 0.07,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 57,
+    "name": "Petrovi\u0107",
+    "gameweek": 10,
+    "start_prob": 0.925,
+    "projected_points": 3.2,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.007
+  },
+  {
+    "player_id": 58,
+    "name": "Forster",
+    "gameweek": 10,
+    "start_prob": 0.014,
+    "projected_points": 0.07,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 59,
+    "name": "Dennis",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 60,
+    "name": "Hill",
+    "gameweek": 10,
+    "start_prob": 0.914,
+    "projected_points": 2.71,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.024
+  },
+  {
+    "player_id": 61,
+    "name": "Truffert",
+    "gameweek": 10,
+    "start_prob": 0.905,
+    "projected_points": 2.85,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.042
+  },
+  {
+    "player_id": 62,
+    "name": "Diakit\u00e9",
+    "gameweek": 10,
+    "start_prob": 0.302,
+    "projected_points": 1.09,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.005
+  },
+  {
+    "player_id": 63,
+    "name": "Milosavljevi\u0107",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 64,
+    "name": "Smith",
+    "gameweek": 10,
+    "start_prob": 0.85,
+    "projected_points": 2.37,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.02
+  },
+  {
+    "player_id": 65,
+    "name": "J.Araujo",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 66,
+    "name": "Soler",
+    "gameweek": 10,
+    "start_prob": 0.136,
+    "projected_points": 0.52,
+    "ceiling_points": 1.0,
+    "haul_prob": 0.001
+  },
+  {
+    "player_id": 67,
+    "name": "Rayan",
+    "gameweek": 10,
+    "start_prob": 0.872,
+    "projected_points": 3.38,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.073
+  },
+  {
+    "player_id": 68,
+    "name": "Tavernier",
+    "gameweek": 10,
+    "start_prob": 0.895,
+    "projected_points": 4.15,
+    "ceiling_points": 10.0,
+    "haul_prob": 0.106
+  },
+  {
+    "player_id": 69,
+    "name": "Scott",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 70,
+    "name": "Kluivert",
+    "gameweek": 10,
+    "start_prob": 0.76,
+    "projected_points": 2.88,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.056
+  },
+  {
+    "player_id": 71,
+    "name": "Cook",
+    "gameweek": 10,
+    "start_prob": 0.671,
+    "projected_points": 2.06,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.014
+  },
+  {
+    "player_id": 72,
+    "name": "Gannon-Doak",
+    "gameweek": 10,
+    "start_prob": 0.404,
+    "projected_points": 1.74,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.018
+  },
+  {
+    "player_id": 73,
+    "name": "Adams",
+    "gameweek": 10,
+    "start_prob": 0.631,
+    "projected_points": 1.89,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.009
+  },
+  {
+    "player_id": 74,
+    "name": "Brooks",
+    "gameweek": 10,
+    "start_prob": 0.215,
+    "projected_points": 1.1,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.006
+  },
+  {
+    "player_id": 75,
+    "name": "Christie",
+    "gameweek": 10,
+    "start_prob": 0.69,
+    "projected_points": 2.4,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.025
+  },
+  {
+    "player_id": 76,
+    "name": "T\u00f3th.A",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 77,
+    "name": "Adli",
+    "gameweek": 10,
+    "start_prob": 0.536,
+    "projected_points": 1.93,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.014
+  },
+  {
+    "player_id": 78,
+    "name": "Kroupi.Jr",
+    "gameweek": 10,
+    "start_prob": 0.288,
+    "projected_points": 1.62,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.018
+  },
+  {
+    "player_id": 79,
+    "name": "Evanilson",
+    "gameweek": 10,
+    "start_prob": 0.895,
+    "projected_points": 3.59,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.061
+  },
+  {
+    "player_id": 80,
+    "name": "Enes \u00dcnal",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 81,
+    "name": "Rodr\u00edguez",
+    "gameweek": 10,
+    "start_prob": 0.342,
+    "projected_points": 1.6,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.007
+  },
+  {
+    "player_id": 566,
+    "name": "Silva",
+    "gameweek": 10,
+    "start_prob": 0.911,
+    "projected_points": 2.66,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.029
+  },
+  {
+    "player_id": 573,
+    "name": "Sanchez",
+    "gameweek": 10,
+    "start_prob": 0.203,
+    "projected_points": 0.75,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.004
+  },
+  {
+    "player_id": 608,
+    "name": "Jebbison",
+    "gameweek": 10,
+    "start_prob": 0.123,
+    "projected_points": 1.03,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 615,
+    "name": "Di Gregorio",
+    "gameweek": 10,
+    "start_prob": 0.043,
+    "projected_points": 0.16,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 82,
+    "name": "Kelleher",
+    "gameweek": 10,
+    "start_prob": 0.948,
+    "projected_points": 3.17,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.007
+  },
+  {
+    "player_id": 83,
+    "name": "Valdimarsson",
+    "gameweek": 10,
+    "start_prob": 0.042,
+    "projected_points": 0.16,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.001
+  },
+  {
+    "player_id": 84,
+    "name": "Collins",
+    "gameweek": 10,
+    "start_prob": 0.402,
+    "projected_points": 1.62,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.018
+  },
+  {
+    "player_id": 85,
+    "name": "Van den Berg",
+    "gameweek": 10,
+    "start_prob": 0.737,
+    "projected_points": 2.21,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.025
+  },
+  {
+    "player_id": 86,
+    "name": "Lewis-Potter",
+    "gameweek": 10,
+    "start_prob": 0.87,
+    "projected_points": 2.91,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.041
+  },
+  {
+    "player_id": 87,
+    "name": "Ajer",
+    "gameweek": 10,
+    "start_prob": 0.918,
+    "projected_points": 2.64,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.024
+  },
+  {
+    "player_id": 88,
+    "name": "Kayode",
+    "gameweek": 10,
+    "start_prob": 0.715,
+    "projected_points": 2.19,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.023
+  },
+  {
+    "player_id": 89,
+    "name": "Henry",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 90,
+    "name": "Hickey",
+    "gameweek": 10,
+    "start_prob": 0.409,
+    "projected_points": 1.46,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.01
+  },
+  {
+    "player_id": 92,
+    "name": "Ji-soo",
+    "gameweek": 10,
+    "start_prob": 0.044,
+    "projected_points": 0.18,
+    "ceiling_points": 1.0,
+    "haul_prob": 0.002
+  },
+  {
+    "player_id": 93,
+    "name": "Schuster",
+    "gameweek": 10,
+    "start_prob": 0.319,
+    "projected_points": 1.26,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.01
+  },
+  {
+    "player_id": 94,
+    "name": "Schade",
+    "gameweek": 10,
+    "start_prob": 0.749,
+    "projected_points": 2.84,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.042
+  },
+  {
+    "player_id": 95,
+    "name": "O.Dango",
+    "gameweek": 10,
+    "start_prob": 0.837,
+    "projected_points": 3.3,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.058
+  },
+  {
+    "player_id": 96,
+    "name": "Damsgaard",
+    "gameweek": 10,
+    "start_prob": 0.521,
+    "projected_points": 1.98,
+    "ceiling_points": 4.0,
+    "haul_prob": 0.015
+  },
+  {
+    "player_id": 97,
+    "name": "Jensen",
+    "gameweek": 10,
+    "start_prob": 0.465,
+    "projected_points": 1.93,
+    "ceiling_points": 4.0,
+    "haul_prob": 0.013
+  },
+  {
+    "player_id": 98,
+    "name": "Janelt",
+    "gameweek": 10,
+    "start_prob": 0.753,
+    "projected_points": 2.3,
+    "ceiling_points": 4.1,
+    "haul_prob": 0.021
+  },
+  {
+    "player_id": 99,
+    "name": "Milambo",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 100,
+    "name": "Carvalho",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 102,
+    "name": "Yarmoliuk",
+    "gameweek": 10,
+    "start_prob": 0.486,
+    "projected_points": 1.79,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.011
+  },
+  {
+    "player_id": 103,
+    "name": "Dasilva",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 105,
+    "name": "Anthony",
+    "gameweek": 10,
+    "start_prob": 0.737,
+    "projected_points": 3.05,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.058
+  },
+  {
+    "player_id": 106,
+    "name": "Thiago",
+    "gameweek": 10,
+    "start_prob": 0.911,
+    "projected_points": 3.86,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.069
+  },
+  {
+    "player_id": 107,
+    "name": "Furo",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 108,
+    "name": "Wilson",
+    "gameweek": 10,
+    "start_prob": 0.27,
+    "projected_points": 1.24,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.006
+  },
+  {
+    "player_id": 565,
+    "name": "M.Sangar\u00e9",
+    "gameweek": 10,
+    "start_prob": 0.679,
+    "projected_points": 2.34,
+    "ceiling_points": 5.1,
+    "haul_prob": 0.021
+  },
+  {
+    "player_id": 620,
+    "name": "Diouf",
+    "gameweek": 10,
+    "start_prob": 0.422,
+    "projected_points": 1.48,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.016
+  },
+  {
+    "player_id": 657,
+    "name": "Nunes",
+    "gameweek": 10,
+    "start_prob": 0.01,
+    "projected_points": 0.06,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 660,
+    "name": "Fredrick",
+    "gameweek": 10,
+    "start_prob": 0.014,
+    "projected_points": 0.09,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 661,
+    "name": "Balcombe",
+    "gameweek": 10,
+    "start_prob": 0.014,
+    "projected_points": 0.07,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 109,
+    "name": "Verbruggen",
+    "gameweek": 10,
+    "start_prob": 0.957,
+    "projected_points": 3.4,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.008
+  },
+  {
+    "player_id": 111,
+    "name": "Steele",
+    "gameweek": 10,
+    "start_prob": 0.014,
+    "projected_points": 0.07,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 113,
+    "name": "F.Kad\u0131o\u011flu",
+    "gameweek": 10,
+    "start_prob": 0.75,
+    "projected_points": 2.67,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.057
+  },
+  {
+    "player_id": 114,
+    "name": "Boscagli",
+    "gameweek": 10,
+    "start_prob": 0.863,
+    "projected_points": 3.21,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.052
+  },
+  {
+    "player_id": 115,
+    "name": "De Cuyper",
+    "gameweek": 10,
+    "start_prob": 0.897,
+    "projected_points": 3.97,
+    "ceiling_points": 10.0,
+    "haul_prob": 0.106
+  },
+  {
+    "player_id": 116,
+    "name": "Dunk",
+    "gameweek": 10,
+    "start_prob": 0.858,
+    "projected_points": 2.9,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.031
+  },
+  {
+    "player_id": 117,
+    "name": "Coppola",
+    "gameweek": 10,
+    "start_prob": 0.049,
+    "projected_points": 0.23,
+    "ceiling_points": 1.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 118,
+    "name": "Igor",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 119,
+    "name": "Costinha",
+    "gameweek": 10,
+    "start_prob": 0.573,
+    "projected_points": 2.27,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.033
+  },
+  {
+    "player_id": 120,
+    "name": "Svoboda",
+    "gameweek": 10,
+    "start_prob": 0.211,
+    "projected_points": 1.0,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.014
+  },
+  {
+    "player_id": 121,
+    "name": "Mitoma",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 122,
+    "name": "Minteh",
+    "gameweek": 10,
+    "start_prob": 0.025,
+    "projected_points": 0.22,
+    "ceiling_points": 1.0,
+    "haul_prob": 0.002
+  },
+  {
+    "player_id": 123,
+    "name": "Hinshelwood",
+    "gameweek": 10,
+    "start_prob": 0.587,
+    "projected_points": 3.62,
+    "ceiling_points": 10.0,
+    "haul_prob": 0.108
+  },
+  {
+    "player_id": 124,
+    "name": "Gro\u00df",
+    "gameweek": 10,
+    "start_prob": 0.877,
+    "projected_points": 4.37,
+    "ceiling_points": 10.0,
+    "haul_prob": 0.122
+  },
+  {
+    "player_id": 125,
+    "name": "Georginio",
+    "gameweek": 10,
+    "start_prob": 0.363,
+    "projected_points": 2.12,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.023
+  },
+  {
+    "player_id": 126,
+    "name": "O'Riley",
+    "gameweek": 10,
+    "start_prob": 0.082,
+    "projected_points": 0.96,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.009
+  },
+  {
+    "player_id": 127,
+    "name": "Gomez",
+    "gameweek": 10,
+    "start_prob": 0.886,
+    "projected_points": 3.61,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.082
+  },
+  {
+    "player_id": 128,
+    "name": "Buonanotte",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 129,
+    "name": "Ayari",
+    "gameweek": 10,
+    "start_prob": 0.868,
+    "projected_points": 3.57,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.086
+  },
+  {
+    "player_id": 130,
+    "name": "Wieffer",
+    "gameweek": 10,
+    "start_prob": 0.336,
+    "projected_points": 1.64,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.026
+  },
+  {
+    "player_id": 132,
+    "name": "Howell",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 133,
+    "name": "Watson",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 134,
+    "name": "Oriola",
+    "gameweek": 10,
+    "start_prob": 0.011,
+    "projected_points": 0.06,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 135,
+    "name": "Yohanna",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 137,
+    "name": "Tzimas",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 138,
+    "name": "Kostoulas",
+    "gameweek": 10,
+    "start_prob": 0.862,
+    "projected_points": 3.77,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.061
+  },
+  {
+    "player_id": 139,
+    "name": "Ferguson",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 328,
+    "name": "Struijk",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 504,
+    "name": "Vuskovic",
+    "gameweek": 10,
+    "start_prob": 0.916,
+    "projected_points": 3.3,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.05
+  },
+  {
+    "player_id": 594,
+    "name": "David",
+    "gameweek": 10,
+    "start_prob": 0.169,
+    "projected_points": 1.16,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.006
+  },
+  {
+    "player_id": 600,
+    "name": "Osman",
+    "gameweek": 10,
+    "start_prob": 0.14,
+    "projected_points": 1.12,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.007
+  },
+  {
+    "player_id": 605,
+    "name": "Yalcouy\u00e9",
+    "gameweek": 10,
+    "start_prob": 0.373,
+    "projected_points": 1.96,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.029
+  },
+  {
+    "player_id": 614,
+    "name": "Hadjam",
+    "gameweek": 10,
+    "start_prob": 0.63,
+    "projected_points": 2.22,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.026
+  },
+  {
+    "player_id": 624,
+    "name": "Cozier-Duberry",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 639,
+    "name": "Andr\u00e9s",
+    "gameweek": 10,
+    "start_prob": 0.54,
+    "projected_points": 2.34,
+    "ceiling_points": 6.1,
+    "haul_prob": 0.036
+  },
+  {
+    "player_id": 652,
+    "name": "Azeez",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 658,
+    "name": "Ibrahim",
+    "gameweek": 10,
+    "start_prob": 0.01,
+    "projected_points": 0.06,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 28,
+    "name": "Martinez",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 40,
+    "name": "Rogers",
+    "gameweek": 10,
+    "start_prob": 0.905,
+    "projected_points": 3.94,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.086
+  },
+  {
+    "player_id": 101,
+    "name": "Henderson",
+    "gameweek": 10,
+    "start_prob": 0.75,
+    "projected_points": 2.29,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.026
+  },
+  {
+    "player_id": 136,
+    "name": "Welbeck",
+    "gameweek": 10,
+    "start_prob": 0.474,
+    "projected_points": 1.9,
+    "ceiling_points": 5.0,
+    "haul_prob": 0.011
+  },
+  {
+    "player_id": 140,
+    "name": "S\u00e1nchez",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 141,
+    "name": "J\u00f6rgensen",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 142,
+    "name": "James",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 143,
+    "name": "Chalobah",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 144,
+    "name": "Gusto",
+    "gameweek": 10,
+    "start_prob": 0.396,
+    "projected_points": 1.43,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.01
+  },
+  {
+    "player_id": 145,
+    "name": "Fofana",
+    "gameweek": 10,
+    "start_prob": 0.66,
+    "projected_points": 1.91,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.011
+  },
+  {
+    "player_id": 146,
+    "name": "B.Badiashile",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 148,
+    "name": "Hato",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 149,
+    "name": "Colwill",
+    "gameweek": 10,
+    "start_prob": 0.846,
+    "projected_points": 2.35,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.018
+  },
+  {
+    "player_id": 150,
+    "name": "M.Sarr",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 151,
+    "name": "Acheampong",
+    "gameweek": 10,
+    "start_prob": 0.832,
+    "projected_points": 2.27,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.011
+  },
+  {
+    "player_id": 152,
+    "name": "Palestra",
+    "gameweek": 10,
+    "start_prob": 0.523,
+    "projected_points": 1.61,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.01
+  },
+  {
+    "player_id": 154,
+    "name": "Palmer",
+    "gameweek": 10,
+    "start_prob": 0.899,
+    "projected_points": 4.17,
+    "ceiling_points": 10.0,
+    "haul_prob": 0.109
+  },
+  {
+    "player_id": 156,
+    "name": "Neto",
+    "gameweek": 10,
+    "start_prob": 0.881,
+    "projected_points": 3.78,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.084
+  },
+  {
+    "player_id": 157,
+    "name": "Est\u00eav\u00e3o",
+    "gameweek": 10,
+    "start_prob": 0.335,
+    "projected_points": 1.74,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.018
+  },
+  {
+    "player_id": 158,
+    "name": "Gittens",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 159,
+    "name": "Caicedo",
+    "gameweek": 10,
+    "start_prob": 0.615,
+    "projected_points": 1.89,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.009
+  },
+  {
+    "player_id": 161,
+    "name": "Lavia",
+    "gameweek": 10,
+    "start_prob": 0.638,
+    "projected_points": 2.2,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.024
+  },
+  {
+    "player_id": 163,
+    "name": "D.Essugo",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 164,
+    "name": "Quenda",
+    "gameweek": 10,
+    "start_prob": 0.417,
+    "projected_points": 1.57,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.006
+  },
+  {
+    "player_id": 165,
+    "name": "Jo\u00e3o Pedro",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 168,
+    "name": "Marc Guiu",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 169,
+    "name": "Mheuka",
+    "gameweek": 10,
+    "start_prob": 0.01,
+    "projected_points": 0.05,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 170,
+    "name": "Emegha",
+    "gameweek": 10,
+    "start_prob": 0.018,
+    "projected_points": 0.13,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 200,
+    "name": "Lacroix",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 560,
+    "name": "Penders",
+    "gameweek": 10,
+    "start_prob": 0.526,
+    "projected_points": 1.89,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.005
+  },
+  {
+    "player_id": 561,
+    "name": "Anselmino",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 568,
+    "name": "Barco",
+    "gameweek": 10,
+    "start_prob": 0.162,
+    "projected_points": 0.99,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.005
+  },
+  {
+    "player_id": 583,
+    "name": "Chavarria",
+    "gameweek": 10,
+    "start_prob": 0.439,
+    "projected_points": 1.64,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.012
+  },
+  {
+    "player_id": 662,
+    "name": "Nicoll-Jazuli",
+    "gameweek": 10,
+    "start_prob": 0.063,
+    "projected_points": 0.51,
+    "ceiling_points": 1.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 669,
+    "name": "Sharman-Lowe",
+    "gameweek": 10,
+    "start_prob": 0.014,
+    "projected_points": 0.07,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 670,
+    "name": "Subuloye",
+    "gameweek": 10,
+    "start_prob": 0.014,
+    "projected_points": 0.09,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 91,
+    "name": "Pinnock",
+    "gameweek": 10,
+    "start_prob": 0.632,
+    "projected_points": 1.85,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.012
+  },
+  {
+    "player_id": 104,
+    "name": "Onyeka",
+    "gameweek": 10,
+    "start_prob": 0.488,
+    "projected_points": 1.57,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.009
+  },
+  {
+    "player_id": 110,
+    "name": "Rushworth",
+    "gameweek": 10,
+    "start_prob": 0.917,
+    "projected_points": 3.42,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.005
+  },
+  {
+    "player_id": 171,
+    "name": "Dovin",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 172,
+    "name": "Wilson",
+    "gameweek": 10,
+    "start_prob": 0.042,
+    "projected_points": 0.16,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 173,
+    "name": "Thomas",
+    "gameweek": 10,
+    "start_prob": 0.5,
+    "projected_points": 1.34,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.012
+  },
+  {
+    "player_id": 174,
+    "name": "Kitching",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 175,
+    "name": "van Ewijk",
+    "gameweek": 10,
+    "start_prob": 0.676,
+    "projected_points": 1.88,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.01
+  },
+  {
+    "player_id": 176,
+    "name": "Dasilva",
+    "gameweek": 10,
+    "start_prob": 0.816,
+    "projected_points": 2.37,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.021
+  },
+  {
+    "player_id": 177,
+    "name": "Kesler-Hayden",
+    "gameweek": 10,
+    "start_prob": 0.152,
+    "projected_points": 0.69,
+    "ceiling_points": 1.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 178,
+    "name": "Bidwell",
+    "gameweek": 10,
+    "start_prob": 0.014,
+    "projected_points": 0.09,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 179,
+    "name": "Latibeaudiere",
+    "gameweek": 10,
+    "start_prob": 0.088,
+    "projected_points": 0.44,
+    "ceiling_points": 1.0,
+    "haul_prob": 0.001
+  },
+  {
+    "player_id": 180,
+    "name": "Woolfenden",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 181,
+    "name": "Brau",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 182,
+    "name": "Amenda",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 183,
+    "name": "Rudoni",
+    "gameweek": 10,
+    "start_prob": 0.878,
+    "projected_points": 3.04,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.045
+  },
+  {
+    "player_id": 184,
+    "name": "Grimes",
+    "gameweek": 10,
+    "start_prob": 0.682,
+    "projected_points": 1.96,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.006
+  },
+  {
+    "player_id": 185,
+    "name": "Sakamoto",
+    "gameweek": 10,
+    "start_prob": 0.629,
+    "projected_points": 1.99,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.01
+  },
+  {
+    "player_id": 186,
+    "name": "Mason-Clark",
+    "gameweek": 10,
+    "start_prob": 0.388,
+    "projected_points": 1.69,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.015
+  },
+  {
+    "player_id": 187,
+    "name": "Eccles",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 188,
+    "name": "Torp",
+    "gameweek": 10,
+    "start_prob": 0.366,
+    "projected_points": 1.5,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.004
+  },
+  {
+    "player_id": 189,
+    "name": "Shepherd",
+    "gameweek": 10,
+    "start_prob": 0.011,
+    "projected_points": 0.05,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 190,
+    "name": "Tchaouna",
+    "gameweek": 10,
+    "start_prob": 0.387,
+    "projected_points": 1.71,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.012
+  },
+  {
+    "player_id": 191,
+    "name": "Borges Rodrigues",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 192,
+    "name": "Andrews",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 193,
+    "name": "Wright",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 194,
+    "name": "Thomas-Asante",
+    "gameweek": 10,
+    "start_prob": 0.711,
+    "projected_points": 2.55,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.015
+  },
+  {
+    "player_id": 195,
+    "name": "Simms",
+    "gameweek": 10,
+    "start_prob": 0.396,
+    "projected_points": 1.68,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.006
+  },
+  {
+    "player_id": 196,
+    "name": "Markelo",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 197,
+    "name": "Bassette",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 492,
+    "name": "Awoniyi",
+    "gameweek": 10,
+    "start_prob": 0.556,
+    "projected_points": 2.1,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.012
+  },
+  {
+    "player_id": 575,
+    "name": "Yirenkyi",
+    "gameweek": 10,
+    "start_prob": 0.564,
+    "projected_points": 1.74,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.007
+  },
+  {
+    "player_id": 584,
+    "name": "Hamer",
+    "gameweek": 10,
+    "start_prob": 0.298,
+    "projected_points": 1.28,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.005
+  },
+  {
+    "player_id": 599,
+    "name": "Cherif",
+    "gameweek": 10,
+    "start_prob": 0.822,
+    "projected_points": 2.74,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.018
+  },
+  {
+    "player_id": 623,
+    "name": "Bentley",
+    "gameweek": 10,
+    "start_prob": 0.014,
+    "projected_points": 0.07,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 655,
+    "name": "Gboho",
+    "gameweek": 10,
+    "start_prob": 0.242,
+    "projected_points": 1.09,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.005
+  },
+  {
+    "player_id": 656,
+    "name": "Mfuni",
+    "gameweek": 10,
+    "start_prob": 0.713,
+    "projected_points": 2.12,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.018
+  },
+  {
+    "player_id": 42,
+    "name": "Guessand",
+    "gameweek": 10,
+    "start_prob": 0.131,
+    "projected_points": 1.26,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.008
+  },
+  {
+    "player_id": 153,
+    "name": "Disasi",
+    "gameweek": 10,
+    "start_prob": 0.387,
+    "projected_points": 1.68,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.018
+  },
+  {
+    "player_id": 198,
+    "name": "Henderson",
+    "gameweek": 10,
+    "start_prob": 0.549,
+    "projected_points": 2.07,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.005
+  },
+  {
+    "player_id": 199,
+    "name": "Benitez",
+    "gameweek": 10,
+    "start_prob": 0.504,
+    "projected_points": 1.96,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.007
+  },
+  {
+    "player_id": 202,
+    "name": "Richards",
+    "gameweek": 10,
+    "start_prob": 0.907,
+    "projected_points": 3.23,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.049
+  },
+  {
+    "player_id": 203,
+    "name": "Canvot",
+    "gameweek": 10,
+    "start_prob": 0.69,
+    "projected_points": 2.38,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.026
+  },
+  {
+    "player_id": 204,
+    "name": "Mitchell",
+    "gameweek": 10,
+    "start_prob": 0.821,
+    "projected_points": 2.99,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.045
+  },
+  {
+    "player_id": 205,
+    "name": "Sosa",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 206,
+    "name": "Chadi Riad",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 207,
+    "name": "Mingueza",
+    "gameweek": 10,
+    "start_prob": 0.237,
+    "projected_points": 1.1,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.006
+  },
+  {
+    "player_id": 208,
+    "name": "Sarr",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 210,
+    "name": "Wharton",
+    "gameweek": 10,
+    "start_prob": 0.893,
+    "projected_points": 3.45,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.067
+  },
+  {
+    "player_id": 211,
+    "name": "Yeremy",
+    "gameweek": 10,
+    "start_prob": 0.778,
+    "projected_points": 3.49,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.08
+  },
+  {
+    "player_id": 212,
+    "name": "Hughes",
+    "gameweek": 10,
+    "start_prob": 0.229,
+    "projected_points": 1.07,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.003
+  },
+  {
+    "player_id": 213,
+    "name": "Lerma",
+    "gameweek": 10,
+    "start_prob": 0.618,
+    "projected_points": 2.68,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.052
+  },
+  {
+    "player_id": 214,
+    "name": "Kamada",
+    "gameweek": 10,
+    "start_prob": 0.843,
+    "projected_points": 3.01,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.047
+  },
+  {
+    "player_id": 215,
+    "name": "Devenny",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 216,
+    "name": "Esse",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 217,
+    "name": "M.Fran\u00e7a",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 218,
+    "name": "Doucour\u00e9",
+    "gameweek": 10,
+    "start_prob": 0.02,
+    "projected_points": 0.14,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 219,
+    "name": "J.Rak-Sakyi",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 220,
+    "name": "Cardines",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 221,
+    "name": "Drakes-Thomas",
+    "gameweek": 10,
+    "start_prob": 0.011,
+    "projected_points": 0.06,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 222,
+    "name": "Strand Larsen",
+    "gameweek": 10,
+    "start_prob": 0.507,
+    "projected_points": 2.57,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.041
+  },
+  {
+    "player_id": 223,
+    "name": "Mateta",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 224,
+    "name": "Nketiah",
+    "gameweek": 10,
+    "start_prob": 0.4,
+    "projected_points": 2.07,
+    "ceiling_points": 6.1,
+    "haul_prob": 0.022
+  },
+  {
+    "player_id": 225,
+    "name": "Uche",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 241,
+    "name": "McNeil",
+    "gameweek": 10,
+    "start_prob": 0.466,
+    "projected_points": 1.86,
+    "ceiling_points": 4.0,
+    "haul_prob": 0.014
+  },
+  {
+    "player_id": 555,
+    "name": "Matthews",
+    "gameweek": 10,
+    "start_prob": 0.014,
+    "projected_points": 0.07,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 577,
+    "name": "Tomiyasu",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 588,
+    "name": "Khalaili",
+    "gameweek": 10,
+    "start_prob": 0.725,
+    "projected_points": 2.71,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.045
+  },
+  {
+    "player_id": 595,
+    "name": "Gozo",
+    "gameweek": 10,
+    "start_prob": 0.096,
+    "projected_points": 0.87,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.002
+  },
+  {
+    "player_id": 633,
+    "name": "Ahanor",
+    "gameweek": 10,
+    "start_prob": 0.375,
+    "projected_points": 1.54,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.012
+  },
+  {
+    "player_id": 643,
+    "name": "Chilwell",
+    "gameweek": 10,
+    "start_prob": 0.152,
+    "projected_points": 0.85,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.005
+  },
+  {
+    "player_id": 644,
+    "name": "Timber",
+    "gameweek": 10,
+    "start_prob": 0.529,
+    "projected_points": 2.02,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.03
+  },
+  {
+    "player_id": 647,
+    "name": "Osorio",
+    "gameweek": 10,
+    "start_prob": 0.302,
+    "projected_points": 1.96,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.046
+  },
+  {
+    "player_id": 21,
+    "name": "N\u00f8rgaard",
+    "gameweek": 10,
+    "start_prob": 0.067,
+    "projected_points": 0.63,
+    "ceiling_points": 1.0,
+    "haul_prob": 0.002
+  },
+  {
+    "player_id": 209,
+    "name": "Johnson",
+    "gameweek": 10,
+    "start_prob": 0.428,
+    "projected_points": 2.31,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.044
+  },
+  {
+    "player_id": 226,
+    "name": "Pickford",
+    "gameweek": 10,
+    "start_prob": 0.952,
+    "projected_points": 3.31,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.008
+  },
+  {
+    "player_id": 227,
+    "name": "Travers",
+    "gameweek": 10,
+    "start_prob": 0.05,
+    "projected_points": 0.2,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 228,
+    "name": "King",
+    "gameweek": 10,
+    "start_prob": 0.045,
+    "projected_points": 0.18,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 229,
+    "name": "Tarkowski",
+    "gameweek": 10,
+    "start_prob": 0.918,
+    "projected_points": 3.4,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.057
+  },
+  {
+    "player_id": 230,
+    "name": "Branthwaite",
+    "gameweek": 10,
+    "start_prob": 0.784,
+    "projected_points": 2.92,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.055
+  },
+  {
+    "player_id": 231,
+    "name": "Keane",
+    "gameweek": 10,
+    "start_prob": 0.382,
+    "projected_points": 1.66,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.022
+  },
+  {
+    "player_id": 232,
+    "name": "O'Brien",
+    "gameweek": 10,
+    "start_prob": 0.65,
+    "projected_points": 2.35,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.033
+  },
+  {
+    "player_id": 233,
+    "name": "Mykolenko",
+    "gameweek": 10,
+    "start_prob": 0.712,
+    "projected_points": 2.48,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.027
+  },
+  {
+    "player_id": 234,
+    "name": "Patterson",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 235,
+    "name": "Aznou",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 236,
+    "name": "Dewsbury-Hall",
+    "gameweek": 10,
+    "start_prob": 0.915,
+    "projected_points": 4.68,
+    "ceiling_points": 10.0,
+    "haul_prob": 0.147
+  },
+  {
+    "player_id": 238,
+    "name": "Grealish",
+    "gameweek": 10,
+    "start_prob": 0.424,
+    "projected_points": 2.42,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.042
+  },
+  {
+    "player_id": 239,
+    "name": "Garner",
+    "gameweek": 10,
+    "start_prob": 0.75,
+    "projected_points": 3.16,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.06
+  },
+  {
+    "player_id": 242,
+    "name": "George",
+    "gameweek": 10,
+    "start_prob": 0.687,
+    "projected_points": 3.09,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.059
+  },
+  {
+    "player_id": 243,
+    "name": "Alcaraz",
+    "gameweek": 10,
+    "start_prob": 0.262,
+    "projected_points": 1.47,
+    "ceiling_points": 4.0,
+    "haul_prob": 0.024
+  },
+  {
+    "player_id": 244,
+    "name": "Armstrong",
+    "gameweek": 10,
+    "start_prob": 0.831,
+    "projected_points": 2.93,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.04
+  },
+  {
+    "player_id": 245,
+    "name": "Dibling",
+    "gameweek": 10,
+    "start_prob": 0.282,
+    "projected_points": 1.81,
+    "ceiling_points": 4.0,
+    "haul_prob": 0.024
+  },
+  {
+    "player_id": 246,
+    "name": "R\u00f6hl",
+    "gameweek": 10,
+    "start_prob": 0.526,
+    "projected_points": 1.93,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.017
+  },
+  {
+    "player_id": 247,
+    "name": "Hackney",
+    "gameweek": 10,
+    "start_prob": 0.33,
+    "projected_points": 1.75,
+    "ceiling_points": 4.1,
+    "haul_prob": 0.018
+  },
+  {
+    "player_id": 248,
+    "name": "Beto",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 249,
+    "name": "Barry",
+    "gameweek": 10,
+    "start_prob": 0.875,
+    "projected_points": 3.87,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.071
+  },
+  {
+    "player_id": 649,
+    "name": "Maitland-Niles",
+    "gameweek": 10,
+    "start_prob": 0.411,
+    "projected_points": 1.87,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.023
+  },
+  {
+    "player_id": 654,
+    "name": "Graham",
+    "gameweek": 10,
+    "start_prob": 0.011,
+    "projected_points": 0.06,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 250,
+    "name": "Leno",
+    "gameweek": 10,
+    "start_prob": 0.952,
+    "projected_points": 3.4,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.013
+  },
+  {
+    "player_id": 251,
+    "name": "Lecomte",
+    "gameweek": 10,
+    "start_prob": 0.014,
+    "projected_points": 0.07,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 252,
+    "name": "McNally",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 253,
+    "name": "Andersen",
+    "gameweek": 10,
+    "start_prob": 0.385,
+    "projected_points": 1.75,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.02
+  },
+  {
+    "player_id": 254,
+    "name": "Robinson",
+    "gameweek": 10,
+    "start_prob": 0.851,
+    "projected_points": 3.1,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.05
+  },
+  {
+    "player_id": 255,
+    "name": "J.Cuenca",
+    "gameweek": 10,
+    "start_prob": 0.354,
+    "projected_points": 1.45,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.013
+  },
+  {
+    "player_id": 256,
+    "name": "Tete",
+    "gameweek": 10,
+    "start_prob": 0.449,
+    "projected_points": 1.96,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.026
+  },
+  {
+    "player_id": 257,
+    "name": "Bassey",
+    "gameweek": 10,
+    "start_prob": 0.918,
+    "projected_points": 3.14,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.05
+  },
+  {
+    "player_id": 258,
+    "name": "Castagne",
+    "gameweek": 10,
+    "start_prob": 0.844,
+    "projected_points": 3.13,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.06
+  },
+  {
+    "player_id": 261,
+    "name": "Iwobi",
+    "gameweek": 10,
+    "start_prob": 0.902,
+    "projected_points": 4.12,
+    "ceiling_points": 10.0,
+    "haul_prob": 0.111
+  },
+  {
+    "player_id": 262,
+    "name": "Smith Rowe",
+    "gameweek": 10,
+    "start_prob": 0.14,
+    "projected_points": 1.15,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.008
+  },
+  {
+    "player_id": 263,
+    "name": "Kevin",
+    "gameweek": 10,
+    "start_prob": 0.13,
+    "projected_points": 1.06,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.008
+  },
+  {
+    "player_id": 264,
+    "name": "Bobb",
+    "gameweek": 10,
+    "start_prob": 0.876,
+    "projected_points": 4.29,
+    "ceiling_points": 10.0,
+    "haul_prob": 0.125
+  },
+  {
+    "player_id": 265,
+    "name": "Berge",
+    "gameweek": 10,
+    "start_prob": 0.724,
+    "projected_points": 2.68,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.036
+  },
+  {
+    "player_id": 266,
+    "name": "Cairney",
+    "gameweek": 10,
+    "start_prob": 0.224,
+    "projected_points": 1.24,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.008
+  },
+  {
+    "player_id": 268,
+    "name": "King",
+    "gameweek": 10,
+    "start_prob": 0.796,
+    "projected_points": 3.76,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.094
+  },
+  {
+    "player_id": 269,
+    "name": "Sessegnon",
+    "gameweek": 10,
+    "start_prob": 0.441,
+    "projected_points": 2.02,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.028
+  },
+  {
+    "player_id": 270,
+    "name": "Reed",
+    "gameweek": 10,
+    "start_prob": 0.021,
+    "projected_points": 0.1,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 271,
+    "name": "Muniz",
+    "gameweek": 10,
+    "start_prob": 0.345,
+    "projected_points": 1.64,
+    "ceiling_points": 5.0,
+    "haul_prob": 0.013
+  },
+  {
+    "player_id": 272,
+    "name": "Kusi-Asare",
+    "gameweek": 10,
+    "start_prob": 0.009,
+    "projected_points": 0.06,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 569,
+    "name": "Gonzalo",
+    "gameweek": 10,
+    "start_prob": 0.743,
+    "projected_points": 3.56,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.053
+  },
+  {
+    "player_id": 570,
+    "name": "Palacios",
+    "gameweek": 10,
+    "start_prob": 0.399,
+    "projected_points": 1.93,
+    "ceiling_points": 5.0,
+    "haul_prob": 0.028
+  },
+  {
+    "player_id": 580,
+    "name": "Charles",
+    "gameweek": 10,
+    "start_prob": 0.713,
+    "projected_points": 2.58,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.036
+  },
+  {
+    "player_id": 610,
+    "name": "De Fougerolles",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 626,
+    "name": "Zepa",
+    "gameweek": 10,
+    "start_prob": 0.011,
+    "projected_points": 0.06,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 635,
+    "name": "Larsson",
+    "gameweek": 10,
+    "start_prob": 0.37,
+    "projected_points": 1.71,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.019
+  },
+  {
+    "player_id": 636,
+    "name": "\u00c1ngel",
+    "gameweek": 10,
+    "start_prob": 0.096,
+    "projected_points": 0.69,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.002
+  },
+  {
+    "player_id": 650,
+    "name": "Affengruber",
+    "gameweek": 10,
+    "start_prob": 0.826,
+    "projected_points": 2.87,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.03
+  },
+  {
+    "player_id": 240,
+    "name": "Iroegbunam",
+    "gameweek": 10,
+    "start_prob": 0.822,
+    "projected_points": 2.52,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.024
+  },
+  {
+    "player_id": 273,
+    "name": "Phillips",
+    "gameweek": 10,
+    "start_prob": 0.014,
+    "projected_points": 0.07,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 274,
+    "name": "Butland",
+    "gameweek": 10,
+    "start_prob": 0.042,
+    "projected_points": 0.16,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 275,
+    "name": "Cartwright",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 276,
+    "name": "Lo-Tutala",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 277,
+    "name": "Egan",
+    "gameweek": 10,
+    "start_prob": 0.77,
+    "projected_points": 2.21,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.015
+  },
+  {
+    "player_id": 278,
+    "name": "Hughes",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 279,
+    "name": "Ajayi",
+    "gameweek": 10,
+    "start_prob": 0.801,
+    "projected_points": 2.31,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.023
+  },
+  {
+    "player_id": 280,
+    "name": "Coyle",
+    "gameweek": 10,
+    "start_prob": 0.594,
+    "projected_points": 1.77,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.014
+  },
+  {
+    "player_id": 281,
+    "name": "Drameh",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 282,
+    "name": "Giles",
+    "gameweek": 10,
+    "start_prob": 0.686,
+    "projected_points": 1.93,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.011
+  },
+  {
+    "player_id": 283,
+    "name": "Jacob",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 284,
+    "name": "McCarthy",
+    "gameweek": 10,
+    "start_prob": 0.014,
+    "projected_points": 0.09,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 285,
+    "name": "McNair",
+    "gameweek": 10,
+    "start_prob": 0.112,
+    "projected_points": 0.59,
+    "ceiling_points": 1.0,
+    "haul_prob": 0.001
+  },
+  {
+    "player_id": 286,
+    "name": "Belloumi",
+    "gameweek": 10,
+    "start_prob": 0.873,
+    "projected_points": 2.92,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.04
+  },
+  {
+    "player_id": 287,
+    "name": "Millar",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 288,
+    "name": "Dowell",
+    "gameweek": 10,
+    "start_prob": 0.011,
+    "projected_points": 0.05,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 289,
+    "name": "Crooks",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 290,
+    "name": "Slater",
+    "gameweek": 10,
+    "start_prob": 0.799,
+    "projected_points": 2.36,
+    "ceiling_points": 5.0,
+    "haul_prob": 0.02
+  },
+  {
+    "player_id": 291,
+    "name": "Matazo",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 292,
+    "name": "\u00d6m\u00fcr",
+    "gameweek": 10,
+    "start_prob": 0.019,
+    "projected_points": 0.12,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 293,
+    "name": "Kamara",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 294,
+    "name": "Zambrano",
+    "gameweek": 10,
+    "start_prob": 0.01,
+    "projected_points": 0.06,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 295,
+    "name": "McBurnie",
+    "gameweek": 10,
+    "start_prob": 0.904,
+    "projected_points": 2.91,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.021
+  },
+  {
+    "player_id": 296,
+    "name": "Akintola",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 297,
+    "name": "Gyabi",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 298,
+    "name": "Destan",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 299,
+    "name": "Burstow",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 340,
+    "name": "Gelhardt",
+    "gameweek": 10,
+    "start_prob": 0.649,
+    "projected_points": 2.48,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.037
+  },
+  {
+    "player_id": 556,
+    "name": "Targett",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 563,
+    "name": "Morita",
+    "gameweek": 10,
+    "start_prob": 0.405,
+    "projected_points": 1.44,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.006
+  },
+  {
+    "player_id": 572,
+    "name": "Tzolakis",
+    "gameweek": 10,
+    "start_prob": 0.943,
+    "projected_points": 3.29,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.006
+  },
+  {
+    "player_id": 574,
+    "name": "Hjert\u00f8-Dahl",
+    "gameweek": 10,
+    "start_prob": 0.075,
+    "projected_points": 0.67,
+    "ceiling_points": 1.0,
+    "haul_prob": 0.001
+  },
+  {
+    "player_id": 576,
+    "name": "Stroud",
+    "gameweek": 10,
+    "start_prob": 0.454,
+    "projected_points": 1.6,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.009
+  },
+  {
+    "player_id": 585,
+    "name": "Herrington",
+    "gameweek": 10,
+    "start_prob": 0.416,
+    "projected_points": 1.42,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.007
+  },
+  {
+    "player_id": 586,
+    "name": "Mendy",
+    "gameweek": 10,
+    "start_prob": 0.439,
+    "projected_points": 1.44,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.011
+  },
+  {
+    "player_id": 589,
+    "name": "Gourna-Douath",
+    "gameweek": 10,
+    "start_prob": 0.334,
+    "projected_points": 1.38,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.008
+  },
+  {
+    "player_id": 617,
+    "name": "Cho",
+    "gameweek": 10,
+    "start_prob": 0.265,
+    "projected_points": 1.36,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.015
+  },
+  {
+    "player_id": 632,
+    "name": "Ansah",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 637,
+    "name": "Vaz",
+    "gameweek": 10,
+    "start_prob": 0.285,
+    "projected_points": 1.23,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.001
+  },
+  {
+    "player_id": 638,
+    "name": "Norton-Cuffy",
+    "gameweek": 10,
+    "start_prob": 0.32,
+    "projected_points": 1.22,
+    "ceiling_points": 4.1,
+    "haul_prob": 0.008
+  },
+  {
+    "player_id": 642,
+    "name": "Thomas",
+    "gameweek": 10,
+    "start_prob": 0.618,
+    "projected_points": 2.33,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.02
+  },
+  {
+    "player_id": 645,
+    "name": "Mouzakitis",
+    "gameweek": 10,
+    "start_prob": 0.019,
+    "projected_points": 0.12,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 259,
+    "name": "Diop",
+    "gameweek": 10,
+    "start_prob": 0.833,
+    "projected_points": 2.75,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.024
+  },
+  {
+    "player_id": 267,
+    "name": "Luki\u0107",
+    "gameweek": 10,
+    "start_prob": 0.593,
+    "projected_points": 1.95,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.015
+  },
+  {
+    "player_id": 300,
+    "name": "Walton",
+    "gameweek": 10,
+    "start_prob": 0.507,
+    "projected_points": 1.99,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.006
+  },
+  {
+    "player_id": 301,
+    "name": "Palmer",
+    "gameweek": 10,
+    "start_prob": 0.014,
+    "projected_points": 0.07,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 302,
+    "name": "Button",
+    "gameweek": 10,
+    "start_prob": 0.014,
+    "projected_points": 0.07,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 303,
+    "name": "Kipr\u00e9",
+    "gameweek": 10,
+    "start_prob": 0.022,
+    "projected_points": 0.14,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.001
+  },
+  {
+    "player_id": 304,
+    "name": "O'Shea",
+    "gameweek": 10,
+    "start_prob": 0.865,
+    "projected_points": 3.08,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.05
+  },
+  {
+    "player_id": 305,
+    "name": "Davis",
+    "gameweek": 10,
+    "start_prob": 0.735,
+    "projected_points": 2.71,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.036
+  },
+  {
+    "player_id": 306,
+    "name": "Greaves",
+    "gameweek": 10,
+    "start_prob": 0.39,
+    "projected_points": 1.51,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.016
+  },
+  {
+    "player_id": 307,
+    "name": "Johnson",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 308,
+    "name": "Furlong",
+    "gameweek": 10,
+    "start_prob": 0.103,
+    "projected_points": 0.62,
+    "ceiling_points": 1.0,
+    "haul_prob": 0.003
+  },
+  {
+    "player_id": 309,
+    "name": "N\u00fa\u00f1ez",
+    "gameweek": 10,
+    "start_prob": 0.34,
+    "projected_points": 1.72,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.018
+  },
+  {
+    "player_id": 310,
+    "name": "Matusiwa",
+    "gameweek": 10,
+    "start_prob": 0.401,
+    "projected_points": 1.54,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.011
+  },
+  {
+    "player_id": 311,
+    "name": "Burns",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 312,
+    "name": "Taylor",
+    "gameweek": 10,
+    "start_prob": 0.011,
+    "projected_points": 0.06,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 313,
+    "name": "Clarke",
+    "gameweek": 10,
+    "start_prob": 0.439,
+    "projected_points": 2.26,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.034
+  },
+  {
+    "player_id": 314,
+    "name": "Ogbene",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 315,
+    "name": "Fatawu",
+    "gameweek": 10,
+    "start_prob": 0.617,
+    "projected_points": 2.68,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.046
+  },
+  {
+    "player_id": 316,
+    "name": "Emersonn",
+    "gameweek": 10,
+    "start_prob": 0.664,
+    "projected_points": 3.09,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.039
+  },
+  {
+    "player_id": 317,
+    "name": "Hirst",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 318,
+    "name": "Philogene",
+    "gameweek": 10,
+    "start_prob": 0.498,
+    "projected_points": 2.28,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.035
+  },
+  {
+    "player_id": 319,
+    "name": "Szmodics",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 320,
+    "name": "Akpom",
+    "gameweek": 10,
+    "start_prob": 0.362,
+    "projected_points": 1.87,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.02
+  },
+  {
+    "player_id": 321,
+    "name": "Walle Egeli",
+    "gameweek": 10,
+    "start_prob": 0.098,
+    "projected_points": 0.78,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.001
+  },
+  {
+    "player_id": 322,
+    "name": "Al-Hamadi",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 323,
+    "name": "McAteer",
+    "gameweek": 10,
+    "start_prob": 0.119,
+    "projected_points": 1.06,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.004
+  },
+  {
+    "player_id": 324,
+    "name": "Mehmeti",
+    "gameweek": 10,
+    "start_prob": 0.02,
+    "projected_points": 0.14,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.001
+  },
+  {
+    "player_id": 554,
+    "name": "Van Oevelen",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 562,
+    "name": "Maeda",
+    "gameweek": 10,
+    "start_prob": 0.674,
+    "projected_points": 2.67,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.049
+  },
+  {
+    "player_id": 564,
+    "name": "Scherpen",
+    "gameweek": 10,
+    "start_prob": 0.535,
+    "projected_points": 2.08,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.006
+  },
+  {
+    "player_id": 571,
+    "name": "Florentino",
+    "gameweek": 10,
+    "start_prob": 0.826,
+    "projected_points": 2.65,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.03
+  },
+  {
+    "player_id": 591,
+    "name": "Enciso",
+    "gameweek": 10,
+    "start_prob": 0.877,
+    "projected_points": 3.94,
+    "ceiling_points": 10.0,
+    "haul_prob": 0.109
+  },
+  {
+    "player_id": 592,
+    "name": "Ouattara",
+    "gameweek": 10,
+    "start_prob": 0.81,
+    "projected_points": 2.96,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.048
+  },
+  {
+    "player_id": 602,
+    "name": "Humphreys",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 619,
+    "name": "Palacios",
+    "gameweek": 10,
+    "start_prob": 0.718,
+    "projected_points": 2.38,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.017
+  },
+  {
+    "player_id": 640,
+    "name": "Flemming",
+    "gameweek": 10,
+    "start_prob": 0.551,
+    "projected_points": 2.46,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.03
+  },
+  {
+    "player_id": 260,
+    "name": "Wilson",
+    "gameweek": 10,
+    "start_prob": 0.452,
+    "projected_points": 2.36,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.04
+  },
+  {
+    "player_id": 326,
+    "name": "Perri",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 327,
+    "name": "Bijol",
+    "gameweek": 10,
+    "start_prob": 0.612,
+    "projected_points": 2.38,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.039
+  },
+  {
+    "player_id": 329,
+    "name": "Rodon",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 330,
+    "name": "Bogle",
+    "gameweek": 10,
+    "start_prob": 0.798,
+    "projected_points": 3.05,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.068
+  },
+  {
+    "player_id": 331,
+    "name": "Gudmundsson",
+    "gameweek": 10,
+    "start_prob": 0.715,
+    "projected_points": 2.55,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.034
+  },
+  {
+    "player_id": 332,
+    "name": "Justin",
+    "gameweek": 10,
+    "start_prob": 0.871,
+    "projected_points": 3.2,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.054
+  },
+  {
+    "player_id": 333,
+    "name": "Bornauw",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 334,
+    "name": "Muharemovi\u0107",
+    "gameweek": 10,
+    "start_prob": 0.921,
+    "projected_points": 3.27,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.051
+  },
+  {
+    "player_id": 335,
+    "name": "Stach",
+    "gameweek": 10,
+    "start_prob": 0.78,
+    "projected_points": 3.65,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.081
+  },
+  {
+    "player_id": 336,
+    "name": "Okafor",
+    "gameweek": 10,
+    "start_prob": 0.528,
+    "projected_points": 2.38,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.037
+  },
+  {
+    "player_id": 337,
+    "name": "Aaronson",
+    "gameweek": 10,
+    "start_prob": 0.425,
+    "projected_points": 1.67,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.012
+  },
+  {
+    "player_id": 338,
+    "name": "Ampadu",
+    "gameweek": 10,
+    "start_prob": 0.892,
+    "projected_points": 2.82,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.025
+  },
+  {
+    "player_id": 339,
+    "name": "Longstaff",
+    "gameweek": 10,
+    "start_prob": 0.368,
+    "projected_points": 1.72,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.018
+  },
+  {
+    "player_id": 341,
+    "name": "Gnonto",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 342,
+    "name": "Harrison",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 343,
+    "name": "James",
+    "gameweek": 10,
+    "start_prob": 0.243,
+    "projected_points": 1.35,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.013
+  },
+  {
+    "player_id": 344,
+    "name": "Gruev",
+    "gameweek": 10,
+    "start_prob": 0.02,
+    "projected_points": 0.14,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 345,
+    "name": "Tanaka",
+    "gameweek": 10,
+    "start_prob": 0.627,
+    "projected_points": 2.24,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.026
+  },
+  {
+    "player_id": 346,
+    "name": "Calvert-Lewin",
+    "gameweek": 10,
+    "start_prob": 0.864,
+    "projected_points": 3.77,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.059
+  },
+  {
+    "player_id": 347,
+    "name": "Nmecha",
+    "gameweek": 10,
+    "start_prob": 0.363,
+    "projected_points": 1.93,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.018
+  },
+  {
+    "player_id": 348,
+    "name": "Piroe",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 349,
+    "name": "Mateo Joseph",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 385,
+    "name": "Trafford",
+    "gameweek": 10,
+    "start_prob": 0.958,
+    "projected_points": 3.45,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.008
+  },
+  {
+    "player_id": 598,
+    "name": "Elvedi",
+    "gameweek": 10,
+    "start_prob": 0.622,
+    "projected_points": 2.33,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.031
+  },
+  {
+    "player_id": 603,
+    "name": "Lienou",
+    "gameweek": 10,
+    "start_prob": 0.015,
+    "projected_points": 0.11,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.001
+  },
+  {
+    "player_id": 604,
+    "name": "Cresswell",
+    "gameweek": 10,
+    "start_prob": 0.01,
+    "projected_points": 0.06,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 625,
+    "name": "Cairns",
+    "gameweek": 10,
+    "start_prob": 0.014,
+    "projected_points": 0.07,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 629,
+    "name": "Zetterer",
+    "gameweek": 10,
+    "start_prob": 0.014,
+    "projected_points": 0.07,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 641,
+    "name": "Bard",
+    "gameweek": 10,
+    "start_prob": 0.118,
+    "projected_points": 0.64,
+    "ceiling_points": 1.0,
+    "haul_prob": 0.004
+  },
+  {
+    "player_id": 648,
+    "name": "Bahoya",
+    "gameweek": 10,
+    "start_prob": 0.234,
+    "projected_points": 1.14,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.008
+  },
+  {
+    "player_id": 350,
+    "name": "A.Becker",
+    "gameweek": 10,
+    "start_prob": 0.932,
+    "projected_points": 2.99,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.007
+  },
+  {
+    "player_id": 351,
+    "name": "Mamardashvili",
+    "gameweek": 10,
+    "start_prob": 0.059,
+    "projected_points": 0.21,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 352,
+    "name": "Woodman",
+    "gameweek": 10,
+    "start_prob": 0.014,
+    "projected_points": 0.07,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 353,
+    "name": "Pecsi",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 354,
+    "name": "Jaros",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 355,
+    "name": "Davies",
+    "gameweek": 10,
+    "start_prob": 0.014,
+    "projected_points": 0.07,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 356,
+    "name": "Virgil",
+    "gameweek": 10,
+    "start_prob": 0.914,
+    "projected_points": 2.84,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.026
+  },
+  {
+    "player_id": 357,
+    "name": "Frimpong",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 358,
+    "name": "Kerkez",
+    "gameweek": 10,
+    "start_prob": 0.733,
+    "projected_points": 2.17,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.02
+  },
+  {
+    "player_id": 359,
+    "name": "Gomez",
+    "gameweek": 10,
+    "start_prob": 0.327,
+    "projected_points": 1.09,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.007
+  },
+  {
+    "player_id": 360,
+    "name": "Bradley",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 361,
+    "name": "Lucky",
+    "gameweek": 10,
+    "start_prob": 0.024,
+    "projected_points": 0.12,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 362,
+    "name": "Jacquet",
+    "gameweek": 10,
+    "start_prob": 0.862,
+    "projected_points": 2.61,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.036
+  },
+  {
+    "player_id": 363,
+    "name": "Leoni",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 364,
+    "name": "Tsimikas",
+    "gameweek": 10,
+    "start_prob": 0.455,
+    "projected_points": 1.56,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.015
+  },
+  {
+    "player_id": 365,
+    "name": "Ramsay",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 366,
+    "name": "Wirtz",
+    "gameweek": 10,
+    "start_prob": 0.871,
+    "projected_points": 3.8,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.084
+  },
+  {
+    "player_id": 367,
+    "name": "Gakpo",
+    "gameweek": 10,
+    "start_prob": 0.687,
+    "projected_points": 3.05,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.054
+  },
+  {
+    "player_id": 368,
+    "name": "Szoboszlai",
+    "gameweek": 10,
+    "start_prob": 0.614,
+    "projected_points": 2.65,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.045
+  },
+  {
+    "player_id": 369,
+    "name": "Ngumoha",
+    "gameweek": 10,
+    "start_prob": 0.368,
+    "projected_points": 1.7,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.019
+  },
+  {
+    "player_id": 370,
+    "name": "Chiesa",
+    "gameweek": 10,
+    "start_prob": 0.092,
+    "projected_points": 0.63,
+    "ceiling_points": 1.0,
+    "haul_prob": 0.001
+  },
+  {
+    "player_id": 371,
+    "name": "Gravenberch",
+    "gameweek": 10,
+    "start_prob": 0.495,
+    "projected_points": 1.93,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.02
+  },
+  {
+    "player_id": 372,
+    "name": "Mac Allister",
+    "gameweek": 10,
+    "start_prob": 0.713,
+    "projected_points": 2.36,
+    "ceiling_points": 5.0,
+    "haul_prob": 0.021
+  },
+  {
+    "player_id": 373,
+    "name": "C.Jones",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 374,
+    "name": "Endo",
+    "gameweek": 10,
+    "start_prob": 0.02,
+    "projected_points": 0.13,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 375,
+    "name": "Nyoni",
+    "gameweek": 10,
+    "start_prob": 0.35,
+    "projected_points": 1.43,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.006
+  },
+  {
+    "player_id": 376,
+    "name": "Bajcetic",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 377,
+    "name": "Munoz",
+    "gameweek": 10,
+    "start_prob": 0.709,
+    "projected_points": 2.94,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.05
+  },
+  {
+    "player_id": 378,
+    "name": "McConnell",
+    "gameweek": 10,
+    "start_prob": 0.011,
+    "projected_points": 0.05,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 379,
+    "name": "Isak",
+    "gameweek": 10,
+    "start_prob": 0.87,
+    "projected_points": 3.61,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.051
+  },
+  {
+    "player_id": 380,
+    "name": "Ekitik\u00e9",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 381,
+    "name": "Koumas",
+    "gameweek": 10,
+    "start_prob": 0.391,
+    "projected_points": 1.64,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.011
+  },
+  {
+    "player_id": 382,
+    "name": "Danns",
+    "gameweek": 10,
+    "start_prob": 0.01,
+    "projected_points": 0.05,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 383,
+    "name": "Elliott",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 579,
+    "name": "Araujo",
+    "gameweek": 10,
+    "start_prob": 0.823,
+    "projected_points": 2.46,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.031
+  },
+  {
+    "player_id": 627,
+    "name": "Barcola",
+    "gameweek": 10,
+    "start_prob": 0.696,
+    "projected_points": 2.96,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.054
+  },
+  {
+    "player_id": 155,
+    "name": "Enzo",
+    "gameweek": 10,
+    "start_prob": 0.704,
+    "projected_points": 3.03,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.052
+  },
+  {
+    "player_id": 237,
+    "name": "Ndiaye",
+    "gameweek": 10,
+    "start_prob": 0.801,
+    "projected_points": 3.07,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.049
+  },
+  {
+    "player_id": 384,
+    "name": "Donnarumma",
+    "gameweek": 10,
+    "start_prob": 0.94,
+    "projected_points": 2.88,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.006
+  },
+  {
+    "player_id": 386,
+    "name": "Bettinelli",
+    "gameweek": 10,
+    "start_prob": 0.042,
+    "projected_points": 0.16,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.001
+  },
+  {
+    "player_id": 387,
+    "name": "O'Reilly",
+    "gameweek": 10,
+    "start_prob": 0.525,
+    "projected_points": 2.05,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.035
+  },
+  {
+    "player_id": 388,
+    "name": "Gu\u00e9hi",
+    "gameweek": 10,
+    "start_prob": 0.724,
+    "projected_points": 2.48,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.037
+  },
+  {
+    "player_id": 389,
+    "name": "Matheus N.",
+    "gameweek": 10,
+    "start_prob": 0.632,
+    "projected_points": 1.97,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.02
+  },
+  {
+    "player_id": 390,
+    "name": "R\u00faben",
+    "gameweek": 10,
+    "start_prob": 0.89,
+    "projected_points": 2.73,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.038
+  },
+  {
+    "player_id": 391,
+    "name": "Gvardiol",
+    "gameweek": 10,
+    "start_prob": 0.736,
+    "projected_points": 2.59,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.042
+  },
+  {
+    "player_id": 392,
+    "name": "A\u00eft-Nouri",
+    "gameweek": 10,
+    "start_prob": 0.053,
+    "projected_points": 0.22,
+    "ceiling_points": 1.0,
+    "haul_prob": 0.002
+  },
+  {
+    "player_id": 393,
+    "name": "Khusanov",
+    "gameweek": 10,
+    "start_prob": 0.52,
+    "projected_points": 1.69,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.013
+  },
+  {
+    "player_id": 394,
+    "name": "Alleyne",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 395,
+    "name": "Lewis",
+    "gameweek": 10,
+    "start_prob": 0.257,
+    "projected_points": 1.04,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.008
+  },
+  {
+    "player_id": 396,
+    "name": "Vitor Reis",
+    "gameweek": 10,
+    "start_prob": 0.145,
+    "projected_points": 0.57,
+    "ceiling_points": 1.0,
+    "haul_prob": 0.001
+  },
+  {
+    "player_id": 397,
+    "name": "Semenyo",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 398,
+    "name": "Foden",
+    "gameweek": 10,
+    "start_prob": 0.706,
+    "projected_points": 3.37,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.082
+  },
+  {
+    "player_id": 399,
+    "name": "Cherki",
+    "gameweek": 10,
+    "start_prob": 0.61,
+    "projected_points": 3.49,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.062
+  },
+  {
+    "player_id": 400,
+    "name": "Doku",
+    "gameweek": 10,
+    "start_prob": 0.781,
+    "projected_points": 4.17,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.076
+  },
+  {
+    "player_id": 402,
+    "name": "Rodrigo",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 404,
+    "name": "Reijnders",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 406,
+    "name": "Kova\u010di\u0107",
+    "gameweek": 10,
+    "start_prob": 0.399,
+    "projected_points": 1.81,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.01
+  },
+  {
+    "player_id": 407,
+    "name": "Echeverri",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 408,
+    "name": "Phillips",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 409,
+    "name": "Mukasa",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 410,
+    "name": "Monga",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 411,
+    "name": "Haaland",
+    "gameweek": 10,
+    "start_prob": 0.922,
+    "projected_points": 4.85,
+    "ceiling_points": 10.0,
+    "haul_prob": 0.116
+  },
+  {
+    "player_id": 481,
+    "name": "Anderson",
+    "gameweek": 10,
+    "start_prob": 0.736,
+    "projected_points": 2.78,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.041
+  },
+  {
+    "player_id": 587,
+    "name": "Rulli",
+    "gameweek": 10,
+    "start_prob": 0.048,
+    "projected_points": 0.18,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 616,
+    "name": "Bouaddi",
+    "gameweek": 10,
+    "start_prob": 0.39,
+    "projected_points": 1.42,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.008
+  },
+  {
+    "player_id": 621,
+    "name": "McAidoo",
+    "gameweek": 10,
+    "start_prob": 0.126,
+    "projected_points": 0.79,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.002
+  },
+  {
+    "player_id": 622,
+    "name": "Braithwaite",
+    "gameweek": 10,
+    "start_prob": 0.117,
+    "projected_points": 0.49,
+    "ceiling_points": 1.0,
+    "haul_prob": 0.004
+  },
+  {
+    "player_id": 628,
+    "name": "Allan",
+    "gameweek": 10,
+    "start_prob": 0.263,
+    "projected_points": 1.3,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.013
+  },
+  {
+    "player_id": 653,
+    "name": "Samba",
+    "gameweek": 10,
+    "start_prob": 0.011,
+    "projected_points": 0.05,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 43,
+    "name": "Tielemans",
+    "gameweek": 10,
+    "start_prob": 0.71,
+    "projected_points": 3.52,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.083
+  },
+  {
+    "player_id": 131,
+    "name": "Baleba",
+    "gameweek": 10,
+    "start_prob": 0.502,
+    "projected_points": 1.89,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.015
+  },
+  {
+    "player_id": 162,
+    "name": "Andrey Santos",
+    "gameweek": 10,
+    "start_prob": 0.471,
+    "projected_points": 1.91,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.018
+  },
+  {
+    "player_id": 325,
+    "name": "Darlow",
+    "gameweek": 10,
+    "start_prob": 0.045,
+    "projected_points": 0.18,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 412,
+    "name": "Lammens",
+    "gameweek": 10,
+    "start_prob": 0.942,
+    "projected_points": 3.32,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.005
+  },
+  {
+    "player_id": 413,
+    "name": "Bayindir",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 414,
+    "name": "Heaton",
+    "gameweek": 10,
+    "start_prob": 0.014,
+    "projected_points": 0.07,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 415,
+    "name": "Dorgu",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 416,
+    "name": "De Ligt",
+    "gameweek": 10,
+    "start_prob": 0.055,
+    "projected_points": 0.27,
+    "ceiling_points": 1.0,
+    "haul_prob": 0.003
+  },
+  {
+    "player_id": 417,
+    "name": "Dalot",
+    "gameweek": 10,
+    "start_prob": 0.735,
+    "projected_points": 2.92,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.045
+  },
+  {
+    "player_id": 418,
+    "name": "Maguire",
+    "gameweek": 10,
+    "start_prob": 0.887,
+    "projected_points": 3.2,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.055
+  },
+  {
+    "player_id": 419,
+    "name": "Martinez",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 420,
+    "name": "Yoro",
+    "gameweek": 10,
+    "start_prob": 0.519,
+    "projected_points": 2.06,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.024
+  },
+  {
+    "player_id": 421,
+    "name": "Heaven",
+    "gameweek": 10,
+    "start_prob": 0.336,
+    "projected_points": 1.46,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.016
+  },
+  {
+    "player_id": 422,
+    "name": "Mazraoui",
+    "gameweek": 10,
+    "start_prob": 0.356,
+    "projected_points": 1.66,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.025
+  },
+  {
+    "player_id": 423,
+    "name": "Shaw",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 424,
+    "name": "Amass",
+    "gameweek": 10,
+    "start_prob": 0.015,
+    "projected_points": 0.11,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 425,
+    "name": "Fredricson",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 426,
+    "name": "B.Fernandes",
+    "gameweek": 10,
+    "start_prob": 0.766,
+    "projected_points": 4.9,
+    "ceiling_points": 11.0,
+    "haul_prob": 0.178
+  },
+  {
+    "player_id": 427,
+    "name": "Mbeumo",
+    "gameweek": 10,
+    "start_prob": 0.926,
+    "projected_points": 5.3,
+    "ceiling_points": 11.0,
+    "haul_prob": 0.192
+  },
+  {
+    "player_id": 428,
+    "name": "Cunha",
+    "gameweek": 10,
+    "start_prob": 0.866,
+    "projected_points": 4.66,
+    "ceiling_points": 11.0,
+    "haul_prob": 0.154
+  },
+  {
+    "player_id": 429,
+    "name": "Rashford",
+    "gameweek": 10,
+    "start_prob": 0.437,
+    "projected_points": 2.58,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.063
+  },
+  {
+    "player_id": 430,
+    "name": "Mount",
+    "gameweek": 10,
+    "start_prob": 0.388,
+    "projected_points": 2.14,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.029
+  },
+  {
+    "player_id": 431,
+    "name": "Amad",
+    "gameweek": 10,
+    "start_prob": 0.434,
+    "projected_points": 2.16,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.038
+  },
+  {
+    "player_id": 432,
+    "name": "Mainoo",
+    "gameweek": 10,
+    "start_prob": 0.524,
+    "projected_points": 2.37,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.04
+  },
+  {
+    "player_id": 433,
+    "name": "Ugarte",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 434,
+    "name": "J.Fletcher",
+    "gameweek": 10,
+    "start_prob": 0.02,
+    "projected_points": 0.14,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 435,
+    "name": "Lacey",
+    "gameweek": 10,
+    "start_prob": 0.093,
+    "projected_points": 0.87,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.005
+  },
+  {
+    "player_id": 436,
+    "name": "Collyer",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 437,
+    "name": "Bendito Mantato",
+    "gameweek": 10,
+    "start_prob": 0.011,
+    "projected_points": 0.06,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 438,
+    "name": "Fletcher",
+    "gameweek": 10,
+    "start_prob": 0.011,
+    "projected_points": 0.06,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 439,
+    "name": "\u0160e\u0161ko",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 440,
+    "name": "Zirkzee",
+    "gameweek": 10,
+    "start_prob": 0.268,
+    "projected_points": 1.55,
+    "ceiling_points": 4.0,
+    "haul_prob": 0.012
+  },
+  {
+    "player_id": 441,
+    "name": "Obi",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 405,
+    "name": "N.Gonzalez",
+    "gameweek": 10,
+    "start_prob": 0.836,
+    "projected_points": 2.58,
+    "ceiling_points": 5.0,
+    "haul_prob": 0.021
+  },
+  {
+    "player_id": 442,
+    "name": "Pope",
+    "gameweek": 10,
+    "start_prob": 0.048,
+    "projected_points": 0.18,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 443,
+    "name": "Gillespie",
+    "gameweek": 10,
+    "start_prob": 0.043,
+    "projected_points": 0.16,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 444,
+    "name": "Jaouen",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 445,
+    "name": "Thiaw",
+    "gameweek": 10,
+    "start_prob": 0.611,
+    "projected_points": 1.77,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.014
+  },
+  {
+    "player_id": 446,
+    "name": "Sch\u00e4r",
+    "gameweek": 10,
+    "start_prob": 0.592,
+    "projected_points": 1.83,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.015
+  },
+  {
+    "player_id": 447,
+    "name": "Botman",
+    "gameweek": 10,
+    "start_prob": 0.641,
+    "projected_points": 1.98,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.016
+  },
+  {
+    "player_id": 448,
+    "name": "Burn",
+    "gameweek": 10,
+    "start_prob": 0.566,
+    "projected_points": 1.79,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.016
+  },
+  {
+    "player_id": 449,
+    "name": "Hall",
+    "gameweek": 10,
+    "start_prob": 0.9,
+    "projected_points": 2.86,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.035
+  },
+  {
+    "player_id": 450,
+    "name": "Livramento",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 451,
+    "name": "A.Murphy",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 453,
+    "name": "Barnes",
+    "gameweek": 10,
+    "start_prob": 0.909,
+    "projected_points": 3.42,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.068
+  },
+  {
+    "player_id": 454,
+    "name": "Elanga",
+    "gameweek": 10,
+    "start_prob": 0.458,
+    "projected_points": 2.03,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.028
+  },
+  {
+    "player_id": 456,
+    "name": "J.Ramsey",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 457,
+    "name": "J.Murphy",
+    "gameweek": 10,
+    "start_prob": 0.572,
+    "projected_points": 2.33,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.029
+  },
+  {
+    "player_id": 458,
+    "name": "Joelinton",
+    "gameweek": 10,
+    "start_prob": 0.437,
+    "projected_points": 1.67,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.013
+  },
+  {
+    "player_id": 459,
+    "name": "L.Miley",
+    "gameweek": 10,
+    "start_prob": 0.665,
+    "projected_points": 1.98,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.012
+  },
+  {
+    "player_id": 460,
+    "name": "Willock",
+    "gameweek": 10,
+    "start_prob": 0.654,
+    "projected_points": 2.19,
+    "ceiling_points": 5.0,
+    "haul_prob": 0.029
+  },
+  {
+    "player_id": 461,
+    "name": "Tour\u00e9",
+    "gameweek": 10,
+    "start_prob": 0.335,
+    "projected_points": 1.6,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.016
+  },
+  {
+    "player_id": 462,
+    "name": "Steur",
+    "gameweek": 10,
+    "start_prob": 0.429,
+    "projected_points": 1.42,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.006
+  },
+  {
+    "player_id": 463,
+    "name": "Woltemade",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 464,
+    "name": "Wissa",
+    "gameweek": 10,
+    "start_prob": 0.625,
+    "projected_points": 2.35,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.016
+  },
+  {
+    "player_id": 465,
+    "name": "Osula",
+    "gameweek": 10,
+    "start_prob": 0.68,
+    "projected_points": 2.58,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.022
+  },
+  {
+    "player_id": 466,
+    "name": "Neave",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 559,
+    "name": "Bamba",
+    "gameweek": 10,
+    "start_prob": 0.106,
+    "projected_points": 0.78,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.001
+  },
+  {
+    "player_id": 567,
+    "name": "Horn\u00ed\u010dek",
+    "gameweek": 10,
+    "start_prob": 0.929,
+    "projected_points": 3.15,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.004
+  },
+  {
+    "player_id": 593,
+    "name": "Dedi\u0107",
+    "gameweek": 10,
+    "start_prob": 0.671,
+    "projected_points": 2.04,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.012
+  },
+  {
+    "player_id": 609,
+    "name": "Shahar",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 634,
+    "name": "Fernandez-Pardo",
+    "gameweek": 10,
+    "start_prob": 0.35,
+    "projected_points": 1.62,
+    "ceiling_points": 4.0,
+    "haul_prob": 0.007
+  },
+  {
+    "player_id": 659,
+    "name": "Miley",
+    "gameweek": 10,
+    "start_prob": 0.01,
+    "projected_points": 0.06,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 663,
+    "name": "Pivas",
+    "gameweek": 10,
+    "start_prob": 0.014,
+    "projected_points": 0.09,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.001
+  },
+  {
+    "player_id": 664,
+    "name": "Salia",
+    "gameweek": 10,
+    "start_prob": 0.01,
+    "projected_points": 0.05,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 665,
+    "name": "Mills",
+    "gameweek": 10,
+    "start_prob": 0.01,
+    "projected_points": 0.06,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 666,
+    "name": "Thompson",
+    "gameweek": 10,
+    "start_prob": 0.01,
+    "projected_points": 0.06,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 167,
+    "name": "Delap",
+    "gameweek": 10,
+    "start_prob": 0.596,
+    "projected_points": 3.06,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.052
+  },
+  {
+    "player_id": 201,
+    "name": "Mu\u00f1oz",
+    "gameweek": 10,
+    "start_prob": 0.664,
+    "projected_points": 2.87,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.054
+  },
+  {
+    "player_id": 467,
+    "name": "Sels",
+    "gameweek": 10,
+    "start_prob": 0.94,
+    "projected_points": 3.62,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.008
+  },
+  {
+    "player_id": 468,
+    "name": "John",
+    "gameweek": 10,
+    "start_prob": 0.044,
+    "projected_points": 0.17,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 469,
+    "name": "N.Williams",
+    "gameweek": 10,
+    "start_prob": 0.888,
+    "projected_points": 3.43,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.064
+  },
+  {
+    "player_id": 470,
+    "name": "Morato",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 471,
+    "name": "Milenkovi\u0107",
+    "gameweek": 10,
+    "start_prob": 0.507,
+    "projected_points": 2.08,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.029
+  },
+  {
+    "player_id": 472,
+    "name": "Murillo",
+    "gameweek": 10,
+    "start_prob": 0.885,
+    "projected_points": 3.54,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.082
+  },
+  {
+    "player_id": 473,
+    "name": "Aina",
+    "gameweek": 10,
+    "start_prob": 0.443,
+    "projected_points": 1.8,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.024
+  },
+  {
+    "player_id": 474,
+    "name": "Jair Cunha",
+    "gameweek": 10,
+    "start_prob": 0.618,
+    "projected_points": 2.2,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.029
+  },
+  {
+    "player_id": 475,
+    "name": "Savona",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 476,
+    "name": "O.Richards",
+    "gameweek": 10,
+    "start_prob": 0.022,
+    "projected_points": 0.14,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.001
+  },
+  {
+    "player_id": 477,
+    "name": "Abbott",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 478,
+    "name": "Netz",
+    "gameweek": 10,
+    "start_prob": 0.338,
+    "projected_points": 1.33,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.011
+  },
+  {
+    "player_id": 479,
+    "name": "Bindon",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 480,
+    "name": "Gibbs-White",
+    "gameweek": 10,
+    "start_prob": 0.776,
+    "projected_points": 4.01,
+    "ceiling_points": 10.0,
+    "haul_prob": 0.112
+  },
+  {
+    "player_id": 482,
+    "name": "Hudson-Odoi",
+    "gameweek": 10,
+    "start_prob": 0.391,
+    "projected_points": 2.17,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.048
+  },
+  {
+    "player_id": 483,
+    "name": "Ndoye",
+    "gameweek": 10,
+    "start_prob": 0.83,
+    "projected_points": 3.77,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.097
+  },
+  {
+    "player_id": 484,
+    "name": "Hutchinson",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 485,
+    "name": "Bakwa",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 486,
+    "name": "McAtee",
+    "gameweek": 10,
+    "start_prob": 0.852,
+    "projected_points": 3.71,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.088
+  },
+  {
+    "player_id": 487,
+    "name": "Dominguez",
+    "gameweek": 10,
+    "start_prob": 0.28,
+    "projected_points": 1.24,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.006
+  },
+  {
+    "player_id": 488,
+    "name": "I.Sangar\u00e9",
+    "gameweek": 10,
+    "start_prob": 0.363,
+    "projected_points": 1.62,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.015
+  },
+  {
+    "player_id": 489,
+    "name": "Yates",
+    "gameweek": 10,
+    "start_prob": 0.142,
+    "projected_points": 0.83,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.004
+  },
+  {
+    "player_id": 490,
+    "name": "Wood",
+    "gameweek": 10,
+    "start_prob": 0.359,
+    "projected_points": 2.02,
+    "ceiling_points": 6.1,
+    "haul_prob": 0.022
+  },
+  {
+    "player_id": 491,
+    "name": "Igor Jesus",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 493,
+    "name": "Kalimuendo",
+    "gameweek": 10,
+    "start_prob": 0.294,
+    "projected_points": 1.43,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.004
+  },
+  {
+    "player_id": 558,
+    "name": "Schlager",
+    "gameweek": 10,
+    "start_prob": 0.709,
+    "projected_points": 2.59,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.03
+  },
+  {
+    "player_id": 581,
+    "name": "Diomande",
+    "gameweek": 10,
+    "start_prob": 0.495,
+    "projected_points": 1.95,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.033
+  },
+  {
+    "player_id": 590,
+    "name": "Benda",
+    "gameweek": 10,
+    "start_prob": 0.045,
+    "projected_points": 0.18,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.001
+  },
+  {
+    "player_id": 112,
+    "name": "Van Hecke",
+    "gameweek": 10,
+    "start_prob": 0.92,
+    "projected_points": 2.79,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.036
+  },
+  {
+    "player_id": 147,
+    "name": "Tosin",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 401,
+    "name": "Marmoush",
+    "gameweek": 10,
+    "start_prob": 0.82,
+    "projected_points": 2.95,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.03
+  },
+  {
+    "player_id": 403,
+    "name": "S\u00e1vio",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 455,
+    "name": "Tonali",
+    "gameweek": 10,
+    "start_prob": 0.873,
+    "projected_points": 2.86,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.032
+  },
+  {
+    "player_id": 494,
+    "name": "Vicario",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 495,
+    "name": "Austin",
+    "gameweek": 10,
+    "start_prob": 0.014,
+    "projected_points": 0.07,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 496,
+    "name": "Kinsky",
+    "gameweek": 10,
+    "start_prob": 0.942,
+    "projected_points": 3.11,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.006
+  },
+  {
+    "player_id": 497,
+    "name": "Dubravka",
+    "gameweek": 10,
+    "start_prob": 0.014,
+    "projected_points": 0.07,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 498,
+    "name": "Senesi",
+    "gameweek": 10,
+    "start_prob": 0.402,
+    "projected_points": 1.5,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.015
+  },
+  {
+    "player_id": 499,
+    "name": "Pedro Porro",
+    "gameweek": 10,
+    "start_prob": 0.452,
+    "projected_points": 1.65,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.018
+  },
+  {
+    "player_id": 500,
+    "name": "Romero",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 502,
+    "name": "Robertson",
+    "gameweek": 10,
+    "start_prob": 0.733,
+    "projected_points": 2.46,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.028
+  },
+  {
+    "player_id": 503,
+    "name": "Van de Ven",
+    "gameweek": 10,
+    "start_prob": 0.86,
+    "projected_points": 2.45,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.02
+  },
+  {
+    "player_id": 505,
+    "name": "Spence",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 506,
+    "name": "Udogie",
+    "gameweek": 10,
+    "start_prob": 0.363,
+    "projected_points": 1.28,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.012
+  },
+  {
+    "player_id": 507,
+    "name": "Phillips",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 508,
+    "name": "Davies",
+    "gameweek": 10,
+    "start_prob": 0.519,
+    "projected_points": 1.53,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.009
+  },
+  {
+    "player_id": 509,
+    "name": "Byfield",
+    "gameweek": 10,
+    "start_prob": 0.014,
+    "projected_points": 0.09,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 510,
+    "name": "Rowswell",
+    "gameweek": 10,
+    "start_prob": 0.014,
+    "projected_points": 0.09,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 511,
+    "name": "Souza",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 512,
+    "name": "Kudus",
+    "gameweek": 10,
+    "start_prob": 0.824,
+    "projected_points": 3.29,
+    "ceiling_points": 8.1,
+    "haul_prob": 0.068
+  },
+  {
+    "player_id": 513,
+    "name": "Xavi",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 514,
+    "name": "Tel",
+    "gameweek": 10,
+    "start_prob": 0.834,
+    "projected_points": 3.07,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.052
+  },
+  {
+    "player_id": 515,
+    "name": "Maddison",
+    "gameweek": 10,
+    "start_prob": 0.676,
+    "projected_points": 2.58,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.032
+  },
+  {
+    "player_id": 516,
+    "name": "Bentancur",
+    "gameweek": 10,
+    "start_prob": 0.508,
+    "projected_points": 1.7,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.007
+  },
+  {
+    "player_id": 517,
+    "name": "Odobert",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 518,
+    "name": "P.M.Sarr",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 519,
+    "name": "Gallagher",
+    "gameweek": 10,
+    "start_prob": 0.396,
+    "projected_points": 1.73,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.013
+  },
+  {
+    "player_id": 520,
+    "name": "Bergvall",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 521,
+    "name": "Kulusevski",
+    "gameweek": 10,
+    "start_prob": 0.354,
+    "projected_points": 1.64,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.022
+  },
+  {
+    "player_id": 522,
+    "name": "Gray",
+    "gameweek": 10,
+    "start_prob": 0.702,
+    "projected_points": 2.17,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.022
+  },
+  {
+    "player_id": 523,
+    "name": "Moore",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 524,
+    "name": "Olusesi",
+    "gameweek": 10,
+    "start_prob": 0.011,
+    "projected_points": 0.05,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 525,
+    "name": "Fernandes",
+    "gameweek": 10,
+    "start_prob": 0.722,
+    "projected_points": 2.78,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.037
+  },
+  {
+    "player_id": 526,
+    "name": "Solanke",
+    "gameweek": 10,
+    "start_prob": 0.812,
+    "projected_points": 2.9,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.021
+  },
+  {
+    "player_id": 527,
+    "name": "Richarlison",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 528,
+    "name": "Scarlett",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 578,
+    "name": "Mudryk",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 601,
+    "name": "Williams-Barnett",
+    "gameweek": 10,
+    "start_prob": 0.06,
+    "projected_points": 0.46,
+    "ceiling_points": 1.0,
+    "haul_prob": 0.001
+  },
+  {
+    "player_id": 501,
+    "name": "Danso",
+    "gameweek": 10,
+    "start_prob": 0.471,
+    "projected_points": 2.02,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.035
+  },
+  {
+    "player_id": 529,
+    "name": "Roefs",
+    "gameweek": 10,
+    "start_prob": 0.953,
+    "projected_points": 3.64,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.004
+  },
+  {
+    "player_id": 530,
+    "name": "Patterson",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 531,
+    "name": "Ellborg",
+    "gameweek": 10,
+    "start_prob": 0.044,
+    "projected_points": 0.17,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 532,
+    "name": "Ballard",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 533,
+    "name": "Mukiele",
+    "gameweek": 10,
+    "start_prob": 0.632,
+    "projected_points": 2.61,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.051
+  },
+  {
+    "player_id": 534,
+    "name": "Hume",
+    "gameweek": 10,
+    "start_prob": 0.565,
+    "projected_points": 2.24,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.034
+  },
+  {
+    "player_id": 535,
+    "name": "Alderete",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 536,
+    "name": "Reinildo",
+    "gameweek": 10,
+    "start_prob": 0.687,
+    "projected_points": 2.34,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.021
+  },
+  {
+    "player_id": 537,
+    "name": "Seelt",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 538,
+    "name": "Hjelde",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 539,
+    "name": "O'Nien",
+    "gameweek": 10,
+    "start_prob": 0.811,
+    "projected_points": 2.82,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.044
+  },
+  {
+    "player_id": 540,
+    "name": "Masuaku",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 541,
+    "name": "Meunier",
+    "gameweek": 10,
+    "start_prob": 0.493,
+    "projected_points": 2.0,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.033
+  },
+  {
+    "player_id": 542,
+    "name": "E.Le F\u00e9e",
+    "gameweek": 10,
+    "start_prob": 0.873,
+    "projected_points": 4.24,
+    "ceiling_points": 10.0,
+    "haul_prob": 0.123
+  },
+  {
+    "player_id": 543,
+    "name": "Diarra",
+    "gameweek": 10,
+    "start_prob": 0.24,
+    "projected_points": 1.38,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.009
+  },
+  {
+    "player_id": 544,
+    "name": "Xhaka",
+    "gameweek": 10,
+    "start_prob": 0.904,
+    "projected_points": 3.46,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.053
+  },
+  {
+    "player_id": 545,
+    "name": "Sadiki",
+    "gameweek": 10,
+    "start_prob": 0.788,
+    "projected_points": 2.85,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.042
+  },
+  {
+    "player_id": 546,
+    "name": "Adingra",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 547,
+    "name": "Mundle",
+    "gameweek": 10,
+    "start_prob": 0.0,
+    "projected_points": 0.0,
+    "ceiling_points": 0.0,
+    "haul_prob": 0.0
+  },
+  {
+    "player_id": 548,
+    "name": "Rigg",
+    "gameweek": 10,
+    "start_prob": 0.393,
+    "projected_points": 1.67,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.012
+  },
+  {
+    "player_id": 549,
+    "name": "Talbi",
+    "gameweek": 10,
+    "start_prob": 0.177,
+    "projected_points": 1.12,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.006
+  },
+  {
+    "player_id": 550,
+    "name": "Jocelin.T",
+    "gameweek": 10,
+    "start_prob": 0.107,
+    "projected_points": 0.73,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.002
+  },
+  {
+    "player_id": 551,
+    "name": "N.Angulo",
+    "gameweek": 10,
+    "start_prob": 0.567,
+    "projected_points": 2.15,
+    "ceiling_points": 5.0,
+    "haul_prob": 0.023
+  },
+  {
+    "player_id": 552,
+    "name": "Brobbey",
+    "gameweek": 10,
+    "start_prob": 0.661,
+    "projected_points": 3.15,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.048
+  },
+  {
+    "player_id": 553,
+    "name": "Isidor",
+    "gameweek": 10,
+    "start_prob": 0.342,
+    "projected_points": 1.94,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.019
+  },
+  {
+    "player_id": 612,
+    "name": "Methalie",
+    "gameweek": 10,
+    "start_prob": 0.31,
+    "projected_points": 1.31,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.014
+  },
+  {
+    "player_id": 613,
+    "name": "Ahoka",
+    "gameweek": 10,
+    "start_prob": 0.094,
+    "projected_points": 0.71,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.001
+  },
+  {
+    "player_id": 646,
+    "name": "Fofana",
+    "gameweek": 10,
+    "start_prob": 0.363,
+    "projected_points": 1.83,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.027
+  },
+  {
+    "player_id": 651,
+    "name": "J.Angulo",
+    "gameweek": 10,
+    "start_prob": 0.06,
+    "projected_points": 0.68,
+    "ceiling_points": 1.0,
+    "haul_prob": 0.001
+  },
+  {
+    "player_id": 668,
+    "name": "Tutierov",
+    "gameweek": 10,
+    "start_prob": 0.256,
+    "projected_points": 1.28,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.009
+  }
+]

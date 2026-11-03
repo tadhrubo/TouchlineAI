@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import { supabase } from "@/lib/supabase";
 import { Player, TeamStats, FixtureInfo, Position } from "@/types/fpl";
 import { computeFallbackXP } from "@/utils/xp";
@@ -366,6 +368,24 @@ export async function fetchManagerSquad(
     dbPlayers.forEach((p) => playerDbMap.set(p.id, p));
   }
 
+  // Load SOTA Component-Decomposed predictions (Poisson + Monte Carlo) from disk as authoritative ML cache
+  const sotaPredictionsMap = new Map<number, { projected_points: number; start_prob: number; ceiling_points?: number; haul_prob?: number }>();
+  try {
+    const sotaPath = path.join(process.cwd(), "backend", "ml", "models", "latest_sota_predictions.json");
+    if (fs.existsSync(sotaPath)) {
+      const rawSota = JSON.parse(fs.readFileSync(sotaPath, "utf-8"));
+      if (Array.isArray(rawSota)) {
+        for (const item of rawSota) {
+          if (item && item.player_id != null) {
+            sotaPredictionsMap.set(Number(item.player_id), item);
+          }
+        }
+      }
+    }
+  } catch (e) {
+    console.warn("Could not read local latest_sota_predictions.json in fpl.ts:", e);
+  }
+
   let captainId = "";
   let viceCaptainId = "";
 
@@ -442,10 +462,13 @@ export async function fetchManagerSquad(
     const totalPts = Number(dbP?.total_points ?? bEl?.total_points ?? 0);
     const priceVal = Number(bEl?.now_cost ?? dbP?.now_cost ?? 50) / 10;
 
-    // XP Calculation: Prioritize DB prediction, then official FPL ep_next, then regression-based fallback
+    // XP Calculation: Prioritize DB prediction, then SOTA model artifact, then official FPL ep_next, then regression-based fallback
+    const sotaPred = sotaPredictionsMap.get(pick.element);
     let projectedPts: number;
     if (pred?.projected_points != null && !isNaN(Number(pred.projected_points))) {
       projectedPts = Number(Number(pred.projected_points).toFixed(1));
+    } else if (sotaPred?.projected_points != null && !isNaN(Number(sotaPred.projected_points))) {
+      projectedPts = Number(Number(sotaPred.projected_points).toFixed(1));
     } else if (bEl?.ep_next != null && !isNaN(parseFloat(bEl.ep_next)) && parseFloat(bEl.ep_next) > 0) {
       projectedPts = Number(parseFloat(bEl.ep_next).toFixed(1));
     } else {
@@ -457,9 +480,12 @@ export async function fetchManagerSquad(
       console.log(`[VERIFY] Haaland DB pred.projected_points (GW: ${pred?.gw}):`, pred?.projected_points, "-> Using:", projectedPts);
     }
 
-    const startProb = pred?.start_probability != null
-      ? Number(pred.start_probability.toFixed(1))
-      : 85.0;
+    let startProb = 85.0;
+    if (pred?.start_probability != null) {
+      startProb = Number(pred.start_probability.toFixed(1));
+    } else if (sotaPred?.start_prob != null) {
+      startProb = Number((sotaPred.start_prob <= 1.0 ? sotaPred.start_prob * 100 : sotaPred.start_prob).toFixed(1));
+    }
 
     // xG / xA: use real FPL expected-stats per 90 when available, otherwise a
     // flat per-position default (no positional/index-based noise).

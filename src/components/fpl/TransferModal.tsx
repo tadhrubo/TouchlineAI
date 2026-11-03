@@ -49,67 +49,85 @@ export const TransferModal: React.FC<TransferModalProps> = ({
     let isMounted = true;
     setLoading(true);
 
-    fetch("/api/fpl/bootstrap")
+    fetch(`/api/players?position=${encodeURIComponent(outPlayer.position)}`)
       .then((res) => {
-        if (!res.ok) throw new Error("Network error fetching bootstrap");
+        if (!res.ok) throw new Error("Network error fetching players");
         return res.json();
       })
       .then((data) => {
         if (!isMounted) return;
-
-        const teamMap: Record<number, { name: string; short: string }> = {};
-        for (const t of data.teams || []) {
-          teamMap[t.id] = { name: t.name, short: t.short_name };
+        if (data.players && Array.isArray(data.players) && data.players.length > 0) {
+          setCandidates(data.players);
+          setLoading(false);
+          return;
         }
 
-        const posMap: Record<number, "GKP" | "DEF" | "MID" | "FWD"> = {
-          1: "GKP",
-          2: "DEF",
-          3: "MID",
-          4: "FWD",
-        };
+        // Fallback to /api/fpl/bootstrap if empty
+        return fetch("/api/fpl/bootstrap")
+          .then((res) => {
+            if (!res.ok) throw new Error("Network error fetching bootstrap");
+            return res.json();
+          })
+          .then((bData) => {
+            if (!isMounted) return;
 
-        const targetPosType = Object.keys(posMap).find(
-          (k) => posMap[Number(k)] === outPlayer.position
-        );
+            const teamMap: Record<number, { name: string; short: string }> = {};
+            for (const t of bData.teams || []) {
+              teamMap[t.id] = { name: t.name, short: t.short_name };
+            }
 
-        const mapped: Player[] = (data.elements || [])
-          .filter((el: any) => String(el.element_type) === String(targetPosType))
-          .map((el: any) => {
-            const team = teamMap[el.team] || { name: "Unknown", short: "UNK" };
-            return {
-              id: el.id,
-              code: el.code,
-              webName: el.web_name,
-              firstName: el.first_name,
-              secondName: el.second_name,
-              position: posMap[el.element_type],
-              elementType: el.element_type,
-              element_type: el.element_type,
-              team: team.name,
-              teamShort: team.short,
-              teamCode: el.team_code,
-              team_code: el.team_code,
-              price: el.now_cost / 10,
-              totalPoints: el.total_points,
-              goals: el.goals_scored,
-              assists: el.assists,
-              cleanSheets: el.clean_sheets,
-              form: parseFloat(el.form) || 0,
-              selectedByPercent: parseFloat(el.selected_by_percent) || 0,
-              xG: parseFloat(el.expected_goals) || 0,
-              xA: parseFloat(el.expected_assists) || 0,
-              projectedPoints: parseFloat(el.ep_next) || 0,
-              isStarter: false,
-              isCaptain: false,
-              isViceCaptain: false,
-              chanceOfPlayingNextRound: el.chance_of_playing_next_round,
-              news: el.news,
+            const posMap: Record<number, "GKP" | "DEF" | "MID" | "FWD"> = {
+              1: "GKP",
+              2: "DEF",
+              3: "MID",
+              4: "FWD",
             };
-          });
 
-        setCandidates(mapped);
-        setLoading(false);
+            const targetPosType = Object.keys(posMap).find(
+              (k) => posMap[Number(k)] === outPlayer.position
+            );
+
+            const mapped: Player[] = (bData.elements || [])
+              .filter((el: any) => String(el.element_type) === String(targetPosType))
+              .map((el: any) => {
+                const team = teamMap[el.team] || { name: "Unknown", short: "UNK" };
+                return {
+                  id: String(el.id),
+                  code: el.code,
+                  name: el.web_name,
+                  webName: el.web_name,
+                  fullName: `${el.first_name || ""} ${el.second_name || ""}`.trim() || el.web_name,
+                  position: posMap[el.element_type],
+                  elementType: el.element_type,
+                  element_type: el.element_type,
+                  team: team.name,
+                  teamShort: team.short,
+                  teamCode: el.team_code,
+                  team_code: el.team_code,
+                  price: el.now_cost / 10,
+                  totalPoints: el.total_points,
+                  form: parseFloat(el.form) || 0,
+                  selectedByPercent: parseFloat(el.selected_by_percent) || 0,
+                  xG: parseFloat(el.expected_goals) || 0,
+                  xA: parseFloat(el.expected_assists) || 0,
+                  xGI: 0,
+                  minutesExpected: 90,
+                  projectedPoints: parseFloat(el.ep_next) || 0,
+                  status: el.status === "i" ? "injured" : el.status === "d" ? "doubtful" : "available",
+                  startProbability: el.chance_of_playing_next_round ?? 85,
+                  news: el.news,
+                  gameweekPoints: 0,
+                  photoUrl: `https://resources.premierleague.com/premierleague/photos/players/110x140/p${el.code}.png`,
+                  currentFixture: { opponent: "PL", isHome: true, difficulty: 3, gameweek: 1 },
+                  upcomingFixtures: [],
+                  teamColor: "#02894a",
+                  teamSecondaryColor: "#FFFFFF",
+                };
+              });
+
+            setCandidates(mapped);
+            setLoading(false);
+          });
       })
       .catch((err) => {
         console.error("Error fetching candidates:", err);

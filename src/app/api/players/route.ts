@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import fs from "fs";
+import path from "path";
 import { supabase } from "@/lib/supabase";
 import { fetchBootstrapStatic, resolveCurrentEvent } from "@/services/fpl";
 import { Player, Position } from "@/types/fpl";
@@ -69,6 +71,31 @@ export async function GET(request: Request) {
     }
     const currentEvent = resolveCurrentEvent(bData);
 
+    const bElementsMap = new Map<number, any>();
+    if (bData?.elements) {
+      for (const el of bData.elements) {
+        bElementsMap.set(el.id, el);
+      }
+    }
+
+    // Load SOTA Component-Decomposed predictions (Poisson + Monte Carlo) from disk as authoritative ML cache
+    const sotaPredictionsMap = new Map<number, { projected_points: number; start_prob: number; ceiling_points?: number; haul_prob?: number }>();
+    try {
+      const sotaPath = path.join(process.cwd(), "backend", "ml", "models", "latest_sota_predictions.json");
+      if (fs.existsSync(sotaPath)) {
+        const rawSota = JSON.parse(fs.readFileSync(sotaPath, "utf-8"));
+        if (Array.isArray(rawSota)) {
+          for (const item of rawSota) {
+            if (item && item.player_id != null) {
+              sotaPredictionsMap.set(Number(item.player_id), item);
+            }
+          }
+        }
+      }
+    } catch (e) {
+      console.warn("Could not read local latest_sota_predictions.json:", e);
+    }
+
     if (dbPlayers && dbPlayers.length > 0) {
       players = dbPlayers.map((p: any) => {
         const teamShort = p.teams?.short_name || "PL";
@@ -80,13 +107,32 @@ export async function GET(request: Request) {
         };
 
         const posType = POSITION_MAP[p.element_type || 3] || "MID";
+        const bEl = bElementsMap.get(p.id);
+        const sotaPred = sotaPredictionsMap.get(Number(p.id));
         const sortedPreds = p.player_predictions?.sort((a: any, b: any) => (b.gw || 0) - (a.gw || 0));
         const pred = sortedPreds?.[0];
-        const totalPts = p.total_points || 0;
-        const priceVal = (p.now_cost || 50) / 10;
-        const projectedPts = pred?.projected_points != null
-          ? Number(pred.projected_points.toFixed(1))
-          : computeFallbackXP(totalPts, currentEvent, posType);
+        const totalPts = Number(p.total_points ?? bEl?.total_points ?? 0);
+        const priceVal = Number(bEl?.now_cost ?? p.now_cost ?? 50) / 10;
+        
+        let projectedPts: number;
+        if (pred?.projected_points != null && !isNaN(Number(pred.projected_points))) {
+          projectedPts = Number(Number(pred.projected_points).toFixed(1));
+        } else if (sotaPred?.projected_points != null && !isNaN(Number(sotaPred.projected_points))) {
+          projectedPts = Number(Number(sotaPred.projected_points).toFixed(1));
+        } else if (bEl?.ep_next != null && !isNaN(parseFloat(bEl.ep_next)) && parseFloat(bEl.ep_next) > 0) {
+          projectedPts = Number(parseFloat(bEl.ep_next).toFixed(1));
+        } else {
+          projectedPts = computeFallbackXP(totalPts, currentEvent, posType);
+        }
+
+        let startProbVal = 85.0;
+        if (pred?.start_probability != null) {
+          startProbVal = Number(pred.start_probability.toFixed(1));
+        } else if (sotaPred?.start_prob != null) {
+          startProbVal = Number((sotaPred.start_prob <= 1.0 ? sotaPred.start_prob * 100 : sotaPred.start_prob).toFixed(1));
+        } else if (bEl?.chance_of_playing_next_round != null) {
+          startProbVal = Number(bEl.chance_of_playing_next_round);
+        }
 
         return {
           id: String(p.id),
@@ -113,7 +159,7 @@ export async function GET(request: Request) {
           xA: 0.1,
           xGI: 0.2,
           minutesExpected: 90,
-          startProbability: pred?.start_probability != null ? Number(pred.start_probability.toFixed(1)) : 85,
+          startProbability: startProbVal,
           status: p.status === "i" ? "injured" : p.status === "d" ? "doubtful" : "available",
           news: p.news || undefined,
           currentFixture: {
@@ -149,7 +195,23 @@ export async function GET(request: Request) {
         const posType = POSITION_MAP[el.element_type || 3] || "MID";
         const totalPts = el.total_points || 0;
         const priceVal = (el.now_cost || 50) / 10;
-        const projectedPts = el.ep_next != null ? parseFloat(el.ep_next) : computeFallbackXP(totalPts, currentEvent, posType);
+        const sotaPred = sotaPredictionsMap.get(Number(el.id));
+        
+        let projectedPts: number;
+        if (sotaPred?.projected_points != null && !isNaN(Number(sotaPred.projected_points))) {
+          projectedPts = Number(Number(sotaPred.projected_points).toFixed(1));
+        } else if (el.ep_next != null && !isNaN(parseFloat(el.ep_next)) && parseFloat(el.ep_next) > 0) {
+          projectedPts = Number(parseFloat(el.ep_next).toFixed(1));
+        } else {
+          projectedPts = computeFallbackXP(totalPts, currentEvent, posType);
+        }
+
+        let startProbVal = 85.0;
+        if (sotaPred?.start_prob != null) {
+          startProbVal = Number((sotaPred.start_prob <= 1.0 ? sotaPred.start_prob * 100 : sotaPred.start_prob).toFixed(1));
+        } else if (el.chance_of_playing_next_round != null) {
+          startProbVal = Number(el.chance_of_playing_next_round);
+        }
 
         return {
           id: String(el.id),
@@ -176,7 +238,7 @@ export async function GET(request: Request) {
           xA: parseFloat(el.expected_assists) || 0.1,
           xGI: parseFloat(el.expected_goal_involvements) || 0.2,
           minutesExpected: 90,
-          startProbability: el.chance_of_playing_next_round != null ? el.chance_of_playing_next_round : 85,
+          startProbability: startProbVal,
           status: el.status === "i" ? "injured" : el.status === "d" ? "doubtful" : "available",
           news: el.news || undefined,
           currentFixture: {
