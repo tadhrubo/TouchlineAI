@@ -2,51 +2,63 @@
   {
     "player_id": 1,
     "name": "Raya",
+    "team": "ARS",
+    "opponent": "HUL (H)",
     "gameweek": 10,
-    "start_prob": 0.95,
-    "projected_points": 3.61,
+    "start_prob": 0.946,
+    "projected_points": 3.85,
     "ceiling_points": 6.0,
-    "haul_prob": 0.008
+    "haul_prob": 0.01
   },
   {
     "player_id": 2,
     "name": "Arrizabalaga",
+    "team": "ARS",
+    "opponent": "HUL (H)",
     "gameweek": 10,
-    "start_prob": 0.05,
-    "projected_points": 0.19,
+    "start_prob": 0.088,
+    "projected_points": 0.35,
     "ceiling_points": 0.0,
     "haul_prob": 0.001
   },
   {
     "player_id": 3,
     "name": "Meslier",
+    "team": "ARS",
+    "opponent": "HUL (H)",
     "gameweek": 10,
-    "start_prob": 0.05,
-    "projected_points": 0.19,
+    "start_prob": 0.088,
+    "projected_points": 0.35,
     "ceiling_points": 0.0,
-    "haul_prob": 0.0
+    "haul_prob": 0.001
   },
   {
     "player_id": 4,
     "name": "Gabriel",
+    "team": "ARS",
+    "opponent": "HUL (H)",
     "gameweek": 10,
-    "start_prob": 0.929,
-    "projected_points": 4.19,
-    "ceiling_points": 10.0,
-    "haul_prob": 0.125
+    "start_prob": 0.924,
+    "projected_points": 4.86,
+    "ceiling_points": 12.0,
+    "haul_prob": 0.169
   },
   {
     "player_id": 5,
     "name": "J.Timber",
+    "team": "ARS",
+    "opponent": "HUL (H)",
     "gameweek": 10,
-    "start_prob": 0.471,
-    "projected_points": 2.17,
-    "ceiling_points": 6.0,
-    "haul_prob": 0.036
+    "start_prob": 0.467,
+    "projected_points": 2.57,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.066
   },
   {
     "player_id": 6,
     "name": "Saliba",
+    "team": "ARS",
+    "opponent": "HUL (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -56,51 +68,63 @@
   {
     "player_id": 7,
     "name": "Lewis-Skelly",
+    "team": "ARS",
+    "opponent": "HUL (H)",
     "gameweek": 10,
-    "start_prob": 0.466,
-    "projected_points": 1.98,
-    "ceiling_points": 5.0,
-    "haul_prob": 0.02
+    "start_prob": 0.475,
+    "projected_points": 2.18,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.028
   },
   {
     "player_id": 8,
     "name": "Calafiori",
+    "team": "ARS",
+    "opponent": "HUL (H)",
     "gameweek": 10,
     "start_prob": 0.859,
-    "projected_points": 3.84,
-    "ceiling_points": 10.0,
-    "haul_prob": 0.103
+    "projected_points": 4.49,
+    "ceiling_points": 11.0,
+    "haul_prob": 0.146
   },
   {
     "player_id": 9,
     "name": "Hincapie",
+    "team": "ARS",
+    "opponent": "HUL (H)",
     "gameweek": 10,
-    "start_prob": 0.451,
-    "projected_points": 1.78,
+    "start_prob": 0.437,
+    "projected_points": 1.99,
     "ceiling_points": 6.0,
     "haul_prob": 0.031
   },
   {
     "player_id": 10,
     "name": "White",
+    "team": "ARS",
+    "opponent": "HUL (H)",
     "gameweek": 10,
-    "start_prob": 0.855,
-    "projected_points": 3.51,
-    "ceiling_points": 8.0,
-    "haul_prob": 0.07
+    "start_prob": 0.849,
+    "projected_points": 4.02,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.097
   },
   {
     "player_id": 11,
     "name": "Mosquera",
+    "team": "ARS",
+    "opponent": "HUL (H)",
     "gameweek": 10,
-    "start_prob": 0.371,
-    "projected_points": 1.59,
+    "start_prob": 0.385,
+    "projected_points": 1.82,
     "ceiling_points": 6.0,
-    "haul_prob": 0.014
+    "haul_prob": 0.019
   },
   {
     "player_id": 12,
     "name": "Saka",
+    "team": "ARS",
+    "opponent": "HUL (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -110,51 +134,63 @@
   {
     "player_id": 13,
     "name": "Rice",
+    "team": "ARS",
+    "opponent": "HUL (H)",
     "gameweek": 10,
-    "start_prob": 0.9,
-    "projected_points": 4.36,
-    "ceiling_points": 10.0,
-    "haul_prob": 0.122
+    "start_prob": 0.888,
+    "projected_points": 4.94,
+    "ceiling_points": 11.0,
+    "haul_prob": 0.169
   },
   {
     "player_id": 14,
     "name": "Eze",
+    "team": "ARS",
+    "opponent": "HUL (H)",
     "gameweek": 10,
-    "start_prob": 0.376,
-    "projected_points": 2.16,
-    "ceiling_points": 7.0,
-    "haul_prob": 0.034
-  },
-  {
-    "player_id": 15,
-    "name": "\u00d8degaard",
-    "gameweek": 10,
-    "start_prob": 0.8,
-    "projected_points": 4.19,
-    "ceiling_points": 10.0,
-    "haul_prob": 0.138
-  },
-  {
-    "player_id": 16,
-    "name": "Madueke",
-    "gameweek": 10,
-    "start_prob": 0.741,
-    "projected_points": 3.91,
-    "ceiling_points": 9.0,
-    "haul_prob": 0.096
-  },
-  {
-    "player_id": 17,
-    "name": "Merino",
-    "gameweek": 10,
-    "start_prob": 0.432,
-    "projected_points": 2.42,
+    "start_prob": 0.393,
+    "projected_points": 2.47,
     "ceiling_points": 8.0,
     "haul_prob": 0.054
   },
   {
+    "player_id": 15,
+    "name": "\u00d8degaard",
+    "team": "ARS",
+    "opponent": "HUL (H)",
+    "gameweek": 10,
+    "start_prob": 0.806,
+    "projected_points": 4.71,
+    "ceiling_points": 11.0,
+    "haul_prob": 0.17
+  },
+  {
+    "player_id": 16,
+    "name": "Madueke",
+    "team": "ARS",
+    "opponent": "HUL (H)",
+    "gameweek": 10,
+    "start_prob": 0.737,
+    "projected_points": 4.56,
+    "ceiling_points": 11.0,
+    "haul_prob": 0.154
+  },
+  {
+    "player_id": 17,
+    "name": "Merino",
+    "team": "ARS",
+    "opponent": "HUL (H)",
+    "gameweek": 10,
+    "start_prob": 0.444,
+    "projected_points": 2.75,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.079
+  },
+  {
     "player_id": 18,
     "name": "Martinelli",
+    "team": "ARS",
+    "opponent": "HUL (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -164,15 +200,19 @@
   {
     "player_id": 19,
     "name": "Zubimendi",
+    "team": "ARS",
+    "opponent": "HUL (H)",
     "gameweek": 10,
-    "start_prob": 0.201,
-    "projected_points": 1.31,
+    "start_prob": 0.219,
+    "projected_points": 1.5,
     "ceiling_points": 3.0,
-    "haul_prob": 0.014
+    "haul_prob": 0.018
   },
   {
     "player_id": 20,
     "name": "Dowman",
+    "team": "ARS",
+    "opponent": "HUL (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -182,6 +222,8 @@
   {
     "player_id": 22,
     "name": "Nwaneri",
+    "team": "ARS",
+    "opponent": "HUL (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -191,6 +233,8 @@
   {
     "player_id": 23,
     "name": "F\u00e1bio Vieira",
+    "team": "ARS",
+    "opponent": "HUL (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -200,6 +244,8 @@
   {
     "player_id": 24,
     "name": "Nelson",
+    "team": "ARS",
+    "opponent": "HUL (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -209,24 +255,30 @@
   {
     "player_id": 25,
     "name": "Gy\u00f6keres",
+    "team": "ARS",
+    "opponent": "HUL (H)",
     "gameweek": 10,
-    "start_prob": 0.615,
-    "projected_points": 3.0,
-    "ceiling_points": 8.0,
-    "haul_prob": 0.051
+    "start_prob": 0.623,
+    "projected_points": 3.34,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.076
   },
   {
     "player_id": 26,
     "name": "Havertz",
+    "team": "ARS",
+    "opponent": "HUL (H)",
     "gameweek": 10,
-    "start_prob": 0.859,
-    "projected_points": 4.24,
-    "ceiling_points": 10.0,
-    "haul_prob": 0.102
+    "start_prob": 0.839,
+    "projected_points": 4.74,
+    "ceiling_points": 10.1,
+    "haul_prob": 0.13
   },
   {
     "player_id": 27,
     "name": "G.Jesus",
+    "team": "ARS",
+    "opponent": "HUL (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -236,42 +288,52 @@
   {
     "player_id": 31,
     "name": "Konsa",
+    "team": "ARS",
+    "opponent": "HUL (H)",
     "gameweek": 10,
-    "start_prob": 0.855,
-    "projected_points": 3.16,
-    "ceiling_points": 7.0,
-    "haul_prob": 0.056
+    "start_prob": 0.856,
+    "projected_points": 3.63,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.077
   },
   {
     "player_id": 452,
     "name": "Bruno G.",
+    "team": "ARS",
+    "opponent": "HUL (H)",
     "gameweek": 10,
-    "start_prob": 0.835,
-    "projected_points": 3.54,
-    "ceiling_points": 9.0,
-    "haul_prob": 0.07
+    "start_prob": 0.849,
+    "projected_points": 3.9,
+    "ceiling_points": 10.0,
+    "haul_prob": 0.103
   },
   {
     "player_id": 557,
     "name": "Tzolis",
+    "team": "ARS",
+    "opponent": "HUL (H)",
     "gameweek": 10,
-    "start_prob": 0.574,
-    "projected_points": 2.76,
-    "ceiling_points": 8.0,
-    "haul_prob": 0.058
+    "start_prob": 0.578,
+    "projected_points": 3.09,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.074
   },
   {
     "player_id": 29,
     "name": "M.Bizot",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
-    "start_prob": 0.268,
-    "projected_points": 1.27,
+    "start_prob": 0.264,
+    "projected_points": 1.22,
     "ceiling_points": 2.0,
-    "haul_prob": 0.0
+    "haul_prob": 0.001
   },
   {
     "player_id": 30,
     "name": "Digne",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -281,6 +343,8 @@
   {
     "player_id": 32,
     "name": "Cash",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -290,51 +354,63 @@
   {
     "player_id": 33,
     "name": "Mings",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
-    "start_prob": 0.532,
-    "projected_points": 1.68,
+    "start_prob": 0.527,
+    "projected_points": 1.59,
     "ceiling_points": 6.0,
-    "haul_prob": 0.015
+    "haul_prob": 0.01
   },
   {
     "player_id": 34,
     "name": "Pau",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
-    "start_prob": 0.37,
-    "projected_points": 1.23,
+    "start_prob": 0.397,
+    "projected_points": 1.29,
     "ceiling_points": 6.0,
-    "haul_prob": 0.008
+    "haul_prob": 0.01
   },
   {
     "player_id": 35,
     "name": "Bogarde",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
     "start_prob": 0.079,
-    "projected_points": 0.69,
+    "projected_points": 0.68,
     "ceiling_points": 1.0,
-    "haul_prob": 0.0
+    "haul_prob": 0.002
   },
   {
     "player_id": 36,
     "name": "Maatsen",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
-    "start_prob": 0.508,
-    "projected_points": 1.65,
+    "start_prob": 0.491,
+    "projected_points": 1.57,
     "ceiling_points": 6.0,
-    "haul_prob": 0.012
+    "haul_prob": 0.01
   },
   {
     "player_id": 37,
     "name": "Lindel\u00f6f",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
     "start_prob": 0.918,
-    "projected_points": 2.59,
+    "projected_points": 2.44,
     "ceiling_points": 6.0,
-    "haul_prob": 0.029
+    "haul_prob": 0.024
   },
   {
     "player_id": 38,
     "name": "A.Garc\u00eda",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -344,6 +420,8 @@
   {
     "player_id": 39,
     "name": "Nedeljkovic",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -353,15 +431,19 @@
   {
     "player_id": 41,
     "name": "Buend\u00eda",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
-    "start_prob": 0.667,
-    "projected_points": 2.61,
-    "ceiling_points": 7.0,
-    "haul_prob": 0.038
+    "start_prob": 0.672,
+    "projected_points": 2.74,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.039
   },
   {
     "player_id": 44,
     "name": "Bailey",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -371,33 +453,41 @@
   {
     "player_id": 45,
     "name": "McGinn",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
-    "start_prob": 0.864,
-    "projected_points": 2.88,
-    "ceiling_points": 7.0,
-    "haul_prob": 0.036
+    "start_prob": 0.874,
+    "projected_points": 2.95,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.042
   },
   {
     "player_id": 46,
     "name": "Barkley",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
-    "start_prob": 0.506,
-    "projected_points": 1.88,
+    "start_prob": 0.512,
+    "projected_points": 1.89,
     "ceiling_points": 3.0,
-    "haul_prob": 0.016
+    "haul_prob": 0.008
   },
   {
     "player_id": 47,
     "name": "Kamara",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
-    "start_prob": 0.865,
-    "projected_points": 2.39,
+    "start_prob": 0.871,
+    "projected_points": 2.38,
     "ceiling_points": 3.0,
-    "haul_prob": 0.012
+    "haul_prob": 0.014
   },
   {
     "player_id": 48,
     "name": "Onana",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -407,6 +497,8 @@
   {
     "player_id": 49,
     "name": "Iling Jr",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -416,51 +508,63 @@
   {
     "player_id": 50,
     "name": "Burrowes",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
     "start_prob": 0.011,
-    "projected_points": 0.05,
+    "projected_points": 0.06,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
   },
   {
     "player_id": 51,
     "name": "George Hemmings",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
     "start_prob": 0.369,
-    "projected_points": 1.43,
+    "projected_points": 1.42,
     "ceiling_points": 3.0,
-    "haul_prob": 0.007
+    "haul_prob": 0.008
   },
   {
     "player_id": 52,
     "name": "Alysson",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
-    "start_prob": 0.374,
-    "projected_points": 1.55,
+    "start_prob": 0.388,
+    "projected_points": 1.58,
     "ceiling_points": 3.0,
-    "haul_prob": 0.012
+    "haul_prob": 0.013
   },
   {
     "player_id": 53,
     "name": "Manzambi",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
-    "start_prob": 0.846,
-    "projected_points": 3.42,
-    "ceiling_points": 8.0,
-    "haul_prob": 0.065
+    "start_prob": 0.844,
+    "projected_points": 3.39,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.063
   },
   {
     "player_id": 54,
     "name": "Gomes",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
-    "start_prob": 0.638,
-    "projected_points": 2.04,
+    "start_prob": 0.659,
+    "projected_points": 2.06,
     "ceiling_points": 3.0,
-    "haul_prob": 0.011
+    "haul_prob": 0.015
   },
   {
     "player_id": 55,
     "name": "Watkins",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -470,8 +574,10 @@
   {
     "player_id": 56,
     "name": "Abraham",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
-    "start_prob": 0.186,
+    "start_prob": 0.183,
     "projected_points": 1.1,
     "ceiling_points": 2.0,
     "haul_prob": 0.002
@@ -479,33 +585,41 @@
   {
     "player_id": 160,
     "name": "Garnacho",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
-    "start_prob": 0.162,
-    "projected_points": 0.93,
+    "start_prob": 0.109,
+    "projected_points": 0.94,
     "ceiling_points": 2.0,
-    "haul_prob": 0.008
+    "haul_prob": 0.007
   },
   {
     "player_id": 166,
     "name": "N.Jackson",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
-    "start_prob": 0.885,
-    "projected_points": 3.7,
+    "start_prob": 0.856,
+    "projected_points": 3.65,
     "ceiling_points": 9.0,
-    "haul_prob": 0.065
+    "haul_prob": 0.061
   },
   {
     "player_id": 582,
     "name": "Madjo",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
     "start_prob": 0.06,
-    "projected_points": 0.62,
+    "projected_points": 0.64,
     "ceiling_points": 1.0,
-    "haul_prob": 0.0
+    "haul_prob": 0.001
   },
   {
     "player_id": 596,
     "name": "Ruggeri",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -515,17 +629,21 @@
   {
     "player_id": 597,
     "name": "Suzuki",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
-    "start_prob": 0.896,
-    "projected_points": 3.12,
+    "start_prob": 0.9,
+    "projected_points": 2.95,
     "ceiling_points": 6.0,
-    "haul_prob": 0.006
+    "haul_prob": 0.004
   },
   {
     "player_id": 606,
     "name": "Rowe",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
-    "start_prob": 0.014,
+    "start_prob": 0.013,
     "projected_points": 0.09,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
@@ -533,6 +651,8 @@
   {
     "player_id": 607,
     "name": "Lynch",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -542,6 +662,8 @@
   {
     "player_id": 611,
     "name": "Wan-Bissaka",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -551,35 +673,43 @@
   {
     "player_id": 618,
     "name": "Goretzka",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
-    "start_prob": 0.371,
-    "projected_points": 1.58,
+    "start_prob": 0.406,
+    "projected_points": 1.81,
     "ceiling_points": 3.0,
-    "haul_prob": 0.015
+    "haul_prob": 0.017
   },
   {
     "player_id": 630,
     "name": "Harwood-Bellis",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
-    "start_prob": 0.045,
-    "projected_points": 0.19,
-    "ceiling_points": 0.0,
-    "haul_prob": 0.001
+    "start_prob": 0.041,
+    "projected_points": 0.18,
+    "ceiling_points": 1.0,
+    "haul_prob": 0.0
   },
   {
     "player_id": 631,
     "name": "Mbaye",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
-    "start_prob": 0.422,
-    "projected_points": 1.98,
-    "ceiling_points": 6.0,
-    "haul_prob": 0.026
+    "start_prob": 0.418,
+    "projected_points": 1.97,
+    "ceiling_points": 5.0,
+    "haul_prob": 0.022
   },
   {
     "player_id": 667,
     "name": "Wright",
+    "team": "AVL",
+    "opponent": "MUN (A)",
     "gameweek": 10,
-    "start_prob": 0.014,
+    "start_prob": 0.012,
     "projected_points": 0.07,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
@@ -587,24 +717,30 @@
   {
     "player_id": 57,
     "name": "Petrovi\u0107",
+    "team": "BOU",
+    "opponent": "IPS (A)",
     "gameweek": 10,
-    "start_prob": 0.925,
-    "projected_points": 3.2,
+    "start_prob": 0.927,
+    "projected_points": 3.25,
     "ceiling_points": 6.0,
-    "haul_prob": 0.007
+    "haul_prob": 0.008
   },
   {
     "player_id": 58,
     "name": "Forster",
+    "team": "BOU",
+    "opponent": "IPS (A)",
     "gameweek": 10,
     "start_prob": 0.014,
-    "projected_points": 0.07,
+    "projected_points": 0.08,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
   },
   {
     "player_id": 59,
     "name": "Dennis",
+    "team": "BOU",
+    "opponent": "IPS (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -614,33 +750,41 @@
   {
     "player_id": 60,
     "name": "Hill",
+    "team": "BOU",
+    "opponent": "IPS (A)",
     "gameweek": 10,
-    "start_prob": 0.914,
-    "projected_points": 2.71,
+    "start_prob": 0.913,
+    "projected_points": 2.96,
     "ceiling_points": 6.0,
-    "haul_prob": 0.024
+    "haul_prob": 0.04
   },
   {
     "player_id": 61,
     "name": "Truffert",
+    "team": "BOU",
+    "opponent": "IPS (A)",
     "gameweek": 10,
-    "start_prob": 0.905,
-    "projected_points": 2.85,
-    "ceiling_points": 6.0,
-    "haul_prob": 0.042
+    "start_prob": 0.908,
+    "projected_points": 3.09,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.058
   },
   {
     "player_id": 62,
     "name": "Diakit\u00e9",
+    "team": "BOU",
+    "opponent": "IPS (A)",
     "gameweek": 10,
-    "start_prob": 0.302,
-    "projected_points": 1.09,
-    "ceiling_points": 2.0,
-    "haul_prob": 0.005
+    "start_prob": 0.307,
+    "projected_points": 1.18,
+    "ceiling_points": 5.0,
+    "haul_prob": 0.008
   },
   {
     "player_id": 63,
     "name": "Milosavljevi\u0107",
+    "team": "BOU",
+    "opponent": "IPS (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -650,15 +794,19 @@
   {
     "player_id": 64,
     "name": "Smith",
+    "team": "BOU",
+    "opponent": "IPS (A)",
     "gameweek": 10,
-    "start_prob": 0.85,
-    "projected_points": 2.37,
+    "start_prob": 0.846,
+    "projected_points": 2.56,
     "ceiling_points": 6.0,
-    "haul_prob": 0.02
+    "haul_prob": 0.028
   },
   {
     "player_id": 65,
     "name": "J.Araujo",
+    "team": "BOU",
+    "opponent": "IPS (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -668,33 +816,41 @@
   {
     "player_id": 66,
     "name": "Soler",
+    "team": "BOU",
+    "opponent": "IPS (A)",
     "gameweek": 10,
     "start_prob": 0.136,
-    "projected_points": 0.52,
+    "projected_points": 0.55,
     "ceiling_points": 1.0,
-    "haul_prob": 0.001
+    "haul_prob": 0.002
   },
   {
     "player_id": 67,
     "name": "Rayan",
+    "team": "BOU",
+    "opponent": "IPS (A)",
     "gameweek": 10,
-    "start_prob": 0.872,
-    "projected_points": 3.38,
+    "start_prob": 0.877,
+    "projected_points": 3.61,
     "ceiling_points": 9.0,
-    "haul_prob": 0.073
+    "haul_prob": 0.084
   },
   {
     "player_id": 68,
     "name": "Tavernier",
+    "team": "BOU",
+    "opponent": "IPS (A)",
     "gameweek": 10,
-    "start_prob": 0.895,
-    "projected_points": 4.15,
+    "start_prob": 0.897,
+    "projected_points": 4.42,
     "ceiling_points": 10.0,
-    "haul_prob": 0.106
+    "haul_prob": 0.128
   },
   {
     "player_id": 69,
     "name": "Scott",
+    "team": "BOU",
+    "opponent": "IPS (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -704,60 +860,74 @@
   {
     "player_id": 70,
     "name": "Kluivert",
+    "team": "BOU",
+    "opponent": "IPS (A)",
     "gameweek": 10,
-    "start_prob": 0.76,
-    "projected_points": 2.88,
+    "start_prob": 0.766,
+    "projected_points": 3.17,
     "ceiling_points": 8.0,
-    "haul_prob": 0.056
+    "haul_prob": 0.066
   },
   {
     "player_id": 71,
     "name": "Cook",
+    "team": "BOU",
+    "opponent": "IPS (A)",
     "gameweek": 10,
-    "start_prob": 0.671,
-    "projected_points": 2.06,
+    "start_prob": 0.673,
+    "projected_points": 2.13,
     "ceiling_points": 3.0,
-    "haul_prob": 0.014
+    "haul_prob": 0.012
   },
   {
     "player_id": 72,
     "name": "Gannon-Doak",
+    "team": "BOU",
+    "opponent": "IPS (A)",
     "gameweek": 10,
     "start_prob": 0.404,
-    "projected_points": 1.74,
+    "projected_points": 1.8,
     "ceiling_points": 3.0,
-    "haul_prob": 0.018
+    "haul_prob": 0.014
   },
   {
     "player_id": 73,
     "name": "Adams",
+    "team": "BOU",
+    "opponent": "IPS (A)",
     "gameweek": 10,
-    "start_prob": 0.631,
-    "projected_points": 1.89,
+    "start_prob": 0.624,
+    "projected_points": 1.94,
     "ceiling_points": 3.0,
-    "haul_prob": 0.009
+    "haul_prob": 0.014
   },
   {
     "player_id": 74,
     "name": "Brooks",
+    "team": "BOU",
+    "opponent": "IPS (A)",
     "gameweek": 10,
-    "start_prob": 0.215,
-    "projected_points": 1.1,
-    "ceiling_points": 2.0,
-    "haul_prob": 0.006
+    "start_prob": 0.218,
+    "projected_points": 1.15,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.005
   },
   {
     "player_id": 75,
     "name": "Christie",
+    "team": "BOU",
+    "opponent": "IPS (A)",
     "gameweek": 10,
     "start_prob": 0.69,
-    "projected_points": 2.4,
-    "ceiling_points": 6.0,
-    "haul_prob": 0.025
+    "projected_points": 2.62,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.033
   },
   {
     "player_id": 76,
     "name": "T\u00f3th.A",
+    "team": "BOU",
+    "opponent": "IPS (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -767,33 +937,41 @@
   {
     "player_id": 77,
     "name": "Adli",
+    "team": "BOU",
+    "opponent": "IPS (A)",
     "gameweek": 10,
-    "start_prob": 0.536,
-    "projected_points": 1.93,
-    "ceiling_points": 3.0,
-    "haul_prob": 0.014
+    "start_prob": 0.684,
+    "projected_points": 2.48,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.039
   },
   {
     "player_id": 78,
     "name": "Kroupi.Jr",
+    "team": "BOU",
+    "opponent": "IPS (A)",
     "gameweek": 10,
-    "start_prob": 0.288,
-    "projected_points": 1.62,
-    "ceiling_points": 3.0,
-    "haul_prob": 0.018
+    "start_prob": 0.363,
+    "projected_points": 1.95,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.031
   },
   {
     "player_id": 79,
     "name": "Evanilson",
+    "team": "BOU",
+    "opponent": "IPS (A)",
     "gameweek": 10,
-    "start_prob": 0.895,
-    "projected_points": 3.59,
+    "start_prob": 0.894,
+    "projected_points": 3.71,
     "ceiling_points": 9.0,
-    "haul_prob": 0.061
+    "haul_prob": 0.065
   },
   {
     "player_id": 80,
     "name": "Enes \u00dcnal",
+    "team": "BOU",
+    "opponent": "IPS (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -803,114 +981,140 @@
   {
     "player_id": 81,
     "name": "Rodr\u00edguez",
+    "team": "BOU",
+    "opponent": "IPS (A)",
     "gameweek": 10,
-    "start_prob": 0.342,
-    "projected_points": 1.6,
-    "ceiling_points": 2.0,
-    "haul_prob": 0.007
+    "start_prob": 0.435,
+    "projected_points": 1.97,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.017
   },
   {
     "player_id": 566,
     "name": "Silva",
+    "team": "BOU",
+    "opponent": "IPS (A)",
     "gameweek": 10,
-    "start_prob": 0.911,
-    "projected_points": 2.66,
+    "start_prob": 0.913,
+    "projected_points": 2.89,
     "ceiling_points": 6.0,
-    "haul_prob": 0.029
+    "haul_prob": 0.036
   },
   {
     "player_id": 573,
     "name": "Sanchez",
+    "team": "BOU",
+    "opponent": "IPS (A)",
     "gameweek": 10,
     "start_prob": 0.203,
-    "projected_points": 0.75,
+    "projected_points": 0.8,
     "ceiling_points": 2.0,
     "haul_prob": 0.004
   },
   {
     "player_id": 608,
     "name": "Jebbison",
+    "team": "BOU",
+    "opponent": "IPS (A)",
     "gameweek": 10,
     "start_prob": 0.123,
-    "projected_points": 1.03,
+    "projected_points": 1.05,
     "ceiling_points": 2.0,
-    "haul_prob": 0.0
+    "haul_prob": 0.001
   },
   {
     "player_id": 615,
     "name": "Di Gregorio",
+    "team": "BOU",
+    "opponent": "IPS (A)",
     "gameweek": 10,
     "start_prob": 0.043,
-    "projected_points": 0.16,
+    "projected_points": 0.17,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
   },
   {
     "player_id": 82,
     "name": "Kelleher",
+    "team": "BRE",
+    "opponent": "BHA (A)",
     "gameweek": 10,
     "start_prob": 0.948,
-    "projected_points": 3.17,
+    "projected_points": 3.12,
     "ceiling_points": 6.0,
-    "haul_prob": 0.007
+    "haul_prob": 0.004
   },
   {
     "player_id": 83,
     "name": "Valdimarsson",
+    "team": "BRE",
+    "opponent": "BHA (A)",
     "gameweek": 10,
     "start_prob": 0.042,
     "projected_points": 0.16,
     "ceiling_points": 0.0,
-    "haul_prob": 0.001
+    "haul_prob": 0.0
   },
   {
     "player_id": 84,
     "name": "Collins",
+    "team": "BRE",
+    "opponent": "BHA (A)",
     "gameweek": 10,
     "start_prob": 0.402,
-    "projected_points": 1.62,
+    "projected_points": 1.63,
     "ceiling_points": 6.0,
-    "haul_prob": 0.018
+    "haul_prob": 0.014
   },
   {
     "player_id": 85,
     "name": "Van den Berg",
+    "team": "BRE",
+    "opponent": "BHA (A)",
     "gameweek": 10,
-    "start_prob": 0.737,
-    "projected_points": 2.21,
+    "start_prob": 0.743,
+    "projected_points": 2.28,
     "ceiling_points": 6.0,
-    "haul_prob": 0.025
+    "haul_prob": 0.03
   },
   {
     "player_id": 86,
     "name": "Lewis-Potter",
+    "team": "BRE",
+    "opponent": "BHA (A)",
     "gameweek": 10,
-    "start_prob": 0.87,
-    "projected_points": 2.91,
-    "ceiling_points": 7.0,
-    "haul_prob": 0.041
+    "start_prob": 0.876,
+    "projected_points": 3.0,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.04
   },
   {
     "player_id": 87,
     "name": "Ajer",
+    "team": "BRE",
+    "opponent": "BHA (A)",
     "gameweek": 10,
     "start_prob": 0.918,
-    "projected_points": 2.64,
+    "projected_points": 2.66,
     "ceiling_points": 6.0,
-    "haul_prob": 0.024
+    "haul_prob": 0.03
   },
   {
     "player_id": 88,
     "name": "Kayode",
+    "team": "BRE",
+    "opponent": "BHA (A)",
     "gameweek": 10,
-    "start_prob": 0.715,
-    "projected_points": 2.19,
+    "start_prob": 0.723,
+    "projected_points": 2.22,
     "ceiling_points": 6.0,
-    "haul_prob": 0.023
+    "haul_prob": 0.014
   },
   {
     "player_id": 89,
     "name": "Henry",
+    "team": "BRE",
+    "opponent": "BHA (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -920,78 +1124,96 @@
   {
     "player_id": 90,
     "name": "Hickey",
+    "team": "BRE",
+    "opponent": "BHA (A)",
     "gameweek": 10,
-    "start_prob": 0.409,
-    "projected_points": 1.46,
+    "start_prob": 0.402,
+    "projected_points": 1.48,
     "ceiling_points": 6.0,
-    "haul_prob": 0.01
+    "haul_prob": 0.012
   },
   {
     "player_id": 92,
     "name": "Ji-soo",
+    "team": "BRE",
+    "opponent": "BHA (A)",
     "gameweek": 10,
     "start_prob": 0.044,
     "projected_points": 0.18,
     "ceiling_points": 1.0,
-    "haul_prob": 0.002
+    "haul_prob": 0.001
   },
   {
     "player_id": 93,
     "name": "Schuster",
+    "team": "BRE",
+    "opponent": "BHA (A)",
     "gameweek": 10,
     "start_prob": 0.319,
-    "projected_points": 1.26,
+    "projected_points": 1.27,
     "ceiling_points": 6.0,
-    "haul_prob": 0.01
+    "haul_prob": 0.011
   },
   {
     "player_id": 94,
     "name": "Schade",
+    "team": "BRE",
+    "opponent": "BHA (A)",
     "gameweek": 10,
     "start_prob": 0.749,
-    "projected_points": 2.84,
-    "ceiling_points": 7.0,
-    "haul_prob": 0.042
+    "projected_points": 2.88,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.051
   },
   {
     "player_id": 95,
     "name": "O.Dango",
+    "team": "BRE",
+    "opponent": "BHA (A)",
     "gameweek": 10,
     "start_prob": 0.837,
-    "projected_points": 3.3,
+    "projected_points": 3.4,
     "ceiling_points": 8.0,
-    "haul_prob": 0.058
+    "haul_prob": 0.066
   },
   {
     "player_id": 96,
     "name": "Damsgaard",
+    "team": "BRE",
+    "opponent": "BHA (A)",
     "gameweek": 10,
     "start_prob": 0.521,
-    "projected_points": 1.98,
-    "ceiling_points": 4.0,
-    "haul_prob": 0.015
+    "projected_points": 2.01,
+    "ceiling_points": 5.0,
+    "haul_prob": 0.021
   },
   {
     "player_id": 97,
     "name": "Jensen",
+    "team": "BRE",
+    "opponent": "BHA (A)",
     "gameweek": 10,
-    "start_prob": 0.465,
-    "projected_points": 1.93,
-    "ceiling_points": 4.0,
-    "haul_prob": 0.013
+    "start_prob": 0.497,
+    "projected_points": 2.05,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.018
   },
   {
     "player_id": 98,
     "name": "Janelt",
+    "team": "BRE",
+    "opponent": "BHA (A)",
     "gameweek": 10,
-    "start_prob": 0.753,
-    "projected_points": 2.3,
+    "start_prob": 0.755,
+    "projected_points": 2.34,
     "ceiling_points": 4.1,
-    "haul_prob": 0.021
+    "haul_prob": 0.018
   },
   {
     "player_id": 99,
     "name": "Milambo",
+    "team": "BRE",
+    "opponent": "BHA (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1001,6 +1223,8 @@
   {
     "player_id": 100,
     "name": "Carvalho",
+    "team": "BRE",
+    "opponent": "BHA (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1010,15 +1234,19 @@
   {
     "player_id": 102,
     "name": "Yarmoliuk",
+    "team": "BRE",
+    "opponent": "BHA (A)",
     "gameweek": 10,
     "start_prob": 0.486,
-    "projected_points": 1.79,
+    "projected_points": 1.81,
     "ceiling_points": 3.0,
-    "haul_prob": 0.011
+    "haul_prob": 0.009
   },
   {
     "player_id": 103,
     "name": "Dasilva",
+    "team": "BRE",
+    "opponent": "BHA (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1028,24 +1256,30 @@
   {
     "player_id": 105,
     "name": "Anthony",
+    "team": "BRE",
+    "opponent": "BHA (A)",
     "gameweek": 10,
     "start_prob": 0.737,
-    "projected_points": 3.05,
+    "projected_points": 3.1,
     "ceiling_points": 8.0,
-    "haul_prob": 0.058
+    "haul_prob": 0.059
   },
   {
     "player_id": 106,
     "name": "Thiago",
+    "team": "BRE",
+    "opponent": "BHA (A)",
     "gameweek": 10,
-    "start_prob": 0.911,
-    "projected_points": 3.86,
+    "start_prob": 0.915,
+    "projected_points": 3.97,
     "ceiling_points": 9.0,
-    "haul_prob": 0.069
+    "haul_prob": 0.074
   },
   {
     "player_id": 107,
     "name": "Furo",
+    "team": "BRE",
+    "opponent": "BHA (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1055,33 +1289,41 @@
   {
     "player_id": 108,
     "name": "Wilson",
+    "team": "BRE",
+    "opponent": "BHA (A)",
     "gameweek": 10,
     "start_prob": 0.27,
-    "projected_points": 1.24,
+    "projected_points": 1.25,
     "ceiling_points": 2.0,
-    "haul_prob": 0.006
+    "haul_prob": 0.004
   },
   {
     "player_id": 565,
     "name": "M.Sangar\u00e9",
+    "team": "BRE",
+    "opponent": "BHA (A)",
     "gameweek": 10,
-    "start_prob": 0.679,
-    "projected_points": 2.34,
-    "ceiling_points": 5.1,
-    "haul_prob": 0.021
+    "start_prob": 0.682,
+    "projected_points": 2.38,
+    "ceiling_points": 4.0,
+    "haul_prob": 0.019
   },
   {
     "player_id": 620,
     "name": "Diouf",
+    "team": "BRE",
+    "opponent": "BHA (A)",
     "gameweek": 10,
     "start_prob": 0.422,
-    "projected_points": 1.48,
+    "projected_points": 1.49,
     "ceiling_points": 6.0,
-    "haul_prob": 0.016
+    "haul_prob": 0.013
   },
   {
     "player_id": 657,
     "name": "Nunes",
+    "team": "BRE",
+    "opponent": "BHA (A)",
     "gameweek": 10,
     "start_prob": 0.01,
     "projected_points": 0.06,
@@ -1091,6 +1333,8 @@
   {
     "player_id": 660,
     "name": "Fredrick",
+    "team": "BRE",
+    "opponent": "BHA (A)",
     "gameweek": 10,
     "start_prob": 0.014,
     "projected_points": 0.09,
@@ -1100,6 +1344,8 @@
   {
     "player_id": 661,
     "name": "Balcombe",
+    "team": "BRE",
+    "opponent": "BHA (A)",
     "gameweek": 10,
     "start_prob": 0.014,
     "projected_points": 0.07,
@@ -1109,15 +1355,19 @@
   {
     "player_id": 109,
     "name": "Verbruggen",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
     "start_prob": 0.957,
-    "projected_points": 3.4,
+    "projected_points": 3.51,
     "ceiling_points": 6.0,
-    "haul_prob": 0.008
+    "haul_prob": 0.007
   },
   {
     "player_id": 111,
     "name": "Steele",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
     "start_prob": 0.014,
     "projected_points": 0.07,
@@ -1127,51 +1377,63 @@
   {
     "player_id": 113,
     "name": "F.Kad\u0131o\u011flu",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
     "start_prob": 0.75,
-    "projected_points": 2.67,
+    "projected_points": 2.71,
     "ceiling_points": 6.0,
-    "haul_prob": 0.057
+    "haul_prob": 0.054
   },
   {
     "player_id": 114,
     "name": "Boscagli",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
     "start_prob": 0.863,
-    "projected_points": 3.21,
+    "projected_points": 3.27,
     "ceiling_points": 7.0,
-    "haul_prob": 0.052
+    "haul_prob": 0.066
   },
   {
     "player_id": 115,
     "name": "De Cuyper",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
-    "start_prob": 0.897,
-    "projected_points": 3.97,
+    "start_prob": 0.9,
+    "projected_points": 4.12,
     "ceiling_points": 10.0,
-    "haul_prob": 0.106
+    "haul_prob": 0.108
   },
   {
     "player_id": 116,
     "name": "Dunk",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
     "start_prob": 0.858,
-    "projected_points": 2.9,
+    "projected_points": 2.93,
     "ceiling_points": 6.0,
-    "haul_prob": 0.031
+    "haul_prob": 0.033
   },
   {
     "player_id": 117,
     "name": "Coppola",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
     "start_prob": 0.049,
     "projected_points": 0.23,
     "ceiling_points": 1.0,
-    "haul_prob": 0.0
+    "haul_prob": 0.002
   },
   {
     "player_id": 118,
     "name": "Igor",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1181,24 +1443,30 @@
   {
     "player_id": 119,
     "name": "Costinha",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
-    "start_prob": 0.573,
-    "projected_points": 2.27,
+    "start_prob": 0.578,
+    "projected_points": 2.31,
     "ceiling_points": 6.0,
-    "haul_prob": 0.033
+    "haul_prob": 0.038
   },
   {
     "player_id": 120,
     "name": "Svoboda",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
     "start_prob": 0.211,
-    "projected_points": 1.0,
+    "projected_points": 1.01,
     "ceiling_points": 2.0,
-    "haul_prob": 0.014
+    "haul_prob": 0.01
   },
   {
     "player_id": 121,
     "name": "Mitoma",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1208,60 +1476,74 @@
   {
     "player_id": 122,
     "name": "Minteh",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
     "start_prob": 0.025,
-    "projected_points": 0.22,
+    "projected_points": 0.23,
     "ceiling_points": 1.0,
     "haul_prob": 0.002
   },
   {
     "player_id": 123,
     "name": "Hinshelwood",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
-    "start_prob": 0.587,
-    "projected_points": 3.62,
+    "start_prob": 0.566,
+    "projected_points": 3.83,
     "ceiling_points": 10.0,
-    "haul_prob": 0.108
+    "haul_prob": 0.128
   },
   {
     "player_id": 124,
     "name": "Gro\u00df",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
-    "start_prob": 0.877,
-    "projected_points": 4.37,
+    "start_prob": 0.887,
+    "projected_points": 4.56,
     "ceiling_points": 10.0,
-    "haul_prob": 0.122
+    "haul_prob": 0.126
   },
   {
     "player_id": 125,
     "name": "Georginio",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
-    "start_prob": 0.363,
-    "projected_points": 2.12,
+    "start_prob": 0.371,
+    "projected_points": 2.33,
     "ceiling_points": 7.0,
-    "haul_prob": 0.023
+    "haul_prob": 0.034
   },
   {
     "player_id": 126,
     "name": "O'Riley",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
     "start_prob": 0.082,
-    "projected_points": 0.96,
+    "projected_points": 0.99,
     "ceiling_points": 3.0,
-    "haul_prob": 0.009
+    "haul_prob": 0.014
   },
   {
     "player_id": 127,
     "name": "Gomez",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
-    "start_prob": 0.886,
-    "projected_points": 3.61,
+    "start_prob": 0.884,
+    "projected_points": 3.73,
     "ceiling_points": 9.0,
     "haul_prob": 0.082
   },
   {
     "player_id": 128,
     "name": "Buonanotte",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1271,24 +1553,30 @@
   {
     "player_id": 129,
     "name": "Ayari",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
-    "start_prob": 0.868,
-    "projected_points": 3.57,
+    "start_prob": 0.876,
+    "projected_points": 3.81,
     "ceiling_points": 9.0,
-    "haul_prob": 0.086
+    "haul_prob": 0.09
   },
   {
     "player_id": 130,
     "name": "Wieffer",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
     "start_prob": 0.336,
-    "projected_points": 1.64,
+    "projected_points": 1.67,
     "ceiling_points": 6.0,
-    "haul_prob": 0.026
+    "haul_prob": 0.03
   },
   {
     "player_id": 132,
     "name": "Howell",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1298,6 +1586,8 @@
   {
     "player_id": 133,
     "name": "Watson",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1307,6 +1597,8 @@
   {
     "player_id": 134,
     "name": "Oriola",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
     "start_prob": 0.011,
     "projected_points": 0.06,
@@ -1316,6 +1608,8 @@
   {
     "player_id": 135,
     "name": "Yohanna",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1325,6 +1619,8 @@
   {
     "player_id": 137,
     "name": "Tzimas",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1334,15 +1630,19 @@
   {
     "player_id": 138,
     "name": "Kostoulas",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
     "start_prob": 0.862,
-    "projected_points": 3.77,
+    "projected_points": 3.72,
     "ceiling_points": 9.0,
-    "haul_prob": 0.061
+    "haul_prob": 0.054
   },
   {
     "player_id": 139,
     "name": "Ferguson",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1352,6 +1652,8 @@
   {
     "player_id": 328,
     "name": "Struijk",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1361,51 +1663,63 @@
   {
     "player_id": 504,
     "name": "Vuskovic",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
     "start_prob": 0.916,
-    "projected_points": 3.3,
-    "ceiling_points": 6.0,
-    "haul_prob": 0.05
+    "projected_points": 3.36,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.066
   },
   {
     "player_id": 594,
     "name": "David",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
     "start_prob": 0.169,
-    "projected_points": 1.16,
+    "projected_points": 1.19,
     "ceiling_points": 2.0,
-    "haul_prob": 0.006
+    "haul_prob": 0.008
   },
   {
     "player_id": 600,
     "name": "Osman",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
     "start_prob": 0.14,
-    "projected_points": 1.12,
+    "projected_points": 1.15,
     "ceiling_points": 2.0,
-    "haul_prob": 0.007
+    "haul_prob": 0.008
   },
   {
     "player_id": 605,
     "name": "Yalcouy\u00e9",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
     "start_prob": 0.373,
-    "projected_points": 1.96,
-    "ceiling_points": 6.0,
-    "haul_prob": 0.029
+    "projected_points": 2.03,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.027
   },
   {
     "player_id": 614,
     "name": "Hadjam",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
-    "start_prob": 0.63,
-    "projected_points": 2.22,
+    "start_prob": 0.633,
+    "projected_points": 2.26,
     "ceiling_points": 6.0,
-    "haul_prob": 0.026
+    "haul_prob": 0.028
   },
   {
     "player_id": 624,
     "name": "Cozier-Duberry",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1415,15 +1729,19 @@
   {
     "player_id": 639,
     "name": "Andr\u00e9s",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
     "start_prob": 0.54,
-    "projected_points": 2.34,
-    "ceiling_points": 6.1,
-    "haul_prob": 0.036
+    "projected_points": 2.41,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.044
   },
   {
     "player_id": 652,
     "name": "Azeez",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1433,6 +1751,8 @@
   {
     "player_id": 658,
     "name": "Ibrahim",
+    "team": "BHA",
+    "opponent": "BRE (H)",
     "gameweek": 10,
     "start_prob": 0.01,
     "projected_points": 0.06,
@@ -1442,6 +1762,8 @@
   {
     "player_id": 28,
     "name": "Martinez",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1451,33 +1773,41 @@
   {
     "player_id": 40,
     "name": "Rogers",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
-    "start_prob": 0.905,
-    "projected_points": 3.94,
-    "ceiling_points": 9.0,
-    "haul_prob": 0.086
+    "start_prob": 0.901,
+    "projected_points": 4.23,
+    "ceiling_points": 10.0,
+    "haul_prob": 0.112
   },
   {
     "player_id": 101,
     "name": "Henderson",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
     "start_prob": 0.75,
-    "projected_points": 2.29,
-    "ceiling_points": 6.0,
-    "haul_prob": 0.026
+    "projected_points": 2.38,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.028
   },
   {
     "player_id": 136,
     "name": "Welbeck",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
     "start_prob": 0.474,
-    "projected_points": 1.9,
-    "ceiling_points": 5.0,
-    "haul_prob": 0.011
+    "projected_points": 2.04,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.021
   },
   {
     "player_id": 140,
     "name": "S\u00e1nchez",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1487,6 +1817,8 @@
   {
     "player_id": 141,
     "name": "J\u00f6rgensen",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1496,6 +1828,8 @@
   {
     "player_id": 142,
     "name": "James",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1505,6 +1839,8 @@
   {
     "player_id": 143,
     "name": "Chalobah",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1514,24 +1850,30 @@
   {
     "player_id": 144,
     "name": "Gusto",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
-    "start_prob": 0.396,
-    "projected_points": 1.43,
+    "start_prob": 0.397,
+    "projected_points": 1.58,
     "ceiling_points": 6.0,
-    "haul_prob": 0.01
+    "haul_prob": 0.015
   },
   {
     "player_id": 145,
     "name": "Fofana",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
-    "start_prob": 0.66,
-    "projected_points": 1.91,
+    "start_prob": 0.674,
+    "projected_points": 2.22,
     "ceiling_points": 6.0,
-    "haul_prob": 0.011
+    "haul_prob": 0.019
   },
   {
     "player_id": 146,
     "name": "B.Badiashile",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1541,6 +1883,8 @@
   {
     "player_id": 148,
     "name": "Hato",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1550,15 +1894,19 @@
   {
     "player_id": 149,
     "name": "Colwill",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
-    "start_prob": 0.846,
-    "projected_points": 2.35,
+    "start_prob": 0.84,
+    "projected_points": 2.53,
     "ceiling_points": 6.0,
-    "haul_prob": 0.018
+    "haul_prob": 0.022
   },
   {
     "player_id": 150,
     "name": "M.Sarr",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1568,51 +1916,63 @@
   {
     "player_id": 151,
     "name": "Acheampong",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
-    "start_prob": 0.832,
-    "projected_points": 2.27,
+    "start_prob": 0.826,
+    "projected_points": 2.5,
     "ceiling_points": 6.0,
-    "haul_prob": 0.011
+    "haul_prob": 0.018
   },
   {
     "player_id": 152,
     "name": "Palestra",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
-    "start_prob": 0.523,
-    "projected_points": 1.61,
+    "start_prob": 0.522,
+    "projected_points": 1.77,
     "ceiling_points": 6.0,
-    "haul_prob": 0.01
+    "haul_prob": 0.018
   },
   {
     "player_id": 154,
     "name": "Palmer",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
-    "start_prob": 0.899,
-    "projected_points": 4.17,
+    "start_prob": 0.903,
+    "projected_points": 4.47,
     "ceiling_points": 10.0,
-    "haul_prob": 0.109
+    "haul_prob": 0.141
   },
   {
     "player_id": 156,
     "name": "Neto",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
-    "start_prob": 0.881,
-    "projected_points": 3.78,
+    "start_prob": 0.853,
+    "projected_points": 3.94,
     "ceiling_points": 9.0,
-    "haul_prob": 0.084
+    "haul_prob": 0.1
   },
   {
     "player_id": 157,
     "name": "Est\u00eav\u00e3o",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
-    "start_prob": 0.335,
-    "projected_points": 1.74,
-    "ceiling_points": 3.0,
-    "haul_prob": 0.018
+    "start_prob": 0.406,
+    "projected_points": 2.28,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.045
   },
   {
     "player_id": 158,
     "name": "Gittens",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1622,24 +1982,30 @@
   {
     "player_id": 159,
     "name": "Caicedo",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
-    "start_prob": 0.615,
-    "projected_points": 1.89,
+    "start_prob": 0.602,
+    "projected_points": 1.98,
     "ceiling_points": 3.0,
-    "haul_prob": 0.009
+    "haul_prob": 0.014
   },
   {
     "player_id": 161,
     "name": "Lavia",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
-    "start_prob": 0.638,
-    "projected_points": 2.2,
-    "ceiling_points": 3.0,
+    "start_prob": 0.672,
+    "projected_points": 2.4,
+    "ceiling_points": 5.0,
     "haul_prob": 0.024
   },
   {
     "player_id": 163,
     "name": "D.Essugo",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1649,15 +2015,19 @@
   {
     "player_id": 164,
     "name": "Quenda",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
-    "start_prob": 0.417,
+    "start_prob": 0.394,
     "projected_points": 1.57,
     "ceiling_points": 3.0,
-    "haul_prob": 0.006
+    "haul_prob": 0.007
   },
   {
     "player_id": 165,
     "name": "Jo\u00e3o Pedro",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1667,6 +2037,8 @@
   {
     "player_id": 168,
     "name": "Marc Guiu",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1676,6 +2048,8 @@
   {
     "player_id": 169,
     "name": "Mheuka",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
     "start_prob": 0.01,
     "projected_points": 0.05,
@@ -1685,6 +2059,8 @@
   {
     "player_id": 170,
     "name": "Emegha",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
     "start_prob": 0.018,
     "projected_points": 0.13,
@@ -1694,6 +2070,8 @@
   {
     "player_id": 200,
     "name": "Lacroix",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1703,15 +2081,19 @@
   {
     "player_id": 560,
     "name": "Penders",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
-    "start_prob": 0.526,
-    "projected_points": 1.89,
+    "start_prob": 0.542,
+    "projected_points": 2.09,
     "ceiling_points": 6.0,
-    "haul_prob": 0.005
+    "haul_prob": 0.003
   },
   {
     "player_id": 561,
     "name": "Anselmino",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1721,78 +2103,96 @@
   {
     "player_id": 568,
     "name": "Barco",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
-    "start_prob": 0.162,
-    "projected_points": 0.99,
+    "start_prob": 0.16,
+    "projected_points": 1.04,
     "ceiling_points": 2.0,
     "haul_prob": 0.005
   },
   {
     "player_id": 583,
     "name": "Chavarria",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
-    "start_prob": 0.439,
-    "projected_points": 1.64,
+    "start_prob": 0.45,
+    "projected_points": 1.8,
     "ceiling_points": 6.0,
-    "haul_prob": 0.012
+    "haul_prob": 0.022
   },
   {
     "player_id": 662,
     "name": "Nicoll-Jazuli",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
     "start_prob": 0.063,
-    "projected_points": 0.51,
+    "projected_points": 0.52,
     "ceiling_points": 1.0,
     "haul_prob": 0.0
   },
   {
     "player_id": 669,
     "name": "Sharman-Lowe",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
     "start_prob": 0.014,
-    "projected_points": 0.07,
+    "projected_points": 0.08,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
   },
   {
     "player_id": 670,
     "name": "Subuloye",
+    "team": "CHE",
+    "opponent": "SUN (A)",
     "gameweek": 10,
     "start_prob": 0.014,
-    "projected_points": 0.09,
+    "projected_points": 0.1,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
   },
   {
     "player_id": 91,
     "name": "Pinnock",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
-    "start_prob": 0.632,
-    "projected_points": 1.85,
+    "start_prob": 0.651,
+    "projected_points": 1.76,
     "ceiling_points": 6.0,
-    "haul_prob": 0.012
+    "haul_prob": 0.014
   },
   {
     "player_id": 104,
     "name": "Onyeka",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
     "start_prob": 0.488,
-    "projected_points": 1.57,
+    "projected_points": 1.55,
     "ceiling_points": 3.0,
-    "haul_prob": 0.009
+    "haul_prob": 0.01
   },
   {
     "player_id": 110,
     "name": "Rushworth",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
-    "start_prob": 0.917,
-    "projected_points": 3.42,
+    "start_prob": 0.918,
+    "projected_points": 3.26,
     "ceiling_points": 6.0,
-    "haul_prob": 0.005
+    "haul_prob": 0.007
   },
   {
     "player_id": 171,
     "name": "Dovin",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1802,24 +2202,30 @@
   {
     "player_id": 172,
     "name": "Wilson",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
-    "start_prob": 0.042,
-    "projected_points": 0.16,
+    "start_prob": 0.038,
+    "projected_points": 0.15,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
   },
   {
     "player_id": 173,
     "name": "Thomas",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
     "start_prob": 0.5,
-    "projected_points": 1.34,
+    "projected_points": 1.25,
     "ceiling_points": 6.0,
-    "haul_prob": 0.012
+    "haul_prob": 0.01
   },
   {
     "player_id": 174,
     "name": "Kitching",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1829,51 +2235,63 @@
   {
     "player_id": 175,
     "name": "van Ewijk",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
-    "start_prob": 0.676,
-    "projected_points": 1.88,
+    "start_prob": 0.698,
+    "projected_points": 1.82,
     "ceiling_points": 6.0,
     "haul_prob": 0.01
   },
   {
     "player_id": 176,
     "name": "Dasilva",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
     "start_prob": 0.816,
-    "projected_points": 2.37,
+    "projected_points": 2.21,
     "ceiling_points": 6.0,
-    "haul_prob": 0.021
+    "haul_prob": 0.023
   },
   {
     "player_id": 177,
     "name": "Kesler-Hayden",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
     "start_prob": 0.152,
-    "projected_points": 0.69,
+    "projected_points": 0.66,
     "ceiling_points": 1.0,
-    "haul_prob": 0.0
+    "haul_prob": 0.001
   },
   {
     "player_id": 178,
     "name": "Bidwell",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
-    "start_prob": 0.014,
+    "start_prob": 0.013,
     "projected_points": 0.09,
     "ceiling_points": 0.0,
-    "haul_prob": 0.0
+    "haul_prob": 0.001
   },
   {
     "player_id": 179,
     "name": "Latibeaudiere",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
     "start_prob": 0.088,
-    "projected_points": 0.44,
+    "projected_points": 0.43,
     "ceiling_points": 1.0,
     "haul_prob": 0.001
   },
   {
     "player_id": 180,
     "name": "Woolfenden",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1883,6 +2301,8 @@
   {
     "player_id": 181,
     "name": "Brau",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1892,6 +2312,8 @@
   {
     "player_id": 182,
     "name": "Amenda",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1901,42 +2323,52 @@
   {
     "player_id": 183,
     "name": "Rudoni",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
-    "start_prob": 0.878,
-    "projected_points": 3.04,
+    "start_prob": 0.877,
+    "projected_points": 3.05,
     "ceiling_points": 8.0,
-    "haul_prob": 0.045
+    "haul_prob": 0.05
   },
   {
     "player_id": 184,
     "name": "Grimes",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
     "start_prob": 0.682,
-    "projected_points": 1.96,
+    "projected_points": 1.94,
     "ceiling_points": 3.0,
-    "haul_prob": 0.006
+    "haul_prob": 0.008
   },
   {
     "player_id": 185,
     "name": "Sakamoto",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
-    "start_prob": 0.629,
-    "projected_points": 1.99,
+    "start_prob": 0.65,
+    "projected_points": 2.05,
     "ceiling_points": 3.0,
-    "haul_prob": 0.01
+    "haul_prob": 0.016
   },
   {
     "player_id": 186,
     "name": "Mason-Clark",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
     "start_prob": 0.388,
-    "projected_points": 1.69,
+    "projected_points": 1.67,
     "ceiling_points": 3.0,
     "haul_prob": 0.015
   },
   {
     "player_id": 187,
     "name": "Eccles",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1946,33 +2378,41 @@
   {
     "player_id": 188,
     "name": "Torp",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
-    "start_prob": 0.366,
-    "projected_points": 1.5,
+    "start_prob": 0.411,
+    "projected_points": 1.7,
     "ceiling_points": 3.0,
-    "haul_prob": 0.004
+    "haul_prob": 0.008
   },
   {
     "player_id": 189,
     "name": "Shepherd",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
     "start_prob": 0.011,
-    "projected_points": 0.05,
+    "projected_points": 0.06,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
   },
   {
     "player_id": 190,
     "name": "Tchaouna",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
-    "start_prob": 0.387,
-    "projected_points": 1.71,
+    "start_prob": 0.383,
+    "projected_points": 1.68,
     "ceiling_points": 3.0,
-    "haul_prob": 0.012
+    "haul_prob": 0.01
   },
   {
     "player_id": 191,
     "name": "Borges Rodrigues",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1982,6 +2422,8 @@
   {
     "player_id": 192,
     "name": "Andrews",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -1991,6 +2433,8 @@
   {
     "player_id": 193,
     "name": "Wright",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -2000,24 +2444,30 @@
   {
     "player_id": 194,
     "name": "Thomas-Asante",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
-    "start_prob": 0.711,
+    "start_prob": 0.705,
     "projected_points": 2.55,
     "ceiling_points": 7.0,
-    "haul_prob": 0.015
+    "haul_prob": 0.02
   },
   {
     "player_id": 195,
     "name": "Simms",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
-    "start_prob": 0.396,
-    "projected_points": 1.68,
-    "ceiling_points": 2.0,
-    "haul_prob": 0.006
+    "start_prob": 0.392,
+    "projected_points": 1.67,
+    "ceiling_points": 4.0,
+    "haul_prob": 0.01
   },
   {
     "player_id": 196,
     "name": "Markelo",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -2027,6 +2477,8 @@
   {
     "player_id": 197,
     "name": "Bassette",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -2036,44 +2488,54 @@
   {
     "player_id": 492,
     "name": "Awoniyi",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
-    "start_prob": 0.556,
+    "start_prob": 0.54,
     "projected_points": 2.1,
     "ceiling_points": 6.0,
-    "haul_prob": 0.012
+    "haul_prob": 0.011
   },
   {
     "player_id": 575,
     "name": "Yirenkyi",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
-    "start_prob": 0.564,
-    "projected_points": 1.74,
+    "start_prob": 0.566,
+    "projected_points": 1.72,
     "ceiling_points": 3.0,
-    "haul_prob": 0.007
+    "haul_prob": 0.008
   },
   {
     "player_id": 584,
     "name": "Hamer",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
-    "start_prob": 0.298,
-    "projected_points": 1.28,
+    "start_prob": 0.294,
+    "projected_points": 1.26,
     "ceiling_points": 3.0,
     "haul_prob": 0.005
   },
   {
     "player_id": 599,
     "name": "Cherif",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
-    "start_prob": 0.822,
-    "projected_points": 2.74,
+    "start_prob": 0.816,
+    "projected_points": 2.75,
     "ceiling_points": 7.0,
     "haul_prob": 0.018
   },
   {
     "player_id": 623,
     "name": "Bentley",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
-    "start_prob": 0.014,
+    "start_prob": 0.012,
     "projected_points": 0.07,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
@@ -2081,87 +2543,107 @@
   {
     "player_id": 655,
     "name": "Gboho",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
-    "start_prob": 0.242,
-    "projected_points": 1.09,
+    "start_prob": 0.232,
+    "projected_points": 1.22,
     "ceiling_points": 2.0,
-    "haul_prob": 0.005
+    "haul_prob": 0.007
   },
   {
     "player_id": 656,
     "name": "Mfuni",
+    "team": "COV",
+    "opponent": "EVE (A)",
     "gameweek": 10,
-    "start_prob": 0.713,
-    "projected_points": 2.12,
+    "start_prob": 0.704,
+    "projected_points": 1.98,
     "ceiling_points": 6.0,
-    "haul_prob": 0.018
+    "haul_prob": 0.02
   },
   {
     "player_id": 42,
     "name": "Guessand",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
-    "start_prob": 0.131,
-    "projected_points": 1.26,
-    "ceiling_points": 3.0,
-    "haul_prob": 0.008
+    "start_prob": 0.13,
+    "projected_points": 1.21,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.004
   },
   {
     "player_id": 153,
     "name": "Disasi",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
-    "start_prob": 0.387,
-    "projected_points": 1.68,
+    "start_prob": 0.419,
+    "projected_points": 1.62,
     "ceiling_points": 6.0,
-    "haul_prob": 0.018
+    "haul_prob": 0.015
   },
   {
     "player_id": 198,
     "name": "Henderson",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
-    "start_prob": 0.549,
-    "projected_points": 2.07,
+    "start_prob": 0.56,
+    "projected_points": 1.98,
     "ceiling_points": 6.0,
     "haul_prob": 0.005
   },
   {
     "player_id": 199,
     "name": "Benitez",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
-    "start_prob": 0.504,
-    "projected_points": 1.96,
+    "start_prob": 0.497,
+    "projected_points": 1.75,
     "ceiling_points": 6.0,
     "haul_prob": 0.007
   },
   {
     "player_id": 202,
     "name": "Richards",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
-    "start_prob": 0.907,
-    "projected_points": 3.23,
+    "start_prob": 0.906,
+    "projected_points": 2.86,
     "ceiling_points": 6.0,
-    "haul_prob": 0.049
+    "haul_prob": 0.044
   },
   {
     "player_id": 203,
     "name": "Canvot",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
-    "start_prob": 0.69,
-    "projected_points": 2.38,
+    "start_prob": 0.691,
+    "projected_points": 2.13,
     "ceiling_points": 6.0,
-    "haul_prob": 0.026
+    "haul_prob": 0.018
   },
   {
     "player_id": 204,
     "name": "Mitchell",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
     "start_prob": 0.821,
-    "projected_points": 2.99,
+    "projected_points": 2.68,
     "ceiling_points": 6.0,
-    "haul_prob": 0.045
+    "haul_prob": 0.034
   },
   {
     "player_id": 205,
     "name": "Sosa",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -2171,6 +2653,8 @@
   {
     "player_id": 206,
     "name": "Chadi Riad",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -2180,15 +2664,19 @@
   {
     "player_id": 207,
     "name": "Mingueza",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
-    "start_prob": 0.237,
-    "projected_points": 1.1,
+    "start_prob": 0.222,
+    "projected_points": 0.97,
     "ceiling_points": 2.0,
-    "haul_prob": 0.006
+    "haul_prob": 0.005
   },
   {
     "player_id": 208,
     "name": "Sarr",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -2198,51 +2686,63 @@
   {
     "player_id": 210,
     "name": "Wharton",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
-    "start_prob": 0.893,
-    "projected_points": 3.45,
-    "ceiling_points": 9.0,
-    "haul_prob": 0.067
+    "start_prob": 0.894,
+    "projected_points": 3.37,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.06
   },
   {
     "player_id": 211,
     "name": "Yeremy",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
     "start_prob": 0.778,
-    "projected_points": 3.49,
-    "ceiling_points": 9.0,
-    "haul_prob": 0.08
+    "projected_points": 3.32,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.072
   },
   {
     "player_id": 212,
     "name": "Hughes",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
     "start_prob": 0.229,
-    "projected_points": 1.07,
+    "projected_points": 1.04,
     "ceiling_points": 2.0,
-    "haul_prob": 0.003
+    "haul_prob": 0.001
   },
   {
     "player_id": 213,
     "name": "Lerma",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
     "start_prob": 0.618,
-    "projected_points": 2.68,
-    "ceiling_points": 8.0,
-    "haul_prob": 0.052
+    "projected_points": 2.58,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.042
   },
   {
     "player_id": 214,
     "name": "Kamada",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
-    "start_prob": 0.843,
-    "projected_points": 3.01,
+    "start_prob": 0.845,
+    "projected_points": 2.9,
     "ceiling_points": 8.0,
-    "haul_prob": 0.047
+    "haul_prob": 0.038
   },
   {
     "player_id": 215,
     "name": "Devenny",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -2252,6 +2752,8 @@
   {
     "player_id": 216,
     "name": "Esse",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -2261,6 +2763,8 @@
   {
     "player_id": 217,
     "name": "M.Fran\u00e7a",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -2270,15 +2774,19 @@
   {
     "player_id": 218,
     "name": "Doucour\u00e9",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
     "start_prob": 0.02,
     "projected_points": 0.14,
     "ceiling_points": 0.0,
-    "haul_prob": 0.0
+    "haul_prob": 0.001
   },
   {
     "player_id": 219,
     "name": "J.Rak-Sakyi",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -2288,6 +2796,8 @@
   {
     "player_id": 220,
     "name": "Cardines",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -2297,6 +2807,8 @@
   {
     "player_id": 221,
     "name": "Drakes-Thomas",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
     "start_prob": 0.011,
     "projected_points": 0.06,
@@ -2306,15 +2818,19 @@
   {
     "player_id": 222,
     "name": "Strand Larsen",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
     "start_prob": 0.507,
-    "projected_points": 2.57,
-    "ceiling_points": 8.0,
-    "haul_prob": 0.041
+    "projected_points": 2.44,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.032
   },
   {
     "player_id": 223,
     "name": "Mateta",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -2324,15 +2840,19 @@
   {
     "player_id": 224,
     "name": "Nketiah",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
-    "start_prob": 0.4,
-    "projected_points": 2.07,
-    "ceiling_points": 6.1,
-    "haul_prob": 0.022
+    "start_prob": 0.397,
+    "projected_points": 1.97,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.014
   },
   {
     "player_id": 225,
     "name": "Uche",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -2342,17 +2862,21 @@
   {
     "player_id": 241,
     "name": "McNeil",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
-    "start_prob": 0.466,
-    "projected_points": 1.86,
+    "start_prob": 0.452,
+    "projected_points": 1.84,
     "ceiling_points": 4.0,
-    "haul_prob": 0.014
+    "haul_prob": 0.018
   },
   {
     "player_id": 555,
     "name": "Matthews",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
-    "start_prob": 0.014,
+    "start_prob": 0.013,
     "projected_points": 0.07,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
@@ -2360,6 +2884,8 @@
   {
     "player_id": 577,
     "name": "Tomiyasu",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -2369,150 +2895,184 @@
   {
     "player_id": 588,
     "name": "Khalaili",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
-    "start_prob": 0.725,
-    "projected_points": 2.71,
+    "start_prob": 0.729,
+    "projected_points": 2.42,
     "ceiling_points": 6.0,
-    "haul_prob": 0.045
+    "haul_prob": 0.044
   },
   {
     "player_id": 595,
     "name": "Gozo",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
     "start_prob": 0.096,
-    "projected_points": 0.87,
+    "projected_points": 0.85,
     "ceiling_points": 2.0,
     "haul_prob": 0.002
   },
   {
     "player_id": 633,
     "name": "Ahanor",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
-    "start_prob": 0.375,
-    "projected_points": 1.54,
+    "start_prob": 0.372,
+    "projected_points": 1.38,
     "ceiling_points": 6.0,
-    "haul_prob": 0.012
+    "haul_prob": 0.01
   },
   {
     "player_id": 643,
     "name": "Chilwell",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
-    "start_prob": 0.152,
-    "projected_points": 0.85,
+    "start_prob": 0.145,
+    "projected_points": 0.77,
     "ceiling_points": 2.0,
-    "haul_prob": 0.005
+    "haul_prob": 0.007
   },
   {
     "player_id": 644,
     "name": "Timber",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
     "start_prob": 0.529,
-    "projected_points": 2.02,
-    "ceiling_points": 6.0,
-    "haul_prob": 0.03
+    "projected_points": 1.94,
+    "ceiling_points": 4.0,
+    "haul_prob": 0.02
   },
   {
     "player_id": 647,
     "name": "Osorio",
+    "team": "CRY",
+    "opponent": "LIV (H)",
     "gameweek": 10,
     "start_prob": 0.302,
-    "projected_points": 1.96,
-    "ceiling_points": 7.0,
-    "haul_prob": 0.046
+    "projected_points": 1.85,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.034
   },
   {
     "player_id": 21,
     "name": "N\u00f8rgaard",
+    "team": "EVE",
+    "opponent": "COV (H)",
     "gameweek": 10,
-    "start_prob": 0.067,
-    "projected_points": 0.63,
+    "start_prob": 0.07,
+    "projected_points": 0.68,
     "ceiling_points": 1.0,
-    "haul_prob": 0.002
+    "haul_prob": 0.003
   },
   {
     "player_id": 209,
     "name": "Johnson",
+    "team": "EVE",
+    "opponent": "COV (H)",
     "gameweek": 10,
-    "start_prob": 0.428,
-    "projected_points": 2.31,
-    "ceiling_points": 7.0,
-    "haul_prob": 0.044
+    "start_prob": 0.431,
+    "projected_points": 2.49,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.052
   },
   {
     "player_id": 226,
     "name": "Pickford",
+    "team": "EVE",
+    "opponent": "COV (H)",
     "gameweek": 10,
     "start_prob": 0.952,
-    "projected_points": 3.31,
+    "projected_points": 3.51,
     "ceiling_points": 6.0,
-    "haul_prob": 0.008
+    "haul_prob": 0.006
   },
   {
     "player_id": 227,
     "name": "Travers",
+    "team": "EVE",
+    "opponent": "COV (H)",
     "gameweek": 10,
     "start_prob": 0.05,
-    "projected_points": 0.2,
+    "projected_points": 0.21,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
   },
   {
     "player_id": 228,
     "name": "King",
+    "team": "EVE",
+    "opponent": "COV (H)",
     "gameweek": 10,
     "start_prob": 0.045,
-    "projected_points": 0.18,
+    "projected_points": 0.19,
     "ceiling_points": 0.0,
-    "haul_prob": 0.0
+    "haul_prob": 0.001
   },
   {
     "player_id": 229,
     "name": "Tarkowski",
+    "team": "EVE",
+    "opponent": "COV (H)",
     "gameweek": 10,
-    "start_prob": 0.918,
-    "projected_points": 3.4,
-    "ceiling_points": 6.0,
-    "haul_prob": 0.057
+    "start_prob": 0.913,
+    "projected_points": 3.73,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.078
   },
   {
     "player_id": 230,
     "name": "Branthwaite",
+    "team": "EVE",
+    "opponent": "COV (H)",
     "gameweek": 10,
-    "start_prob": 0.784,
-    "projected_points": 2.92,
-    "ceiling_points": 6.0,
-    "haul_prob": 0.055
+    "start_prob": 0.806,
+    "projected_points": 3.28,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.066
   },
   {
     "player_id": 231,
     "name": "Keane",
+    "team": "EVE",
+    "opponent": "COV (H)",
     "gameweek": 10,
-    "start_prob": 0.382,
-    "projected_points": 1.66,
+    "start_prob": 0.421,
+    "projected_points": 1.9,
     "ceiling_points": 6.0,
-    "haul_prob": 0.022
+    "haul_prob": 0.029
   },
   {
     "player_id": 232,
     "name": "O'Brien",
+    "team": "EVE",
+    "opponent": "COV (H)",
     "gameweek": 10,
     "start_prob": 0.65,
-    "projected_points": 2.35,
-    "ceiling_points": 6.0,
-    "haul_prob": 0.033
+    "projected_points": 2.82,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.063
   },
   {
     "player_id": 233,
     "name": "Mykolenko",
+    "team": "EVE",
+    "opponent": "COV (H)",
     "gameweek": 10,
-    "start_prob": 0.712,
-    "projected_points": 2.48,
+    "start_prob": 0.731,
+    "projected_points": 2.76,
     "ceiling_points": 6.0,
-    "haul_prob": 0.027
+    "haul_prob": 0.039
   },
   {
     "player_id": 234,
     "name": "Patterson",
+    "team": "EVE",
+    "opponent": "COV (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -2522,6 +3082,8 @@
   {
     "player_id": 235,
     "name": "Aznou",
+    "team": "EVE",
+    "opponent": "COV (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -2531,87 +3093,107 @@
   {
     "player_id": 236,
     "name": "Dewsbury-Hall",
+    "team": "EVE",
+    "opponent": "COV (H)",
     "gameweek": 10,
-    "start_prob": 0.915,
-    "projected_points": 4.68,
-    "ceiling_points": 10.0,
-    "haul_prob": 0.147
+    "start_prob": 0.908,
+    "projected_points": 5.17,
+    "ceiling_points": 11.0,
+    "haul_prob": 0.162
   },
   {
     "player_id": 238,
     "name": "Grealish",
+    "team": "EVE",
+    "opponent": "COV (H)",
     "gameweek": 10,
-    "start_prob": 0.424,
-    "projected_points": 2.42,
-    "ceiling_points": 7.0,
-    "haul_prob": 0.042
+    "start_prob": 0.427,
+    "projected_points": 2.59,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.053
   },
   {
     "player_id": 239,
     "name": "Garner",
+    "team": "EVE",
+    "opponent": "COV (H)",
     "gameweek": 10,
-    "start_prob": 0.75,
-    "projected_points": 3.16,
-    "ceiling_points": 8.0,
-    "haul_prob": 0.06
+    "start_prob": 0.758,
+    "projected_points": 3.51,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.086
   },
   {
     "player_id": 242,
     "name": "George",
+    "team": "EVE",
+    "opponent": "COV (H)",
     "gameweek": 10,
-    "start_prob": 0.687,
-    "projected_points": 3.09,
-    "ceiling_points": 8.0,
-    "haul_prob": 0.059
+    "start_prob": 0.701,
+    "projected_points": 3.57,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.09
   },
   {
     "player_id": 243,
     "name": "Alcaraz",
+    "team": "EVE",
+    "opponent": "COV (H)",
     "gameweek": 10,
-    "start_prob": 0.262,
-    "projected_points": 1.47,
-    "ceiling_points": 4.0,
-    "haul_prob": 0.024
+    "start_prob": 0.272,
+    "projected_points": 1.61,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.033
   },
   {
     "player_id": 244,
     "name": "Armstrong",
+    "team": "EVE",
+    "opponent": "COV (H)",
     "gameweek": 10,
-    "start_prob": 0.831,
-    "projected_points": 2.93,
+    "start_prob": 0.832,
+    "projected_points": 3.15,
     "ceiling_points": 8.0,
-    "haul_prob": 0.04
+    "haul_prob": 0.06
   },
   {
     "player_id": 245,
     "name": "Dibling",
+    "team": "EVE",
+    "opponent": "COV (H)",
     "gameweek": 10,
-    "start_prob": 0.282,
-    "projected_points": 1.81,
-    "ceiling_points": 4.0,
-    "haul_prob": 0.024
+    "start_prob": 0.292,
+    "projected_points": 1.97,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.042
   },
   {
     "player_id": 246,
     "name": "R\u00f6hl",
+    "team": "EVE",
+    "opponent": "COV (H)",
     "gameweek": 10,
-    "start_prob": 0.526,
-    "projected_points": 1.93,
-    "ceiling_points": 3.0,
-    "haul_prob": 0.017
+    "start_prob": 0.515,
+    "projected_points": 1.99,
+    "ceiling_points": 5.0,
+    "haul_prob": 0.024
   },
   {
     "player_id": 247,
     "name": "Hackney",
+    "team": "EVE",
+    "opponent": "COV (H)",
     "gameweek": 10,
-    "start_prob": 0.33,
-    "projected_points": 1.75,
-    "ceiling_points": 4.1,
-    "haul_prob": 0.018
+    "start_prob": 0.34,
+    "projected_points": 1.89,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.027
   },
   {
     "player_id": 248,
     "name": "Beto",
+    "team": "EVE",
+    "opponent": "COV (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -2621,44 +3203,54 @@
   {
     "player_id": 249,
     "name": "Barry",
+    "team": "EVE",
+    "opponent": "COV (H)",
     "gameweek": 10,
-    "start_prob": 0.875,
-    "projected_points": 3.87,
-    "ceiling_points": 9.0,
-    "haul_prob": 0.071
+    "start_prob": 0.87,
+    "projected_points": 4.31,
+    "ceiling_points": 10.0,
+    "haul_prob": 0.101
   },
   {
     "player_id": 649,
     "name": "Maitland-Niles",
+    "team": "EVE",
+    "opponent": "COV (H)",
     "gameweek": 10,
     "start_prob": 0.411,
-    "projected_points": 1.87,
+    "projected_points": 2.0,
     "ceiling_points": 6.0,
-    "haul_prob": 0.023
+    "haul_prob": 0.031
   },
   {
     "player_id": 654,
     "name": "Graham",
+    "team": "EVE",
+    "opponent": "COV (H)",
     "gameweek": 10,
     "start_prob": 0.011,
     "projected_points": 0.06,
     "ceiling_points": 0.0,
-    "haul_prob": 0.0
+    "haul_prob": 0.001
   },
   {
     "player_id": 250,
     "name": "Leno",
+    "team": "FUL",
+    "opponent": "NEW (H)",
     "gameweek": 10,
     "start_prob": 0.952,
-    "projected_points": 3.4,
+    "projected_points": 3.22,
     "ceiling_points": 6.0,
-    "haul_prob": 0.013
+    "haul_prob": 0.007
   },
   {
     "player_id": 251,
     "name": "Lecomte",
+    "team": "FUL",
+    "opponent": "NEW (H)",
     "gameweek": 10,
-    "start_prob": 0.014,
+    "start_prob": 0.013,
     "projected_points": 0.07,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
@@ -2666,6 +3258,8 @@
   {
     "player_id": 252,
     "name": "McNally",
+    "team": "FUL",
+    "opponent": "NEW (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -2675,186 +3269,228 @@
   {
     "player_id": 253,
     "name": "Andersen",
+    "team": "FUL",
+    "opponent": "NEW (H)",
     "gameweek": 10,
     "start_prob": 0.385,
-    "projected_points": 1.75,
+    "projected_points": 1.68,
     "ceiling_points": 6.0,
-    "haul_prob": 0.02
+    "haul_prob": 0.022
   },
   {
     "player_id": 254,
     "name": "Robinson",
+    "team": "FUL",
+    "opponent": "NEW (H)",
     "gameweek": 10,
-    "start_prob": 0.851,
-    "projected_points": 3.1,
+    "start_prob": 0.857,
+    "projected_points": 3.04,
     "ceiling_points": 6.0,
     "haul_prob": 0.05
   },
   {
     "player_id": 255,
     "name": "J.Cuenca",
+    "team": "FUL",
+    "opponent": "NEW (H)",
     "gameweek": 10,
-    "start_prob": 0.354,
-    "projected_points": 1.45,
+    "start_prob": 0.351,
+    "projected_points": 1.38,
     "ceiling_points": 6.0,
     "haul_prob": 0.013
   },
   {
     "player_id": 256,
     "name": "Tete",
+    "team": "FUL",
+    "opponent": "NEW (H)",
     "gameweek": 10,
-    "start_prob": 0.449,
+    "start_prob": 0.472,
     "projected_points": 1.96,
     "ceiling_points": 6.0,
-    "haul_prob": 0.026
+    "haul_prob": 0.034
   },
   {
     "player_id": 257,
     "name": "Bassey",
+    "team": "FUL",
+    "opponent": "NEW (H)",
     "gameweek": 10,
-    "start_prob": 0.918,
-    "projected_points": 3.14,
+    "start_prob": 0.919,
+    "projected_points": 2.99,
     "ceiling_points": 6.0,
-    "haul_prob": 0.05
+    "haul_prob": 0.043
   },
   {
     "player_id": 258,
     "name": "Castagne",
+    "team": "FUL",
+    "opponent": "NEW (H)",
     "gameweek": 10,
-    "start_prob": 0.844,
-    "projected_points": 3.13,
-    "ceiling_points": 7.0,
-    "haul_prob": 0.06
+    "start_prob": 0.846,
+    "projected_points": 2.99,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.054
   },
   {
     "player_id": 261,
     "name": "Iwobi",
+    "team": "FUL",
+    "opponent": "NEW (H)",
     "gameweek": 10,
-    "start_prob": 0.902,
-    "projected_points": 4.12,
+    "start_prob": 0.9,
+    "projected_points": 4.23,
     "ceiling_points": 10.0,
-    "haul_prob": 0.111
+    "haul_prob": 0.119
   },
   {
     "player_id": 262,
     "name": "Smith Rowe",
+    "team": "FUL",
+    "opponent": "NEW (H)",
     "gameweek": 10,
     "start_prob": 0.14,
-    "projected_points": 1.15,
-    "ceiling_points": 3.0,
+    "projected_points": 1.14,
+    "ceiling_points": 2.0,
     "haul_prob": 0.008
   },
   {
     "player_id": 263,
     "name": "Kevin",
+    "team": "FUL",
+    "opponent": "NEW (H)",
     "gameweek": 10,
     "start_prob": 0.13,
-    "projected_points": 1.06,
+    "projected_points": 1.05,
     "ceiling_points": 2.0,
     "haul_prob": 0.008
   },
   {
     "player_id": 264,
     "name": "Bobb",
+    "team": "FUL",
+    "opponent": "NEW (H)",
     "gameweek": 10,
-    "start_prob": 0.876,
-    "projected_points": 4.29,
+    "start_prob": 0.874,
+    "projected_points": 4.28,
     "ceiling_points": 10.0,
-    "haul_prob": 0.125
+    "haul_prob": 0.13
   },
   {
     "player_id": 265,
     "name": "Berge",
+    "team": "FUL",
+    "opponent": "NEW (H)",
     "gameweek": 10,
-    "start_prob": 0.724,
-    "projected_points": 2.68,
+    "start_prob": 0.734,
+    "projected_points": 2.7,
     "ceiling_points": 7.0,
-    "haul_prob": 0.036
+    "haul_prob": 0.042
   },
   {
     "player_id": 266,
     "name": "Cairney",
+    "team": "FUL",
+    "opponent": "NEW (H)",
     "gameweek": 10,
-    "start_prob": 0.224,
-    "projected_points": 1.24,
+    "start_prob": 0.288,
+    "projected_points": 1.32,
     "ceiling_points": 3.0,
-    "haul_prob": 0.008
+    "haul_prob": 0.013
   },
   {
     "player_id": 268,
     "name": "King",
+    "team": "FUL",
+    "opponent": "NEW (H)",
     "gameweek": 10,
     "start_prob": 0.796,
-    "projected_points": 3.76,
-    "ceiling_points": 9.0,
-    "haul_prob": 0.094
+    "projected_points": 3.86,
+    "ceiling_points": 10.0,
+    "haul_prob": 0.106
   },
   {
     "player_id": 269,
     "name": "Sessegnon",
+    "team": "FUL",
+    "opponent": "NEW (H)",
     "gameweek": 10,
     "start_prob": 0.441,
-    "projected_points": 2.02,
+    "projected_points": 1.93,
     "ceiling_points": 6.0,
-    "haul_prob": 0.028
+    "haul_prob": 0.035
   },
   {
     "player_id": 270,
     "name": "Reed",
+    "team": "FUL",
+    "opponent": "NEW (H)",
     "gameweek": 10,
     "start_prob": 0.021,
-    "projected_points": 0.1,
+    "projected_points": 0.09,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
   },
   {
     "player_id": 271,
     "name": "Muniz",
+    "team": "FUL",
+    "opponent": "NEW (H)",
     "gameweek": 10,
     "start_prob": 0.345,
     "projected_points": 1.64,
-    "ceiling_points": 5.0,
-    "haul_prob": 0.013
+    "ceiling_points": 6.0,
+    "haul_prob": 0.011
   },
   {
     "player_id": 272,
     "name": "Kusi-Asare",
+    "team": "FUL",
+    "opponent": "NEW (H)",
     "gameweek": 10,
     "start_prob": 0.009,
-    "projected_points": 0.06,
+    "projected_points": 0.05,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
   },
   {
     "player_id": 569,
     "name": "Gonzalo",
+    "team": "FUL",
+    "opponent": "NEW (H)",
     "gameweek": 10,
-    "start_prob": 0.743,
-    "projected_points": 3.56,
+    "start_prob": 0.765,
+    "projected_points": 3.65,
     "ceiling_points": 9.0,
-    "haul_prob": 0.053
+    "haul_prob": 0.065
   },
   {
     "player_id": 570,
     "name": "Palacios",
+    "team": "FUL",
+    "opponent": "NEW (H)",
     "gameweek": 10,
     "start_prob": 0.399,
-    "projected_points": 1.93,
+    "projected_points": 1.92,
     "ceiling_points": 5.0,
-    "haul_prob": 0.028
+    "haul_prob": 0.03
   },
   {
     "player_id": 580,
     "name": "Charles",
+    "team": "FUL",
+    "opponent": "NEW (H)",
     "gameweek": 10,
-    "start_prob": 0.713,
-    "projected_points": 2.58,
+    "start_prob": 0.729,
+    "projected_points": 2.62,
     "ceiling_points": 7.0,
-    "haul_prob": 0.036
+    "haul_prob": 0.037
   },
   {
     "player_id": 610,
     "name": "De Fougerolles",
+    "team": "FUL",
+    "opponent": "NEW (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -2864,6 +3500,8 @@
   {
     "player_id": 626,
     "name": "Zepa",
+    "team": "FUL",
+    "opponent": "NEW (H)",
     "gameweek": 10,
     "start_prob": 0.011,
     "projected_points": 0.06,
@@ -2873,60 +3511,74 @@
   {
     "player_id": 635,
     "name": "Larsson",
+    "team": "FUL",
+    "opponent": "NEW (H)",
     "gameweek": 10,
     "start_prob": 0.37,
-    "projected_points": 1.71,
+    "projected_points": 1.7,
     "ceiling_points": 3.0,
-    "haul_prob": 0.019
+    "haul_prob": 0.016
   },
   {
     "player_id": 636,
     "name": "\u00c1ngel",
+    "team": "FUL",
+    "opponent": "NEW (H)",
     "gameweek": 10,
     "start_prob": 0.096,
     "projected_points": 0.69,
     "ceiling_points": 2.0,
-    "haul_prob": 0.002
+    "haul_prob": 0.004
   },
   {
     "player_id": 650,
     "name": "Affengruber",
+    "team": "FUL",
+    "opponent": "NEW (H)",
     "gameweek": 10,
-    "start_prob": 0.826,
-    "projected_points": 2.87,
+    "start_prob": 0.839,
+    "projected_points": 2.85,
     "ceiling_points": 6.0,
-    "haul_prob": 0.03
+    "haul_prob": 0.043
   },
   {
     "player_id": 240,
     "name": "Iroegbunam",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
-    "start_prob": 0.822,
-    "projected_points": 2.52,
-    "ceiling_points": 3.0,
-    "haul_prob": 0.024
+    "start_prob": 0.823,
+    "projected_points": 2.47,
+    "ceiling_points": 5.0,
+    "haul_prob": 0.028
   },
   {
     "player_id": 273,
     "name": "Phillips",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
-    "start_prob": 0.014,
-    "projected_points": 0.07,
+    "start_prob": 0.012,
+    "projected_points": 0.06,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
   },
   {
     "player_id": 274,
     "name": "Butland",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
-    "start_prob": 0.042,
-    "projected_points": 0.16,
+    "start_prob": 0.038,
+    "projected_points": 0.14,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
   },
   {
     "player_id": 275,
     "name": "Cartwright",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -2936,6 +3588,8 @@
   {
     "player_id": 276,
     "name": "Lo-Tutala",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -2945,15 +3599,19 @@
   {
     "player_id": 277,
     "name": "Egan",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
-    "start_prob": 0.77,
-    "projected_points": 2.21,
+    "start_prob": 0.764,
+    "projected_points": 1.92,
     "ceiling_points": 6.0,
     "haul_prob": 0.015
   },
   {
     "player_id": 278,
     "name": "Hughes",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -2963,24 +3621,30 @@
   {
     "player_id": 279,
     "name": "Ajayi",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
     "start_prob": 0.801,
-    "projected_points": 2.31,
+    "projected_points": 2.02,
     "ceiling_points": 6.0,
-    "haul_prob": 0.023
+    "haul_prob": 0.018
   },
   {
     "player_id": 280,
     "name": "Coyle",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
     "start_prob": 0.594,
-    "projected_points": 1.77,
+    "projected_points": 1.57,
     "ceiling_points": 6.0,
-    "haul_prob": 0.014
+    "haul_prob": 0.008
   },
   {
     "player_id": 281,
     "name": "Drameh",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -2990,15 +3654,19 @@
   {
     "player_id": 282,
     "name": "Giles",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
     "start_prob": 0.686,
-    "projected_points": 1.93,
+    "projected_points": 1.68,
     "ceiling_points": 6.0,
-    "haul_prob": 0.011
+    "haul_prob": 0.006
   },
   {
     "player_id": 283,
     "name": "Jacob",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -3008,33 +3676,41 @@
   {
     "player_id": 284,
     "name": "McCarthy",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
-    "start_prob": 0.014,
-    "projected_points": 0.09,
+    "start_prob": 0.013,
+    "projected_points": 0.08,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
   },
   {
     "player_id": 285,
     "name": "McNair",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
     "start_prob": 0.112,
-    "projected_points": 0.59,
+    "projected_points": 0.55,
     "ceiling_points": 1.0,
-    "haul_prob": 0.001
+    "haul_prob": 0.0
   },
   {
     "player_id": 286,
     "name": "Belloumi",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
     "start_prob": 0.873,
-    "projected_points": 2.92,
+    "projected_points": 2.85,
     "ceiling_points": 8.0,
-    "haul_prob": 0.04
+    "haul_prob": 0.043
   },
   {
     "player_id": 287,
     "name": "Millar",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -3044,8 +3720,10 @@
   {
     "player_id": 288,
     "name": "Dowell",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
-    "start_prob": 0.011,
+    "start_prob": 0.008,
     "projected_points": 0.05,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
@@ -3053,6 +3731,8 @@
   {
     "player_id": 289,
     "name": "Crooks",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -3062,15 +3742,19 @@
   {
     "player_id": 290,
     "name": "Slater",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
-    "start_prob": 0.799,
-    "projected_points": 2.36,
-    "ceiling_points": 5.0,
-    "haul_prob": 0.02
+    "start_prob": 0.803,
+    "projected_points": 2.3,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.013
   },
   {
     "player_id": 291,
     "name": "Matazo",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -3080,8 +3764,10 @@
   {
     "player_id": 292,
     "name": "\u00d6m\u00fcr",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
-    "start_prob": 0.019,
+    "start_prob": 0.02,
     "projected_points": 0.12,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
@@ -3089,6 +3775,8 @@
   {
     "player_id": 293,
     "name": "Kamara",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -3098,24 +3786,30 @@
   {
     "player_id": 294,
     "name": "Zambrano",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
-    "start_prob": 0.01,
-    "projected_points": 0.06,
+    "start_prob": 0.008,
+    "projected_points": 0.05,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
   },
   {
     "player_id": 295,
     "name": "McBurnie",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
-    "start_prob": 0.904,
-    "projected_points": 2.91,
-    "ceiling_points": 8.0,
-    "haul_prob": 0.021
+    "start_prob": 0.902,
+    "projected_points": 2.9,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.018
   },
   {
     "player_id": 296,
     "name": "Akintola",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -3125,6 +3819,8 @@
   {
     "player_id": 297,
     "name": "Gyabi",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -3134,6 +3830,8 @@
   {
     "player_id": 298,
     "name": "Destan",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -3143,6 +3841,8 @@
   {
     "player_id": 299,
     "name": "Burstow",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -3152,15 +3852,19 @@
   {
     "player_id": 340,
     "name": "Gelhardt",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
-    "start_prob": 0.649,
-    "projected_points": 2.48,
+    "start_prob": 0.639,
+    "projected_points": 2.42,
     "ceiling_points": 7.0,
-    "haul_prob": 0.037
+    "haul_prob": 0.028
   },
   {
     "player_id": 556,
     "name": "Targett",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -3170,78 +3874,96 @@
   {
     "player_id": 563,
     "name": "Morita",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
-    "start_prob": 0.405,
-    "projected_points": 1.44,
-    "ceiling_points": 3.0,
-    "haul_prob": 0.006
+    "start_prob": 0.401,
+    "projected_points": 1.41,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.004
   },
   {
     "player_id": 572,
     "name": "Tzolakis",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
     "start_prob": 0.943,
-    "projected_points": 3.29,
+    "projected_points": 2.96,
     "ceiling_points": 6.0,
-    "haul_prob": 0.006
+    "haul_prob": 0.008
   },
   {
     "player_id": 574,
     "name": "Hjert\u00f8-Dahl",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
     "start_prob": 0.075,
-    "projected_points": 0.67,
+    "projected_points": 0.65,
     "ceiling_points": 1.0,
     "haul_prob": 0.001
   },
   {
     "player_id": 576,
     "name": "Stroud",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
     "start_prob": 0.454,
-    "projected_points": 1.6,
+    "projected_points": 1.56,
     "ceiling_points": 3.0,
-    "haul_prob": 0.009
+    "haul_prob": 0.006
   },
   {
     "player_id": 585,
     "name": "Herrington",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
     "start_prob": 0.416,
-    "projected_points": 1.42,
-    "ceiling_points": 6.0,
-    "haul_prob": 0.007
+    "projected_points": 1.28,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.005
   },
   {
     "player_id": 586,
     "name": "Mendy",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
-    "start_prob": 0.439,
-    "projected_points": 1.44,
-    "ceiling_points": 6.0,
-    "haul_prob": 0.011
+    "start_prob": 0.435,
+    "projected_points": 1.29,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.007
   },
   {
     "player_id": 589,
     "name": "Gourna-Douath",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
     "start_prob": 0.334,
-    "projected_points": 1.38,
+    "projected_points": 1.34,
     "ceiling_points": 3.0,
-    "haul_prob": 0.008
+    "haul_prob": 0.006
   },
   {
     "player_id": 617,
     "name": "Cho",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
-    "start_prob": 0.265,
-    "projected_points": 1.36,
+    "start_prob": 0.261,
+    "projected_points": 1.31,
     "ceiling_points": 3.0,
-    "haul_prob": 0.015
+    "haul_prob": 0.009
   },
   {
     "player_id": 632,
     "name": "Ansah",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -3251,35 +3973,43 @@
   {
     "player_id": 637,
     "name": "Vaz",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
-    "start_prob": 0.285,
-    "projected_points": 1.23,
+    "start_prob": 0.282,
+    "projected_points": 1.21,
     "ceiling_points": 2.0,
-    "haul_prob": 0.001
+    "haul_prob": 0.002
   },
   {
     "player_id": 638,
     "name": "Norton-Cuffy",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
-    "start_prob": 0.32,
-    "projected_points": 1.22,
-    "ceiling_points": 4.1,
-    "haul_prob": 0.008
+    "start_prob": 0.371,
+    "projected_points": 1.2,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.007
   },
   {
     "player_id": 642,
     "name": "Thomas",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
-    "start_prob": 0.618,
-    "projected_points": 2.33,
-    "ceiling_points": 6.0,
-    "haul_prob": 0.02
+    "start_prob": 0.614,
+    "projected_points": 2.24,
+    "ceiling_points": 5.0,
+    "haul_prob": 0.019
   },
   {
     "player_id": 645,
     "name": "Mouzakitis",
+    "team": "HUL",
+    "opponent": "ARS (A)",
     "gameweek": 10,
-    "start_prob": 0.019,
+    "start_prob": 0.02,
     "projected_points": 0.12,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
@@ -3287,35 +4017,43 @@
   {
     "player_id": 259,
     "name": "Diop",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
-    "start_prob": 0.833,
-    "projected_points": 2.75,
+    "start_prob": 0.83,
+    "projected_points": 2.58,
     "ceiling_points": 6.0,
-    "haul_prob": 0.024
+    "haul_prob": 0.021
   },
   {
     "player_id": 267,
     "name": "Luki\u0107",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
     "start_prob": 0.593,
-    "projected_points": 1.95,
+    "projected_points": 1.93,
     "ceiling_points": 3.0,
-    "haul_prob": 0.015
+    "haul_prob": 0.014
   },
   {
     "player_id": 300,
     "name": "Walton",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
-    "start_prob": 0.507,
-    "projected_points": 1.99,
+    "start_prob": 0.495,
+    "projected_points": 1.86,
     "ceiling_points": 6.0,
-    "haul_prob": 0.006
+    "haul_prob": 0.003
   },
   {
     "player_id": 301,
     "name": "Palmer",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
-    "start_prob": 0.014,
+    "start_prob": 0.013,
     "projected_points": 0.07,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
@@ -3323,8 +4061,10 @@
   {
     "player_id": 302,
     "name": "Button",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
-    "start_prob": 0.014,
+    "start_prob": 0.013,
     "projected_points": 0.07,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
@@ -3332,42 +4072,52 @@
   {
     "player_id": 303,
     "name": "Kipr\u00e9",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
-    "start_prob": 0.022,
-    "projected_points": 0.14,
+    "start_prob": 0.02,
+    "projected_points": 0.13,
     "ceiling_points": 0.0,
-    "haul_prob": 0.001
+    "haul_prob": 0.0
   },
   {
     "player_id": 304,
     "name": "O'Shea",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
-    "start_prob": 0.865,
-    "projected_points": 3.08,
-    "ceiling_points": 6.0,
-    "haul_prob": 0.05
+    "start_prob": 0.866,
+    "projected_points": 2.95,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.056
   },
   {
     "player_id": 305,
     "name": "Davis",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
-    "start_prob": 0.735,
-    "projected_points": 2.71,
+    "start_prob": 0.733,
+    "projected_points": 2.58,
     "ceiling_points": 6.0,
-    "haul_prob": 0.036
+    "haul_prob": 0.037
   },
   {
     "player_id": 306,
     "name": "Greaves",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
     "start_prob": 0.39,
-    "projected_points": 1.51,
+    "projected_points": 1.42,
     "ceiling_points": 6.0,
-    "haul_prob": 0.016
+    "haul_prob": 0.011
   },
   {
     "player_id": 307,
     "name": "Johnson",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -3377,33 +4127,41 @@
   {
     "player_id": 308,
     "name": "Furlong",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
-    "start_prob": 0.103,
-    "projected_points": 0.62,
+    "start_prob": 0.095,
+    "projected_points": 0.58,
     "ceiling_points": 1.0,
-    "haul_prob": 0.003
+    "haul_prob": 0.004
   },
   {
     "player_id": 309,
     "name": "N\u00fa\u00f1ez",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
     "start_prob": 0.34,
-    "projected_points": 1.72,
-    "ceiling_points": 3.0,
-    "haul_prob": 0.018
+    "projected_points": 1.71,
+    "ceiling_points": 4.0,
+    "haul_prob": 0.014
   },
   {
     "player_id": 310,
     "name": "Matusiwa",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
-    "start_prob": 0.401,
-    "projected_points": 1.54,
+    "start_prob": 0.478,
+    "projected_points": 1.71,
     "ceiling_points": 3.0,
     "haul_prob": 0.011
   },
   {
     "player_id": 311,
     "name": "Burns",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -3413,6 +4171,8 @@
   {
     "player_id": 312,
     "name": "Taylor",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
     "start_prob": 0.011,
     "projected_points": 0.06,
@@ -3422,15 +4182,19 @@
   {
     "player_id": 313,
     "name": "Clarke",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
     "start_prob": 0.439,
     "projected_points": 2.26,
-    "ceiling_points": 7.0,
-    "haul_prob": 0.034
+    "ceiling_points": 6.0,
+    "haul_prob": 0.036
   },
   {
     "player_id": 314,
     "name": "Ogbene",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -3440,24 +4204,30 @@
   {
     "player_id": 315,
     "name": "Fatawu",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
-    "start_prob": 0.617,
-    "projected_points": 2.68,
+    "start_prob": 0.594,
+    "projected_points": 2.63,
     "ceiling_points": 8.0,
-    "haul_prob": 0.046
+    "haul_prob": 0.048
   },
   {
     "player_id": 316,
     "name": "Emersonn",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
-    "start_prob": 0.664,
-    "projected_points": 3.09,
-    "ceiling_points": 8.0,
-    "haul_prob": 0.039
+    "start_prob": 0.692,
+    "projected_points": 3.27,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.058
   },
   {
     "player_id": 317,
     "name": "Hirst",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -3467,15 +4237,19 @@
   {
     "player_id": 318,
     "name": "Philogene",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
-    "start_prob": 0.498,
-    "projected_points": 2.28,
-    "ceiling_points": 6.0,
-    "haul_prob": 0.035
+    "start_prob": 0.496,
+    "projected_points": 2.3,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.04
   },
   {
     "player_id": 319,
     "name": "Szmodics",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -3485,24 +4259,30 @@
   {
     "player_id": 320,
     "name": "Akpom",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
     "start_prob": 0.362,
-    "projected_points": 1.87,
-    "ceiling_points": 6.0,
-    "haul_prob": 0.02
+    "projected_points": 1.86,
+    "ceiling_points": 5.0,
+    "haul_prob": 0.013
   },
   {
     "player_id": 321,
     "name": "Walle Egeli",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
-    "start_prob": 0.098,
-    "projected_points": 0.78,
+    "start_prob": 0.097,
+    "projected_points": 0.75,
     "ceiling_points": 2.0,
-    "haul_prob": 0.001
+    "haul_prob": 0.002
   },
   {
     "player_id": 322,
     "name": "Al-Hamadi",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -3512,24 +4292,30 @@
   {
     "player_id": 323,
     "name": "McAteer",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
     "start_prob": 0.119,
-    "projected_points": 1.06,
+    "projected_points": 1.05,
     "ceiling_points": 2.0,
-    "haul_prob": 0.004
+    "haul_prob": 0.005
   },
   {
     "player_id": 324,
     "name": "Mehmeti",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
     "start_prob": 0.02,
     "projected_points": 0.14,
     "ceiling_points": 0.0,
-    "haul_prob": 0.001
+    "haul_prob": 0.0
   },
   {
     "player_id": 554,
     "name": "Van Oevelen",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -3539,51 +4325,63 @@
   {
     "player_id": 562,
     "name": "Maeda",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
-    "start_prob": 0.674,
-    "projected_points": 2.67,
+    "start_prob": 0.671,
+    "projected_points": 2.75,
     "ceiling_points": 8.0,
-    "haul_prob": 0.049
+    "haul_prob": 0.056
   },
   {
     "player_id": 564,
     "name": "Scherpen",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
-    "start_prob": 0.535,
-    "projected_points": 2.08,
+    "start_prob": 0.529,
+    "projected_points": 1.95,
     "ceiling_points": 6.0,
-    "haul_prob": 0.006
+    "haul_prob": 0.004
   },
   {
     "player_id": 571,
     "name": "Florentino",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
-    "start_prob": 0.826,
-    "projected_points": 2.65,
+    "start_prob": 0.835,
+    "projected_points": 2.88,
     "ceiling_points": 7.0,
-    "haul_prob": 0.03
+    "haul_prob": 0.042
   },
   {
     "player_id": 591,
     "name": "Enciso",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
-    "start_prob": 0.877,
-    "projected_points": 3.94,
+    "start_prob": 0.895,
+    "projected_points": 4.39,
     "ceiling_points": 10.0,
-    "haul_prob": 0.109
+    "haul_prob": 0.148
   },
   {
     "player_id": 592,
     "name": "Ouattara",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
-    "start_prob": 0.81,
-    "projected_points": 2.96,
+    "start_prob": 0.821,
+    "projected_points": 2.91,
     "ceiling_points": 6.0,
-    "haul_prob": 0.048
+    "haul_prob": 0.046
   },
   {
     "player_id": 602,
     "name": "Humphreys",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -3593,33 +4391,41 @@
   {
     "player_id": 619,
     "name": "Palacios",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
-    "start_prob": 0.718,
+    "start_prob": 0.725,
     "projected_points": 2.38,
-    "ceiling_points": 3.0,
-    "haul_prob": 0.017
+    "ceiling_points": 5.0,
+    "haul_prob": 0.02
   },
   {
     "player_id": 640,
     "name": "Flemming",
+    "team": "IPS",
+    "opponent": "BOU (H)",
     "gameweek": 10,
     "start_prob": 0.551,
-    "projected_points": 2.46,
+    "projected_points": 2.43,
     "ceiling_points": 7.0,
-    "haul_prob": 0.03
+    "haul_prob": 0.027
   },
   {
     "player_id": 260,
     "name": "Wilson",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
-    "start_prob": 0.452,
-    "projected_points": 2.36,
-    "ceiling_points": 7.0,
-    "haul_prob": 0.04
+    "start_prob": 0.512,
+    "projected_points": 2.69,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.051
   },
   {
     "player_id": 326,
     "name": "Perri",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -3629,15 +4435,19 @@
   {
     "player_id": 327,
     "name": "Bijol",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
     "start_prob": 0.612,
-    "projected_points": 2.38,
+    "projected_points": 2.42,
     "ceiling_points": 6.0,
-    "haul_prob": 0.039
+    "haul_prob": 0.045
   },
   {
     "player_id": 329,
     "name": "Rodon",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -3647,33 +4457,41 @@
   {
     "player_id": 330,
     "name": "Bogle",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
-    "start_prob": 0.798,
-    "projected_points": 3.05,
-    "ceiling_points": 7.0,
-    "haul_prob": 0.068
+    "start_prob": 0.803,
+    "projected_points": 3.16,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.064
   },
   {
     "player_id": 331,
     "name": "Gudmundsson",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
-    "start_prob": 0.715,
-    "projected_points": 2.55,
+    "start_prob": 0.722,
+    "projected_points": 2.62,
     "ceiling_points": 6.0,
-    "haul_prob": 0.034
+    "haul_prob": 0.046
   },
   {
     "player_id": 332,
     "name": "Justin",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
-    "start_prob": 0.871,
-    "projected_points": 3.2,
+    "start_prob": 0.872,
+    "projected_points": 3.27,
     "ceiling_points": 7.0,
-    "haul_prob": 0.054
+    "haul_prob": 0.067
   },
   {
     "player_id": 333,
     "name": "Bornauw",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -3683,60 +4501,74 @@
   {
     "player_id": 334,
     "name": "Muharemovi\u0107",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
-    "start_prob": 0.921,
-    "projected_points": 3.27,
-    "ceiling_points": 6.0,
-    "haul_prob": 0.051
+    "start_prob": 0.924,
+    "projected_points": 3.36,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.062
   },
   {
     "player_id": 335,
     "name": "Stach",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
     "start_prob": 0.78,
-    "projected_points": 3.65,
+    "projected_points": 3.77,
     "ceiling_points": 9.0,
-    "haul_prob": 0.081
+    "haul_prob": 0.096
   },
   {
     "player_id": 336,
     "name": "Okafor",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
     "start_prob": 0.528,
-    "projected_points": 2.38,
-    "ceiling_points": 7.0,
-    "haul_prob": 0.037
+    "projected_points": 2.45,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.05
   },
   {
     "player_id": 337,
     "name": "Aaronson",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
     "start_prob": 0.425,
-    "projected_points": 1.67,
+    "projected_points": 1.7,
     "ceiling_points": 3.0,
-    "haul_prob": 0.012
+    "haul_prob": 0.013
   },
   {
     "player_id": 338,
     "name": "Ampadu",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
     "start_prob": 0.892,
-    "projected_points": 2.82,
+    "projected_points": 2.87,
     "ceiling_points": 7.0,
-    "haul_prob": 0.025
+    "haul_prob": 0.026
   },
   {
     "player_id": 339,
     "name": "Longstaff",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
-    "start_prob": 0.368,
-    "projected_points": 1.72,
-    "ceiling_points": 3.0,
-    "haul_prob": 0.018
+    "start_prob": 0.382,
+    "projected_points": 1.94,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.031
   },
   {
     "player_id": 341,
     "name": "Gnonto",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -3746,6 +4578,8 @@
   {
     "player_id": 342,
     "name": "Harrison",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -3755,15 +4589,19 @@
   {
     "player_id": 343,
     "name": "James",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
-    "start_prob": 0.243,
-    "projected_points": 1.35,
+    "start_prob": 0.24,
+    "projected_points": 1.41,
     "ceiling_points": 3.0,
-    "haul_prob": 0.013
+    "haul_prob": 0.014
   },
   {
     "player_id": 344,
     "name": "Gruev",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
     "start_prob": 0.02,
     "projected_points": 0.14,
@@ -3773,33 +4611,41 @@
   {
     "player_id": 345,
     "name": "Tanaka",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
     "start_prob": 0.627,
-    "projected_points": 2.24,
-    "ceiling_points": 6.0,
-    "haul_prob": 0.026
+    "projected_points": 2.31,
+    "ceiling_points": 6.1,
+    "haul_prob": 0.029
   },
   {
     "player_id": 346,
     "name": "Calvert-Lewin",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
-    "start_prob": 0.864,
-    "projected_points": 3.77,
+    "start_prob": 0.875,
+    "projected_points": 3.99,
     "ceiling_points": 9.0,
-    "haul_prob": 0.059
+    "haul_prob": 0.081
   },
   {
     "player_id": 347,
     "name": "Nmecha",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
-    "start_prob": 0.363,
-    "projected_points": 1.93,
-    "ceiling_points": 6.0,
-    "haul_prob": 0.018
+    "start_prob": 0.405,
+    "projected_points": 2.12,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.028
   },
   {
     "player_id": 348,
     "name": "Piroe",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -3809,6 +4655,8 @@
   {
     "player_id": 349,
     "name": "Mateo Joseph",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -3818,33 +4666,41 @@
   {
     "player_id": 385,
     "name": "Trafford",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
     "start_prob": 0.958,
-    "projected_points": 3.45,
+    "projected_points": 3.43,
     "ceiling_points": 6.0,
-    "haul_prob": 0.008
+    "haul_prob": 0.011
   },
   {
     "player_id": 598,
     "name": "Elvedi",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
     "start_prob": 0.622,
-    "projected_points": 2.33,
+    "projected_points": 2.36,
     "ceiling_points": 6.0,
-    "haul_prob": 0.031
+    "haul_prob": 0.03
   },
   {
     "player_id": 603,
     "name": "Lienou",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
     "start_prob": 0.015,
     "projected_points": 0.11,
     "ceiling_points": 0.0,
-    "haul_prob": 0.001
+    "haul_prob": 0.0
   },
   {
     "player_id": 604,
     "name": "Cresswell",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
     "start_prob": 0.01,
     "projected_points": 0.06,
@@ -3854,6 +4710,8 @@
   {
     "player_id": 625,
     "name": "Cairns",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
     "start_prob": 0.014,
     "projected_points": 0.07,
@@ -3863,6 +4721,8 @@
   {
     "player_id": 629,
     "name": "Zetterer",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
     "start_prob": 0.014,
     "projected_points": 0.07,
@@ -3872,51 +4732,63 @@
   {
     "player_id": 641,
     "name": "Bard",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
     "start_prob": 0.118,
     "projected_points": 0.64,
     "ceiling_points": 1.0,
-    "haul_prob": 0.004
+    "haul_prob": 0.001
   },
   {
     "player_id": 648,
     "name": "Bahoya",
+    "team": "LEE",
+    "opponent": "TOT (H)",
     "gameweek": 10,
-    "start_prob": 0.234,
-    "projected_points": 1.14,
+    "start_prob": 0.198,
+    "projected_points": 1.15,
     "ceiling_points": 3.0,
     "haul_prob": 0.008
   },
   {
     "player_id": 350,
     "name": "A.Becker",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
-    "start_prob": 0.932,
-    "projected_points": 2.99,
+    "start_prob": 0.935,
+    "projected_points": 3.73,
     "ceiling_points": 6.0,
-    "haul_prob": 0.007
+    "haul_prob": 0.006
   },
   {
     "player_id": 351,
     "name": "Mamardashvili",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
-    "start_prob": 0.059,
-    "projected_points": 0.21,
+    "start_prob": 0.064,
+    "projected_points": 0.25,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
   },
   {
     "player_id": 352,
     "name": "Woodman",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
-    "start_prob": 0.014,
-    "projected_points": 0.07,
+    "start_prob": 0.015,
+    "projected_points": 0.08,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
   },
   {
     "player_id": 353,
     "name": "Pecsi",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -3926,6 +4798,8 @@
   {
     "player_id": 354,
     "name": "Jaros",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -3935,24 +4809,30 @@
   {
     "player_id": 355,
     "name": "Davies",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
-    "start_prob": 0.014,
-    "projected_points": 0.07,
+    "start_prob": 0.015,
+    "projected_points": 0.08,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
   },
   {
     "player_id": 356,
     "name": "Virgil",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
     "start_prob": 0.914,
-    "projected_points": 2.84,
-    "ceiling_points": 6.0,
-    "haul_prob": 0.026
+    "projected_points": 3.35,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.059
   },
   {
     "player_id": 357,
     "name": "Frimpong",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -3962,24 +4842,30 @@
   {
     "player_id": 358,
     "name": "Kerkez",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
-    "start_prob": 0.733,
-    "projected_points": 2.17,
+    "start_prob": 0.755,
+    "projected_points": 2.64,
     "ceiling_points": 6.0,
-    "haul_prob": 0.02
+    "haul_prob": 0.042
   },
   {
     "player_id": 359,
     "name": "Gomez",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
-    "start_prob": 0.327,
-    "projected_points": 1.09,
+    "start_prob": 0.331,
+    "projected_points": 1.25,
     "ceiling_points": 6.0,
-    "haul_prob": 0.007
+    "haul_prob": 0.01
   },
   {
     "player_id": 360,
     "name": "Bradley",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -3989,24 +4875,30 @@
   {
     "player_id": 361,
     "name": "Lucky",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
-    "start_prob": 0.024,
-    "projected_points": 0.12,
+    "start_prob": 0.026,
+    "projected_points": 0.14,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
   },
   {
     "player_id": 362,
     "name": "Jacquet",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
-    "start_prob": 0.862,
-    "projected_points": 2.61,
+    "start_prob": 0.856,
+    "projected_points": 2.99,
     "ceiling_points": 6.0,
-    "haul_prob": 0.036
+    "haul_prob": 0.052
   },
   {
     "player_id": 363,
     "name": "Leoni",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -4016,15 +4908,19 @@
   {
     "player_id": 364,
     "name": "Tsimikas",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
-    "start_prob": 0.455,
-    "projected_points": 1.56,
+    "start_prob": 0.45,
+    "projected_points": 1.76,
     "ceiling_points": 6.0,
-    "haul_prob": 0.015
+    "haul_prob": 0.022
   },
   {
     "player_id": 365,
     "name": "Ramsay",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -4034,69 +4930,85 @@
   {
     "player_id": 366,
     "name": "Wirtz",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
-    "start_prob": 0.871,
-    "projected_points": 3.8,
-    "ceiling_points": 9.0,
-    "haul_prob": 0.084
+    "start_prob": 0.87,
+    "projected_points": 4.24,
+    "ceiling_points": 10.0,
+    "haul_prob": 0.119
   },
   {
     "player_id": 367,
     "name": "Gakpo",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
-    "start_prob": 0.687,
-    "projected_points": 3.05,
-    "ceiling_points": 8.0,
-    "haul_prob": 0.054
+    "start_prob": 0.691,
+    "projected_points": 3.43,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.088
   },
   {
     "player_id": 368,
     "name": "Szoboszlai",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
-    "start_prob": 0.614,
-    "projected_points": 2.65,
+    "start_prob": 0.621,
+    "projected_points": 2.92,
     "ceiling_points": 8.0,
-    "haul_prob": 0.045
+    "haul_prob": 0.063
   },
   {
     "player_id": 369,
     "name": "Ngumoha",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
-    "start_prob": 0.368,
-    "projected_points": 1.7,
-    "ceiling_points": 3.0,
-    "haul_prob": 0.019
+    "start_prob": 0.406,
+    "projected_points": 1.97,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.028
   },
   {
     "player_id": 370,
     "name": "Chiesa",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
     "start_prob": 0.092,
-    "projected_points": 0.63,
-    "ceiling_points": 1.0,
-    "haul_prob": 0.001
+    "projected_points": 0.68,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.004
   },
   {
     "player_id": 371,
     "name": "Gravenberch",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
     "start_prob": 0.495,
-    "projected_points": 1.93,
-    "ceiling_points": 3.0,
-    "haul_prob": 0.02
+    "projected_points": 2.07,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.029
   },
   {
     "player_id": 372,
     "name": "Mac Allister",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
-    "start_prob": 0.713,
-    "projected_points": 2.36,
-    "ceiling_points": 5.0,
-    "haul_prob": 0.021
+    "start_prob": 0.734,
+    "projected_points": 2.59,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.031
   },
   {
     "player_id": 373,
     "name": "C.Jones",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -4106,24 +5018,30 @@
   {
     "player_id": 374,
     "name": "Endo",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
     "start_prob": 0.02,
-    "projected_points": 0.13,
+    "projected_points": 0.14,
     "ceiling_points": 0.0,
-    "haul_prob": 0.0
+    "haul_prob": 0.001
   },
   {
     "player_id": 375,
     "name": "Nyoni",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
-    "start_prob": 0.35,
-    "projected_points": 1.43,
+    "start_prob": 0.372,
+    "projected_points": 1.56,
     "ceiling_points": 3.0,
-    "haul_prob": 0.006
+    "haul_prob": 0.007
   },
   {
     "player_id": 376,
     "name": "Bajcetic",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -4133,33 +5051,41 @@
   {
     "player_id": 377,
     "name": "Munoz",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
-    "start_prob": 0.709,
-    "projected_points": 2.94,
-    "ceiling_points": 8.0,
-    "haul_prob": 0.05
+    "start_prob": 0.649,
+    "projected_points": 3.07,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.07
   },
   {
     "player_id": 378,
     "name": "McConnell",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
     "start_prob": 0.011,
-    "projected_points": 0.05,
+    "projected_points": 0.06,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
   },
   {
     "player_id": 379,
     "name": "Isak",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
-    "start_prob": 0.87,
-    "projected_points": 3.61,
+    "start_prob": 0.867,
+    "projected_points": 3.89,
     "ceiling_points": 9.0,
-    "haul_prob": 0.051
+    "haul_prob": 0.076
   },
   {
     "player_id": 380,
     "name": "Ekitik\u00e9",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -4169,15 +5095,19 @@
   {
     "player_id": 381,
     "name": "Koumas",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
-    "start_prob": 0.391,
-    "projected_points": 1.64,
+    "start_prob": 0.422,
+    "projected_points": 1.83,
     "ceiling_points": 3.0,
-    "haul_prob": 0.011
+    "haul_prob": 0.02
   },
   {
     "player_id": 382,
     "name": "Danns",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
     "start_prob": 0.01,
     "projected_points": 0.05,
@@ -4187,6 +5117,8 @@
   {
     "player_id": 383,
     "name": "Elliott",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -4196,123 +5128,151 @@
   {
     "player_id": 579,
     "name": "Araujo",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
-    "start_prob": 0.823,
-    "projected_points": 2.46,
+    "start_prob": 0.84,
+    "projected_points": 2.9,
     "ceiling_points": 6.0,
-    "haul_prob": 0.031
+    "haul_prob": 0.041
   },
   {
     "player_id": 627,
     "name": "Barcola",
+    "team": "LIV",
+    "opponent": "CRY (A)",
     "gameweek": 10,
-    "start_prob": 0.696,
-    "projected_points": 2.96,
-    "ceiling_points": 8.0,
-    "haul_prob": 0.054
+    "start_prob": 0.723,
+    "projected_points": 3.36,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.085
   },
   {
     "player_id": 155,
     "name": "Enzo",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
-    "start_prob": 0.704,
-    "projected_points": 3.03,
-    "ceiling_points": 8.0,
-    "haul_prob": 0.052
+    "start_prob": 0.699,
+    "projected_points": 3.39,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.07
   },
   {
     "player_id": 237,
     "name": "Ndiaye",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
     "start_prob": 0.801,
-    "projected_points": 3.07,
-    "ceiling_points": 8.0,
-    "haul_prob": 0.049
+    "projected_points": 3.36,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.077
   },
   {
     "player_id": 384,
     "name": "Donnarumma",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
-    "start_prob": 0.94,
-    "projected_points": 2.88,
+    "start_prob": 0.942,
+    "projected_points": 3.16,
     "ceiling_points": 6.0,
-    "haul_prob": 0.006
+    "haul_prob": 0.008
   },
   {
     "player_id": 386,
     "name": "Bettinelli",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
-    "start_prob": 0.042,
-    "projected_points": 0.16,
+    "start_prob": 0.046,
+    "projected_points": 0.19,
     "ceiling_points": 0.0,
-    "haul_prob": 0.001
+    "haul_prob": 0.0
   },
   {
     "player_id": 387,
     "name": "O'Reilly",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
-    "start_prob": 0.525,
-    "projected_points": 2.05,
-    "ceiling_points": 6.0,
-    "haul_prob": 0.035
+    "start_prob": 0.541,
+    "projected_points": 2.53,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.07
   },
   {
     "player_id": 388,
     "name": "Gu\u00e9hi",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
     "start_prob": 0.724,
-    "projected_points": 2.48,
+    "projected_points": 2.83,
     "ceiling_points": 6.0,
-    "haul_prob": 0.037
+    "haul_prob": 0.047
   },
   {
     "player_id": 389,
     "name": "Matheus N.",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
-    "start_prob": 0.632,
-    "projected_points": 1.97,
+    "start_prob": 0.643,
+    "projected_points": 2.42,
     "ceiling_points": 6.0,
-    "haul_prob": 0.02
+    "haul_prob": 0.033
   },
   {
     "player_id": 390,
     "name": "R\u00faben",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
-    "start_prob": 0.89,
-    "projected_points": 2.73,
+    "start_prob": 0.892,
+    "projected_points": 3.12,
     "ceiling_points": 6.0,
-    "haul_prob": 0.038
+    "haul_prob": 0.052
   },
   {
     "player_id": 391,
     "name": "Gvardiol",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
-    "start_prob": 0.736,
-    "projected_points": 2.59,
-    "ceiling_points": 6.0,
-    "haul_prob": 0.042
+    "start_prob": 0.739,
+    "projected_points": 2.99,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.056
   },
   {
     "player_id": 392,
     "name": "A\u00eft-Nouri",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
-    "start_prob": 0.053,
-    "projected_points": 0.22,
+    "start_prob": 0.057,
+    "projected_points": 0.26,
     "ceiling_points": 1.0,
-    "haul_prob": 0.002
+    "haul_prob": 0.004
   },
   {
     "player_id": 393,
     "name": "Khusanov",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
-    "start_prob": 0.52,
-    "projected_points": 1.69,
+    "start_prob": 0.532,
+    "projected_points": 2.03,
     "ceiling_points": 6.0,
-    "haul_prob": 0.013
+    "haul_prob": 0.026
   },
   {
     "player_id": 394,
     "name": "Alleyne",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -4322,24 +5282,30 @@
   {
     "player_id": 395,
     "name": "Lewis",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
     "start_prob": 0.257,
-    "projected_points": 1.04,
-    "ceiling_points": 2.0,
-    "haul_prob": 0.008
+    "projected_points": 1.16,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.016
   },
   {
     "player_id": 396,
     "name": "Vitor Reis",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
-    "start_prob": 0.145,
-    "projected_points": 0.57,
-    "ceiling_points": 1.0,
-    "haul_prob": 0.001
+    "start_prob": 0.152,
+    "projected_points": 0.65,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.005
   },
   {
     "player_id": 397,
     "name": "Semenyo",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -4349,33 +5315,41 @@
   {
     "player_id": 398,
     "name": "Foden",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
     "start_prob": 0.706,
-    "projected_points": 3.37,
-    "ceiling_points": 9.0,
-    "haul_prob": 0.082
+    "projected_points": 3.59,
+    "ceiling_points": 10.0,
+    "haul_prob": 0.102
   },
   {
     "player_id": 399,
     "name": "Cherki",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
-    "start_prob": 0.61,
-    "projected_points": 3.49,
+    "start_prob": 0.604,
+    "projected_points": 3.59,
     "ceiling_points": 8.0,
-    "haul_prob": 0.062
+    "haul_prob": 0.066
   },
   {
     "player_id": 400,
     "name": "Doku",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
-    "start_prob": 0.781,
-    "projected_points": 4.17,
+    "start_prob": 0.8,
+    "projected_points": 4.4,
     "ceiling_points": 9.0,
-    "haul_prob": 0.076
+    "haul_prob": 0.086
   },
   {
     "player_id": 402,
     "name": "Rodrigo",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -4385,6 +5359,8 @@
   {
     "player_id": 404,
     "name": "Reijnders",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -4394,15 +5370,19 @@
   {
     "player_id": 406,
     "name": "Kova\u010di\u0107",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
     "start_prob": 0.399,
-    "projected_points": 1.81,
+    "projected_points": 1.89,
     "ceiling_points": 3.0,
     "haul_prob": 0.01
   },
   {
     "player_id": 407,
     "name": "Echeverri",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -4412,6 +5392,8 @@
   {
     "player_id": 408,
     "name": "Phillips",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -4421,6 +5403,8 @@
   {
     "player_id": 409,
     "name": "Mukasa",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -4430,6 +5414,8 @@
   {
     "player_id": 410,
     "name": "Monga",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -4439,123 +5425,151 @@
   {
     "player_id": 411,
     "name": "Haaland",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
-    "start_prob": 0.922,
-    "projected_points": 4.85,
-    "ceiling_points": 10.0,
-    "haul_prob": 0.116
+    "start_prob": 0.931,
+    "projected_points": 5.34,
+    "ceiling_points": 11.0,
+    "haul_prob": 0.172
   },
   {
     "player_id": 481,
     "name": "Anderson",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
-    "start_prob": 0.736,
-    "projected_points": 2.78,
-    "ceiling_points": 7.0,
-    "haul_prob": 0.041
+    "start_prob": 0.753,
+    "projected_points": 3.28,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.062
   },
   {
     "player_id": 587,
     "name": "Rulli",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
-    "start_prob": 0.048,
-    "projected_points": 0.18,
+    "start_prob": 0.052,
+    "projected_points": 0.21,
     "ceiling_points": 0.0,
-    "haul_prob": 0.0
+    "haul_prob": 0.001
   },
   {
     "player_id": 616,
     "name": "Bouaddi",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
-    "start_prob": 0.39,
-    "projected_points": 1.42,
+    "start_prob": 0.376,
+    "projected_points": 1.49,
     "ceiling_points": 3.0,
-    "haul_prob": 0.008
+    "haul_prob": 0.007
   },
   {
     "player_id": 621,
     "name": "McAidoo",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
     "start_prob": 0.126,
-    "projected_points": 0.79,
+    "projected_points": 0.83,
     "ceiling_points": 2.0,
-    "haul_prob": 0.002
+    "haul_prob": 0.003
   },
   {
     "player_id": 622,
     "name": "Braithwaite",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
-    "start_prob": 0.117,
-    "projected_points": 0.49,
-    "ceiling_points": 1.0,
-    "haul_prob": 0.004
+    "start_prob": 0.123,
+    "projected_points": 0.55,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.002
   },
   {
     "player_id": 628,
     "name": "Allan",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
-    "start_prob": 0.263,
-    "projected_points": 1.3,
-    "ceiling_points": 3.0,
-    "haul_prob": 0.013
+    "start_prob": 0.299,
+    "projected_points": 1.61,
+    "ceiling_points": 4.0,
+    "haul_prob": 0.018
   },
   {
     "player_id": 653,
     "name": "Samba",
+    "team": "MCI",
+    "opponent": "NFO (A)",
     "gameweek": 10,
     "start_prob": 0.011,
-    "projected_points": 0.05,
+    "projected_points": 0.06,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
   },
   {
     "player_id": 43,
     "name": "Tielemans",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
-    "start_prob": 0.71,
-    "projected_points": 3.52,
-    "ceiling_points": 9.0,
-    "haul_prob": 0.083
+    "start_prob": 0.713,
+    "projected_points": 3.8,
+    "ceiling_points": 10.0,
+    "haul_prob": 0.106
   },
   {
     "player_id": 131,
     "name": "Baleba",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
-    "start_prob": 0.502,
-    "projected_points": 1.89,
-    "ceiling_points": 3.0,
-    "haul_prob": 0.015
+    "start_prob": 0.486,
+    "projected_points": 1.95,
+    "ceiling_points": 4.0,
+    "haul_prob": 0.019
   },
   {
     "player_id": 162,
     "name": "Andrey Santos",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
-    "start_prob": 0.471,
-    "projected_points": 1.91,
-    "ceiling_points": 3.0,
-    "haul_prob": 0.018
+    "start_prob": 0.475,
+    "projected_points": 2.01,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.023
   },
   {
     "player_id": 325,
     "name": "Darlow",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
     "start_prob": 0.045,
-    "projected_points": 0.18,
+    "projected_points": 0.19,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
   },
   {
     "player_id": 412,
     "name": "Lammens",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
     "start_prob": 0.942,
-    "projected_points": 3.32,
+    "projected_points": 3.6,
     "ceiling_points": 6.0,
-    "haul_prob": 0.005
+    "haul_prob": 0.01
   },
   {
     "player_id": 413,
     "name": "Bayindir",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -4565,15 +5579,19 @@
   {
     "player_id": 414,
     "name": "Heaton",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
     "start_prob": 0.014,
-    "projected_points": 0.07,
+    "projected_points": 0.08,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
   },
   {
     "player_id": 415,
     "name": "Dorgu",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -4583,33 +5601,41 @@
   {
     "player_id": 416,
     "name": "De Ligt",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
     "start_prob": 0.055,
-    "projected_points": 0.27,
+    "projected_points": 0.29,
     "ceiling_points": 1.0,
-    "haul_prob": 0.003
+    "haul_prob": 0.004
   },
   {
     "player_id": 417,
     "name": "Dalot",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
     "start_prob": 0.735,
-    "projected_points": 2.92,
-    "ceiling_points": 6.0,
-    "haul_prob": 0.045
+    "projected_points": 3.16,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.06
   },
   {
     "player_id": 418,
     "name": "Maguire",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
-    "start_prob": 0.887,
-    "projected_points": 3.2,
-    "ceiling_points": 6.0,
-    "haul_prob": 0.055
+    "start_prob": 0.89,
+    "projected_points": 3.46,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.07
   },
   {
     "player_id": 419,
     "name": "Martinez",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -4619,33 +5645,41 @@
   {
     "player_id": 420,
     "name": "Yoro",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
-    "start_prob": 0.519,
-    "projected_points": 2.06,
+    "start_prob": 0.535,
+    "projected_points": 2.3,
     "ceiling_points": 6.0,
-    "haul_prob": 0.024
+    "haul_prob": 0.04
   },
   {
     "player_id": 421,
     "name": "Heaven",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
-    "start_prob": 0.336,
-    "projected_points": 1.46,
+    "start_prob": 0.33,
+    "projected_points": 1.53,
     "ceiling_points": 6.0,
-    "haul_prob": 0.016
+    "haul_prob": 0.017
   },
   {
     "player_id": 422,
     "name": "Mazraoui",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
-    "start_prob": 0.356,
-    "projected_points": 1.66,
+    "start_prob": 0.37,
+    "projected_points": 1.81,
     "ceiling_points": 6.0,
     "haul_prob": 0.025
   },
   {
     "player_id": 423,
     "name": "Shaw",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -4655,6 +5689,8 @@
   {
     "player_id": 424,
     "name": "Amass",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
     "start_prob": 0.015,
     "projected_points": 0.11,
@@ -4664,6 +5700,8 @@
   {
     "player_id": 425,
     "name": "Fredricson",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -4673,69 +5711,85 @@
   {
     "player_id": 426,
     "name": "B.Fernandes",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
-    "start_prob": 0.766,
-    "projected_points": 4.9,
-    "ceiling_points": 11.0,
-    "haul_prob": 0.178
+    "start_prob": 0.741,
+    "projected_points": 5.41,
+    "ceiling_points": 13.0,
+    "haul_prob": 0.227
   },
   {
     "player_id": 427,
     "name": "Mbeumo",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
-    "start_prob": 0.926,
-    "projected_points": 5.3,
-    "ceiling_points": 11.0,
-    "haul_prob": 0.192
+    "start_prob": 0.92,
+    "projected_points": 5.78,
+    "ceiling_points": 13.0,
+    "haul_prob": 0.231
   },
   {
     "player_id": 428,
     "name": "Cunha",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
-    "start_prob": 0.866,
-    "projected_points": 4.66,
+    "start_prob": 0.864,
+    "projected_points": 5.15,
     "ceiling_points": 11.0,
-    "haul_prob": 0.154
+    "haul_prob": 0.183
   },
   {
     "player_id": 429,
     "name": "Rashford",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
-    "start_prob": 0.437,
-    "projected_points": 2.58,
-    "ceiling_points": 8.0,
-    "haul_prob": 0.063
+    "start_prob": 0.441,
+    "projected_points": 2.8,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.085
   },
   {
     "player_id": 430,
     "name": "Mount",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
-    "start_prob": 0.388,
-    "projected_points": 2.14,
-    "ceiling_points": 6.0,
-    "haul_prob": 0.029
+    "start_prob": 0.399,
+    "projected_points": 2.32,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.05
   },
   {
     "player_id": 431,
     "name": "Amad",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
-    "start_prob": 0.434,
-    "projected_points": 2.16,
-    "ceiling_points": 7.0,
-    "haul_prob": 0.038
+    "start_prob": 0.452,
+    "projected_points": 2.48,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.062
   },
   {
     "player_id": 432,
     "name": "Mainoo",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
-    "start_prob": 0.524,
-    "projected_points": 2.37,
+    "start_prob": 0.527,
+    "projected_points": 2.52,
     "ceiling_points": 7.0,
-    "haul_prob": 0.04
+    "haul_prob": 0.042
   },
   {
     "player_id": 433,
     "name": "Ugarte",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -4745,24 +5799,30 @@
   {
     "player_id": 434,
     "name": "J.Fletcher",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
     "start_prob": 0.02,
-    "projected_points": 0.14,
+    "projected_points": 0.15,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
   },
   {
     "player_id": 435,
     "name": "Lacey",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
-    "start_prob": 0.093,
-    "projected_points": 0.87,
+    "start_prob": 0.097,
+    "projected_points": 0.91,
     "ceiling_points": 2.0,
     "haul_prob": 0.005
   },
   {
     "player_id": 436,
     "name": "Collyer",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -4772,6 +5832,8 @@
   {
     "player_id": 437,
     "name": "Bendito Mantato",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
     "start_prob": 0.011,
     "projected_points": 0.06,
@@ -4781,6 +5843,8 @@
   {
     "player_id": 438,
     "name": "Fletcher",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
     "start_prob": 0.011,
     "projected_points": 0.06,
@@ -4790,6 +5854,8 @@
   {
     "player_id": 439,
     "name": "\u0160e\u0161ko",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -4799,15 +5865,19 @@
   {
     "player_id": 440,
     "name": "Zirkzee",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
-    "start_prob": 0.268,
-    "projected_points": 1.55,
-    "ceiling_points": 4.0,
-    "haul_prob": 0.012
+    "start_prob": 0.24,
+    "projected_points": 1.69,
+    "ceiling_points": 5.0,
+    "haul_prob": 0.018
   },
   {
     "player_id": 441,
     "name": "Obi",
+    "team": "MUN",
+    "opponent": "AVL (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -4817,33 +5887,41 @@
   {
     "player_id": 405,
     "name": "N.Gonzalez",
+    "team": "NEW",
+    "opponent": "FUL (A)",
     "gameweek": 10,
-    "start_prob": 0.836,
-    "projected_points": 2.58,
-    "ceiling_points": 5.0,
-    "haul_prob": 0.021
+    "start_prob": 0.837,
+    "projected_points": 2.69,
+    "ceiling_points": 6.1,
+    "haul_prob": 0.032
   },
   {
     "player_id": 442,
     "name": "Pope",
+    "team": "NEW",
+    "opponent": "FUL (A)",
     "gameweek": 10,
     "start_prob": 0.048,
-    "projected_points": 0.18,
+    "projected_points": 0.19,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
   },
   {
     "player_id": 443,
     "name": "Gillespie",
+    "team": "NEW",
+    "opponent": "FUL (A)",
     "gameweek": 10,
     "start_prob": 0.043,
-    "projected_points": 0.16,
+    "projected_points": 0.17,
     "ceiling_points": 0.0,
-    "haul_prob": 0.0
+    "haul_prob": 0.001
   },
   {
     "player_id": 444,
     "name": "Jaouen",
+    "team": "NEW",
+    "opponent": "FUL (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -4853,51 +5931,63 @@
   {
     "player_id": 445,
     "name": "Thiaw",
+    "team": "NEW",
+    "opponent": "FUL (A)",
     "gameweek": 10,
     "start_prob": 0.611,
-    "projected_points": 1.77,
+    "projected_points": 1.92,
     "ceiling_points": 6.0,
     "haul_prob": 0.014
   },
   {
     "player_id": 446,
     "name": "Sch\u00e4r",
+    "team": "NEW",
+    "opponent": "FUL (A)",
     "gameweek": 10,
-    "start_prob": 0.592,
-    "projected_points": 1.83,
+    "start_prob": 0.614,
+    "projected_points": 2.16,
     "ceiling_points": 6.0,
-    "haul_prob": 0.015
+    "haul_prob": 0.033
   },
   {
     "player_id": 447,
     "name": "Botman",
+    "team": "NEW",
+    "opponent": "FUL (A)",
     "gameweek": 10,
-    "start_prob": 0.641,
-    "projected_points": 1.98,
+    "start_prob": 0.642,
+    "projected_points": 2.16,
     "ceiling_points": 6.0,
-    "haul_prob": 0.016
+    "haul_prob": 0.029
   },
   {
     "player_id": 448,
     "name": "Burn",
+    "team": "NEW",
+    "opponent": "FUL (A)",
     "gameweek": 10,
-    "start_prob": 0.566,
-    "projected_points": 1.79,
+    "start_prob": 0.58,
+    "projected_points": 1.99,
     "ceiling_points": 6.0,
-    "haul_prob": 0.016
+    "haul_prob": 0.021
   },
   {
     "player_id": 449,
     "name": "Hall",
+    "team": "NEW",
+    "opponent": "FUL (A)",
     "gameweek": 10,
-    "start_prob": 0.9,
-    "projected_points": 2.86,
+    "start_prob": 0.902,
+    "projected_points": 3.1,
     "ceiling_points": 6.0,
-    "haul_prob": 0.035
+    "haul_prob": 0.048
   },
   {
     "player_id": 450,
     "name": "Livramento",
+    "team": "NEW",
+    "opponent": "FUL (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -4907,6 +5997,8 @@
   {
     "player_id": 451,
     "name": "A.Murphy",
+    "team": "NEW",
+    "opponent": "FUL (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -4916,24 +6008,30 @@
   {
     "player_id": 453,
     "name": "Barnes",
+    "team": "NEW",
+    "opponent": "FUL (A)",
     "gameweek": 10,
-    "start_prob": 0.909,
-    "projected_points": 3.42,
+    "start_prob": 0.908,
+    "projected_points": 3.73,
     "ceiling_points": 9.0,
-    "haul_prob": 0.068
+    "haul_prob": 0.084
   },
   {
     "player_id": 454,
     "name": "Elanga",
+    "team": "NEW",
+    "opponent": "FUL (A)",
     "gameweek": 10,
-    "start_prob": 0.458,
-    "projected_points": 2.03,
-    "ceiling_points": 6.0,
-    "haul_prob": 0.028
+    "start_prob": 0.465,
+    "projected_points": 2.22,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.04
   },
   {
     "player_id": 456,
     "name": "J.Ramsey",
+    "team": "NEW",
+    "opponent": "FUL (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -4943,60 +6041,74 @@
   {
     "player_id": 457,
     "name": "J.Murphy",
+    "team": "NEW",
+    "opponent": "FUL (A)",
     "gameweek": 10,
-    "start_prob": 0.572,
-    "projected_points": 2.33,
+    "start_prob": 0.593,
+    "projected_points": 2.56,
     "ceiling_points": 7.0,
-    "haul_prob": 0.029
+    "haul_prob": 0.034
   },
   {
     "player_id": 458,
     "name": "Joelinton",
+    "team": "NEW",
+    "opponent": "FUL (A)",
     "gameweek": 10,
-    "start_prob": 0.437,
-    "projected_points": 1.67,
-    "ceiling_points": 3.0,
-    "haul_prob": 0.013
-  },
-  {
-    "player_id": 459,
-    "name": "L.Miley",
-    "gameweek": 10,
-    "start_prob": 0.665,
-    "projected_points": 1.98,
-    "ceiling_points": 3.0,
-    "haul_prob": 0.012
-  },
-  {
-    "player_id": 460,
-    "name": "Willock",
-    "gameweek": 10,
-    "start_prob": 0.654,
-    "projected_points": 2.19,
-    "ceiling_points": 5.0,
-    "haul_prob": 0.029
-  },
-  {
-    "player_id": 461,
-    "name": "Tour\u00e9",
-    "gameweek": 10,
-    "start_prob": 0.335,
-    "projected_points": 1.6,
+    "start_prob": 0.448,
+    "projected_points": 1.8,
     "ceiling_points": 3.0,
     "haul_prob": 0.016
   },
   {
+    "player_id": 459,
+    "name": "L.Miley",
+    "team": "NEW",
+    "opponent": "FUL (A)",
+    "gameweek": 10,
+    "start_prob": 0.665,
+    "projected_points": 2.05,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.02
+  },
+  {
+    "player_id": 460,
+    "name": "Willock",
+    "team": "NEW",
+    "opponent": "FUL (A)",
+    "gameweek": 10,
+    "start_prob": 0.687,
+    "projected_points": 2.41,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.036
+  },
+  {
+    "player_id": 461,
+    "name": "Tour\u00e9",
+    "team": "NEW",
+    "opponent": "FUL (A)",
+    "gameweek": 10,
+    "start_prob": 0.34,
+    "projected_points": 1.79,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.019
+  },
+  {
     "player_id": 462,
     "name": "Steur",
+    "team": "NEW",
+    "opponent": "FUL (A)",
     "gameweek": 10,
-    "start_prob": 0.429,
-    "projected_points": 1.42,
+    "start_prob": 0.435,
+    "projected_points": 1.51,
     "ceiling_points": 3.0,
     "haul_prob": 0.006
   },
   {
     "player_id": 463,
     "name": "Woltemade",
+    "team": "NEW",
+    "opponent": "FUL (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5006,24 +6118,30 @@
   {
     "player_id": 464,
     "name": "Wissa",
+    "team": "NEW",
+    "opponent": "FUL (A)",
     "gameweek": 10,
-    "start_prob": 0.625,
-    "projected_points": 2.35,
-    "ceiling_points": 7.0,
-    "haul_prob": 0.016
-  },
-  {
-    "player_id": 465,
-    "name": "Osula",
-    "gameweek": 10,
-    "start_prob": 0.68,
-    "projected_points": 2.58,
+    "start_prob": 0.641,
+    "projected_points": 2.52,
     "ceiling_points": 7.0,
     "haul_prob": 0.022
   },
   {
+    "player_id": 465,
+    "name": "Osula",
+    "team": "NEW",
+    "opponent": "FUL (A)",
+    "gameweek": 10,
+    "start_prob": 0.699,
+    "projected_points": 2.79,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.028
+  },
+  {
     "player_id": 466,
     "name": "Neave",
+    "team": "NEW",
+    "opponent": "FUL (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5033,33 +6151,41 @@
   {
     "player_id": 559,
     "name": "Bamba",
+    "team": "NEW",
+    "opponent": "FUL (A)",
     "gameweek": 10,
-    "start_prob": 0.106,
-    "projected_points": 0.78,
+    "start_prob": 0.107,
+    "projected_points": 0.8,
     "ceiling_points": 2.0,
     "haul_prob": 0.001
   },
   {
     "player_id": 567,
     "name": "Horn\u00ed\u010dek",
+    "team": "NEW",
+    "opponent": "FUL (A)",
     "gameweek": 10,
-    "start_prob": 0.929,
-    "projected_points": 3.15,
+    "start_prob": 0.931,
+    "projected_points": 3.34,
     "ceiling_points": 6.0,
-    "haul_prob": 0.004
+    "haul_prob": 0.008
   },
   {
     "player_id": 593,
     "name": "Dedi\u0107",
+    "team": "NEW",
+    "opponent": "FUL (A)",
     "gameweek": 10,
-    "start_prob": 0.671,
-    "projected_points": 2.04,
+    "start_prob": 0.691,
+    "projected_points": 2.33,
     "ceiling_points": 6.0,
-    "haul_prob": 0.012
+    "haul_prob": 0.028
   },
   {
     "player_id": 609,
     "name": "Shahar",
+    "team": "NEW",
+    "opponent": "FUL (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5069,15 +6195,19 @@
   {
     "player_id": 634,
     "name": "Fernandez-Pardo",
+    "team": "NEW",
+    "opponent": "FUL (A)",
     "gameweek": 10,
-    "start_prob": 0.35,
-    "projected_points": 1.62,
-    "ceiling_points": 4.0,
-    "haul_prob": 0.007
+    "start_prob": 0.347,
+    "projected_points": 1.69,
+    "ceiling_points": 5.0,
+    "haul_prob": 0.012
   },
   {
     "player_id": 659,
     "name": "Miley",
+    "team": "NEW",
+    "opponent": "FUL (A)",
     "gameweek": 10,
     "start_prob": 0.01,
     "projected_points": 0.06,
@@ -5087,15 +6217,19 @@
   {
     "player_id": 663,
     "name": "Pivas",
+    "team": "NEW",
+    "opponent": "FUL (A)",
     "gameweek": 10,
     "start_prob": 0.014,
-    "projected_points": 0.09,
+    "projected_points": 0.1,
     "ceiling_points": 0.0,
-    "haul_prob": 0.001
+    "haul_prob": 0.0
   },
   {
     "player_id": 664,
     "name": "Salia",
+    "team": "NEW",
+    "opponent": "FUL (A)",
     "gameweek": 10,
     "start_prob": 0.01,
     "projected_points": 0.05,
@@ -5105,6 +6239,8 @@
   {
     "player_id": 665,
     "name": "Mills",
+    "team": "NEW",
+    "opponent": "FUL (A)",
     "gameweek": 10,
     "start_prob": 0.01,
     "projected_points": 0.06,
@@ -5114,6 +6250,8 @@
   {
     "player_id": 666,
     "name": "Thompson",
+    "team": "NEW",
+    "opponent": "FUL (A)",
     "gameweek": 10,
     "start_prob": 0.01,
     "projected_points": 0.06,
@@ -5123,51 +6261,63 @@
   {
     "player_id": 167,
     "name": "Delap",
+    "team": "NFO",
+    "opponent": "MCI (H)",
     "gameweek": 10,
-    "start_prob": 0.596,
-    "projected_points": 3.06,
+    "start_prob": 0.595,
+    "projected_points": 2.94,
     "ceiling_points": 8.0,
-    "haul_prob": 0.052
+    "haul_prob": 0.05
   },
   {
     "player_id": 201,
     "name": "Mu\u00f1oz",
+    "team": "NFO",
+    "opponent": "MCI (H)",
     "gameweek": 10,
-    "start_prob": 0.664,
-    "projected_points": 2.87,
+    "start_prob": 0.675,
+    "projected_points": 2.77,
     "ceiling_points": 7.0,
-    "haul_prob": 0.054
+    "haul_prob": 0.063
   },
   {
     "player_id": 467,
     "name": "Sels",
+    "team": "NFO",
+    "opponent": "MCI (H)",
     "gameweek": 10,
-    "start_prob": 0.94,
-    "projected_points": 3.62,
+    "start_prob": 0.938,
+    "projected_points": 3.32,
     "ceiling_points": 6.0,
-    "haul_prob": 0.008
+    "haul_prob": 0.007
   },
   {
     "player_id": 468,
     "name": "John",
+    "team": "NFO",
+    "opponent": "MCI (H)",
     "gameweek": 10,
-    "start_prob": 0.044,
-    "projected_points": 0.17,
+    "start_prob": 0.041,
+    "projected_points": 0.15,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
   },
   {
     "player_id": 469,
     "name": "N.Williams",
+    "team": "NFO",
+    "opponent": "MCI (H)",
     "gameweek": 10,
-    "start_prob": 0.888,
-    "projected_points": 3.43,
-    "ceiling_points": 8.0,
-    "haul_prob": 0.064
+    "start_prob": 0.891,
+    "projected_points": 3.13,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.054
   },
   {
     "player_id": 470,
     "name": "Morato",
+    "team": "NFO",
+    "opponent": "MCI (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5177,42 +6327,52 @@
   {
     "player_id": 471,
     "name": "Milenkovi\u0107",
+    "team": "NFO",
+    "opponent": "MCI (H)",
     "gameweek": 10,
-    "start_prob": 0.507,
-    "projected_points": 2.08,
+    "start_prob": 0.503,
+    "projected_points": 1.87,
     "ceiling_points": 6.0,
-    "haul_prob": 0.029
+    "haul_prob": 0.034
   },
   {
     "player_id": 472,
     "name": "Murillo",
+    "team": "NFO",
+    "opponent": "MCI (H)",
     "gameweek": 10,
     "start_prob": 0.885,
-    "projected_points": 3.54,
-    "ceiling_points": 8.0,
-    "haul_prob": 0.082
+    "projected_points": 3.23,
+    "ceiling_points": 7.0,
+    "haul_prob": 0.054
   },
   {
     "player_id": 473,
     "name": "Aina",
+    "team": "NFO",
+    "opponent": "MCI (H)",
     "gameweek": 10,
-    "start_prob": 0.443,
-    "projected_points": 1.8,
+    "start_prob": 0.434,
+    "projected_points": 1.58,
     "ceiling_points": 6.0,
-    "haul_prob": 0.024
+    "haul_prob": 0.021
   },
   {
     "player_id": 474,
     "name": "Jair Cunha",
+    "team": "NFO",
+    "opponent": "MCI (H)",
     "gameweek": 10,
-    "start_prob": 0.618,
-    "projected_points": 2.2,
+    "start_prob": 0.607,
+    "projected_points": 2.01,
     "ceiling_points": 6.0,
-    "haul_prob": 0.029
+    "haul_prob": 0.025
   },
   {
     "player_id": 475,
     "name": "Savona",
+    "team": "NFO",
+    "opponent": "MCI (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5222,15 +6382,19 @@
   {
     "player_id": 476,
     "name": "O.Richards",
+    "team": "NFO",
+    "opponent": "MCI (H)",
     "gameweek": 10,
-    "start_prob": 0.022,
-    "projected_points": 0.14,
+    "start_prob": 0.02,
+    "projected_points": 0.13,
     "ceiling_points": 0.0,
-    "haul_prob": 0.001
+    "haul_prob": 0.0
   },
   {
     "player_id": 477,
     "name": "Abbott",
+    "team": "NFO",
+    "opponent": "MCI (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5240,15 +6404,19 @@
   {
     "player_id": 478,
     "name": "Netz",
+    "team": "NFO",
+    "opponent": "MCI (H)",
     "gameweek": 10,
-    "start_prob": 0.338,
-    "projected_points": 1.33,
+    "start_prob": 0.33,
+    "projected_points": 1.19,
     "ceiling_points": 6.0,
-    "haul_prob": 0.011
+    "haul_prob": 0.009
   },
   {
     "player_id": 479,
     "name": "Bindon",
+    "team": "NFO",
+    "opponent": "MCI (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5258,33 +6426,41 @@
   {
     "player_id": 480,
     "name": "Gibbs-White",
+    "team": "NFO",
+    "opponent": "MCI (H)",
     "gameweek": 10,
-    "start_prob": 0.776,
-    "projected_points": 4.01,
+    "start_prob": 0.768,
+    "projected_points": 3.99,
     "ceiling_points": 10.0,
-    "haul_prob": 0.112
+    "haul_prob": 0.101
   },
   {
     "player_id": 482,
     "name": "Hudson-Odoi",
+    "team": "NFO",
+    "opponent": "MCI (H)",
     "gameweek": 10,
     "start_prob": 0.391,
-    "projected_points": 2.17,
+    "projected_points": 2.08,
     "ceiling_points": 7.0,
-    "haul_prob": 0.048
+    "haul_prob": 0.045
   },
   {
     "player_id": 483,
     "name": "Ndoye",
+    "team": "NFO",
+    "opponent": "MCI (H)",
     "gameweek": 10,
-    "start_prob": 0.83,
-    "projected_points": 3.77,
+    "start_prob": 0.809,
+    "projected_points": 3.53,
     "ceiling_points": 9.0,
-    "haul_prob": 0.097
+    "haul_prob": 0.089
   },
   {
     "player_id": 484,
     "name": "Hutchinson",
+    "team": "NFO",
+    "opponent": "MCI (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5294,6 +6470,8 @@
   {
     "player_id": 485,
     "name": "Bakwa",
+    "team": "NFO",
+    "opponent": "MCI (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5303,51 +6481,63 @@
   {
     "player_id": 486,
     "name": "McAtee",
+    "team": "NFO",
+    "opponent": "MCI (H)",
     "gameweek": 10,
-    "start_prob": 0.852,
-    "projected_points": 3.71,
+    "start_prob": 0.869,
+    "projected_points": 3.69,
     "ceiling_points": 9.0,
-    "haul_prob": 0.088
+    "haul_prob": 0.076
   },
   {
     "player_id": 487,
     "name": "Dominguez",
+    "team": "NFO",
+    "opponent": "MCI (H)",
     "gameweek": 10,
-    "start_prob": 0.28,
-    "projected_points": 1.24,
+    "start_prob": 0.277,
+    "projected_points": 1.2,
     "ceiling_points": 3.0,
-    "haul_prob": 0.006
+    "haul_prob": 0.004
   },
   {
     "player_id": 488,
     "name": "I.Sangar\u00e9",
+    "team": "NFO",
+    "opponent": "MCI (H)",
     "gameweek": 10,
-    "start_prob": 0.363,
-    "projected_points": 1.62,
+    "start_prob": 0.36,
+    "projected_points": 1.55,
     "ceiling_points": 3.0,
-    "haul_prob": 0.015
+    "haul_prob": 0.016
   },
   {
     "player_id": 489,
     "name": "Yates",
+    "team": "NFO",
+    "opponent": "MCI (H)",
     "gameweek": 10,
-    "start_prob": 0.142,
-    "projected_points": 0.83,
+    "start_prob": 0.147,
+    "projected_points": 0.89,
     "ceiling_points": 2.0,
-    "haul_prob": 0.004
+    "haul_prob": 0.007
   },
   {
     "player_id": 490,
     "name": "Wood",
+    "team": "NFO",
+    "opponent": "MCI (H)",
     "gameweek": 10,
-    "start_prob": 0.359,
-    "projected_points": 2.02,
-    "ceiling_points": 6.1,
-    "haul_prob": 0.022
+    "start_prob": 0.376,
+    "projected_points": 1.98,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.021
   },
   {
     "player_id": 491,
     "name": "Igor Jesus",
+    "team": "NFO",
+    "opponent": "MCI (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5357,51 +6547,63 @@
   {
     "player_id": 493,
     "name": "Kalimuendo",
+    "team": "NFO",
+    "opponent": "MCI (H)",
     "gameweek": 10,
-    "start_prob": 0.294,
-    "projected_points": 1.43,
+    "start_prob": 0.29,
+    "projected_points": 1.41,
     "ceiling_points": 2.0,
     "haul_prob": 0.004
   },
   {
     "player_id": 558,
     "name": "Schlager",
+    "team": "NFO",
+    "opponent": "MCI (H)",
     "gameweek": 10,
     "start_prob": 0.709,
-    "projected_points": 2.59,
-    "ceiling_points": 7.0,
+    "projected_points": 2.49,
+    "ceiling_points": 6.0,
     "haul_prob": 0.03
   },
   {
     "player_id": 581,
     "name": "Diomande",
+    "team": "NFO",
+    "opponent": "MCI (H)",
     "gameweek": 10,
-    "start_prob": 0.495,
-    "projected_points": 1.95,
+    "start_prob": 0.496,
+    "projected_points": 1.75,
     "ceiling_points": 6.0,
-    "haul_prob": 0.033
+    "haul_prob": 0.029
   },
   {
     "player_id": 590,
     "name": "Benda",
+    "team": "NFO",
+    "opponent": "MCI (H)",
     "gameweek": 10,
-    "start_prob": 0.045,
-    "projected_points": 0.18,
+    "start_prob": 0.041,
+    "projected_points": 0.15,
     "ceiling_points": 0.0,
-    "haul_prob": 0.001
+    "haul_prob": 0.0
   },
   {
     "player_id": 112,
     "name": "Van Hecke",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
-    "start_prob": 0.92,
-    "projected_points": 2.79,
+    "start_prob": 0.924,
+    "projected_points": 2.92,
     "ceiling_points": 6.0,
-    "haul_prob": 0.036
+    "haul_prob": 0.044
   },
   {
     "player_id": 147,
     "name": "Tosin",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5411,15 +6613,19 @@
   {
     "player_id": 401,
     "name": "Marmoush",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
-    "start_prob": 0.82,
-    "projected_points": 2.95,
+    "start_prob": 0.83,
+    "projected_points": 3.09,
     "ceiling_points": 8.0,
-    "haul_prob": 0.03
+    "haul_prob": 0.031
   },
   {
     "player_id": 403,
     "name": "S\u00e1vio",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5429,15 +6635,19 @@
   {
     "player_id": 455,
     "name": "Tonali",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
     "start_prob": 0.873,
-    "projected_points": 2.86,
+    "projected_points": 2.96,
     "ceiling_points": 7.0,
-    "haul_prob": 0.032
+    "haul_prob": 0.042
   },
   {
     "player_id": 494,
     "name": "Vicario",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5447,6 +6657,8 @@
   {
     "player_id": 495,
     "name": "Austin",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
     "start_prob": 0.014,
     "projected_points": 0.07,
@@ -5456,15 +6668,19 @@
   {
     "player_id": 496,
     "name": "Kinsky",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
-    "start_prob": 0.942,
-    "projected_points": 3.11,
+    "start_prob": 0.943,
+    "projected_points": 3.06,
     "ceiling_points": 6.0,
-    "haul_prob": 0.006
+    "haul_prob": 0.007
   },
   {
     "player_id": 497,
     "name": "Dubravka",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
     "start_prob": 0.014,
     "projected_points": 0.07,
@@ -5474,24 +6690,30 @@
   {
     "player_id": 498,
     "name": "Senesi",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
     "start_prob": 0.402,
-    "projected_points": 1.5,
+    "projected_points": 1.51,
     "ceiling_points": 6.0,
     "haul_prob": 0.015
   },
   {
     "player_id": 499,
     "name": "Pedro Porro",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
-    "start_prob": 0.452,
-    "projected_points": 1.65,
+    "start_prob": 0.486,
+    "projected_points": 1.85,
     "ceiling_points": 6.0,
-    "haul_prob": 0.018
+    "haul_prob": 0.032
   },
   {
     "player_id": 500,
     "name": "Romero",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5501,24 +6723,30 @@
   {
     "player_id": 502,
     "name": "Robertson",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
-    "start_prob": 0.733,
-    "projected_points": 2.46,
+    "start_prob": 0.752,
+    "projected_points": 2.59,
     "ceiling_points": 6.0,
-    "haul_prob": 0.028
+    "haul_prob": 0.033
   },
   {
     "player_id": 503,
     "name": "Van de Ven",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
-    "start_prob": 0.86,
-    "projected_points": 2.45,
+    "start_prob": 0.843,
+    "projected_points": 2.49,
     "ceiling_points": 6.0,
-    "haul_prob": 0.02
+    "haul_prob": 0.027
   },
   {
     "player_id": 505,
     "name": "Spence",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5528,15 +6756,19 @@
   {
     "player_id": 506,
     "name": "Udogie",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
-    "start_prob": 0.363,
-    "projected_points": 1.28,
-    "ceiling_points": 6.0,
-    "haul_prob": 0.012
+    "start_prob": 0.342,
+    "projected_points": 1.26,
+    "ceiling_points": 2.0,
+    "haul_prob": 0.008
   },
   {
     "player_id": 507,
     "name": "Phillips",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5546,15 +6778,19 @@
   {
     "player_id": 508,
     "name": "Davies",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
     "start_prob": 0.519,
     "projected_points": 1.53,
     "ceiling_points": 6.0,
-    "haul_prob": 0.009
+    "haul_prob": 0.008
   },
   {
     "player_id": 509,
     "name": "Byfield",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
     "start_prob": 0.014,
     "projected_points": 0.09,
@@ -5564,6 +6800,8 @@
   {
     "player_id": 510,
     "name": "Rowswell",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
     "start_prob": 0.014,
     "projected_points": 0.09,
@@ -5573,6 +6811,8 @@
   {
     "player_id": 511,
     "name": "Souza",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5582,15 +6822,19 @@
   {
     "player_id": 512,
     "name": "Kudus",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
-    "start_prob": 0.824,
-    "projected_points": 3.29,
-    "ceiling_points": 8.1,
-    "haul_prob": 0.068
+    "start_prob": 0.837,
+    "projected_points": 3.63,
+    "ceiling_points": 9.0,
+    "haul_prob": 0.088
   },
   {
     "player_id": 513,
     "name": "Xavi",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5600,33 +6844,41 @@
   {
     "player_id": 514,
     "name": "Tel",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
-    "start_prob": 0.834,
-    "projected_points": 3.07,
+    "start_prob": 0.839,
+    "projected_points": 3.28,
     "ceiling_points": 8.0,
-    "haul_prob": 0.052
+    "haul_prob": 0.06
   },
   {
     "player_id": 515,
     "name": "Maddison",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
     "start_prob": 0.676,
-    "projected_points": 2.58,
+    "projected_points": 2.61,
     "ceiling_points": 7.0,
-    "haul_prob": 0.032
+    "haul_prob": 0.028
   },
   {
     "player_id": 516,
     "name": "Bentancur",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
     "start_prob": 0.508,
-    "projected_points": 1.7,
+    "projected_points": 1.71,
     "ceiling_points": 3.0,
-    "haul_prob": 0.007
+    "haul_prob": 0.009
   },
   {
     "player_id": 517,
     "name": "Odobert",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5636,6 +6888,8 @@
   {
     "player_id": 518,
     "name": "P.M.Sarr",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5645,15 +6899,19 @@
   {
     "player_id": 519,
     "name": "Gallagher",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
-    "start_prob": 0.396,
-    "projected_points": 1.73,
+    "start_prob": 0.378,
+    "projected_points": 1.72,
     "ceiling_points": 3.0,
-    "haul_prob": 0.013
+    "haul_prob": 0.012
   },
   {
     "player_id": 520,
     "name": "Bergvall",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5663,24 +6921,30 @@
   {
     "player_id": 521,
     "name": "Kulusevski",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
-    "start_prob": 0.354,
-    "projected_points": 1.64,
-    "ceiling_points": 3.0,
-    "haul_prob": 0.022
+    "start_prob": 0.411,
+    "projected_points": 1.94,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.032
   },
   {
     "player_id": 522,
     "name": "Gray",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
-    "start_prob": 0.702,
-    "projected_points": 2.17,
+    "start_prob": 0.713,
+    "projected_points": 2.27,
     "ceiling_points": 3.0,
-    "haul_prob": 0.022
+    "haul_prob": 0.017
   },
   {
     "player_id": 523,
     "name": "Moore",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5690,6 +6954,8 @@
   {
     "player_id": 524,
     "name": "Olusesi",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
     "start_prob": 0.011,
     "projected_points": 0.05,
@@ -5699,24 +6965,30 @@
   {
     "player_id": 525,
     "name": "Fernandes",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
-    "start_prob": 0.722,
-    "projected_points": 2.78,
-    "ceiling_points": 7.0,
-    "haul_prob": 0.037
+    "start_prob": 0.75,
+    "projected_points": 2.97,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.043
   },
   {
     "player_id": 526,
     "name": "Solanke",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
-    "start_prob": 0.812,
-    "projected_points": 2.9,
-    "ceiling_points": 7.0,
-    "haul_prob": 0.021
+    "start_prob": 0.839,
+    "projected_points": 3.01,
+    "ceiling_points": 8.0,
+    "haul_prob": 0.028
   },
   {
     "player_id": 527,
     "name": "Richarlison",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5726,6 +6998,8 @@
   {
     "player_id": 528,
     "name": "Scarlett",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5735,6 +7009,8 @@
   {
     "player_id": 578,
     "name": "Mudryk",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5744,33 +7020,41 @@
   {
     "player_id": 601,
     "name": "Williams-Barnett",
+    "team": "TOT",
+    "opponent": "LEE (A)",
     "gameweek": 10,
-    "start_prob": 0.06,
-    "projected_points": 0.46,
+    "start_prob": 0.042,
+    "projected_points": 0.5,
     "ceiling_points": 1.0,
-    "haul_prob": 0.001
+    "haul_prob": 0.0
   },
   {
     "player_id": 501,
     "name": "Danso",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
     "start_prob": 0.471,
-    "projected_points": 2.02,
+    "projected_points": 1.94,
     "ceiling_points": 6.0,
-    "haul_prob": 0.035
+    "haul_prob": 0.032
   },
   {
     "player_id": 529,
     "name": "Roefs",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
-    "start_prob": 0.953,
-    "projected_points": 3.64,
+    "start_prob": 0.95,
+    "projected_points": 3.45,
     "ceiling_points": 6.0,
     "haul_prob": 0.004
   },
   {
     "player_id": 530,
     "name": "Patterson",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5780,15 +7064,19 @@
   {
     "player_id": 531,
     "name": "Ellborg",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
-    "start_prob": 0.044,
-    "projected_points": 0.17,
+    "start_prob": 0.041,
+    "projected_points": 0.15,
     "ceiling_points": 0.0,
     "haul_prob": 0.0
   },
   {
     "player_id": 532,
     "name": "Ballard",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5798,24 +7086,30 @@
   {
     "player_id": 533,
     "name": "Mukiele",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
     "start_prob": 0.632,
-    "projected_points": 2.61,
+    "projected_points": 2.51,
     "ceiling_points": 6.0,
-    "haul_prob": 0.051
+    "haul_prob": 0.054
   },
   {
     "player_id": 534,
     "name": "Hume",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
-    "start_prob": 0.565,
-    "projected_points": 2.24,
+    "start_prob": 0.564,
+    "projected_points": 2.16,
     "ceiling_points": 6.0,
-    "haul_prob": 0.034
+    "haul_prob": 0.029
   },
   {
     "player_id": 535,
     "name": "Alderete",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5825,15 +7119,19 @@
   {
     "player_id": 536,
     "name": "Reinildo",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
-    "start_prob": 0.687,
-    "projected_points": 2.34,
+    "start_prob": 0.685,
+    "projected_points": 2.31,
     "ceiling_points": 6.0,
-    "haul_prob": 0.021
+    "haul_prob": 0.026
   },
   {
     "player_id": 537,
     "name": "Seelt",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5843,6 +7141,8 @@
   {
     "player_id": 538,
     "name": "Hjelde",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5852,15 +7152,19 @@
   {
     "player_id": 539,
     "name": "O'Nien",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
-    "start_prob": 0.811,
-    "projected_points": 2.82,
+    "start_prob": 0.801,
+    "projected_points": 2.77,
     "ceiling_points": 6.0,
-    "haul_prob": 0.044
+    "haul_prob": 0.047
   },
   {
     "player_id": 540,
     "name": "Masuaku",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5870,51 +7174,63 @@
   {
     "player_id": 541,
     "name": "Meunier",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
-    "start_prob": 0.493,
-    "projected_points": 2.0,
+    "start_prob": 0.487,
+    "projected_points": 1.94,
     "ceiling_points": 6.0,
-    "haul_prob": 0.033
+    "haul_prob": 0.027
   },
   {
     "player_id": 542,
     "name": "E.Le F\u00e9e",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
-    "start_prob": 0.873,
-    "projected_points": 4.24,
+    "start_prob": 0.883,
+    "projected_points": 4.32,
     "ceiling_points": 10.0,
-    "haul_prob": 0.123
+    "haul_prob": 0.135
   },
   {
     "player_id": 543,
     "name": "Diarra",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
     "start_prob": 0.24,
     "projected_points": 1.38,
     "ceiling_points": 3.0,
-    "haul_prob": 0.009
+    "haul_prob": 0.01
   },
   {
     "player_id": 544,
     "name": "Xhaka",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
-    "start_prob": 0.904,
-    "projected_points": 3.46,
+    "start_prob": 0.914,
+    "projected_points": 3.49,
     "ceiling_points": 8.0,
-    "haul_prob": 0.053
+    "haul_prob": 0.047
   },
   {
     "player_id": 545,
     "name": "Sadiki",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
-    "start_prob": 0.788,
-    "projected_points": 2.85,
+    "start_prob": 0.792,
+    "projected_points": 2.81,
     "ceiling_points": 8.0,
-    "haul_prob": 0.042
+    "haul_prob": 0.039
   },
   {
     "player_id": 546,
     "name": "Adingra",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5924,6 +7240,8 @@
   {
     "player_id": 547,
     "name": "Mundle",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
     "start_prob": 0.0,
     "projected_points": 0.0,
@@ -5933,24 +7251,30 @@
   {
     "player_id": 548,
     "name": "Rigg",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
-    "start_prob": 0.393,
-    "projected_points": 1.67,
+    "start_prob": 0.404,
+    "projected_points": 1.78,
     "ceiling_points": 3.0,
-    "haul_prob": 0.012
+    "haul_prob": 0.015
   },
   {
     "player_id": 549,
     "name": "Talbi",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
-    "start_prob": 0.177,
-    "projected_points": 1.12,
-    "ceiling_points": 2.0,
-    "haul_prob": 0.006
+    "start_prob": 0.184,
+    "projected_points": 1.18,
+    "ceiling_points": 3.0,
+    "haul_prob": 0.008
   },
   {
     "player_id": 550,
     "name": "Jocelin.T",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
     "start_prob": 0.107,
     "projected_points": 0.73,
@@ -5960,73 +7284,89 @@
   {
     "player_id": 551,
     "name": "N.Angulo",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
-    "start_prob": 0.567,
-    "projected_points": 2.15,
-    "ceiling_points": 5.0,
-    "haul_prob": 0.023
+    "start_prob": 0.553,
+    "projected_points": 2.2,
+    "ceiling_points": 6.0,
+    "haul_prob": 0.027
   },
   {
     "player_id": 552,
     "name": "Brobbey",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
-    "start_prob": 0.661,
-    "projected_points": 3.15,
+    "start_prob": 0.626,
+    "projected_points": 3.09,
     "ceiling_points": 8.0,
-    "haul_prob": 0.048
+    "haul_prob": 0.054
   },
   {
     "player_id": 553,
     "name": "Isidor",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
-    "start_prob": 0.342,
-    "projected_points": 1.94,
+    "start_prob": 0.335,
+    "projected_points": 1.96,
     "ceiling_points": 6.0,
-    "haul_prob": 0.019
+    "haul_prob": 0.025
   },
   {
     "player_id": 612,
     "name": "Methalie",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
     "start_prob": 0.31,
-    "projected_points": 1.31,
+    "projected_points": 1.25,
     "ceiling_points": 6.0,
     "haul_prob": 0.014
   },
   {
     "player_id": 613,
     "name": "Ahoka",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
     "start_prob": 0.094,
     "projected_points": 0.71,
     "ceiling_points": 2.0,
-    "haul_prob": 0.001
+    "haul_prob": 0.002
   },
   {
     "player_id": 646,
     "name": "Fofana",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
-    "start_prob": 0.363,
-    "projected_points": 1.83,
+    "start_prob": 0.366,
+    "projected_points": 1.86,
     "ceiling_points": 6.0,
-    "haul_prob": 0.027
+    "haul_prob": 0.032
   },
   {
     "player_id": 651,
     "name": "J.Angulo",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
     "start_prob": 0.06,
-    "projected_points": 0.68,
+    "projected_points": 0.67,
     "ceiling_points": 1.0,
     "haul_prob": 0.001
   },
   {
     "player_id": 668,
     "name": "Tutierov",
+    "team": "SUN",
+    "opponent": "CHE (H)",
     "gameweek": 10,
-    "start_prob": 0.256,
+    "start_prob": 0.254,
     "projected_points": 1.28,
     "ceiling_points": 3.0,
-    "haul_prob": 0.009
+    "haul_prob": 0.008
   }
 ]

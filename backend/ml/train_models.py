@@ -271,12 +271,21 @@ def run_live_sota_inference(models):
     teams = boot.get("teams", [])
     team_map = {}
     for t in teams:
+        so_h = t.get("strength_overall_home") or 3
+        so_a = t.get("strength_overall_away") or 3
+        default_h = 850 + so_h * 100
+        default_a = 850 + so_a * 100
+        raw_att_h = float(t.get("strength_attack_home") or 0)
+        raw_att_a = float(t.get("strength_attack_away") or 0)
+        raw_def_h = float(t.get("strength_defence_home") or 0)
+        raw_def_a = float(t.get("strength_defence_away") or 0)
+
         team_map[t["id"]] = {
             "name": t["short_name"],
-            "att_h": float(t.get("strength_attack_home") or 1150) / 1150.0,
-            "att_a": float(t.get("strength_attack_away") or 1150) / 1150.0,
-            "def_h": float(t.get("strength_defence_home") or 1150) / 1150.0,
-            "def_a": float(t.get("strength_defence_away") or 1150) / 1150.0,
+            "att_h": (raw_att_h if raw_att_h > 500 else default_h) / 1150.0,
+            "att_a": (raw_att_a if raw_att_a > 500 else default_a) / 1150.0,
+            "def_h": (raw_def_h if raw_def_h > 500 else default_h) / 1150.0,
+            "def_a": (raw_def_a if raw_def_a > 500 else default_a) / 1150.0,
         }
 
     # Fetch Upcoming Gameweek Fixtures (Supports Double & Blank Gameweeks!)
@@ -288,20 +297,22 @@ def run_live_sota_inference(models):
         th, ta = fx.get("team_h"), fx.get("team_a")
         if th in team_map and ta in team_map:
             # Expected goals scored by opponent against home team (th)
-            lambda_opp_for_home = 1.15 * team_map[ta]["att_a"] * team_map[th]["def_h"]
+            lambda_opp_for_home = 1.15 * team_map[ta]["att_a"] / max(0.75, team_map[th]["def_h"])
             # Expected goals scored by opponent against away team (ta)
-            lambda_opp_for_away = 1.38 * team_map[th]["att_h"] * team_map[ta]["def_a"]
+            lambda_opp_for_away = 1.38 * team_map[th]["att_h"] / max(0.75, team_map[ta]["def_a"])
             # Opponent defensive weakness (higher = easier to score against opponent)
-            opp_weakness_for_home = 1.35 * (team_map[ta]["def_a"] / max(0.75, team_map[th]["att_h"]))
-            opp_weakness_for_away = 1.15 * (team_map[th]["def_h"] / max(0.75, team_map[ta]["att_a"]))
+            opp_weakness_for_home = 1.35 * (team_map[th]["att_h"] / max(0.75, team_map[ta]["def_a"]))
+            opp_weakness_for_away = 1.15 * (team_map[ta]["att_a"] / max(0.75, team_map[th]["def_h"]))
 
             team_fixtures[th].append({
                 "was_home": 1,
+                "opp_team": team_map[ta]["name"],
                 "lambda_opp": np.clip(lambda_opp_for_home, 0.55, 2.85),
                 "opp_weakness": np.clip(opp_weakness_for_home, 0.65, 2.10),
             })
             team_fixtures[ta].append({
                 "was_home": 0,
+                "opp_team": team_map[th]["name"],
                 "lambda_opp": np.clip(lambda_opp_for_away, 0.55, 2.85),
                 "opp_weakness": np.clip(opp_weakness_for_away, 0.65, 2.10),
             })
@@ -391,7 +402,7 @@ def run_live_sota_inference(models):
                 continue
 
             # Fixture-adjusted attacking rates
-            opp_scale = (fx["opp_weakness"] / 1.25) ** 0.65
+            opp_scale = (fx["opp_weakness"] / 1.15) ** 0.85
             home_boost = 1.08 if fx["was_home"] == 1 else 0.94
 
             lam_g = float(np.clip(reg_xg.predict(feat_row)[0] * opp_scale * home_boost, 0.01, 1.45))
@@ -450,9 +461,15 @@ def run_live_sota_inference(models):
             total_ceiling += float(np.percentile(sim_pts, 90))
             max_haul_prob = max(max_haul_prob, float(np.mean(sim_pts >= 10)))
 
+        opp_str = ""
+        if fxs:
+            opp_str = ", ".join([f"{fx['opp_team']} ({'H' if fx['was_home'] else 'A'})" for fx in fxs])
+
         predictions.append({
             "player_id": p_id,
             "name": el.get("web_name", ""),
+            "team": team_map.get(team_id, {}).get("name", ""),
+            "opponent": opp_str,
             "gameweek": target_gw,
             "start_prob": round(primary_start_prob, 3),
             "projected_points": round(total_xp, 2),
@@ -467,8 +484,9 @@ def run_live_sota_inference(models):
     top_10 = sorted(predictions, key=lambda x: x["projected_points"], reverse=True)[:10]
     print("\n--- TOP 10 SOTA PROJECTED PLAYERS ---")
     for r in top_10:
+        opp_info = f"({r.get('opponent', '')})"
         print(
-            f"{r['name']:15s} | xP: {r['projected_points']:5.2f} | "
+            f"{r['name']:15s} | {opp_info:14s} | xP: {r['projected_points']:5.2f} | "
             f"Ceiling: {r['ceiling_points']:4.1f} | Haul%: {r['haul_prob']*100:4.1f}% | "
             f"Start%: {r['start_prob']*100:4.0f}%"
         )
