@@ -40,6 +40,8 @@ export interface Player {
   gw_points?: number;
   live_points?: number;
   projectedPoints: number;
+  ceilingPoints?: number;
+  haulProb?: number;
   form: number;
   xG: number;
   xA: number;
@@ -151,6 +153,8 @@ export interface ComparisonPlayer {
   price: string;
   photoUrl: string;
   projectedPoints: number;
+  ceilingPoints?: number;
+  haulProb?: number;
   startProbability: number;
   xGI: number;
   form: number;

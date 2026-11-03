@@ -1,6 +1,8 @@
 export const dynamic = "force-dynamic";
 
 import { NextRequest, NextResponse } from "next/server";
+import fs from "fs";
+import path from "path";
 import {
   GoogleGenerativeAI,
   FunctionDeclaration,
@@ -16,18 +18,81 @@ import {
   ComparisonPlayer,
 } from "@/types/fpl";
 
+// SOTA Model & War Room Intelligence Interfaces
+interface SotaPrediction {
+  player_id: number;
+  name?: string;
+  projected_points: number;
+  start_prob: number;
+  ceiling_points?: number;
+  haul_prob?: number;
+}
+
+interface WarRoomDigest {
+  gameweek?: number;
+  executive_briefing?: string;
+  press_conference_radar?: string[];
+  creator_and_reddit_consensus?: {
+    top_buys?: string[];
+    top_sells?: string[];
+    captaincy_poll_leader?: string;
+  };
+  community_traps_vs_sota_math?: string[];
+  shield_vs_sword_captaincy?: {
+    shield?: string;
+    sword?: string;
+  };
+  player_specific_intel?: Array<{
+    player_web_name: string;
+    news_text: string;
+    source: string;
+  }>;
+}
+
+function loadSotaPredictionsMap(): Map<number, SotaPrediction> {
+  const map = new Map<number, SotaPrediction>();
+  try {
+    const sotaPath = path.join(process.cwd(), "backend", "ml", "models", "latest_sota_predictions.json");
+    if (fs.existsSync(sotaPath)) {
+      const data = JSON.parse(fs.readFileSync(sotaPath, "utf-8"));
+      if (Array.isArray(data)) {
+        for (const item of data) {
+          if (item && item.player_id != null) {
+            map.set(Number(item.player_id), item);
+          }
+        }
+      }
+    }
+  } catch (err) {
+    console.warn("Could not load latest_sota_predictions.json in chat route:", err);
+  }
+  return map;
+}
+
+function loadWarRoomDigest(): WarRoomDigest | null {
+  try {
+    const digestPath = path.join(process.cwd(), "backend", "ml", "models", "gw_intelligence_digest.json");
+    if (fs.existsSync(digestPath)) {
+      return JSON.parse(fs.readFileSync(digestPath, "utf-8"));
+    }
+  } catch (err) {
+    console.warn("Could not load gw_intelligence_digest.json in chat route:", err);
+  }
+  return null;
+}
+
 // Gemini Function Declarations
 const getPlayerTelemetryDeclaration: FunctionDeclaration = {
   name: "get_player_telemetry",
   description:
-    "Retrieve live gameweek telemetry, active status, cost, and season stats for a specific Premier League player by name.",
+    "Retrieve live gameweek telemetry, active status, cost, SOTA Poisson xP, p90 Ceiling, and Haul probability for a specific Premier League player by name.",
   parameters: {
     type: SchemaType.OBJECT,
     properties: {
       playerName: {
         type: SchemaType.STRING,
         description:
-          "The name or surname of the player (e.g., 'Elanga', 'Saka', 'Salah').",
+          "The name or surname of the player (e.g., 'Haaland', 'Mbeumo', 'Palmer').",
       },
     },
     required: ["playerName"],
@@ -37,7 +102,7 @@ const getPlayerTelemetryDeclaration: FunctionDeclaration = {
 const findTransferCandidatesDeclaration: FunctionDeclaration = {
   name: "find_transfer_candidates",
   description:
-    "Query the active FPL database for ranked transfer targets based on position, budget, and performance.",
+    "Query the active FPL database for ranked transfer targets based on position, budget, and SOTA mathematical expected points.",
   parameters: {
     type: SchemaType.OBJECT,
     properties: {
@@ -63,7 +128,7 @@ const findTransferCandidatesDeclaration: FunctionDeclaration = {
   },
 };
 
-// Tool Execution Handler (Supabase Queries)
+// Tool Execution Handler (Supabase Queries + SOTA Enriched)
 async function executeTool(name: string, args: any) {
   if (name === "get_player_telemetry") {
     const rawName = (args?.playerName || "").trim();
@@ -77,7 +142,7 @@ async function executeTool(name: string, args: any) {
     const { data: players } = await supabase
       .from("players")
       .select(
-        "id, web_name, first_name, second_name, element_type, now_cost, status, total_points, teams(name, short_name)"
+        "id, web_name, first_name, second_name, element_type, now_cost, status, total_points, teams(name, short_name), player_predictions(*)"
       )
       .or(
         `web_name.ilike.%${rawName}%,second_name.ilike.%${rawName}%,first_name.ilike.%${rawName}%`
@@ -92,6 +157,38 @@ async function executeTool(name: string, args: any) {
     }
 
     const player = players[0] as any;
+    const playerId = Number(player.id);
+    const sotaMap = loadSotaPredictionsMap();
+    const sota = sotaMap.get(playerId);
+    const sortedPreds = player.player_predictions?.sort((a: any, b: any) => (b.gw || 0) - (a.gw || 0));
+    const dbPred = sortedPreds?.[0];
+
+    // Check team_news from Supabase or digest
+    let playerNewsText = "";
+    try {
+      const { data: newsRows } = await supabase
+        .from("team_news")
+        .select("news_text, source")
+        .eq("player_id", playerId)
+        .order("published_at", { ascending: false })
+        .limit(1);
+      if (newsRows && newsRows.length > 0) {
+        playerNewsText = `${newsRows[0].source}: ${newsRows[0].news_text}`;
+      }
+    } catch {
+      // ignore
+    }
+
+    if (!playerNewsText) {
+      const digest = loadWarRoomDigest();
+      const match = digest?.player_specific_intel?.find(
+        (p) => p.player_web_name.toLowerCase() === player.web_name.toLowerCase()
+      );
+      if (match) {
+        playerNewsText = `${match.source}: ${match.news_text}`;
+      }
+    }
+
     const { data: gwStats } = await supabase
       .from("live_gameweek_stats")
       .select("*")
@@ -100,6 +197,12 @@ async function executeTool(name: string, args: any) {
       .limit(1);
 
     const posMap: Record<number, string> = { 1: "GKP", 2: "DEF", 3: "MID", 4: "FWD" };
+
+    const projPts = Number((dbPred?.projected_points ?? sota?.projected_points ?? 0).toFixed(1));
+    const ceilingPts = Number((dbPred?.shap_explanation?.ceiling_points ?? sota?.ceiling_points ?? (projPts * 1.9)).toFixed(1));
+    const haulPct = Number((dbPred?.shap_explanation?.haul_prob != null ? dbPred.shap_explanation.haul_prob * 100 : (sota?.haul_prob != null ? sota.haul_prob * 100 : 0)).toFixed(1));
+    const startProb = Number((dbPred?.start_probability ?? (sota?.start_prob != null ? (sota.start_prob <= 1 ? sota.start_prob * 100 : sota.start_prob) : 85)).toFixed(1));
+
     return {
       found: true,
       name: `${player.first_name || ""} ${player.web_name || ""}`.trim(),
@@ -108,6 +211,11 @@ async function executeTool(name: string, args: any) {
       cost: `£${(player.now_cost / 10).toFixed(1)}m`,
       status: player.status,
       seasonPoints: player.total_points,
+      projectedPoints: projPts,
+      ceilingPoints: ceilingPts,
+      haulProb: `${haulPct}%`,
+      startProbability: `${startProb}%`,
+      intelBriefing: playerNewsText || undefined,
       latestGwStats: gwStats?.[0] || {
         minutes: 0,
         goals_scored: 0,
@@ -122,10 +230,8 @@ async function executeTool(name: string, args: any) {
   if (name === "find_transfer_candidates") {
     let query = supabase
       .from("players")
-      .select("web_name, element_type, now_cost, total_points, status, teams(short_name)")
-      .neq("status", "u") // Exclude unavailable/departed players
-      .order("total_points", { ascending: false })
-      .limit(args?.limit || 5);
+      .select("id, web_name, element_type, now_cost, total_points, status, teams(short_name), player_predictions(*)")
+      .neq("status", "u");
 
     if (args?.position) {
       const posRevMap: Record<string, number> = { GKP: 1, DEF: 2, MID: 3, FWD: 4 };
@@ -142,17 +248,41 @@ async function executeTool(name: string, args: any) {
       query = query.gte("now_cost", Math.round(args.minCost * 10));
     }
 
-    const { data: candidates } = await query;
+    const { data: rawCandidates } = await query;
+    const sotaMap = loadSotaPredictionsMap();
     const posMap: Record<number, string> = { 1: "GKP", 2: "DEF", 3: "MID", 4: "FWD" };
 
-    return {
-      candidates: (candidates || []).map((c: any) => ({
+    const candidates = (rawCandidates || []).map((c: any) => {
+      const pId = Number(c.id);
+      const sota = sotaMap.get(pId);
+      const sortedPreds = c.player_predictions?.sort((a: any, b: any) => (b.gw || 0) - (a.gw || 0));
+      const dbPred = sortedPreds?.[0];
+
+      const projPts = Number((dbPred?.projected_points ?? sota?.projected_points ?? 0).toFixed(1));
+      const ceilingPts = Number((dbPred?.shap_explanation?.ceiling_points ?? sota?.ceiling_points ?? (projPts * 1.9)).toFixed(1));
+      const haulPct = Number((dbPred?.shap_explanation?.haul_prob != null ? dbPred.shap_explanation.haul_prob * 100 : (sota?.haul_prob != null ? sota.haul_prob * 100 : 0)).toFixed(1));
+      const startProb = Number((dbPred?.start_probability ?? (sota?.start_prob != null ? (sota.start_prob <= 1 ? sota.start_prob * 100 : sota.start_prob) : 85)).toFixed(1));
+
+      return {
+        id: c.id,
         name: c.web_name,
         position: posMap[c.element_type] || "MID",
         team: c.teams?.short_name || "PL",
         cost: `£${(c.now_cost / 10).toFixed(1)}m`,
         totalPoints: c.total_points,
-      })),
+        projectedPoints: projPts,
+        ceilingPoints: ceilingPts,
+        haulProb: `${haulPct}%`,
+        startProbability: `${startProb}%`,
+      };
+    });
+
+    // Sort candidates strictly by SOTA projectedPoints (xP) descending!
+    candidates.sort((a: any, b: any) => b.projectedPoints - a.projectedPoints);
+
+    const limit = args?.limit || 5;
+    return {
+      candidates: candidates.slice(0, limit),
     };
   }
 
@@ -161,38 +291,65 @@ async function executeTool(name: string, args: any) {
 
 async function fetchRelevantNews(
   query: string,
-  genAI: GoogleGenerativeAI | null
-): Promise<Array<{ news_text: string; source: string; similarity: number }>> {
-  if (!genAI || !query) return [];
-  try {
-    const candidateModels = ["gemini-embedding-001", "text-embedding-004"];
-    for (const modelName of candidateModels) {
-      try {
-        const embModel = genAI.getGenerativeModel({ model: modelName });
-        const embRes = await embModel.embedContent({
-          content: { role: "user", parts: [{ text: query }] },
-          outputDimensionality: 768,
-        } as any);
-        const embedding = embRes.embedding?.values;
-        if (embedding && embedding.length === 768) {
-          const { data, error } = await supabase.rpc("match_news", {
-            query_embedding: embedding,
-            match_threshold: 0.35,
-            match_count: 3,
-          });
-          if (!error && data && data.length > 0) {
-            return data;
-          }
-        }
-      } catch {
-        continue;
+  genAI: GoogleGenerativeAI | null,
+  squadPlayerIds: number[] = []
+): Promise<{
+  vectorNews: Array<{ news_text: string; source: string; similarity: number }>;
+  squadNews: Array<{ player_id: number; news_text: string; source: string }>;
+  warRoomDigest: WarRoomDigest | null;
+}> {
+  const warRoomDigest = loadWarRoomDigest();
+  let vectorNews: Array<{ news_text: string; source: string; similarity: number }> = [];
+  let squadNews: Array<{ player_id: number; news_text: string; source: string }> = [];
+
+  // 1. Fetch squad-specific news from Supabase team_news
+  if (squadPlayerIds.length > 0) {
+    try {
+      const { data } = await supabase
+        .from("team_news")
+        .select("player_id, news_text, source")
+        .in("player_id", squadPlayerIds);
+      if (data) {
+        squadNews = data;
       }
+    } catch (e) {
+      console.warn("Could not fetch squad team_news:", e);
     }
-    return [];
-  } catch (err: any) {
-    console.warn("fetchRelevantNews error:", err.message || err);
-    return [];
   }
+
+  // 2. Fetch vector similarity news via Gemini embeddings + match_news
+  if (genAI && query) {
+    try {
+      const candidateModels = ["gemini-embedding-001", "text-embedding-004"];
+      for (const modelName of candidateModels) {
+        try {
+          const embModel = genAI.getGenerativeModel({ model: modelName });
+          const embRes = await embModel.embedContent({
+            content: { role: "user", parts: [{ text: query }] },
+            outputDimensionality: 768,
+          } as any);
+          const embedding = embRes.embedding?.values;
+          if (embedding && embedding.length === 768) {
+            const { data, error } = await supabase.rpc("match_news", {
+              query_embedding: embedding,
+              match_threshold: 0.35,
+              match_count: 4,
+            });
+            if (!error && data && data.length > 0) {
+              vectorNews = data;
+              break;
+            }
+          }
+        } catch {
+          continue;
+        }
+      }
+    } catch (err: any) {
+      console.warn("fetchRelevantNews vector search error:", err.message || err);
+    }
+  }
+
+  return { vectorNews, squadNews, warRoomDigest };
 }
 
 function generateComparisonCard(
@@ -213,6 +370,8 @@ function generateComparisonCard(
     price: `£${playerA.price.toFixed(1)}m`,
     photoUrl: playerA.photoUrl,
     projectedPoints: playerA.projectedPoints,
+    ceilingPoints: playerA.ceilingPoints,
+    haulProb: playerA.haulProb,
     startProbability: playerA.startProbability,
     xGI: playerA.xGI,
     form: playerA.form,
@@ -220,7 +379,7 @@ function generateComparisonCard(
     fdr: playerA.currentFixture.difficulty,
     selectedBy: `${playerA.selectedByPercent}%`,
     advantages: [
-      `FDR ${playerA.currentFixture.difficulty} matchup with high projected volume`,
+      `SOTA projected ${playerA.projectedPoints} xP with ${playerA.ceilingPoints ?? 10.0} p90 ceiling`,
       `${playerA.totalPoints} pts scored this season (${playerA.form} form)`,
       `${playerA.startProbability}% expected start probability`,
     ],
@@ -233,6 +392,8 @@ function generateComparisonCard(
     price: `£${playerB.price.toFixed(1)}m`,
     photoUrl: playerB.photoUrl,
     projectedPoints: playerB.projectedPoints,
+    ceilingPoints: playerB.ceilingPoints,
+    haulProb: playerB.haulProb,
     startProbability: playerB.startProbability,
     xGI: playerB.xGI,
     form: playerB.form,
@@ -242,7 +403,7 @@ function generateComparisonCard(
     advantages: [
       `Key focal point for ${playerB.team}`,
       `${playerB.selectedByPercent}% overall ownership in FPL`,
-      `${playerB.projectedPoints} projected points baseline`,
+      `${playerB.projectedPoints} projected points baseline (${playerB.ceilingPoints ?? 9.5} ceiling)`,
     ],
   };
 
@@ -252,13 +413,13 @@ function generateComparisonCard(
     verdict: {
       recommendedPlayerId: recommended.id,
       headline: `Touchline AI Recommends: Armband on ${recommended.webName} ⚡`,
-      summary: `${recommended.webName} holds a +${xpDiff} xP advantage over ${opponent.webName} for GW${gw}. LightGBM model rates ${recommended.team} with higher expected returns and probability of starting.`,
+      summary: `${recommended.webName} holds a +${xpDiff} xP advantage over ${opponent.webName} for GW${gw}. SOTA Poisson & Monte Carlo simulations rate ${recommended.team} with higher expected returns and probability of starting.`,
       reasons: [
-        `${recommended.webName} leads in model projected points (${recommended.projectedPoints} pts)`,
+        `${recommended.webName} leads in model projected points (${recommended.projectedPoints} xP, ${recommended.ceilingPoints ?? 10.0} ceiling)`,
         `${recommended.startProbability}% start probability rating`,
-        `Effective captaincy ceiling against ${recommended.currentFixture.opponent}`,
+        `Effective captaincy ceiling against ${recommended.currentFixture.opponent}${recommended.haulProb ? ` with ${recommended.haulProb}% haul probability` : ""}`,
       ],
-      confidence: 86,
+      confidence: 88,
     },
   };
 }
@@ -268,27 +429,42 @@ function generateDynamicInsights(
   captain: Player,
   gw: number,
   bestTransferMove?: any,
-  newsItems?: any[]
+  newsItems?: any[],
+  warRoomDigest?: WarRoomDigest | null
 ): InsightItem[] {
   const starters = players.filter((p) => !p.isBench);
   const bench = players.filter((p) => p.isBench);
 
-  // 1. Captaincy Insight
+  // 1. Captaincy Insight (Incorporating Shield vs Sword)
+  const swordPick = warRoomDigest?.shield_vs_sword_captaincy?.sword;
   const captaincyInsight: InsightItem = {
     id: `ins-cap-${Date.now()}`,
     type: "captaincy",
     severity: "success",
     badge: "Armband Recommendation",
     title: `${captain.webName} vs ${captain.currentFixture.opponent} (${captain.currentFixture.isHome ? "H" : "A"})`,
-    summary: `Top projected points earner (${captain.projectedPoints} pts) in your squad for GW${gw}.`,
-    expandedDetail: `Our LightGBM model projects ${captain.webName} as your highest expected return asset (${captain.projectedPoints} xP, ${captain.startProbability}% start probability).`,
+    summary: `Top projected points earner (${captain.projectedPoints} pts, ${captain.ceilingPoints ?? 10.0} ceiling) in your squad for GW${gw}.`,
+    expandedDetail: `Our SOTA Component-Decomposed model projects ${captain.webName} as your highest expected return asset (${captain.projectedPoints} xP, ${captain.startProbability}% start probability). ${swordPick ? `Differential Sword option: ${swordPick}.` : ""}`,
     actionText: `Confirm ${captain.webName} (C)`,
     actionPayload: `captain-${captain.id}`,
   };
 
-  // 2. Transfer Insight
+  // 2. Transfer / War Room Trap Insight
   let secondInsight: InsightItem;
-  if (bestTransferMove && bestTransferMove.transfersIn?.[0]) {
+  if (warRoomDigest?.community_traps_vs_sota_math && warRoomDigest.community_traps_vs_sota_math.length > 0) {
+    const trap = warRoomDigest.community_traps_vs_sota_math[0];
+    secondInsight = {
+      id: `ins-trap-${Date.now()}`,
+      type: "transfer",
+      severity: "warning",
+      badge: "Community Trap vs Math",
+      title: "War Room Trap Alert",
+      summary: trap.slice(0, 110) + (trap.length > 110 ? "..." : ""),
+      expandedDetail: trap,
+      actionText: "View Transfer Targets",
+      actionPayload: "view-transfers",
+    };
+  } else if (bestTransferMove && bestTransferMove.transfersIn?.[0]) {
     const pIn = bestTransferMove.transfersIn[0].player;
     const pOut = bestTransferMove.transfersOut[0];
     const netGain = bestTransferMove.netGain;
@@ -358,7 +534,27 @@ export async function POST(request: NextRequest) {
     const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null;
 
     const squadData = await fetchManagerSquad(entryId);
-    const { stats, players } = squadData;
+    const { stats, players: rawPlayers } = squadData;
+
+    // Load SOTA projections map & War Room Digest from disk
+    const sotaMap = loadSotaPredictionsMap();
+    const warRoomDigest = loadWarRoomDigest();
+
+    // Enrich squad players with SOTA xP, ceiling, haul%, startProb
+    const players: Player[] = rawPlayers.map((p) => {
+      const sota = sotaMap.get(Number(p.id));
+      const projPts = sota?.projected_points != null ? Number(sota.projected_points.toFixed(1)) : p.projectedPoints;
+      const ceiling = sota?.ceiling_points != null ? Number(sota.ceiling_points.toFixed(1)) : Number((projPts * 1.9).toFixed(1));
+      const haulPct = sota?.haul_prob != null ? Number((sota.haul_prob * 100).toFixed(1)) : undefined;
+      const startProb = sota?.start_prob != null ? Number((sota.start_prob <= 1 ? sota.start_prob * 100 : sota.start_prob).toFixed(1)) : p.startProbability;
+      return {
+        ...p,
+        projectedPoints: projPts,
+        ceilingPoints: ceiling,
+        haulProb: haulPct,
+        startProbability: startProb,
+      };
+    });
 
     // Run ILP Optimization Engine
     const optimalXI = solveOptimalStartingXI(players);
@@ -422,12 +618,13 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Vector Similarity Search for Press Conference & Injury News
+    // Fetch Vector News & Squad Press Conference Intel
+    const squadPlayerIds = players.map((p) => Number(p.id));
     const newsQuery =
       actionType === "CHECK_INJURIES"
         ? "Premier League injury fitness update rotation team news press conference"
         : userPromptText;
-    const relevantNews = await fetchRelevantNews(newsQuery, genAI);
+    const { vectorNews, squadNews } = await fetchRelevantNews(newsQuery, genAI, squadPlayerIds);
 
     // Outfield starters sorted by projected points
     const starters = players.filter((p) => !p.isBench);
@@ -461,7 +658,8 @@ export async function POST(request: NextRequest) {
       captainPlayer,
       stats.nextGameweek,
       bestTransferMove,
-      relevantNews
+      vectorNews,
+      warRoomDigest
     );
 
     const quickActions = [
@@ -480,29 +678,28 @@ export async function POST(request: NextRequest) {
         ? bestTransferMove.transfersIn[0].shapDrivers
             .map((d) => `${d.feature} (${d.impact})`)
             .join(", ")
-        : "Form & Minutes consistency";
-      transferContextText = `Transfer Out: ${pOut.webName} (${pOut.teamShort}, £${pOut.price}m, ${pOut.projectedPoints} xP)\nTransfer In: ${pIn.webName} (${pIn.teamShort}, £${pIn.price}m, ${pIn.projectedPoints} xP)\nNet Gain: +${bestTransferMove.netGain} xP | Remaining Bank: £${bestTransferMove.remainingBank}m\nKey SHAP Drivers: ${drivers}`;
+        : "Poisson xG & Opponent weakness alignment";
+      transferContextText = `Transfer Out: ${pOut.webName} (${pOut.teamShort}, £${pOut.price}m, ${pOut.projectedPoints} xP)\nTransfer In: ${pIn.webName} (${pIn.teamShort}, £${pIn.price}m, ${pIn.projectedPoints} xP)\nNet Gain: +${bestTransferMove.netGain} xP | Remaining Bank: £${bestTransferMove.remainingBank}m\nKey Drivers: ${drivers}`;
     }
 
-    // Format Vector News context
+    // Format Vector News & Squad Intel context
     let newsContextText = "No specific press conference alerts matched this query.";
-    if (relevantNews && relevantNews.length > 0) {
-      newsContextText = relevantNews
-        .map(
-          (n, idx) =>
-            `  ${idx + 1}. [${n.source} (${(n.similarity * 100).toFixed(0)}% Match)]: "${n.news_text}"`
-        )
-        .join("\n");
+    const allNewsSnippets = [
+      ...vectorNews.map((n, idx) => `  [Vector Match ${idx + 1} - ${n.source} (${(n.similarity * 100).toFixed(0)}%)]: "${n.news_text}"`),
+      ...squadNews.map((n) => `  [Squad Intel - ${n.source}]: "${n.news_text}"`),
+    ];
+    if (allNewsSnippets.length > 0) {
+      newsContextText = allNewsSnippets.join("\n");
     }
 
-    // Strict Grounding System Prompt for Native Function-Calling Agent
-    const systemInstruction = `You are Touchline AI, an elite, data-grounded FPL tactical analyst and data scientist.
+    // Strict Grounding System Prompt for Native Function-Calling Agent in War Room Mode
+    const systemInstruction = `You are Touchline AI, an elite, data-grounded FPL tactical analyst and data scientist operating in GW${stats.nextGameweek} War Room Mode.
 CRITICAL ENFORCEMENT RULES:
 1. You are strictly forbidden from analyzing, naming, or suggesting ANY player unless you have executed a tool call ('get_player_telemetry' or 'find_transfer_candidates') for them in this turn.
 2. If 'get_player_telemetry' returns found: false, explicitly notify the user that the player is not in the active Premier League database (they have transferred out of the Premier League or are unavailable) and cannot be selected.
 3. When suggesting replacements or transfer targets, you MUST use 'find_transfer_candidates' and only recommend players returned by that function.
-4. Base all performance judgments on the exact numerical telemetry returned by the tools. Never contradict tool outputs or invent statistics.
-5. When evaluating transfer targets, compare them against the user's active squad live points. Do NOT recommend selling active squad members who produced high points in the current gameweek.
+4. Base all performance judgments on the exact numerical telemetry returned by the tools (SOTA xP, p90 Ceiling, Haul %, and Start %). Never contradict tool outputs or invent statistics.
+5. When evaluating transfer targets, compare them against the user's active squad live points and SOTA xP. Do NOT recommend selling active squad members who produced high points in the current gameweek.
 6. Direct Focus: Always answer the user's exact question or topic first. Never dump the entire starting XI unless explicitly requested.
 7. Tone & Format: Authoritative, tactical, concise FPL analysis with clean Markdown headers (###), bold player names, and bullet points.
 
@@ -515,28 +712,41 @@ CRITICAL ENFORCEMENT RULES:
 ${players
   .map(
     (p) =>
-      `  • ${p.webName} (${p.teamShort}, ${p.position}) - Price: £${p.price.toFixed(1)}m, ML xP: ${p.projectedPoints} pts, Form: ${p.form}, Fixture: ${p.currentFixture.opponent} (${p.currentFixture.isHome ? "H" : "A"}, FDR ${p.currentFixture.difficulty}), Start%: ${p.startProbability}%, Status: ${p.status || "available"}${p.news ? ` [Medical: ${p.news}]` : ""}`
+      `  • ${p.webName} (${p.teamShort}, ${p.position}) - Price: £${p.price.toFixed(1)}m, SOTA xP: ${p.projectedPoints} pts (Ceiling: ${p.ceilingPoints ?? "N/A"}, Haul%: ${p.haulProb ?? "N/A"}%), Form: ${p.form}, Fixture: ${p.currentFixture.opponent} (${p.currentFixture.isHome ? "H" : "A"}, FDR ${p.currentFixture.difficulty}), Start%: ${p.startProbability}%, Status: ${p.status || "available"}${p.news ? ` [Medical: ${p.news}]` : ""}`
   )
   .join("\n")}
 
+=== SOTA WAR ROOM DEADLINE INTELLIGENCE (GW${stats.nextGameweek}) ===
+- Executive Briefing: ${warRoomDigest?.executive_briefing || "High volatility deadline window. Rely on SOTA Poisson and Monte Carlo math over community herd sentiment."}
+- Shield vs. Sword Captaincy:
+  * Shield (High-EO Safety): ${warRoomDigest?.shield_vs_sword_captaincy?.shield || `${optimalXI.captain.webName} (${optimalXI.captain.projectedPoints} xP)`}
+  * Sword (Explosive Differential): ${warRoomDigest?.shield_vs_sword_captaincy?.sword || `${optimalXI.viceCaptain.webName} (${optimalXI.viceCaptain.projectedPoints} xP)`}
+- Community Traps vs. SOTA Math:
+${(warRoomDigest?.community_traps_vs_sota_math || ["Evaluate high-volume bandwagons against Poisson baseline before buying."]).map((t) => `  * ${t}`).join("\n")}
+- Creator & Reddit Consensus:
+  * Top Buys: ${(warRoomDigest?.creator_and_reddit_consensus?.top_buys || []).join(", ") || "None"}
+  * Top Sells: ${(warRoomDigest?.creator_and_reddit_consensus?.top_sells || []).join(", ") || "None"}
+  * Captaincy Poll: ${warRoomDigest?.creator_and_reddit_consensus?.captaincy_poll_leader || "Haaland"}
+- Press Conference Radar:
+${(warRoomDigest?.press_conference_radar || []).slice(0, 6).map((r) => `  * ${r}`).join("\n")}
+
 === MATHEMATICAL ILP OPTIMIZATION REFERENCE ===
 - Optimal Starting Formation: ${optimalXI.formation} (Projected: ${optimalXI.totalStartingXP} xP)
-- Top Captain Pick: ${optimalXI.captain.webName} (${optimalXI.captain.teamShort}) - ${optimalXI.captain.projectedPoints} xP
-- Top Vice-Captain Pick: ${optimalXI.viceCaptain.webName} (${optimalXI.viceCaptain.teamShort}) - ${optimalXI.viceCaptain.projectedPoints} xP
+- Top Captain Pick: ${optimalXI.captain.webName} (${optimalXI.captain.teamShort}) - ${optimalXI.captain.projectedPoints} xP (Ceiling: ${optimalXI.captain.ceilingPoints ?? "N/A"})
+- Top Vice-Captain Pick: ${optimalXI.viceCaptain.webName} (${optimalXI.viceCaptain.teamShort}) - ${optimalXI.viceCaptain.projectedPoints} xP (Ceiling: ${optimalXI.viceCaptain.ceilingPoints ?? "N/A"})
 - Optimal 1-Transfer Move: ${transferContextText}
 
-=== REAL-TIME PRESS CONFERENCES & MEDICAL INTEL ===
+=== REAL-TIME PRESS CONFERENCES & SQUAD INTEL ===
 ${newsContextText}`;
 
     let responseText = "";
 
     // Candidate models with native function calling support
     const candidateModels = [
-      "gemini-3.6-flash",
-      "gemini-3.5-flash",
-      "gemini-3.1-flash-lite",
+      "gemini-3.8-flash",
       "gemini-3-flash-preview",
       "gemini-flash-latest",
+      "gemini-2.5-flash",
     ];
 
     if (genAI) {
@@ -577,7 +787,7 @@ ${newsContextText}`;
               // Append model turn with exact candidate content
               agentContents.push(candidate.content);
 
-              // Execute each tool call against Supabase
+              // Execute each tool call against Supabase & SOTA ML cache
               const functionResponses: any[] = [];
               for (const call of functionCalls) {
                 const toolOutput = await executeTool(call.name, call.args);
@@ -620,21 +830,26 @@ ${newsContextText}`;
     // Dynamic Context-Aware Fallback (Ground-truth deterministic resolver if models unavailable)
     if (!responseText) {
       if (actionType === "OPTIMIZE_XI" || (!isFreeTextQuery && lowerQuery.includes("optimize"))) {
-        responseText = `### ⚡ Mathematically Optimal Starting XI (GW${stats.nextGameweek})\n\n- **Formation**: **${optimalXI.formation}** (Total Projected: **${optimalXI.totalStartingXP} pts**)\n- **Captain**: **${optimalXI.captain.webName} (C)** (${optimalXI.captain.projectedPoints} xP)\n- **Vice-Captain**: **${optimalXI.viceCaptain.webName} (VC)** (${optimalXI.viceCaptain.projectedPoints} xP)\n- **Starting XI**: ${optimalXI.starters.map((p) => p.webName).join(", ")}\n- **Bench Priority**: ${optimalXI.bench.map((p, idx) => `B${idx + 1}: ${p.webName}`).join(" · ")}`;
+        responseText = `### ⚡ Mathematically Optimal Starting XI (GW${stats.nextGameweek})\n\n- **Formation**: **${optimalXI.formation}** (Total Projected: **${optimalXI.totalStartingXP} pts**)\n- **Captain**: **${optimalXI.captain.webName} (C)** (${optimalXI.captain.projectedPoints} xP${optimalXI.captain.ceilingPoints ? `, ${optimalXI.captain.ceilingPoints} Ceiling` : ""})\n- **Vice-Captain**: **${optimalXI.viceCaptain.webName} (VC)** (${optimalXI.viceCaptain.projectedPoints} xP)\n- **Starting XI**: ${optimalXI.starters.map((p) => `${p.webName} (${p.projectedPoints} xP)`).join(", ")}\n- **Bench Priority**: ${optimalXI.bench.map((p, idx) => `B${idx + 1}: ${p.webName}`).join(" · ")}`;
       } else if (actionType === "CAPTAINCY_CHECK" || (!isFreeTextQuery && lowerQuery.includes("captain"))) {
-        responseText = `### 👑 Gameweek ${stats.nextGameweek} Captaincy Recommendation\n\nOur LightGBM model projects **${topPlayerA.webName}** (${topPlayerA.teamShort}) as your premier armband pick with **${topPlayerA.projectedPoints} xP** (${topPlayerA.startProbability}% start probability) vs **${topPlayerA.currentFixture.opponent}** (${topPlayerA.currentFixture.isHome ? "H" : "A"}).\n\n**Vice-Captain Option**: **${topPlayerB.webName}** (${topPlayerB.teamShort}) with **${topPlayerB.projectedPoints} xP**.`;
+        const shieldPick = warRoomDigest?.shield_vs_sword_captaincy?.shield || `${topPlayerA.webName} (${topPlayerA.projectedPoints} xP)`;
+        const swordPick = warRoomDigest?.shield_vs_sword_captaincy?.sword || `${topPlayerB.webName} (${topPlayerB.projectedPoints} xP)`;
+        responseText = `### 👑 Gameweek ${stats.nextGameweek} SOTA Captaincy Briefing\n\n- **Shield (Rank Protection)**: **${shieldPick}**\n- **Sword (Upside Differential)**: **${swordPick}**\n\nOur Component-Decomposed Poisson model projects **${topPlayerA.webName}** (${topPlayerA.teamShort}) as your top baseline armband asset with **${topPlayerA.projectedPoints} xP** (${topPlayerA.startProbability}% start probability, **${topPlayerA.ceilingPoints ?? 10.0}** p90 ceiling${topPlayerA.haulProb ? `, **${topPlayerA.haulProb}%** haul probability` : ""}) vs **${topPlayerA.currentFixture.opponent}** (${topPlayerA.currentFixture.isHome ? "H" : "A"}).\n\n**Vice-Captain Pick**: **${topPlayerB.webName}** (${topPlayerB.teamShort}) with **${topPlayerB.projectedPoints} xP** and **${topPlayerB.ceilingPoints ?? 9.5}** ceiling.`;
       } else if (actionType === "TRANSFER_TARGETS" || (!isFreeTextQuery && lowerQuery.includes("transfer"))) {
+        const traps = warRoomDigest?.community_traps_vs_sota_math || [];
+        const trapWarning = traps.length > 0 ? `\n\n> ⚠️ **War Room Community Trap Alert**: ${traps[0]}` : "";
         if (bestTransferMove && bestTransferMove.transfersIn.length > 0) {
           const pIn = bestTransferMove.transfersIn[0].player;
           const pOut = bestTransferMove.transfersOut[0];
-          responseText = `### 🔄 Optimal 1-Transfer Recommendation\n\n- **Transfer Out**: **${pOut.webName}** (${pOut.teamShort}, £${pOut.price}m, ${pOut.projectedPoints} xP)\n- **Transfer In**: **${pIn.webName}** (${pIn.teamShort}, £${pIn.price}m, ${pIn.projectedPoints} xP)\n- **Net Projected Gain**: **+${bestTransferMove.netGain} xP**\n- **Remaining Budget**: **£${bestTransferMove.remainingBank}m ITB**`;
+          responseText = `### 🔄 Optimal 1-Transfer Recommendation (SOTA xP)\n\n- **Transfer Out**: **${pOut.webName}** (${pOut.teamShort}, £${pOut.price}m, ${pOut.projectedPoints} xP)\n- **Transfer In**: **${pIn.webName}** (${pIn.teamShort}, £${pIn.price}m, **${pIn.projectedPoints} xP**${pIn.ceilingPoints ? `, Ceiling: **${pIn.ceilingPoints}**` : ""})\n- **Net Projected Gain**: **+${bestTransferMove.netGain} xP**\n- **Remaining Budget**: **£${bestTransferMove.remainingBank}m ITB**${trapWarning}`;
         } else {
-          responseText = `Your current 15-player squad is mathematically optimal for Gameweek ${stats.nextGameweek}. We recommend rolling your Free Transfer to carry 2 FTs into next gameweek.`;
+          responseText = `Your current 15-player squad is mathematically optimal for Gameweek ${stats.nextGameweek}. We recommend rolling your Free Transfer to carry 2 FTs into the next gameweek.${trapWarning}`;
         }
       } else if (actionType === "CHECK_INJURIES" || (!isFreeTextQuery && lowerQuery.includes("injury"))) {
-        if (relevantNews && relevantNews.length > 0) {
-          responseText = `### 🚑 Real-Time Medical & Press Conference Briefing\n\n` +
-            relevantNews.map((n) => `- **${n.source}**: ${n.news_text}`).join("\n\n");
+        const radar = warRoomDigest?.press_conference_radar || [];
+        if (radar.length > 0 || (vectorNews && vectorNews.length > 0)) {
+          const radarItems = radar.map((r) => `• ${r}`).join("\n\n");
+          responseText = `### 🚑 SOTA War Room Press Conference & Medical Radar (GW${stats.nextGameweek})\n\n${radarItems}`;
         } else {
           responseText = `No critical injury flags detected across your active squad. All starting XI outfielders are rated available for Gameweek ${stats.nextGameweek}.`;
         }
@@ -649,20 +864,19 @@ ${newsContextText}`;
           const fixture = matchedSquadPlayer.currentFixture;
           responseText = `### Tactical Report: **${matchedSquadPlayer.webName}** (${matchedSquadPlayer.teamShort})\n\n` +
             `• **Upcoming Matchup**: vs **${fixture.opponent}** (${fixture.isHome ? "Home" : "Away"}) — Fixture Difficulty: **FDR ${fixture.difficulty}**\n` +
-            `• **Projections**: **${matchedSquadPlayer.projectedPoints} xP** with a **${matchedSquadPlayer.startProbability}%** probability of starting\n` +
+            `• **Projections**: **${matchedSquadPlayer.projectedPoints} xP** (p90 Ceiling: **${matchedSquadPlayer.ceilingPoints ?? "N/A"}** | Haul: **${matchedSquadPlayer.haulProb ?? "N/A"}%**) with a **${matchedSquadPlayer.startProbability}%** probability of starting\n` +
             `• **Season Form**: **${matchedSquadPlayer.form}** (${matchedSquadPlayer.totalPoints} total points, price £${matchedSquadPlayer.price.toFixed(1)}m)\n` +
             (matchedSquadPlayer.news ? `• **Medical Intel**: ${matchedSquadPlayer.news}\n\n` : "\n") +
             (fixture.difficulty <= 2
-              ? `**Tactical Verdict**: Highly favorable fixture. Excellent candidate for your starting XI with strong attacking/defensive potential.`
+              ? `**Tactical Verdict**: Highly favorable fixture. Excellent candidate for your starting XI with high ceiling and haul probability.`
               : fixture.difficulty >= 4
-              ? `**Tactical Verdict**: Facing stern defensive opposition. Moderate ceiling for Gameweek ${stats.nextGameweek}; consider benching if you have strong depth.`
+              ? `**Tactical Verdict**: Facing stern defensive opposition. Lower ceiling for Gameweek ${stats.nextGameweek}; consider benching if you have strong depth.`
               : `**Tactical Verdict**: Balanced fixture. Expected to maintain a solid baseline return for Gameweek ${stats.nextGameweek}.`);
         } else {
-          // Check for departed players in free text
           if (lowerQuery.includes("salah") || lowerQuery.includes("kane") || lowerQuery.includes("de bruyne")) {
             responseText = `### ⚠️ Player Availability Notice\n\nThat player is **not in the active 2026/27 Premier League database** (they have transferred out or are unavailable) and **cannot be selected** for your squad.\n\nWould you like recommendations for top active Premier League transfer targets?`;
           } else {
-            responseText = `Regarding **"${cleanMessage}"** for Gameweek ${stats.nextGameweek}:\n\nWith **£${stats.inTheBank.toFixed(1)}m ITB** and **${stats.freeTransfers} Free Transfer(s)** in **${stats.teamName}**, our model recommends assessing upcoming FDR swings before locking in changes. Would you like a breakdown of specific transfer targets, captaincy picks, or rotation risks?`;
+            responseText = `Regarding **"${cleanMessage}"** for Gameweek ${stats.nextGameweek}:\n\nWith **£${stats.inTheBank.toFixed(1)}m ITB** and **${stats.freeTransfers} Free Transfer(s)** in **${stats.teamName}**, our model recommends assessing upcoming FDR swings before locking in changes. Top SOTA target: **${optimalXI.captain.webName}** (${optimalXI.captain.projectedPoints} xP). Would you like a breakdown of specific transfer targets, captaincy picks, or rotation risks?`;
           }
         }
       }
@@ -678,7 +892,8 @@ ${newsContextText}`;
       viceCaptainId: squadData.viceCaptainId,
       optimalXI,
       bestTransferMove,
-      news: relevantNews,
+      news: vectorNews,
+      warRoomDigest,
     });
   } catch (error: any) {
     console.error("Error in /api/chat:", error);
