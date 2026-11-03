@@ -1,3 +1,24 @@
+export interface WarRoomDigest {
+  gameweek: number;
+  executive_briefing: string;
+  press_conference_radar: string[];
+  creator_and_reddit_consensus: {
+    top_buys: string[];
+    top_sells: string[];
+    captaincy_poll_leader: string;
+  };
+  community_traps_vs_sota_math: string[];
+  shield_vs_sword_captaincy: {
+    shield: string;
+    sword: string;
+  };
+  player_specific_intel?: Array<{
+    player_web_name: string;
+    news_text: string;
+    source: string;
+  }>;
+}
+
 export type Position = "GKP" | "DEF" | "MID" | "FWD";
 
 export interface FixtureInfo {

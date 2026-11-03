@@ -134,6 +134,16 @@ export async function GET(request: Request) {
           startProbVal = Number(bEl.chance_of_playing_next_round);
         }
 
+        const ceilingPts = Number(
+          (pred?.shap_explanation?.ceiling_points ?? sotaPred?.ceiling_points ?? (projectedPts * 1.9)).toFixed(1)
+        );
+        const haulProbVal = Number(
+          (pred?.shap_explanation?.haul_prob != null
+            ? pred.shap_explanation.haul_prob * 100
+            : (sotaPred?.haul_prob != null ? sotaPred.haul_prob * 100 : 0)
+          ).toFixed(1)
+        );
+
         return {
           id: String(p.id),
           name: p.web_name || `${p.first_name} ${p.second_name}`,
@@ -154,6 +164,8 @@ export async function GET(request: Request) {
           totalPoints: totalPts,
           gameweekPoints: 0,
           projectedPoints: projectedPts,
+          ceilingPoints: ceilingPts,
+          haulProb: haulProbVal,
           form: Number(p.form || (totalPts / 10).toFixed(1)),
           xG: 0.1,
           xA: 0.1,
@@ -213,6 +225,9 @@ export async function GET(request: Request) {
           startProbVal = Number(el.chance_of_playing_next_round);
         }
 
+        const ceilingPts = Number((sotaPred?.ceiling_points ?? (projectedPts * 1.9)).toFixed(1));
+        const haulProbVal = Number((sotaPred?.haul_prob != null ? sotaPred.haul_prob * 100 : 0).toFixed(1));
+
         return {
           id: String(el.id),
           name: el.web_name || `${el.first_name} ${el.second_name}`,
@@ -233,6 +248,8 @@ export async function GET(request: Request) {
           totalPoints: totalPts,
           gameweekPoints: 0,
           projectedPoints: projectedPts,
+          ceilingPoints: ceilingPts,
+          haulProb: haulProbVal,
           form: Number(el.form || (totalPts / 10).toFixed(1)),
           xG: parseFloat(el.expected_goals) || 0.1,
           xA: parseFloat(el.expected_assists) || 0.1,

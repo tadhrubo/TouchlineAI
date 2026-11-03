@@ -1,110 +1,110 @@
 {
   "gameweek": 10,
-  "executive_briefing": "Gameweek 10 is characterized by a massive structural shift following the permanent departure of Watkins and season-altering injuries to Saka and Joao Pedro. While the community is flocking to Bournemouth assets like Evanilson, SOTA math suggests significant value remains in Manchester United and Arsenal assets despite recent team-wide performance dips. High-variance differentials like Mbeumo and B. Fernandes are currently the optimal mathematical plays for those looking to climb the ranks.",
+  "executive_briefing": "GW10 is defined by a massive structural shift as 40% owned Jo\u00e3o Pedro and 6.3% owned Saka are ruled out, forcing a pivot to mid-range forwards like Evanilson and Jackson. SOTA math highlights a significant 'Fear Trap' where the community is selling top-projected assets Mbeumo and B. Fernandes despite their elite xP rankings. The Haaland captaincy remains the template shield, but high-ceiling differentials in the \u00a37m-\u00a38m bracket offer explosive rank-climb opportunities.",
   "press_conference_radar": [
-    "Watkins (AVL): Permanently joined Al Hilal; confirmed 0% start probability.",
-    "Saka (ARS): Thigh injury; officially flagged with 0% chance of playing in GW10.",
-    "Joao Pedro (CHE): Thigh injury; confirmed 0% start probability with massive ownership (40.4%) needing replacement.",
-    "Mukiele (SUN): Concussion protocol; 75% chance of playing with a 2.51 xP projection.",
-    "Thomas (COV): Calf injury; 50/50 chance of playing according to medical wire.",
-    "Henderson (CHE): Illness; 75% chance of playing with a 2.38 xP projection."
+    "Watkins (AVL) has permanently joined Al Hilal; he is at 0% start probability and must be sold immediately.",
+    "Saka (ARS) is confirmed OUT with a thigh injury; start probability is 0% for GW10.",
+    "Jo\u00e3o Pedro (CHE) remains sidelined with a thigh injury; 0% chance of playing and the week's most transferred-out player.",
+    "Thomas (COV) is a 50/50 decision with a calf injury; SOTA projects a low 1.25 xP floor.",
+    "Semenyo (MCI) is ruled out with a knee injury; start probability 0% affecting City's midfield rotations.",
+    "Henderson (CHE) has a 75% chance of featuring following illness; SOTA ceiling sits at 7.0 points."
   ],
   "creator_and_reddit_consensus": {
     "top_buys": [
-      "Evanilson (BOU) - Massive community volume with 380k+ transfers in.",
-      "Tavernier (BOU) - Backed by both volume and a strong 4.42 xP math profile.",
-      "N. Jackson (AVL) - Primary beneficiary of the Watkins exit in the forward template."
+      "Evanilson (High volume of transfers-in following Saka/Pedro injuries)",
+      "N. Jackson (Community pivot for forward-line restructuring)",
+      "Tavernier (SOTA backed mid-price differential with 4.42 xP)"
     ],
     "top_sells": [
-      "Joao Pedro (CHE) - Highest injury-forced sale with 661k transfers out.",
-      "Saka (ARS) - Tactical exit for 0.00 xP projected asset.",
-      "Watkins (AVL) - Essential removal following permanent transfer out of the league."
+      "Jo\u00e3o Pedro (Injury + mass exodus)",
+      "Saka (Confirmed out, high price point locked in bench)",
+      "B. Fernandes (Community frustration leading to 108k transfers out despite high 5.41 xP)"
     ],
-    "captaincy_poll_leader": "Haaland & heavy 79% ownership sentiment despite a cooling SOTA haul probability of 17.2%."
+    "captaincy_poll_leader": "Haaland & template reliability despite lower ceiling (11.0) compared to Mbeumo (13.0)."
   },
   "community_traps_vs_sota_math": [
-    "Evanilson (BOU) is the #1 bandwagon but his 3.71 xP is significantly lower than Mbeumo (5.78 xP) or B. Fernandes (5.41 xP).",
-    "N. Jackson (AVL) is being bought heavily but possesses a mediocre 0.061 haul probability compared to Cunha (0.183).",
-    "Isak (LIV) is a top 5 buy but Tavernier (BOU) offers higher xP (4.42) at a much lower cost and ownership."
+    "Evanilson Bandwagon: 381k transfers in but only 3.71 xP. Math suggests Cunha (5.15 xP, 0.183 haul prob) is the vastly superior statistical play.",
+    "N. Jackson Hype: 309k transfers in with a 3.65 xP floor. SOTA identifies B. Fernandes (5.41 xP) as a massive value-retention hold despite the 'sell' sentiment.",
+    "Van Hecke Trap: 181k transfers in for a defender with only 2.92 xP; Gabriel (4.86 xP) offers nearly double the point-scoring potential for those with funds."
   ],
   "shield_vs_sword_captaincy": {
-    "shield": "Haaland (MCI) - 5.34 xP, 11.0 Ceiling, 79% EO protection; the only safe choice to avoid rank destruction.",
-    "sword": "Mbeumo (MUN) - 5.78 xP, 13.0 Ceiling, 23.1% Haul Probability; the highest projected asset in the SOTA engine."
+    "shield": "Haaland (MCI): 79.0% ownership, 5.34 xP, 11.0 ceiling - the safe insurance policy for GW10.",
+    "sword": "Mbeumo (MUN): 20.5% ownership, 5.78 xP, 13.0 ceiling, 0.231 haul probability - the elite mathematical differential."
   },
   "player_specific_intel": [
     {
       "player_web_name": "Mbeumo",
-      "news_text": "Top SOTA performer for GW10 with 5.78 xP and a 23.1% haul probability. Despite 90k transfers out, he remains the engine's #1 recommendation for ceiling upside (13.0).",
+      "news_text": "Highest projected xP of the week (5.78). Despite 90k transfers out, SOTA projections indicate he is the premier captaincy candidate with a 23.1% haul probability.",
       "source": "GW10 War Room Synthesis (Presser + Reddit + SOTA)"
     },
     {
       "player_web_name": "B.Fernandes",
-      "news_text": "Second highest xP (5.41) in the model. Community sentiment is negative (108k sells), but his 0.741 start probability and high ceiling make him a prime bounce-back candidate.",
+      "news_text": "Massive community sell-off (108k) is mathematically irrational; holds the 2nd highest xP (5.41) and a 13.0 ceiling if he starts (74.1%).",
       "source": "GW10 War Room Synthesis (Presser + Reddit + SOTA)"
     },
     {
       "player_web_name": "Haaland",
-      "news_text": "Dominant 79% ownership makes him the ultimate 'Shield' pick. SOTA projections are lower than usual (5.34 xP) but his 0.931 start probability is the highest among elite forwards.",
-      "source": "GW10 War Room Synthesis (Presser + Reddit + SOTA)"
-    },
-    {
-      "player_web_name": "Evanilson",
-      "news_text": "The week's biggest bandwagon (380k transfers in). SOTA cautions that his 3.71 xP is relatively low for a starting forward, suggesting a high-risk community trap.",
+      "news_text": "Ownership has stabilized at 79%. His 5.34 xP is solid but his 11.0 ceiling is lower than the \u00a37m-\u00a311m midfield tier this week.",
       "source": "GW10 War Room Synthesis (Presser + Reddit + SOTA)"
     },
     {
       "player_web_name": "Dewsbury-Hall",
-      "news_text": "A massive statistical outlier with 5.17 xP. Low ownership (6.2%) and a 90%+ start probability makes him the top differential for mid-range budgets.",
-      "source": "GW10 War Room Synthesis (Presser + Reddit + SOTA)"
-    },
-    {
-      "player_web_name": "Saka",
-      "news_text": "Confirmed 0.00 xP due to thigh injury. Must be sold or benched as return date remains unknown.",
-      "source": "GW10 War Room Synthesis (Presser + Reddit + SOTA)"
-    },
-    {
-      "player_web_name": "Watkins",
-      "news_text": "Confirmed move to Al Hilal; 0% chance of playing. Immediate sell for all 2.2% owners.",
+      "news_text": "Shock SOTA outlier at 5.17 xP. With 90.8% start probability, he represents a high-value differential for budget-constrained squads.",
       "source": "GW10 War Room Synthesis (Presser + Reddit + SOTA)"
     },
     {
       "player_web_name": "Cunha",
-      "news_text": "Hidden gem with 5.15 xP and a very high 18.3% haul probability. Only 5.5% owned, making him a major rank-climber.",
+      "news_text": "Elite forward alternative to the Evanilson/Jackson bandwagon; 5.15 xP and 18.3% haul probability makes him the top forward pick by the numbers.",
       "source": "GW10 War Room Synthesis (Presser + Reddit + SOTA)"
     },
     {
-      "player_web_name": "Gabriel",
-      "news_text": "The premier defensive asset this week with 4.86 xP and a 12.0 ceiling, benefiting from high set-piece threat in SOTA simulations.",
+      "player_web_name": "Saka",
+      "news_text": "Official Medical Flag: OUT (0% chance). Transfers are mandatory to avoid a 0-pointer from a premium slot.",
       "source": "GW10 War Room Synthesis (Presser + Reddit + SOTA)"
     },
     {
-      "player_web_name": "Tavernier",
-      "news_text": "Dual-threat asset being bought by 246k managers. SOTA supports this move with a solid 4.42 xP and high start probability (0.897).",
+      "player_web_name": "Jo\u00e3o Pedro",
+      "news_text": "The week's most sold player (663k). Confirmed out with a thigh injury. Zero tactical reason to hold.",
       "source": "GW10 War Room Synthesis (Presser + Reddit + SOTA)"
     },
     {
-      "player_web_name": "Palmer",
-      "news_text": "Stable 4.47 xP projection. While others are injured at CHE, he remains the focal point with a 90% start probability.",
-      "source": "GW10 War Room Synthesis (Presser + Reddit + SOTA)"
-    },
-    {
-      "player_web_name": "Calafiori",
-      "news_text": "High ownership (47.9%) but seeing significant sells (72k). SOTA still projects 4.49 xP if he starts, though security is lower than Gabriel.",
+      "player_web_name": "Evanilson",
+      "news_text": "The primary community bandwagon (381k IN). SOTA math is cautious, projecting only 3.71 xP with a low 6.5% haul chance.",
       "source": "GW10 War Room Synthesis (Presser + Reddit + SOTA)"
     },
     {
       "player_web_name": "Rice",
-      "news_text": "Strong 4.94 xP projection with a high start probability. A reliable route into the ARS midfield while Saka is absent.",
+      "news_text": "Arsenal's creative hub in the absence of Saka. 4.94 xP and high 88.8% start probability makes him a stable midfield pivot.",
       "source": "GW10 War Room Synthesis (Presser + Reddit + SOTA)"
     },
     {
-      "player_web_name": "Gross",
-      "news_text": "Very high 46.9% ownership but only 4.56 xP. A template 'safety' pick who lacks the explosive ceiling of the top-tier projected mids.",
+      "player_web_name": "Gabriel",
+      "news_text": "Premier defensive asset with a 12.0 ceiling, significantly higher than other defenders in his price bracket for GW10.",
       "source": "GW10 War Room Synthesis (Presser + Reddit + SOTA)"
     },
     {
-      "player_web_name": "Joao Pedro",
-      "news_text": "Massive 661k transfers out following thigh injury news. Do not hold; 0.00 xP projection.",
+      "player_web_name": "Palmer",
+      "news_text": "Solid mid-tier projection (4.47 xP). Community is buying (100k IN), and SOTA supports a 10.0 ceiling outcome.",
+      "source": "GW10 War Room Synthesis (Presser + Reddit + SOTA)"
+    },
+    {
+      "player_web_name": "Watkins",
+      "news_text": "Critical Alert: Has joined Al Hilal. Ownership remains at 2.2% but he will not play in the PL again. Immediate sale required.",
+      "source": "GW10 War Room Synthesis (Presser + Reddit + SOTA)"
+    },
+    {
+      "player_web_name": "Tavernier",
+      "news_text": "Double-threat asset; high transfers in (247k) and backed by 4.42 xP math. 12.8% haul probability makes him a viable mid-price target.",
+      "source": "GW10 War Room Synthesis (Presser + Reddit + SOTA)"
+    },
+    {
+      "player_web_name": "Calafiori",
+      "news_text": "Conflicting data: 47.9% ownership but 72k transfers out. SOTA suggests 4.49 xP is strong enough to hold if your bench is weak.",
+      "source": "GW10 War Room Synthesis (Presser + Reddit + SOTA)"
+    },
+    {
+      "player_web_name": "Semenyo",
+      "news_text": "Official injury ruling (0% start prob). Owners should look to Tavernier or Rogers as direct mathematical replacements.",
       "source": "GW10 War Room Synthesis (Presser + Reddit + SOTA)"
     }
   ]

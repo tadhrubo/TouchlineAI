@@ -6,6 +6,7 @@ import {
   TeamStats,
   InsightItem,
   ChatMessage,
+  WarRoomDigest,
 } from "@/types/fpl";
 import { PlayerComparisonCard } from "./PlayerComparisonCard";
 import {
@@ -15,6 +16,9 @@ import {
   ChevronDown,
   ChevronUp,
   ArrowRight,
+  Radio,
+  Shield,
+  Swords,
 } from "lucide-react";
 
 interface ChatTabProps {
@@ -28,26 +32,30 @@ interface ChatTabProps {
   onClearPendingPrompt?: () => void;
 }
 
-const ACTION_PROMPTS = [
+const WAR_ROOM_ACTIONS = [
   {
-    id: "p1",
-    label: "Captaincy Advice",
-    prompt: "Who should I captain for Gameweek 2?",
+    id: "action-captaincy",
+    label: "Shield vs. Sword Captaincy",
+    getPrompt: (gw: number) =>
+      `Break down the Shield vs. Sword captaincy options for Gameweek ${gw} with exact SOTA ceiling and haul probabilities.`,
   },
   {
-    id: "p2",
-    label: "Optimize XI",
-    prompt: "Optimize my starting XI and bench priority order.",
+    id: "action-consensus",
+    label: "Creator Consensus vs. SOTA Math",
+    getPrompt: (gw: number) =>
+      `Compare top creator & community transfer bandwagons against our SOTA Poisson math for Gameweek ${gw}.`,
   },
   {
-    id: "p3",
-    label: "Transfer Targets",
-    prompt: "What are the best transfer targets given my squad and budget?",
+    id: "action-pressers",
+    label: "My Squad Presser & Injury Check",
+    getPrompt: (_gw: number) =>
+      `Run a full press conference and injury flag check on my 15 squad players ahead of the deadline.`,
   },
   {
-    id: "p4",
-    label: "Fitness & Flags",
-    prompt: "Check any injury flags or rotation risks in my squad.",
+    id: "action-transfer",
+    label: "Best 1-Transfer Optimal Move",
+    getPrompt: (_gw: number) =>
+      `What is the single best 1-transfer optimal move for my squad given my budget and SOTA xP projections?`,
   },
 ];
 
@@ -155,10 +163,30 @@ export const ChatTab: React.FC<ChatTabProps> = ({
   const [liveInsights, setLiveInsights] = useState<InsightItem[]>([]);
   const [expandedInsightId, setExpandedInsightId] = useState<string | null>(null);
   const [isRecordingVoice, setIsRecordingVoice] = useState(false);
+  const [warRoomDigest, setWarRoomDigest] = useState<WarRoomDigest | null>(null);
+  const [isWarRoomCollapsed, setIsWarRoomCollapsed] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const captain = players.find((p) => p.id === captainId);
   const viceCaptain = players.find((p) => p.id === viceCaptainId);
+
+  // Fetch War Room Live Digest
+  useEffect(() => {
+    let isMounted = true;
+    fetch("/api/war-room")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (isMounted && data?.digest) {
+          setWarRoomDigest(data.digest);
+        }
+      })
+      .catch((err) => {
+        console.warn("Failed fetching /api/war-room in ChatTab:", err);
+      });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   // Initialize with initial assistant briefing
   useEffect(() => {
@@ -168,9 +196,9 @@ export const ChatTab: React.FC<ChatTabProps> = ({
           id: "msg-init",
           sender: "assistant",
           timestamp: "Just now",
-          text: `Matchday desk loaded for **${stats.teamName}** (GW${stats.nextGameweek}). Ask for captaincy analysis, tactical XI optimization, or transfer models.`,
+          text: `Matchday War Room active for **${stats.teamName}** (GW${stats.nextGameweek}). Poisson SOTA expected points, Monte Carlo simulations, and deadline intelligence are synced.`,
           quickActions: [
-            { label: "Captaincy Brief", action: "captaincy" },
+            { label: "Shield vs Sword", action: "captaincy" },
             { label: "Transfer Targets", action: "transfers" },
           ],
         },
@@ -386,17 +414,88 @@ export const ChatTab: React.FC<ChatTabProps> = ({
           )}
         </div>
 
-        {/* Editorial Action Prompts */}
-        <div className="w-full overflow-x-auto no-scrollbar py-0.5 flex items-center gap-1.5">
-          {ACTION_PROMPTS.map((p) => (
+        {/* GW Deadline War Room Briefing Header / Card */}
+        <div className="w-full bg-tl-surface border border-tl-border rounded-sm p-3 space-y-2.5 select-none">
+          <div className="flex items-center justify-between pb-1.5 border-b border-tl-border text-xs">
+            <div className="flex items-center gap-2">
+              <Radio className="w-3.5 h-3.5 text-tl-accent animate-pulse" />
+              <span className="text-[10px] uppercase tracking-wider font-mono font-bold text-tl-text">
+                GW{stats.nextGameweek} Deadline War Room Briefing
+              </span>
+            </div>
             <button
-              key={p.id}
-              onClick={() => handleSendMessage(p.prompt)}
-              className="flex-shrink-0 text-xs font-mono font-medium text-tl-muted bg-tl-surface hover:text-tl-text hover:bg-tl-surface2 border border-tl-border rounded-sm px-2.5 py-1 transition-colors whitespace-nowrap"
+              onClick={() => setIsWarRoomCollapsed(!isWarRoomCollapsed)}
+              className="text-[10px] font-mono text-tl-muted hover:text-tl-text flex items-center gap-1 transition"
             >
-              {p.label}
+              <span>{isWarRoomCollapsed ? "Expand" : "Collapse"}</span>
+              {isWarRoomCollapsed ? (
+                <ChevronDown className="w-3 h-3" />
+              ) : (
+                <ChevronUp className="w-3 h-3" />
+              )}
             </button>
-          ))}
+          </div>
+
+          {!isWarRoomCollapsed && (
+            <>
+              {/* Executive Briefing Text */}
+              <p className="text-xs text-tl-text leading-relaxed font-sans">
+                {warRoomDigest?.executive_briefing ||
+                  `Gameweek ${stats.nextGameweek} deadline desk active. Poisson SOTA engine and Monte Carlo simulations loaded.`}
+              </p>
+
+              {/* Shield vs. Sword Captaincy Split */}
+              {warRoomDigest?.shield_vs_sword_captaincy && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-0.5">
+                  <div className="p-2.5 rounded-sm bg-tl-bg border border-tl-border">
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <Shield className="w-3 h-3 text-tl-muted" />
+                      <span className="text-[9px] font-mono font-bold uppercase tracking-wider text-tl-muted">
+                        Shield Captain (Template)
+                      </span>
+                    </div>
+                    <p className="text-[11px] font-mono text-tl-text font-semibold leading-tight">
+                      {warRoomDigest.shield_vs_sword_captaincy.shield}
+                    </p>
+                  </div>
+
+                  <div className="p-2.5 rounded-sm bg-tl-bg border border-tl-accent/40">
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <Swords className="w-3 h-3 text-tl-accent" />
+                      <span className="text-[9px] font-mono font-bold uppercase tracking-wider text-tl-accent">
+                        Sword Captain (Differential)
+                      </span>
+                    </div>
+                    <p className="text-[11px] font-mono text-tl-text font-semibold leading-tight">
+                      {warRoomDigest.shield_vs_sword_captaincy.sword}
+                    </p>
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+
+          {/* 4 One-Click Tactical Quick-Action Buttons */}
+          <div className="pt-0.5">
+            <div className="grid grid-cols-2 gap-1.5">
+              {WAR_ROOM_ACTIONS.map((action) => (
+                <button
+                  key={action.id}
+                  onClick={() =>
+                    handleSendMessage(action.getPrompt(stats.nextGameweek))
+                  }
+                  className="p-2 rounded-sm bg-tl-bg border border-tl-border hover:border-tl-accent/60 hover:bg-tl-surface2 transition text-left text-xs font-mono group"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-tl-text text-[11px] font-semibold group-hover:text-tl-accent transition-colors truncate">
+                      {action.label}
+                    </span>
+                    <ArrowRight className="w-3 h-3 text-tl-muted group-hover:text-tl-accent transition-colors flex-shrink-0 ml-1" />
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* Messages Stream */}

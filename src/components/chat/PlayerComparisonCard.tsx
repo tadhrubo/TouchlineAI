@@ -63,6 +63,22 @@ export const PlayerComparisonCard: React.FC<PlayerComparisonCardProps> = ({
                 {playerA.projectedPoints} pts
               </span>
             </div>
+            {playerA.ceilingPoints != null && (
+              <div className="flex justify-between items-center">
+                <span className="text-tl-muted">Ceiling (p90)</span>
+                <span className="font-bold text-tl-text tabular-nums">
+                  {playerA.ceilingPoints} pts
+                </span>
+              </div>
+            )}
+            {playerA.haulProb != null && (
+              <div className="flex justify-between items-center">
+                <span className="text-tl-muted">Haul Prob</span>
+                <span className="font-bold text-tl-accent tabular-nums">
+                  {playerA.haulProb}%
+                </span>
+              </div>
+            )}
             <div className="flex justify-between items-center">
               <span className="text-tl-muted">Fixture</span>
               <span className="text-tl-text tabular-nums">
@@ -109,6 +125,22 @@ export const PlayerComparisonCard: React.FC<PlayerComparisonCardProps> = ({
                 {playerB.projectedPoints} pts
               </span>
             </div>
+            {playerB.ceilingPoints != null && (
+              <div className="flex justify-between items-center">
+                <span className="text-tl-muted">Ceiling (p90)</span>
+                <span className="text-tl-muted tabular-nums">
+                  {playerB.ceilingPoints} pts
+                </span>
+              </div>
+            )}
+            {playerB.haulProb != null && (
+              <div className="flex justify-between items-center">
+                <span className="text-tl-muted">Haul Prob</span>
+                <span className="text-tl-muted tabular-nums">
+                  {playerB.haulProb}%
+                </span>
+              </div>
+            )}
             <div className="flex justify-between items-center">
               <span className="text-tl-muted">Fixture</span>
               <span className="text-tl-muted tabular-nums">

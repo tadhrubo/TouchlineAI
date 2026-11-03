@@ -241,8 +241,8 @@ export const HomeTab: React.FC<HomeTabProps> = ({
                 userRank={stats.overallRank}
               />
 
-              {/* Latest News / Flags */}
-              {news && news.length > 0 && <LatestNews news={news} />}
+              {/* Gameweek Intelligence & Squad Flags Feed */}
+              <LatestNews news={news || []} />
 
               {/* Tactical Shortcuts (Clean typographic analytical actions, removed unnecessary Touchline Analyst label per requirement 9) */}
               <div className="pt-2 space-y-2">

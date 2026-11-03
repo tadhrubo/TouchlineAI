@@ -113,6 +113,8 @@ export const TransferModal: React.FC<TransferModalProps> = ({
                   xGI: 0,
                   minutesExpected: 90,
                   projectedPoints: parseFloat(el.ep_next) || 0,
+                  ceilingPoints: Math.round((parseFloat(el.ep_next) || 2.0) * 1.9 * 10) / 10,
+                  haulProb: 15,
                   status: el.status === "i" ? "injured" : el.status === "d" ? "doubtful" : "available",
                   startProbability: el.chance_of_playing_next_round ?? 85,
                   news: el.news,
@@ -348,6 +350,19 @@ export const TransferModal: React.FC<TransferModalProps> = ({
                     <div className="text-[10px] text-tl-accent font-semibold">
                       {candidate.projectedPoints} xP
                     </div>
+                    {(candidate.ceilingPoints != null || candidate.haulProb != null) && (
+                      <div className="text-[9px] text-tl-muted font-medium flex items-center justify-end gap-1 mt-0.5">
+                        {candidate.ceilingPoints != null && (
+                          <span>p90: {candidate.ceilingPoints.toFixed(1)}</span>
+                        )}
+                        {candidate.ceilingPoints != null && candidate.haulProb != null && (
+                          <span className="opacity-40">·</span>
+                        )}
+                        {candidate.haulProb != null && (
+                          <span className="text-tl-text font-semibold">{candidate.haulProb.toFixed(0)}% haul</span>
+                        )}
+                      </div>
+                    )}
                   </div>
 
                   <button
