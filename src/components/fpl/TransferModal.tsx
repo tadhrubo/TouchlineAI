@@ -26,7 +26,9 @@ export const TransferModal: React.FC<TransferModalProps> = ({
   const [sortBy, setSortBy] = useState<"xp" | "form" | "price_desc" | "price_asc" | "tsb">("xp");
 
   const maxBudget = useMemo(() => {
-    return bank + (outPlayer ? outPlayer.price : 0);
+    return Number(
+      (bank + (outPlayer ? (outPlayer.sellingPrice ?? outPlayer.price) : 0)).toFixed(1)
+    );
   }, [bank, outPlayer]);
 
   // Track how many players from each team are currently in the squad
@@ -105,6 +107,8 @@ export const TransferModal: React.FC<TransferModalProps> = ({
                   teamCode: el.team_code,
                   team_code: el.team_code,
                   price: el.now_cost / 10,
+                  sellingPrice: el.now_cost / 10,
+                  purchasePrice: el.now_cost / 10,
                   totalPoints: el.total_points,
                   form: parseFloat(el.form) || 0,
                   selectedByPercent: parseFloat(el.selected_by_percent) || 0,
@@ -115,9 +119,19 @@ export const TransferModal: React.FC<TransferModalProps> = ({
                   projectedPoints: parseFloat(el.ep_next) || 0,
                   ceilingPoints: Math.round((parseFloat(el.ep_next) || 2.0) * 1.9 * 10) / 10,
                   haulProb: 15,
-                  status: el.status === "i" ? "injured" : el.status === "d" ? "doubtful" : "available",
+                  status:
+                    el.status === "i"
+                      ? "injured"
+                      : el.status === "d"
+                      ? "doubtful"
+                      : el.status === "s"
+                      ? "suspended"
+                      : el.status === "u" || el.status === "n"
+                      ? "unavailable"
+                      : "available",
                   startProbability: el.chance_of_playing_next_round ?? 85,
-                  news: el.news,
+                  news: el.news || "",
+                  chanceOfPlaying: el.chance_of_playing_next_round ?? null,
                   gameweekPoints: 0,
                   photoUrl: `https://resources.premierleague.com/premierleague/photos/players/110x140/p${el.code}.png`,
                   currentFixture: { opponent: "PL", isHome: true, difficulty: 3, gameweek: 1 },
@@ -217,7 +231,10 @@ export const TransferModal: React.FC<TransferModalProps> = ({
               </span>
             </div>
             <p className="text-xs text-tl-muted font-medium mt-1">
-              Replacing <span className="font-semibold text-tl-text">{outPlayer.webName}</span> (£{outPlayer.price.toFixed(1)}m)
+              Replacing <span className="font-semibold text-tl-text">{outPlayer.webName}</span>{" "}
+              <span className="font-mono tabular-nums text-tl-muted">
+                (Sell: £{(outPlayer.sellingPrice ?? outPlayer.price).toFixed(1)}m · Market: £{outPlayer.price.toFixed(1)}m)
+              </span>
             </p>
           </div>
 

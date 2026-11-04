@@ -42,7 +42,11 @@ function chunkArray<T>(items: T[], size: number): T[][] {
  * Everyone starts with 1 FT going into GW2, rolling over up to a maximum of 5 banked transfers.
  * 24/25 Chip Rule: Wildcards & Free Hits do NOT reset banked transfers.
  */
-function calculateFreeTransfersAvailable(historyData: any): number {
+function calculateFreeTransfersAvailable(
+  historyData: any,
+  transfersData?: any[],
+  currentEvent?: number
+): number {
   if (!historyData || !Array.isArray(historyData.current)) {
     return 1;
   }
@@ -63,12 +67,12 @@ function calculateFreeTransfersAvailable(historyData: any): number {
         (chip_played.name === "wildcard" || chip_played.name === "freehit");
 
       if (is_wc_or_fh) {
-        // 24/25 Rule: Chips do not reset banked transfers.
-        available_ft = Math.min(5, available_ft + 1);
+        // 24/25 Rule: Banked transfers are preserved across chip week, but NO +1 is awarded
+        available_ft = Math.min(5, available_ft);
       } else {
         const transfers_made = past_gw.event_transfers || 0;
-        const hits_taken = (past_gw.event_transfers_cost || 0) / 4;
-        const free_transfers_used = transfers_made - hits_taken;
+        const hits_taken = Math.floor((past_gw.event_transfers_cost || 0) / 4);
+        const free_transfers_used = Math.max(0, transfers_made - hits_taken);
 
         // FPL 24/25 Rule: Max 5 banked transfers.
         // Subtract used transfers (bottoming out at 0), then grant 1 FT for the next GW.
@@ -77,7 +81,18 @@ function calculateFreeTransfersAvailable(historyData: any): number {
     }
   }
 
-  return Math.max(1, Math.min(5, available_ft));
+  // Deduct mid-week transfers made for nextEvent (currentEvent + 1)
+  if (transfersData && currentEvent) {
+    const nextEvent = currentEvent + 1;
+    const nextChip = historyData.chips?.find((c: any) => c.event === nextEvent);
+    const isNextWcOrFh = nextChip && (nextChip.name === "wildcard" || nextChip.name === "freehit");
+    if (!isNextWcOrFh) {
+      const midWeekTransfers = transfersData.filter((t: any) => t.event === nextEvent).length;
+      available_ft = Math.max(0, available_ft - midWeekTransfers);
+    }
+  }
+
+  return Math.max(0, Math.min(5, available_ft));
 }
 
 export async function GET(
@@ -307,7 +322,7 @@ export async function GET(
 
     for (const { mgr, picksData, historyData, transfersData } of allChunkResults) {
       // Calculate true FT Available going into the gameweek (24/25 rules, max 5 banked)
-      const ftAvailable = calculateFreeTransfersAvailable(historyData);
+      const ftAvailable = calculateFreeTransfersAvailable(historyData, transfersData, currentEvent);
 
       // Extract current GW transfers made and calculate net transfers (excluding Wildcard tinkering)
       const currentGwTransfers = Array.isArray(transfersData)

@@ -156,12 +156,34 @@ export const FDRTickerView: React.FC<FDRTickerViewProps> = ({
                   {/* GW Cells */}
                   {visibleGWs.map((gw) => {
                     const cell = row.schedule.find((s) => s.gw === gw);
-                    if (!cell || cell.opponentId === 0) {
+                    if (!cell || cell.opponentId === 0 || cell.isBGW) {
                       return (
                         <td key={gw} className="py-2 px-1 text-center">
                           <span className="text-[10px] font-mono text-tl-muted/40 block">
                             -
                           </span>
+                        </td>
+                      );
+                    }
+
+                    if (cell.isDGW && cell.matches && cell.matches.length > 1) {
+                      return (
+                        <td key={gw} className="py-1 px-1 text-center">
+                          <div className="flex flex-col gap-0.5 items-center justify-center">
+                            {cell.matches.map((m, mIdx) => (
+                              <span
+                                key={mIdx}
+                                className={`inline-block px-1.5 py-0.5 rounded-sm text-[8.5px] font-mono whitespace-nowrap ${getFdrClass(
+                                  m.fdr
+                                )}`}
+                                title={`${row.name} vs ${m.opponentName} (${
+                                  m.isHome ? "Home" : "Away"
+                                }) - FDR ${m.fdr}`}
+                              >
+                                {m.opponentShort} ({m.isHome ? "H" : "A"})
+                              </span>
+                            ))}
+                          </div>
                         </td>
                       );
                     }

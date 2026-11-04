@@ -59,11 +59,32 @@ const WAR_ROOM_ACTIONS = [
   },
 ];
 
+// Formats raw decimal haul probabilities (e.g., "0.231 haul probability") into clean percentages ("23.1% haul probability")
+export function formatHaulProbabilities(text: string): string {
+  if (!text) return text;
+  return text
+    .replace(
+      /\b0\.(\d{1,4})\s*(haul\s*(?:probability|prob|chance)?|probability of a haul|chance of a haul)/gi,
+      (_, decimals, suffix) => {
+        const pct = (parseFloat(`0.${decimals}`) * 100).toFixed(1);
+        return `${pct}% ${suffix}`;
+      }
+    )
+    .replace(
+      /(haul\s*(?:probability|prob|chance)?(?::|\s+of|\s+is)?\s*)0\.(\d{1,4})\b/gi,
+      (_, prefix, decimals) => {
+        const pct = (parseFloat(`0.${decimals}`) * 100).toFixed(1);
+        return `${prefix}${pct}%`;
+      }
+    );
+}
+
 // Lightweight markdown renderer for AI responses
 function FormattedMessage({ content }: { content: string }) {
   if (!content) return null;
 
-  const lines = content.split("\n");
+  const formattedContent = formatHaulProbabilities(content);
+  const lines = formattedContent.split("\n");
 
   const parseInline = (text: string) => {
     const parts = text.split(/(\*\*[^*]+\*\*)/g);
@@ -197,10 +218,7 @@ export const ChatTab: React.FC<ChatTabProps> = ({
           sender: "assistant",
           timestamp: "Just now",
           text: `Matchday War Room active for **${stats.teamName}** (GW${stats.nextGameweek}). Poisson SOTA expected points, Monte Carlo simulations, and deadline intelligence are synced.`,
-          quickActions: [
-            { label: "Shield vs Sword", action: "captaincy" },
-            { label: "Transfer Targets", action: "transfers" },
-          ],
+          quickActions: [],
         },
       ]);
     }
@@ -387,7 +405,7 @@ export const ChatTab: React.FC<ChatTabProps> = ({
 
                     {isExpanded && (
                       <div className="mt-1.5 pt-1.5 border-t border-tl-border text-tl-muted text-[11px] leading-relaxed">
-                        <p>{item.expandedDetail}</p>
+                        <p>{formatHaulProbabilities(item.expandedDetail)}</p>
                         {item.actionText && (
                           <button
                             onClick={(e) => {
@@ -440,8 +458,10 @@ export const ChatTab: React.FC<ChatTabProps> = ({
             <>
               {/* Executive Briefing Text */}
               <p className="text-xs text-tl-text leading-relaxed font-sans">
-                {warRoomDigest?.executive_briefing ||
-                  `Gameweek ${stats.nextGameweek} deadline desk active. Poisson SOTA engine and Monte Carlo simulations loaded.`}
+                {formatHaulProbabilities(
+                  warRoomDigest?.executive_briefing ||
+                    `Gameweek ${stats.nextGameweek} deadline desk active. Poisson SOTA engine and Monte Carlo simulations loaded.`
+                )}
               </p>
 
               {/* Shield vs. Sword Captaincy Split */}
@@ -455,7 +475,7 @@ export const ChatTab: React.FC<ChatTabProps> = ({
                       </span>
                     </div>
                     <p className="text-[11px] font-mono text-tl-text font-semibold leading-tight">
-                      {warRoomDigest.shield_vs_sword_captaincy.shield}
+                      {formatHaulProbabilities(warRoomDigest.shield_vs_sword_captaincy.shield)}
                     </p>
                   </div>
 
@@ -467,7 +487,7 @@ export const ChatTab: React.FC<ChatTabProps> = ({
                       </span>
                     </div>
                     <p className="text-[11px] font-mono text-tl-text font-semibold leading-tight">
-                      {warRoomDigest.shield_vs_sword_captaincy.sword}
+                      {formatHaulProbabilities(warRoomDigest.shield_vs_sword_captaincy.sword)}
                     </p>
                   </div>
                 </div>
@@ -537,8 +557,8 @@ export const ChatTab: React.FC<ChatTabProps> = ({
                     />
                   )}
 
-                  {/* Quick Action Buttons */}
-                  {msg.quickActions && msg.quickActions.length > 0 && (
+                  {/* Quick Action Buttons (hidden for msg-init to avoid duplicating War Room card) */}
+                  {msg.id !== "msg-init" && msg.quickActions && msg.quickActions.length > 0 && (
                     <div className="flex flex-wrap gap-1.5 pt-1">
                       {msg.quickActions.map((qa, i) => (
                         <button

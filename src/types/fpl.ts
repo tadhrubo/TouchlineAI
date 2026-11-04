@@ -74,9 +74,11 @@ export interface Player {
   isViceCaptain?: boolean;
   isBench?: boolean;
   benchOrder?: number; // 0 for sub GK, 1, 2, 3 for outfield
-  status: "available" | "doubtful" | "injured" | "suspended";
+  status: "available" | "injured" | "doubtful" | "suspended" | "unavailable";
+  sellingPrice?: number;
+  purchasePrice?: number;
   news?: string;
-  chanceOfPlaying?: number; // percentage (e.g. 75, 50, 25, 0)
+  chanceOfPlaying?: number | null;
   currentFixture: FixtureInfo;
   upcomingFixtures: FixtureInfo[];
   photoUrl: string;
@@ -119,6 +121,9 @@ export interface TeamStats {
   gameweekRank: number;
   teamValue: number;
   inTheBank: number;
+  sellingValue?: number;
+  liquidationBudget?: number;
+  chipsUsed?: { name: string; event: number; time: string }[];
   freeTransfers: number;
   ft_available?: number;
   ftAvailable?: number;
@@ -135,6 +140,19 @@ export interface TeamStats {
   livePoints?: number;
   safetyScore?: number;
   liveData?: LiveDashboardData;
+}
+
+export interface SquadData {
+  stats: TeamStats;
+  players: Player[];
+  captainId: string;
+  viceCaptainId: string;
+  formation: string;
+  sellingValue: number;
+  liquidationBudget: number;
+  chipsUsed: { name: string; event: number; time: string }[];
+  ft_available?: number;
+  ftAvailable?: number;
 }
 
 export interface NewsItem {

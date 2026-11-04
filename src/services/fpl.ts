@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { supabase } from "@/lib/supabase";
-import { Player, TeamStats, FixtureInfo, Position } from "@/types/fpl";
+import { Player, TeamStats, FixtureInfo, Position, SquadData } from "@/types/fpl";
 import { computeFallbackXP } from "@/utils/xp";
 import { getFplKitUrl, TEAM_CODE_MAP } from "@/utils/fpl";
 
@@ -51,9 +51,14 @@ const POSITION_MAP: Record<number, Position> = {
  * Calculates Free Transfers Available going into the current gameweek based on 2024/25 FPL rules.
  * - Everyone starts with 1 FT going into GW2.
  * - Rolls over up to a maximum of 5 banked transfers.
- * - 24/25 Chip Rule: Wildcards & Free Hits do NOT reset banked transfers.
+ * - 24/25 Chip Rule: Wildcards & Free Hits preserve banked transfers without +1 increment.
+ * - Deducts mid-week transfers made for the upcoming gameweek (nextEvent).
  */
-export function calculateFreeTransfersAvailable(historyData: any): number {
+export function calculateFreeTransfersAvailable(
+  historyData: any,
+  transfersData?: any[],
+  currentEvent?: number
+): number {
   if (!historyData || !Array.isArray(historyData.current)) {
     return 1;
   }
@@ -74,12 +79,12 @@ export function calculateFreeTransfersAvailable(historyData: any): number {
         (chip_played.name === "wildcard" || chip_played.name === "freehit");
 
       if (is_wc_or_fh) {
-        // 24/25 Rule: Chips do not reset banked transfers.
-        available_ft = Math.min(5, available_ft + 1);
+        // 24/25 Rule: Banked transfers are preserved across chip week, but NO +1 is awarded
+        available_ft = Math.min(5, available_ft);
       } else {
         const transfers_made = gw.event_transfers || 0;
-        const hits_taken = (gw.event_transfers_cost || 0) / 4;
-        const free_transfers_used = transfers_made - hits_taken;
+        const hits_taken = Math.floor((gw.event_transfers_cost || 0) / 4);
+        const free_transfers_used = Math.max(0, transfers_made - hits_taken);
 
         available_ft = Math.min(
           5,
@@ -89,17 +94,104 @@ export function calculateFreeTransfersAvailable(historyData: any): number {
     }
   }
 
-  return Math.max(1, Math.min(5, available_ft));
+  // Deduct mid-week transfers made for nextEvent (currentEvent + 1)
+  if (transfersData && currentEvent) {
+    const nextEvent = currentEvent + 1;
+    const nextChip = historyData.chips?.find((c: any) => c.event === nextEvent);
+    const isNextWcOrFh = nextChip && (nextChip.name === "wildcard" || nextChip.name === "freehit");
+    if (!isNextWcOrFh) {
+      const midWeekTransfers = transfersData.filter((t: any) => t.event === nextEvent).length;
+      available_ft = Math.max(0, available_ft - midWeekTransfers);
+    }
+  }
+
+  return Math.max(0, Math.min(5, available_ft));
 }
 
-export interface ManagerSquadResponse {
-  stats: TeamStats;
-  players: Player[];
-  captainId: string;
-  viceCaptainId: string;
-  formation: string;
-  ft_available?: number;
-  ftAvailable?: number;
+export interface ManagerSquadResponse extends SquadData {}
+export type { SquadData };
+
+interface BpsEntry {
+  element: number;
+  bps: number;
+}
+
+/**
+ * For active fixtures where official bonus is not yet awarded, rank active players (minutes > 0)
+ * by fixture BPS descending and assign provisional bonus points (3, 2, 1 with official tie-breaking).
+ */
+export function calculateProvisionalBonus(
+  fixtures: any[],
+  liveElementsMap: Map<number, any>
+): Map<number, number> {
+  const provisionalBonusMap = new Map<number, number>();
+
+  for (const fix of fixtures || []) {
+    // Only active fixtures that have started
+    if (!fix.started) continue;
+
+    // Check if official bonus has already been awarded
+    const bonusStat = fix.stats?.find((s: any) => s.identifier === "bonus");
+    const hasOfficialBonus =
+      bonusStat &&
+      ((bonusStat.h && bonusStat.h.length > 0) ||
+       (bonusStat.a && bonusStat.a.length > 0));
+
+    if (hasOfficialBonus) continue;
+
+    const bpsStat = fix.stats?.find((s: any) => s.identifier === "bps");
+    if (!bpsStat) continue;
+
+    const allBps: BpsEntry[] = [];
+    for (const item of [...(bpsStat.h || []), ...(bpsStat.a || [])]) {
+      const liveStat = liveElementsMap.get(item.element);
+      const minutes = liveStat?.minutes ?? 0;
+      if (minutes > 0 && item.value > 0) {
+        allBps.push({ element: item.element, bps: item.value });
+      }
+    }
+
+    if (allBps.length === 0) continue;
+
+    // Group players by BPS score descending
+    const bpsGroups = new Map<number, number[]>();
+    for (const entry of allBps) {
+      if (!bpsGroups.has(entry.bps)) {
+        bpsGroups.set(entry.bps, []);
+      }
+      bpsGroups.get(entry.bps)!.push(entry.element);
+    }
+
+    const sortedScores = Array.from(bpsGroups.keys()).sort((a, b) => b - a);
+    if (sortedScores.length === 0) continue;
+
+    const rank1Players = bpsGroups.get(sortedScores[0])!;
+    if (rank1Players.length >= 3) {
+      for (const id of rank1Players) provisionalBonusMap.set(id, 3);
+    } else if (rank1Players.length === 2) {
+      for (const id of rank1Players) provisionalBonusMap.set(id, 3);
+      if (sortedScores.length > 1) {
+        const rank2Players = bpsGroups.get(sortedScores[1])!;
+        for (const id of rank2Players) provisionalBonusMap.set(id, 1);
+      }
+    } else if (rank1Players.length === 1) {
+      provisionalBonusMap.set(rank1Players[0], 3);
+      if (sortedScores.length > 1) {
+        const rank2Players = bpsGroups.get(sortedScores[1])!;
+        if (rank2Players.length >= 2) {
+          for (const id of rank2Players) provisionalBonusMap.set(id, 2);
+        } else if (rank2Players.length === 1) {
+          provisionalBonusMap.set(rank2Players[0], 2);
+          if (sortedScores.length > 2) {
+            const rank3Players = bpsGroups.get(sortedScores[2])!;
+            for (const id of rank3Players) provisionalBonusMap.set(id, 1);
+          }
+        }
+      }
+    }
+  }
+
+  return provisionalBonusMap;
 }
 
 export const fplHeaders = {
@@ -156,16 +248,21 @@ export async function fetchManagerSquad(
     throw new Error("Invalid FPL Entry ID");
   }
 
-  // 1. Fetch Manager Overview & History in Parallel
+  // 1. Fetch Manager Overview, History & Transfers in Parallel
   let entryRes: Response;
   let historyData: any = null;
+  let transfersData: any[] = [];
   try {
-    const [eRes, hRes] = await Promise.all([
+    const [eRes, hRes, tRes] = await Promise.all([
       fetch(`https://fantasy.premierleague.com/api/entry/${cleanId}/`, {
         headers: fplHeaders,
         next: { revalidate: 60 },
       }),
       fetch(`https://fantasy.premierleague.com/api/entry/${cleanId}/history/`, {
+        headers: fplHeaders,
+        next: { revalidate: 60 },
+      }).catch(() => null),
+      fetch(`https://fantasy.premierleague.com/api/entry/${cleanId}/transfers/`, {
         headers: fplHeaders,
         next: { revalidate: 60 },
       }).catch(() => null),
@@ -176,6 +273,12 @@ export async function fetchManagerSquad(
     } else if (hRes) {
       const hText = await hRes.text().catch(() => "");
       console.error("FPL API Error (history):", hText);
+    }
+    if (tRes && tRes.ok) {
+      transfersData = await tRes.json().catch(() => []);
+    } else if (tRes) {
+      const tText = await tRes.text().catch(() => "");
+      console.error("FPL API Error (transfers):", tText);
     }
   } catch (err: any) {
     console.error("FPL API Error (network):", err);
@@ -248,6 +351,29 @@ export async function fetchManagerSquad(
     is_captain: boolean;
     is_vice_captain: boolean;
   }>;
+
+  // Apply any mid-week transfers made for nextEvent (currentEvent + 1)
+  const nextEvent = currentEvent + 1;
+  const midWeekTransfers = Array.isArray(transfersData)
+    ? transfersData.filter((t: any) => t.event === nextEvent)
+    : [];
+
+  if (midWeekTransfers.length > 0) {
+    const sortedMidWeek = [...midWeekTransfers].sort(
+      (a: any, b: any) => new Date(a.time).getTime() - new Date(b.time).getTime()
+    );
+    for (const t of sortedMidWeek) {
+      const pickIdx = rawPicks.findIndex((p) => p.element === t.element_out);
+      if (pickIdx !== -1) {
+        rawPicks[pickIdx].element = t.element_in;
+      }
+    }
+  }
+
+  const midWeekBankDeltaTenths = midWeekTransfers.reduce(
+    (sum: number, t: any) => sum + ((t.element_out_cost || 0) - (t.element_in_cost || 0)),
+    0
+  );
 
   // Sort picks by position 1-15
   rawPicks.sort((a, b) => a.position - b.position);
@@ -363,6 +489,9 @@ export async function fetchManagerSquad(
     console.warn("Could not fetch live matchday telemetry:", e);
   }
 
+  // Calculate provisional BPS bonus for active fixtures where official bonus is not yet awarded
+  const provisionalBonusMap = calculateProvisionalBonus(upcomingFixturesData, liveElementsMap);
+
   const playerDbMap = new Map<number, any>();
   if (dbPlayers) {
     dbPlayers.forEach((p) => playerDbMap.set(p.id, p));
@@ -388,6 +517,13 @@ export async function fetchManagerSquad(
 
   let captainId = "";
   let viceCaptainId = "";
+
+  // Sort transfers descending by time for fast buy-cost lookup
+  const sortedTransfersDesc = Array.isArray(transfersData)
+    ? [...transfersData].sort(
+        (a: any, b: any) => new Date(b.time).getTime() - new Date(a.time).getTime()
+      )
+    : [];
 
   // 4. Assemble Player objects
   const startingXI: Player[] = [];
@@ -459,8 +595,29 @@ export async function fetchManagerSquad(
     const isDefOrGk = positionType === "GKP" || positionType === "DEF";
     const isFwd = positionType === "FWD";
 
-    const totalPts = Number(dbP?.total_points ?? bEl?.total_points ?? 0);
+    const lastTransferIn = sortedTransfersDesc.find(
+      (t: any) => t.element_in === pick.element
+    );
+
     const priceVal = Number(bEl?.now_cost ?? dbP?.now_cost ?? 50) / 10;
+    const nowTenths = Number(bEl?.now_cost ?? Math.round(priceVal * 10));
+
+    let buyTenths: number;
+    if (lastTransferIn && lastTransferIn.element_in_cost != null) {
+      buyTenths = Number(lastTransferIn.element_in_cost);
+    } else {
+      buyTenths = nowTenths - Number(bEl?.cost_change_start ?? 0);
+    }
+
+    const profitTenths = nowTenths - buyTenths;
+    const sellTenths =
+      profitTenths > 0
+        ? buyTenths + Math.floor(profitTenths / 2)
+        : nowTenths;
+
+    const currentPrice = Number((nowTenths / 10).toFixed(1));
+    const purchasePrice = Number((buyTenths / 10).toFixed(1));
+    const sellingPrice = Number((sellTenths / 10).toFixed(1));
 
     // XP Calculation: Prioritize DB prediction, then SOTA model artifact, then official FPL ep_next, then regression-based fallback
     const sotaPred = sotaPredictionsMap.get(pick.element);
@@ -472,7 +629,7 @@ export async function fetchManagerSquad(
     } else if (bEl?.ep_next != null && !isNaN(parseFloat(bEl.ep_next)) && parseFloat(bEl.ep_next) > 0) {
       projectedPts = Number(parseFloat(bEl.ep_next).toFixed(1));
     } else {
-      projectedPts = computeFallbackXP(totalPts, currentEvent, positionType);
+      projectedPts = computeFallbackXP(Number(dbP?.total_points ?? bEl?.total_points ?? 0), currentEvent, positionType);
     }
       
     // LOG VERIFICATION FOR USER
@@ -515,11 +672,33 @@ export async function fetchManagerSquad(
     if (Number.isFinite(per90Assists)) xAVal = Number(per90Assists.toFixed(2));
     const xGIVal = Number((xGVal + xAVal).toFixed(2));
 
+    // Map official FPL medical status flags
+    const rawStatus = bEl?.status || "a";
+    const mappedStatus: "available" | "injured" | "doubtful" | "suspended" | "unavailable" =
+      rawStatus === "i"
+        ? "injured"
+        : rawStatus === "d"
+        ? "doubtful"
+        : rawStatus === "s"
+        ? "suspended"
+        : rawStatus === "u" || rawStatus === "n"
+        ? "unavailable"
+        : "available";
+
+    const newsStr = bEl?.news || "";
+    const chanceOfPlaying = bEl?.chance_of_playing_next_round ?? null;
+
+    // Provisional live BPS bonus points
+    const officialBonus = liveStat.bonus || 0;
+    const provBonus = officialBonus === 0 ? (provisionalBonusMap.get(pick.element) || 0) : 0;
+    const effectiveBonus = officialBonus > 0 ? officialBonus : provBonus;
+
     const teamFix = playerTeamId ? teamFixtureMap.get(playerTeamId) : undefined;
     const liveMins = liveStat.minutes ?? 0;
-    const liveRawPts = liveStat.total_points ?? 0;
+    const liveRawPts = (liveStat.total_points ?? 0) + provBonus;
     const mult = pick.multiplier || (pick.is_captain ? 2 : 1);
     const calculatedLivePts = liveRawPts * mult;
+    const totalPts = Number(dbP?.total_points ?? bEl?.total_points ?? 0) + provBonus;
 
     const isMatchFinished = teamFix ? teamFix.finished : liveMins > 0;
     const isMatchStarted = teamFix ? teamFix.started : liveMins > 0;
@@ -541,7 +720,9 @@ export async function fetchManagerSquad(
       teamCode: teamCodeNum,
       team_code: teamCodeNum,
       kitUrl: kitUrl,
-      price: priceVal,
+      price: currentPrice,
+      sellingPrice: sellingPrice,
+      purchasePrice: purchasePrice,
       selectedByPercent: Number(dbP?.selected_by_percent || bEl?.selected_by_percent || "5.0"),
       totalPoints: totalPts,
       gameweekPoints: calculatedLivePts,
@@ -559,7 +740,9 @@ export async function fetchManagerSquad(
       isViceCaptain: pick.is_vice_captain,
       isBench: isBench,
       benchOrder: benchOrder,
-      status: "available",
+      status: mappedStatus,
+      news: newsStr,
+      chanceOfPlaying: chanceOfPlaying,
       currentFixture: {
         opponent: opponentShort,
         isHome: isHome,
@@ -597,7 +780,7 @@ export async function fetchManagerSquad(
         clean_sheets: liveStat.clean_sheets || 0,
         goals_conceded: liveStat.goals_conceded || 0,
         own_goals: liveStat.own_goals || 0,
-        bonus: liveStat.bonus || 0,
+        bonus: effectiveBonus,
         bps: liveStat.bps || 0,
         yellow_cards: liveStat.yellow_cards || 0,
         red_cards: liveStat.red_cards || 0,
@@ -611,7 +794,7 @@ export async function fetchManagerSquad(
         clean_sheets: liveStat.clean_sheets || 0,
         goals_conceded: liveStat.goals_conceded || 0,
         own_goals: liveStat.own_goals || 0,
-        bonus: liveStat.bonus || 0,
+        bonus: effectiveBonus,
         bps: liveStat.bps || 0,
         yellow_cards: liveStat.yellow_cards || 0,
         red_cards: liveStat.red_cards || 0,
@@ -646,8 +829,34 @@ export async function fetchManagerSquad(
 
   // 5. Construct TeamStats & Live Matchday Metrics
   const entryHistory = picksData.entry_history || {};
-  const teamValue = (entryHistory.value || entryData.last_deadline_value || 1000) / 10;
-  const inTheBank = (entryHistory.bank || entryData.last_deadline_bank || 0) / 10;
+  let bankTenths = entryHistory.bank != null
+    ? Number(entryHistory.bank)
+    : Number(entryData.last_deadline_bank || 0);
+  bankTenths += midWeekBankDeltaTenths;
+  const inTheBank = Number((bankTenths / 10).toFixed(1));
+
+  // Squad valuation totals in tenths
+  const totalSellTenths = allPlayers.reduce(
+    (sum, p) => sum + Math.round((p.sellingPrice ?? p.price) * 10),
+    0
+  );
+  const totalNowTenths = allPlayers.reduce(
+    (sum, p) => sum + Math.round(p.price * 10),
+    0
+  );
+
+  const sellingValue = Number((totalSellTenths / 10).toFixed(1));
+  const liquidationBudget = Number(((totalSellTenths + bankTenths) / 10).toFixed(1));
+  const teamValue = Number(((totalNowTenths + bankTenths) / 10).toFixed(1));
+
+  const chipsUsed: { name: string; event: number; time: string }[] = Array.isArray(historyData?.chips)
+    ? historyData.chips.map((c: any) => ({
+        name: String(c.name || ""),
+        event: Number(c.event || 0),
+        time: String(c.time || ""),
+      }))
+    : [];
+
   const overallRank = entryData.summary_overall_rank || entryHistory.overall_rank || 1;
   const totalPoints = entryData.summary_overall_points || entryHistory.total_points || 0;
 
@@ -671,7 +880,7 @@ export async function fetchManagerSquad(
   const rankPercentChange = Number(((rankDelta / Math.max(1, oldRank)) * 100).toFixed(1));
 
   // Calculate Free Transfers Available (24/25 rules, rolling up to 5, chip preservation)
-  const ftAvailable = calculateFreeTransfersAvailable(historyData);
+  const ftAvailable = calculateFreeTransfersAvailable(historyData, transfersData, currentEvent);
 
   const stats: TeamStats = {
     managerName: `${entryData.player_first_name || "FPL"} ${entryData.player_last_name || "Manager"}`,
@@ -685,6 +894,9 @@ export async function fetchManagerSquad(
     gameweekRank: gwRank,
     teamValue: teamValue,
     inTheBank: inTheBank,
+    sellingValue: sellingValue,
+    liquidationBudget: liquidationBudget,
+    chipsUsed: chipsUsed,
     freeTransfers: ftAvailable,
     ft_available: ftAvailable,
     ftAvailable: ftAvailable,
@@ -721,6 +933,9 @@ export async function fetchManagerSquad(
     captainId,
     viceCaptainId,
     formation,
+    sellingValue: sellingValue,
+    liquidationBudget: liquidationBudget,
+    chipsUsed: chipsUsed,
     ft_available: ftAvailable,
     ftAvailable: ftAvailable,
   };

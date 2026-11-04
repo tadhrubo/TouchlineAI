@@ -22,6 +22,19 @@ import {
   X,
 } from "lucide-react";
 
+interface ChipDefinition {
+  id: "wildcard" | "freehit" | "bboost" | "3xc";
+  name: string;
+  short: string;
+}
+
+const CHIP_DEFINITIONS: ChipDefinition[] = [
+  { id: "wildcard", name: "Wildcard", short: "WC" },
+  { id: "freehit", name: "Free Hit", short: "FH" },
+  { id: "bboost", name: "Bench Boost", short: "BB" },
+  { id: "3xc", name: "Triple Captain", short: "3XC" },
+];
+
 interface PlannerTabProps {
   stats: TeamStats | null;
   initialPlayers: Player[];
@@ -30,6 +43,7 @@ interface PlannerTabProps {
   sampleTier?: SampleTier;
   onSampleTierChange?: (tier: SampleTier) => void;
   onOpenChatWithPrompt?: (prompt: string) => void;
+  chipsUsed?: { name: string; event: number; time: string }[];
 }
 
 export const PlannerTab: React.FC<PlannerTabProps> = ({
@@ -40,6 +54,7 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
   sampleTier: controlledSampleTier,
   onSampleTierChange,
   onOpenChatWithPrompt,
+  chipsUsed,
 }) => {
   const currentGW = stats?.currentGameweek || 1;
   const [plannedGW, setPlannedGW] = useState<number>(stats?.nextGameweek || currentGW);
@@ -66,33 +81,71 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
   const [showEOInfoModal, setShowEOInfoModal] = useState<boolean>(false);
   const [swapError, setSwapError] = useState<string | null>(null);
 
+  // Chip Tracking State
+  const [activeChip, setActiveChip] = useState<string | null>(null);
+
+  const chipsHistory = useMemo(() => {
+    return (chipsUsed ?? stats?.chipsUsed ?? []) as Array<{ name: string; event: number; time?: string }>;
+  }, [chipsUsed, stats?.chipsUsed]);
+
+  const getUsedChipInfo = (chipId: string) => {
+    return chipsHistory.find((c) => {
+      const cName = (c.name || "").toLowerCase().replace(/[\s_-]/g, "");
+      if (chipId === "3xc") return cName === "3xc" || cName === "triplecaptain" || cName === "tc";
+      if (chipId === "bboost") return cName === "bboost" || cName === "benchboost" || cName === "bb";
+      if (chipId === "freehit") return cName === "freehit" || cName === "fh";
+      if (chipId === "wildcard") return cName === "wildcard" || cName === "wc";
+      return cName === chipId;
+    });
+  };
+
+  const handleToggleChip = (chipId: string) => {
+    if (getUsedChipInfo(chipId)) return;
+    setActiveChip((prev) => (prev === chipId ? null : chipId));
+  };
+
   // Bank and Free Transfers computation
   const initialBank = stats?.inTheBank || 0.0;
-  const initialTotalCost = useMemo(() => {
-    return initialPlayers.reduce((acc, p) => acc + p.price, 0);
-  }, [initialPlayers]);
-
-  const currentTotalCost = useMemo(() => {
-    return plannedSquad.reduce((acc, p) => acc + p.price, 0);
-  }, [plannedSquad]);
-
-  const calculatedBank = Number(
-    (initialBank + initialTotalCost - currentTotalCost).toFixed(1)
+  const initialPlayerMap = useMemo(
+    () => new Map(initialPlayers.map((p) => [p.id, p])),
+    [initialPlayers]
+  );
+  const currentSquadIds = useMemo(
+    () => new Set(plannedSquad.map((p) => p.id)),
+    [plannedSquad]
   );
 
-  const initialPlayerIds = useMemo(() => {
-    return new Set(initialPlayers.map((p) => p.id));
-  }, [initialPlayers]);
+  // Outgoing original squad players credit their selling price
+  const playersOut = useMemo(() => {
+    return initialPlayers.filter((p) => !currentSquadIds.has(p.id));
+  }, [initialPlayers, currentSquadIds]);
 
-  const transfersMade = useMemo(() => {
-    return plannedSquad.filter((p) => !initialPlayerIds.has(p.id)).length;
-  }, [plannedSquad, initialPlayerIds]);
+  // Incoming new players debit their market price
+  const playersIn = useMemo(() => {
+    return plannedSquad.filter((p) => !initialPlayerMap.has(p.id));
+  }, [plannedSquad, initialPlayerMap]);
+
+  const moneyGained = useMemo(() => {
+    return playersOut.reduce((sum, p) => sum + (p.sellingPrice ?? p.price), 0);
+  }, [playersOut]);
+
+  const moneySpent = useMemo(() => {
+    return playersIn.reduce((sum, p) => sum + p.price, 0);
+  }, [playersIn]);
+
+  const calculatedBank = Number(
+    (initialBank + moneyGained - moneySpent).toFixed(1)
+  );
+
+  const transfersMade = playersIn.length;
 
   const freeTransfers =
     stats?.ft_available ?? stats?.ftAvailable ?? stats?.freeTransfers ?? 1;
 
-  const extraTransfers = Math.max(0, transfersMade - freeTransfers);
-  const hitCost = extraTransfers * 4;
+  // Active Wildcard or Free Hit chip grants unlimited free transfers without point deductions
+  const isFreeChipActive = activeChip === "wildcard" || activeChip === "freehit";
+  const extraTransfers = isFreeChipActive ? 0 : Math.max(0, transfersMade - freeTransfers);
+  const hitCost = isFreeChipActive ? 0 : extraTransfers * 4;
 
   const templateScore = useMemo(() => {
     return calculateTemplateOverlap(plannedSquad);
@@ -112,6 +165,7 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
     setViceCaptainId(initialViceCaptainId || initialPlayers[1]?.id || "");
     setSwappingPlayerId(null);
     setSwapError(null);
+    setActiveChip(null);
   };
 
   const handleToggleCaptain = (playerId: string) => {
@@ -376,7 +430,10 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
           <div>
             <span className="text-[10px] uppercase tracking-wider text-tl-muted block font-semibold">Transfers</span>
             <span className="text-sm sm:text-base font-bold text-tl-text tabular-nums">
-              {transfersMade} <span className="text-[10px] font-normal text-tl-muted">/ {freeTransfers} FT</span>
+              {transfersMade}{" "}
+              <span className="text-[10px] font-normal text-tl-muted">
+                / {isFreeChipActive ? "∞ FT" : `${freeTransfers} FT`}
+              </span>
             </span>
           </div>
 
@@ -390,7 +447,7 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
           <div>
             <span className="text-[10px] uppercase tracking-wider text-tl-muted block font-semibold">Hits</span>
             <span className={`text-sm sm:text-base font-bold tabular-nums ${hitCost > 0 ? "text-tl-warning" : "text-tl-text"}`}>
-              {hitCost > 0 ? `-${hitCost}` : "0"}
+              {hitCost > 0 ? `-${hitCost}` : isFreeChipActive ? `0 (${activeChip === "wildcard" ? "WC" : "FH"})` : "0"}
             </span>
           </div>
 
@@ -400,6 +457,65 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
               {templateScore}%
             </span>
           </div>
+        </div>
+
+        {/* Chip Strategy Bar */}
+        <div className="pt-2 border-t border-tl-border flex items-center justify-between gap-2">
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-tl-muted font-semibold mr-1 select-none">
+              CHIPS:
+            </span>
+            {CHIP_DEFINITIONS.map((chip) => {
+              const usedInfo = getUsedChipInfo(chip.id);
+              const isUsed = Boolean(usedInfo);
+              const isActive = activeChip === chip.id;
+
+              if (isUsed) {
+                return (
+                  <div
+                    key={chip.id}
+                    title={`${chip.name} already used in Gameweek ${usedInfo?.event}`}
+                    className="flex items-center gap-1 px-2 py-0.5 rounded-sm bg-tl-surface border border-tl-border text-tl-muted/60 text-[11px] font-mono select-none cursor-not-allowed opacity-60"
+                  >
+                    <span className="font-semibold">{chip.short}</span>
+                    <span className="text-[9px] uppercase tracking-tight px-1 py-0.2 rounded-xs bg-tl-surface2 text-tl-muted border border-tl-border font-sans font-medium">
+                      Used GW{usedInfo?.event}
+                    </span>
+                  </div>
+                );
+              }
+
+              return (
+                <button
+                  key={chip.id}
+                  type="button"
+                  onClick={() => handleToggleChip(chip.id)}
+                  title={isActive ? `Deactivate ${chip.name}` : `Activate ${chip.name} for GW${plannedGW}`}
+                  className={`flex items-center gap-1 px-2.5 py-0.5 rounded-sm text-[11px] font-mono transition tabular-nums ${
+                    isActive
+                      ? "bg-tl-accent text-tl-accentContrast font-bold border border-tl-accent shadow-sm"
+                      : "bg-tl-surface border border-tl-border text-tl-text hover:border-tl-accent/50"
+                  }`}
+                >
+                  <span>{chip.short}</span>
+                  {isActive && (
+                    <span className="text-[9px] uppercase tracking-wider font-sans bg-black/20 px-1 py-0.2 rounded-xs font-semibold">
+                      Active
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          {activeChip && (
+            <button
+              onClick={() => setActiveChip(null)}
+              className="text-[10px] font-mono text-tl-muted hover:text-tl-text underline flex-shrink-0"
+            >
+              Clear chip
+            </button>
+          )}
         </div>
       </div>
 
@@ -642,8 +758,7 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
           {onOpenChatWithPrompt && (
             <button
               onClick={() => {
-                const transferSummary = plannedSquad
-                  .filter((p) => !initialPlayerIds.has(p.id))
+                const transferSummary = playersIn
                   .map((p) => p.webName)
                   .join(", ");
                 const prompt = transferSummary

@@ -17,6 +17,23 @@ interface PlayerCardProps {
   userRank?: number;
 }
 
+function getFdrStyle(fdr: number = 3): string {
+  switch (fdr) {
+    case 1:
+      return "bg-emerald-700 text-white font-semibold font-mono";
+    case 2:
+      return "bg-emerald-500 text-white font-semibold font-mono";
+    case 3:
+      return "bg-slate-600 text-white font-semibold font-mono";
+    case 4:
+      return "bg-rose-600 text-white font-semibold font-mono";
+    case 5:
+      return "bg-rose-800 text-white font-semibold font-mono";
+    default:
+      return "bg-slate-700 text-white font-semibold font-mono";
+  }
+}
+
 export const PlayerCard: React.FC<PlayerCardProps> = ({
   player,
   isCaptain = false,
@@ -39,7 +56,7 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
     <div
       role="button"
       tabIndex={0}
-      aria-label={`${player.webName}, £${player.price.toFixed(1)}m, ${player.projectedPoints} xP`}
+      aria-label={`${player.webName}, £${(player.sellingPrice ?? player.price).toFixed(1)}m, ${player.projectedPoints} xP`}
       onClick={() => onClick?.(player)}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
@@ -75,12 +92,19 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
         </div>
       )}
 
-      {/* Status Warning Tag if flagged */}
-      {player.status !== "available" && (
-        <div className="absolute top-0 right-0 z-20">
+      {/* Status Warning Tag: Rose for injured / 0%, Amber for doubtful / 50% */}
+      {player.status && player.status !== "available" && (
+        <div className={`absolute top-0 ${isBench && benchLabel ? "right-5" : "right-0"} z-20`}>
           <span
             title={player.news || "Status alert"}
-            className="flex items-center justify-center w-3 h-3 rounded-sm bg-tl-warning text-black font-bold font-mono text-[8px]"
+            className={`flex items-center justify-center min-w-[13px] h-3.5 px-0.5 rounded-sm font-bold font-mono text-[8px] ${
+              player.status === "injured" ||
+              player.status === "suspended" ||
+              player.status === "unavailable" ||
+              player.chanceOfPlaying === 0
+                ? "bg-rose-600 text-white"
+                : "bg-amber-500 text-black"
+            }`}
           >
             !
           </span>
@@ -106,14 +130,30 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
           {player.webName}
         </p>
 
-        {/* £6.2m · 2.3 xP */}
+        {/* £{(player.sellingPrice ?? player.price).toFixed(1)}m · 2.3 xP */}
         <div className="flex items-center justify-center gap-1 text-[10px] font-mono text-tl-muted leading-tight tabular-nums mt-0.5">
-          <span>£{player.price.toFixed(1)}m</span>
+          <span>£{(player.sellingPrice ?? player.price).toFixed(1)}m</span>
           <span className="opacity-40">·</span>
           <span className="text-tl-accent font-semibold">
             {showProjected ? `${player.projectedPoints} xP` : `${player.totalPoints} pts`}
           </span>
         </div>
+
+        {/* Upcoming Fixture Pill styled by FDR Difficulty */}
+        {player.currentFixture && player.currentFixture.opponent && (
+          <div className="mt-0.5">
+            <span
+              className={`inline-block px-1 py-0.2 rounded-sm text-[8.5px] font-mono whitespace-nowrap ${getFdrStyle(
+                player.currentFixture.difficulty
+              )}`}
+              title={`GW${player.currentFixture.gameweek || ""}: vs ${player.currentFixture.opponent} (${
+                player.currentFixture.isHome ? "Home" : "Away"
+              }) - FDR ${player.currentFixture.difficulty}`}
+            >
+              {player.currentFixture.opponent} ({player.currentFixture.isHome ? "H" : "A"})
+            </span>
+          </div>
+        )}
 
         {/* Subtle EO metric sub-line if active */}
         {eoResult && (

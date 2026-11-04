@@ -39,13 +39,26 @@ export interface MatchFixture {
   };
 }
 
-export interface TeamFDRCell {
-  gw: number;
+export interface TeamFDRMatch {
   opponentId: number;
   opponentShort: string;
   opponentName: string;
   isHome: boolean;
   fdr: number;
+}
+
+export interface TeamFDRCell {
+  gw: number;
+  event: number;
+  opponentId: number;
+  opponentShort: string;
+  opponentName: string;
+  isHome: boolean;
+  fdr: number;
+  matches: TeamFDRMatch[];
+  isDGW: boolean;
+  isBGW: boolean;
+  match: TeamFDRMatch | null;
 }
 
 export interface TeamFDRRow {
@@ -187,30 +200,37 @@ export async function GET(request: Request) {
 
       for (let gw = 1; gw <= 38; gw++) {
         const gwMatches = allMatches.filter((m) => m.event === gw);
-        const match = gwMatches.find((m) => m.team_h.id === t.id || m.team_a.id === t.id);
+        const teamMatches = gwMatches.filter((m) => m.team_h.id === t.id || m.team_a.id === t.id);
 
-        if (match) {
-          const isHome = match.team_h.id === t.id;
-          const opp = isHome ? match.team_a : match.team_h;
-          schedule.push({
-            gw: gw,
+        const formattedMatches: TeamFDRMatch[] = teamMatches.map((m) => {
+          const isHome = m.team_h.id === t.id;
+          const opp = isHome ? m.team_a : m.team_h;
+          return {
             opponentId: opp.id,
             opponentShort: opp.short_name,
             opponentName: opp.name,
             isHome: isHome,
-            fdr: isHome ? match.team_h.fdr : match.team_a.fdr,
-          });
-        } else {
-          // Blank gameweek for this team
-          schedule.push({
-            gw: gw,
-            opponentId: 0,
-            opponentShort: "-",
-            opponentName: "Blank",
-            isHome: true,
-            fdr: 1,
-          });
-        }
+            fdr: isHome ? m.team_h.fdr : m.team_a.fdr,
+          };
+        });
+
+        const isDGW = formattedMatches.length > 1;
+        const isBGW = formattedMatches.length === 0;
+        const primaryMatch = formattedMatches[0] || null;
+
+        schedule.push({
+          gw: gw,
+          event: gw,
+          opponentId: primaryMatch ? primaryMatch.opponentId : 0,
+          opponentShort: primaryMatch ? primaryMatch.opponentShort : "-",
+          opponentName: primaryMatch ? primaryMatch.opponentName : "Blank",
+          isHome: primaryMatch ? primaryMatch.isHome : true,
+          fdr: primaryMatch ? primaryMatch.fdr : 1,
+          matches: formattedMatches,
+          isDGW: isDGW,
+          isBGW: isBGW,
+          match: primaryMatch,
+        });
       }
 
       return {

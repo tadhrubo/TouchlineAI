@@ -114,6 +114,11 @@ const MatchEventIcons: React.FC<{ stats?: any }> = ({ stats }) => {
   );
 };
 
+const isGk = (p: any) => p.position === "GKP" || p.elementType === 1 || p.element_type === 1;
+const isDef = (p: any) => p.position === "DEF" || p.elementType === 2 || p.element_type === 2;
+const isMid = (p: any) => p.position === "MID" || p.elementType === 3 || p.element_type === 3;
+const isFwd = (p: any) => p.position === "FWD" || p.elementType === 4 || p.element_type === 4;
+
 export const PointsTab: React.FC<PointsTabProps> = ({
   stats,
   players,
@@ -137,9 +142,7 @@ export const PointsTab: React.FC<PointsTabProps> = ({
 
   const rankDelta = liveData.rank_delta ?? ((liveData.old_rank || 1) - (liveData.live_rank || 1));
   const rankPercentChange = liveData.rank_percent_change ?? 0;
-  const livePoints = liveData.live_points || stats.gameweekPoints || 0;
   const safetyScore = liveData.safety_score || 42;
-  const safetyDiff = livePoints - safetyScore;
 
   // Split starters vs bench
   const starters = useMemo(() => players.filter((p) => !p.isBench), [players]);
@@ -161,11 +164,6 @@ export const PointsTab: React.FC<PointsTabProps> = ({
     const modStarters = starters.map((p) => ({ ...p, isSubbedIn: false, isSubbedOut: false }));
     const modBench = bench.map((p) => ({ ...p, isSubbedIn: false, isSubbedOut: false }));
 
-    const isGk = (p: any) => p.position === "GKP" || p.elementType === 1 || p.element_type === 1;
-    const isDef = (p: any) => p.position === "DEF" || p.elementType === 2 || p.element_type === 2;
-    const isMid = (p: any) => p.position === "MID" || p.elementType === 3 || p.element_type === 3;
-    const isFwd = (p: any) => p.position === "FWD" || p.elementType === 4 || p.element_type === 4;
-
     // 1. Goalkeeper Autosub: Only if starting GK match has finished with 0 mins
     const startGK = modStarters.find(isGk);
     const benchGK = modBench.find(isGk);
@@ -180,7 +178,7 @@ export const PointsTab: React.FC<PointsTabProps> = ({
       benchGK.isSubbedIn = true;
     }
 
-    // 2. Outfield Autosubs: Sort bench subs by benchOrder (1, 2, 3)
+    // 2. Outfield Autosubs: Strict priority order B1 -> B2 -> B3
     const outfieldBench = modBench
       .filter((p) => !isGk(p))
       .sort((a, b) => (a.benchOrder ?? 99) - (b.benchOrder ?? 99));
@@ -189,30 +187,44 @@ export const PointsTab: React.FC<PointsTabProps> = ({
       (p) => !isGk(p) && p.matchFinished && (p.stats?.minutes || 0) === 0
     );
 
+    // Track dynamic active outfield lineup across successive substitutions
+    let activeLineup = [...modStarters];
+    if (startGK?.isSubbedOut && benchGK?.isSubbedIn) {
+      activeLineup = activeLineup.map((p) => (p.id === startGK.id ? benchGK : p));
+    }
+
     for (const failedStarter of failedStarters) {
-      const candidateIndex = outfieldBench.findIndex(
-        (sub) => !sub.isSubbedIn && ((sub.stats?.minutes || 0) > 0 || !sub.matchFinished)
-      );
+      // Iterate through ALL un-subbed bench outfielders in strict bench priority order (1 -> 2 -> 3)
+      for (const candidate of outfieldBench) {
+        if (candidate.isSubbedIn) continue;
+        // Candidate must have played minutes > 0
+        if ((candidate.stats?.minutes || 0) <= 0) continue;
 
-      if (candidateIndex !== -1) {
-        const candidate = outfieldBench[candidateIndex];
-
-        // Ensure minimum formation rules: 3 DEFs, 2 MIDs, 1 FWD
-        const projectedStarters = modStarters.map((p) =>
+        // Test if replacing failedStarter with candidate maintains legal 11-player formation:
+        // Formation rules: GKP === 1, DEF >= 3, MID >= 2, FWD >= 1
+        const candidateLineup = activeLineup.map((p) =>
           p.id === failedStarter.id ? candidate : p
         );
 
-        const defCount = projectedStarters.filter(isDef).length;
-        const fwdCount = projectedStarters.filter(isFwd).length;
+        const gkCount = candidateLineup.filter(isGk).length;
+        const defCount = candidateLineup.filter(isDef).length;
+        const midCount = candidateLineup.filter(isMid).length;
+        const fwdCount = candidateLineup.filter(isFwd).length;
 
-        if (defCount >= 3 && fwdCount >= 1) {
+        if (gkCount === 1 && defCount >= 3 && midCount >= 2 && fwdCount >= 1) {
           failedStarter.isSubbedOut = true;
           candidate.isSubbedIn = true;
+          activeLineup = candidateLineup;
+          break; // Found first eligible candidate who preserves legal formation
         }
       }
     }
 
-    const playedCount = modStarters.filter(
+    const activePlayers = [
+      ...modStarters.filter((p) => !p.isSubbedOut),
+      ...modBench.filter((p) => p.isSubbedIn),
+    ];
+    const playedCount = activePlayers.filter(
       (p) => (p.stats?.minutes && p.stats.minutes > 0) || p.matchStarted
     ).length;
 
@@ -223,11 +235,85 @@ export const PointsTab: React.FC<PointsTabProps> = ({
     };
   }, [starters, bench, autosubsEnabled]);
 
-  // Position groupings
-  const isGk = (p: any) => p.position === "GKP" || p.elementType === 1 || p.element_type === 1;
-  const isDef = (p: any) => p.position === "DEF" || p.elementType === 2 || p.element_type === 2;
-  const isMid = (p: any) => p.position === "MID" || p.elementType === 3 || p.element_type === 3;
-  const isFwd = (p: any) => p.position === "FWD" || p.elementType === 4 || p.element_type === 4;
+  // Vice-Captain Multiplier Fallback calculations
+  const captainPlayer = useMemo(
+    () =>
+      effectiveStarters?.find((p: any) => p.isCaptain || (captainId && String(p.id) === String(captainId))) ||
+      effectiveBench?.find((p: any) => p.isCaptain || (captainId && String(p.id) === String(captainId))),
+    [effectiveStarters, effectiveBench, captainId]
+  );
+
+  const viceCaptainPlayer = useMemo(
+    () =>
+      effectiveStarters?.find((p: any) => p.isViceCaptain || (viceCaptainId && String(p.id) === String(viceCaptainId))) ||
+      effectiveBench?.find((p: any) => p.isViceCaptain || (viceCaptainId && String(p.id) === String(viceCaptainId))),
+    [effectiveStarters, effectiveBench, viceCaptainId]
+  );
+
+  const captainPlayedZero = Boolean(
+    autosubsEnabled &&
+      captainPlayer &&
+      captainPlayer.matchFinished &&
+      (captainPlayer.stats?.minutes || 0) === 0
+  );
+
+  const captainMultiplier = captainPlayer?.multiplier || 2;
+
+  const vcEligible = Boolean(
+    viceCaptainPlayer &&
+      ((viceCaptainPlayer.stats?.minutes || 0) > 0 || !viceCaptainPlayer.matchFinished)
+  );
+
+  // Dynamic Live Points calculation reflecting autosubs and VC multiplier transfer
+  const livePoints = useMemo(() => {
+    const activePlayers = autosubsEnabled
+      ? [
+          ...effectiveStarters.filter((p: any) => !p.isSubbedOut),
+          ...effectiveBench.filter((p: any) => p.isSubbedIn),
+        ]
+      : starters;
+
+    const hasAnyStats = activePlayers.some(
+      (p: any) =>
+        (p.gameweekPoints != null && p.gameweekPoints > 0) ||
+        (p.stats?.total_points != null && p.stats.total_points > 0) ||
+        (p.stats?.minutes != null && p.stats.minutes > 0) ||
+        p.matchStarted ||
+        p.matchFinished
+    );
+
+    if (!hasAnyStats && (liveData.live_points || stats.gameweekPoints)) {
+      return liveData.live_points || stats.gameweekPoints || 0;
+    }
+
+    return activePlayers.reduce((sum: number, p: any) => {
+      const rawPts = p.gameweekPoints ?? p.stats?.total_points ?? 0;
+      const isCaptain = p.isCaptain || (captainId && String(p.id) === String(captainId));
+      const isViceCaptain = p.isViceCaptain || (viceCaptainId && String(p.id) === String(viceCaptainId));
+
+      const mult = isCaptain
+        ? (captainPlayedZero ? 0 : p.multiplier || 2)
+        : (isViceCaptain && captainPlayedZero && vcEligible)
+          ? captainMultiplier
+          : (p.multiplier && !isCaptain ? p.multiplier : 1);
+
+      return sum + rawPts * mult;
+    }, 0);
+  }, [
+    autosubsEnabled,
+    effectiveStarters,
+    effectiveBench,
+    starters,
+    captainId,
+    viceCaptainId,
+    captainPlayedZero,
+    vcEligible,
+    captainMultiplier,
+    liveData.live_points,
+    stats.gameweekPoints,
+  ]);
+
+  const safetyDiff = livePoints - safetyScore;
 
   let gks = effectiveStarters.filter(isGk);
   let defs = effectiveStarters.filter(isDef);
@@ -248,7 +334,14 @@ export const PointsTab: React.FC<PointsTabProps> = ({
    */
   const renderLivePlayerCard = (player: any, isBenchCard = false) => {
     const rawPts = player.gameweekPoints ?? player.stats?.total_points ?? 0;
-    const mult = player.isCaptain ? player.multiplier || 2 : 1;
+    const isCaptain = player.isCaptain || (captainId && String(player.id) === String(captainId));
+    const isViceCaptain = player.isViceCaptain || (viceCaptainId && String(player.id) === String(viceCaptainId));
+
+    const mult = isCaptain
+      ? (captainPlayedZero ? 0 : player.multiplier || 2)
+      : (isViceCaptain && captainPlayedZero && vcEligible)
+        ? captainMultiplier
+        : (player.multiplier && !isCaptain ? player.multiplier : 1);
     const pts = rawPts * mult;
 
     const top10kEo = player.top10kEo ?? player.top_10k_eo ?? player.eo ?? 0;
@@ -289,17 +382,35 @@ export const PointsTab: React.FC<PointsTabProps> = ({
         )}
 
         {/* Captaincy / Vice Captaincy Badges */}
-        {player.isCaptain && (
+        {isCaptain && (
           <div className="absolute -top-1 -right-0.5 z-20">
-            <span className="flex items-center justify-center min-w-[15px] h-3.5 rounded-sm bg-tl-accent text-tl-accentContrast font-black text-[9px] font-mono px-1">
+            <span
+              className={`flex items-center justify-center min-w-[15px] h-3.5 rounded-sm font-black text-[9px] font-mono px-1 ${
+                captainPlayedZero
+                  ? "bg-tl-surface2 text-tl-muted border border-tl-border line-through opacity-70"
+                  : "bg-tl-accent text-tl-accentContrast"
+              }`}
+              title={captainPlayedZero ? "Captain played 0 mins (VC active)" : "Captain"}
+            >
               {player.multiplier === 3 ? "3C" : "C"}
             </span>
           </div>
         )}
-        {!player.isCaptain && player.isViceCaptain && (
+        {!isCaptain && isViceCaptain && (
           <div className="absolute -top-1 -right-0.5 z-20">
-            <span className="flex items-center justify-center min-w-[15px] h-3.5 rounded-sm bg-tl-surface2 text-tl-text border border-tl-border font-bold text-[9px] font-mono px-1">
-              V
+            <span
+              className={`flex items-center justify-center min-w-[15px] h-3.5 rounded-sm font-bold text-[9px] font-mono px-1 ${
+                captainPlayedZero && vcEligible
+                  ? "bg-tl-accent text-tl-accentContrast font-black"
+                  : "bg-tl-surface2 text-tl-text border border-tl-border"
+              }`}
+              title={
+                captainPlayedZero && vcEligible
+                  ? `Vice-Captain inherited ${captainMultiplier}x multiplier`
+                  : "Vice-Captain"
+              }
+            >
+              {captainPlayedZero && vcEligible ? (captainMultiplier === 3 ? "3V" : "V") : "V"}
             </span>
           </div>
         )}

@@ -167,6 +167,7 @@ export async function solveBest1Transfer(
   freeTransfers: number = 1,
   currentEvent: number = 1
 ): Promise<TransferRecommendation | null> {
+  const nextEvent = currentEvent + 1;
   const baselineXI = solveOptimalStartingXI(squad);
   const baselineXP = baselineXI.totalStartingXP;
   const currentSquadIds = new Set(squad.map((p) => Number(p.id)));
@@ -206,6 +207,21 @@ export async function solveBest1Transfer(
     const raw = poolData[i];
     if (currentSquadIds.has(raw.id)) continue;
 
+    const rawStatus = raw.status || "a";
+    const candStatus: "available" | "injured" | "doubtful" | "suspended" | "unavailable" =
+      rawStatus === "i" || rawStatus === "injured"
+        ? "injured"
+        : rawStatus === "d" || rawStatus === "doubtful"
+        ? "doubtful"
+        : rawStatus === "s" || rawStatus === "suspended"
+        ? "suspended"
+        : rawStatus === "u" || rawStatus === "n" || rawStatus === "unavailable"
+        ? "unavailable"
+        : "available";
+
+    // Filter out non-available transfer candidates
+    if (candStatus !== "available") continue;
+
     const sortedPreds = raw.player_predictions?.sort((a: any, b: any) => (b.gw || 0) - (a.gw || 0));
     const pred = sortedPreds?.[0];
     const teamShort = raw.teams?.short_name || "PL";
@@ -238,6 +254,8 @@ export async function solveBest1Transfer(
       teamSecondaryColor: "#ffffff",
       position: pos,
       price: price,
+      sellingPrice: price,
+      purchasePrice: price,
       selectedByPercent: Number(raw.selected_by_percent || 5),
       totalPoints: raw.total_points || 0,
       gameweekPoints: 0,
@@ -248,12 +266,14 @@ export async function solveBest1Transfer(
       xGI: 0.3,
       minutesExpected: 90,
       startProbability: Number((pred?.start_probability || 85).toFixed(1)),
-      status: "available",
+      status: candStatus,
+      news: raw.news || "",
+      chanceOfPlaying: raw.chance_of_playing_next_round ?? null,
       currentFixture: {
         opponent: "TBD",
         isHome: true,
         difficulty: 2,
-        gameweek: 2,
+        gameweek: nextEvent,
       },
       upcomingFixtures: [],
       photoUrl: `https://resources.premierleague.com/premierleague/photos/players/110x140/p${raw.id}.png`,
@@ -280,8 +300,9 @@ export async function solveBest1Transfer(
       const cand = samePosCandidates[c];
       const playerIn = cand.player;
 
-      // Budget check
-      const costDelta = playerIn.price - playerOut.price;
+      // Budget check using selling price of playerOut
+      const playerOutSellingPrice = playerOut.sellingPrice ?? playerOut.price;
+      const costDelta = Number((playerIn.price - playerOutSellingPrice).toFixed(1));
       if (costDelta > inTheBank) continue;
 
       // Team limit check (max 3 per team)
@@ -309,8 +330,8 @@ export async function solveBest1Transfer(
           transfersOut: [playerOut],
           transfersIn: [cand],
           penaltyPoints: penalty,
-          costDelta: Number(costDelta.toFixed(2)),
-          remainingBank: Number((inTheBank - costDelta).toFixed(2)),
+          costDelta: Number(costDelta.toFixed(1)),
+          remainingBank: Number((inTheBank - costDelta).toFixed(1)),
           baselineXP,
           newGrossXP,
           newNetXP,
